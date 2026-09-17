@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 8 lesson for objectively qualifying the team's required TeleOp scope through three consecutive complete routines.">
+  <title>Meeting 8: Qualify TeleOp | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Phase 2, Meeting 8 / FTC SDK v12.0</p>
+    <h1>Qualify TeleOp</h1>
+    <p class="lede">Prove that the installed robot performs every still-required TeleOp action safely and repeatedly, then record the exact tested recovery identity.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Qualification is an objective gate</li>
+      <li><strong>Team artifact</strong><br>TeleOp qualification record</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0007-debugging-with-evidence.html">Previous: Meeting 7</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#agenda">Today's plan</a>
+    <a href="#follow">Build the gate</a>
+    <a href="#practice">Qualification work</a>
+    <a href="#test">Three-run test</a>
+    <a href="#reclassify">Scope revision</a>
+    <a href="#fallback">Fallback</a>
+    <a href="#handoff">Meeting 9 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0009-autonomous-is-a-sequence.html">Next: Meeting 9</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will prove</h2>
+        <div class="outcome-banner">The team will run one unchanged, complete qualification routine three consecutive times. Each run must pass safe initialization, safe defaults, drivetrain, every installed action still classified required, simultaneous operator work, release, reverse or recovery, telemetry, and Stop without a code-related failure or safety violation.</div>
+        <p>Qualification proves only the exact robot, configuration, code identity, control-map revision, setup, and required scope recorded today. One successful action, a vendor demonstration, or three partial runs do not qualify TeleOp.</p>
+        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m08-d01">Team choice M08-D01</a> Required parity means that every capability in the matching StarterBot path which Meeting 4 classified required and verified as installed appears in the routine and passes. Optional or genuinely unavailable actions do not count against parity, but a required action may not disappear silently.</p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Qualification</dt><dd>An objective decision that all recorded acceptance criteria passed for one exact scope and identity.</dd>
+          <dt>Parity</dt><dd>Coverage of every matching, installed capability that the approved Meeting 4 map still classifies required.</dd>
+          <dt>Complete routine</dt><dd>One uninterrupted pass through every qualification item, including reset, initialization, all required actions, Stop, and inspection.</dd>
+          <dt>Consecutive</dt><dd>One after another with no failed routine or change to code, configuration, hardware, setup, scope, card, or criteria between credited runs.</dd>
+          <dt>Defect</dt><dd>Observed behavior that fails an already-approved requirement or acceptance criterion.</dd>
+          <dt>Feature request</dt><dd>A new behavior, preference, or improvement outside the approved qualification criteria.</dd>
+          <dt>Reclassification</dt><dd>A formal approved change from required to optional or unavailable after evidence shows a feature cannot be made safe.</dd>
+          <dt>Recovery identity</dt><dd>The exact tested commit and tag, or another exact team-approved version identifier, used to retrieve the qualified state.</dd>
+        </dl>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the Driver Station operator, Stop owner, driver, mechanism operator, observer, recorder, programmer, and reset/mechanic duties. One student may hold two nonconflicting duties, but Stop ownership remains explicit.</li>
+          <li>Use the integrated Meeting 7 TeleOp, signed Meeting 4 control map, current configuration, installed-hardware record, fault log, and each action's acceptance evidence.</li>
+          <li>Press Stop, switch off the Hub, disconnect the battery, and release stored energy before inspection, adjustment, reset, loading, or contact.</li>
+          <li>Freeze the bounded game-arena setup, accepted battery condition, load, gamepad assignments, control-map revision, routine revision, criteria, code identity, and configuration before Run 1.</li>
+          <li>Do not begin powered qualification while any enabled behavior has an unresolved safety-critical defect.</li>
+        </ul>
+        <aside class="safety-callout">The Stop owner ends the routine for unexpected motion, communication loss, wrong ownership, looseness, battery movement, wire contact, collision, binding, hard-stop contact, stall, heat, smell, unusual sound, field intrusion, or any failed safety criterion. Press Stop, switch off, disconnect, call <q>stopped</q>, and preserve the evidence. An aborted routine does not count.</aside>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Kickoff and priorities.</strong> Retrieve the integrated TeleOp, approved map, installed scope, defects, roles, and Stop conditions.</div></li>
+          <li><time>0:15-0:30<br>15 min</time><div><strong>Read the qualification contract.</strong> Trace required parity, nonwaivable capabilities, evidence fields, and the count-reset rule.</div></li>
+          <li><time>0:30-1:30<br>60 min</time><div><strong>Rotate through three workstreams.</strong> Audit scope and identity, rehearse controls and simultaneous work, and prepare the robot, arena, and record.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Leave the robot stopped, switched off, disconnected, and secured.</div></li>
+          <li><time>1:40-2:30<br>50 min</time><div><strong>Complete integrated qualification work.</strong> Rehearse the whole routine, resolve blocking defects, and freeze one exact candidate state.</div></li>
+          <li><time>2:30-2:50<br>20 min</time><div><strong>Repeatability test and documentation.</strong> Credit only three consecutive complete passing routines and record actual evidence.</div></li>
+          <li><time>2:50-3:00<br>10 min</time><div><strong>Exit check and handoff.</strong> Record the qualification decision, exact recovery identity, exclusions, open work, and Meeting 9 gate.</div></li>
+        </ol>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Follow along: turn the control map into a gate</h2>
+        <ol>
+          <li><strong>Fix the scope.</strong> Copy every Meeting 4 action into the qualification record with its map-row ID, classification, installed evidence, and current enabled/disabled state. <strong>Why:</strong> parity cannot be judged from memory. <strong>Success:</strong> every map row is accounted for and every required installed action is enabled and listed for testing.</li>
+          <li><strong>Check current game relevance.</strong> Confirm each retained required action against the current game overview, rules, Team Updates, and applicable Q&amp;A; vendor capability alone does not establish relevance or legality. <strong>Success:</strong> the record names the current source revision and any blocked interpretation. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m08-f04">Source M08-F04</a></li>
+          <li><strong>Write observable criteria.</strong> For initialization, defaults, drive, each required action, simultaneous work, release, reverse/recovery, telemetry, and Stop, write the request, expected output or state, visible result, safe result, abort condition, and evidence field. <strong>Success:</strong> another pair can call Pass or Fail without asking what the criterion means.</li>
+          <li><strong>Separate facts from physical proof.</strong> Motor and servo API documentation defines command behavior, but only testing this installed robot can qualify physical behavior. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m08-f03">Source M08-F03</a> <strong>Success:</strong> API facts cite the pinned class while physical criteria remain pending until observed.</li>
+          <li><strong>Freeze identity and setup.</strong> Record robot identity, active configuration, OpMode, code/recovery candidate identity, map and routine revisions, battery condition, arena setup, loads, and role plan. <strong>Success:</strong> Run 1 cannot begin while any identity is unknown or inconsistent.</li>
+          <li><strong>Rehearse once without credit.</strong> Complete every item, then classify each observation as defect, feature request, or no issue. Correct only qualification defects through Meeting 7's evidence-first process; queue requests. <strong>Success:</strong> the full routine passes once and no unresolved enabled safety defect remains before the count begins.</li>
+        </ol>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Prepare qualification with your partner</h2>
+        <p><strong>Three pairs:</strong> rotate every 20 minutes through all three workstreams. <strong>Two pairs:</strong> one pair combines Scope and Record while the other combines Robot and Routine; switch after 30 minutes. Swap reader/recorder and driver/navigator responsibilities at the rotation.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Scope and source audit</h3>
+            <ol>
+              <li>Compare the matching StarterBot capability trace, installed robot, and every Meeting 4 row.</li>
+              <li>List every matching, installed, required capability; list optional and unavailable rows separately with their approved rationale.</li>
+              <li>Confirm each required row has release, reverse/recovery, simultaneous-work, telemetry, and acceptance criteria.</li>
+              <li>Block any missing row, unexplained exclusion, unmatched vendor assumption, or stale game-rule decision.</li>
+            </ol>
+            <p class="success-check">Success looks like: the qualification scope provides required parity without claiming that vendor capability proves team qualification.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Robot and routine readiness</h3>
+            <ol>
+              <li>Inspect battery retention, wiring, connectors, fasteners, wheels, mechanisms, clearances, loads, and the bounded game arena while power is disconnected.</li>
+              <li>Rehearse exact startup, neutral controls, initialization, Start, action order, simultaneous scenarios, release, recovery, Stop, shutdown, inspection, and reset.</li>
+              <li>Verify explicit zero or measured safe hold at initialization, no request, release, blocked conflict, and Stop wherever applicable.</li>
+              <li>Name the Stop owner and control owner at every live step; allow no physical reset duty during live control.</li>
+            </ol>
+            <p class="success-check">Success looks like: the team can execute one complete routine without inventing a step, value, or role.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Identity and record readiness</h3>
+            <ol>
+              <li>Record the exact tested source/recovery candidate, active configuration, selected OpMode, robot, map revision, routine revision, setup, and evidence locations.</li>
+              <li>Prepare separate defect and feature-request queues. A request cannot change the frozen routine during credited runs.</li>
+              <li>Prepare three run rows with every criterion, actual observation, student, checker, Stop/release observation, and reset confirmation.</li>
+              <li>Prepare the final field for an exact existing commit/tag or other recovery identifier. Qualification records an identifier established through the team's version-control process; this lesson does not direct creation of one.</li>
+            </ol>
+            <p class="success-check">Success looks like: every run can be tied to one unchanged tested state and every observation has one destination.</p>
+          </article>
+        </div>
+
+        <h3>Matching vendor boundary</h3>
+        <div class="vendor-paths">
+          <article class="vendor-path"><h3>REV path</h3><p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m08-f01">Source M08-F01</a> Use the current REV TeleOp overview only when the team has verified the exact named REV Starter Bot assembly. It helps identify candidate capabilities for parity; it does not prove the team's map, implementation, installed behavior, safety, or qualification.</p></article>
+          <article class="vendor-path"><h3>goBILDA path</h3><p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m08-f02">Source M08-F02</a> Use the verified goBILDA StarterBot artifact and assembly guide only for the exact named assembly. It helps identify candidate capabilities for parity; it does not prove the team's map, implementation, installed behavior, safety, or qualification.</p></article>
+        </div>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test it safely: three consecutive complete routines</h2>
+        <h3>One complete routine</h3>
+        <ol>
+          <li><strong>Reset and identify:</strong> with the robot stopped, off, and disconnected, restore the recorded start and load; inspect readiness; confirm code/recovery candidate, robot, configuration, OpMode, map, routine, battery condition, setup, criteria, and roles. <strong>Pass:</strong> every frozen identity agrees.</li>
+          <li><strong>Initialize safely:</strong> connect and switch on through the approved sequence, establish Driver Station communication, select the recorded OpMode and configuration, keep controls neutral, and press INIT. <strong>Pass:</strong> no exception or unexpected motion occurs; every output is explicit zero or its measured safe hold; telemetry identifies the expected state.</li>
+          <li><strong>Test drivetrain:</strong> after the clear call and Start, perform the map's required drive, steer, align, slow/control mode, and commanded stop cases. <strong>Pass:</strong> directions, limits, release, telemetry, and safe neutral behavior match the card.</li>
+          <li><strong>Test every still-required installed action:</strong> execute each required map row at its qualified load and within its measured bounds, including required feedback, interlocks, and telemetry. <strong>Pass:</strong> every row meets its own observable acceptance evidence; no required row is skipped or substituted.</li>
+          <li><strong>Test simultaneous operator work:</strong> run each approved concurrent drive/mechanism or mechanism/mechanism scenario and each conflict policy from the map. <strong>Pass:</strong> ownership, priorities, blocked requests, feedback, and commanded outputs match the approved design.</li>
+          <li><strong>Test release and reverse/recovery:</strong> release each active input and execute each required reverse, clear, or recovery case. <strong>Pass:</strong> every affected output returns to explicit zero or measured safe hold, retained states remain only when approved, and telemetry exposes the resulting state.</li>
+          <li><strong>Stop and inspect:</strong> the Stop owner presses Stop from the routine's defined active case; the team verifies documented Stop behavior, switches off, disconnects, calls <q>stopped</q>, and inspects the robot. <strong>Pass:</strong> outputs and holds match the verified Stop criteria, no safety violation or code-related failure occurred, and actual observations are recorded.</li>
+        </ol>
+
+        <h3>Count rule</h3>
+        <ol>
+          <li>Credit Run 1 only when the entire routine passes. Reset the robot and rotate roles only while it is stopped, switched off, and disconnected.</li>
+          <li>Repeat the same complete routine for Run 2, including identity, initialization, every required action, simultaneous work, release/recovery, Stop, inspection, and reset.</li>
+          <li>Repeat that unchanged complete routine for Run 3. Three partial routines, nonconsecutive passes, or action-by-action passes do not qualify TeleOp.</li>
+          <li>Any failed criterion, abort, code-related failure, safety violation, or change to code/recovery candidate, configuration, hardware, setup, scope, map, routine, criteria, or enabled behavior resets the consecutive count to zero. Diagnose, correct, refreeze, and restart at Run 1.</li>
+        </ol>
+      </section>
+
+      <section id="reclassify" aria-labelledby="reclassify-title">
+        <h2 id="reclassify-title">Formally revise unsafe scope</h2>
+        <p>A failed required feature is a defect, not permission to lower the gate. Repair and retest it first. If evidence shows that it cannot be made safe for the current event, complete every step below.</p>
+        <ol>
+          <li>Record the action/map-row ID, failed criterion, trial and fault-log evidence, attempted correction and retest, and why the feature cannot be made safe.</li>
+          <li>Propose a new classification of <strong>optional</strong> or <strong>unavailable</strong>. Record the safety rationale, event-strategy cost, and affected operator plan; do not delete the original row.</li>
+          <li>Obtain named mentor approval and named team approval with date, then issue a new Meeting 4 map revision.</li>
+          <li>Disable the behavior in code, verify that no input can command it, remove it from the event plan and driver instructions, and list it explicitly as excluded on the qualification record.</li>
+          <li>Freeze the revised scope and repeat the complete qualification process from Run 1. No routine credited under the old scope carries forward.</li>
+        </ol>
+        <aside class="safety-callout"><strong>Nonwaivable capabilities:</strong> safe initialization, drivetrain control, Stop, and every action still classified required must pass. They cannot be waived, substituted, or reclassified merely to claim qualification. Repair and retest them; otherwise TeleOp is not qualified.</aside>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record the qualification evidence</h2>
+        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m08-m01">Measure it M08-M01</a> <strong>Status: pending delivery evidence.</strong> Complete the record from actual robot observations. No blank, planned test, vendor example, or code review counts as a physical pass.</p>
+        <p><strong>Record identity:</strong> date: ______; robot/manufacturer/revision: ______; active configuration: ______; selected OpMode: ______; exact tested commit/tag or other recovery candidate ID: ______; Meeting 4 map revision: ______; routine revision: ______; current game-source revision/check date: ______; student recorder: ______; checker: ______.</p>
+        <table class="record-table">
+          <caption>Qualification scope: repeat the action row for every Meeting 4 map row</caption>
+          <thead><tr><th scope="col">Action and scope</th><th scope="col">Acceptance contract</th><th scope="col">Qualification disposition</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Action/scope">Map row: ______<br>Action: ______<br>Required / Optional / Unavailable<br>Installed: Yes / No / Unknown</td><td data-label="Acceptance">Request/input: ______<br>Expected state/output/result: ______<br>Simultaneous case: ______<br>Release: ______<br>Reverse/recovery: ______<br>Telemetry: ______<br>Abort signs: ______</td><td data-label="Disposition">Included and enabled / Approved exclusion / Blocked<br>Evidence or reclassification revision: ______</td></tr>
+          </tbody>
+        </table>
+        <table class="record-table">
+          <caption>Three consecutive complete routines</caption>
+          <thead><tr><th scope="col">Run</th><th scope="col">Complete gate result</th><th scope="col">Actual evidence and people</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Run">Run 1</td><td data-label="Result">Identity ____ Init/defaults ____ Drive ____ All required actions ____ Simultaneous ____ Release/recovery ____ Telemetry ____ Stop/inspection ____<br>Complete Pass / Fail</td><td data-label="Evidence">Observations/record IDs: ______<br>Code or safety failure: Yes / No<br>Student: ____ Checker: ____</td></tr>
+            <tr><td data-label="Run">Run 2</td><td data-label="Result">Same unchanged state: Yes / No<br>All complete criteria: Pass / Fail</td><td data-label="Evidence">Observations/record IDs: ______<br>Reset confirmed: ____ Student: ____ Checker: ____</td></tr>
+            <tr><td data-label="Run">Run 3</td><td data-label="Result">Same unchanged state: Yes / No<br>All complete criteria: Pass / Fail</td><td data-label="Evidence">Observations/record IDs: ______<br>Reset confirmed: ____ Student: ____ Checker: ____</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Defects, requests, and approved revisions</h3>
+        <table class="record-table">
+          <caption>Keep failed requirements separate from new ideas</caption>
+          <thead><tr><th scope="col">Observation</th><th scope="col">Classification and effect</th><th scope="col">Disposition</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Observation">Routine/run/criterion and actual evidence: ______</td><td data-label="Classification">Defect / Feature request<br>Count reset or queued because: ______</td><td data-label="Disposition">Fault/request ID, owner, retest/date: ______</td></tr>
+            <tr><td data-label="Observation">Reclassified map row and evidence: ______</td><td data-label="Classification">Optional / Unavailable<br>Rationale and event cost: ______</td><td data-label="Disposition">Mentor/team approvals/date: ______<br>New map revision: ____ Disabled proof: ____ Event-plan removal: ____</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Decision and recovery identity</h3>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m08-f05">Source M08-F05</a> Git history records commits and a tag names a repository point; neither proves physical qualification. The signed routine supplies the physical evidence, and the identifier connects that evidence to exact source.</p>
+        <table class="record-table">
+          <caption>Final qualification decision</caption>
+          <tbody>
+            <tr><th scope="row">Three consecutive complete passing routines</th><td>Yes / No; run-sheet location: ______</td></tr>
+            <tr><th scope="row">Unresolved enabled safety-critical defect</th><td>None / TeleOp not qualified; evidence: ______</td></tr>
+            <tr><th scope="row">Qualification status and exact scope</th><td>QUALIFIED / NOT QUALIFIED; included rows: ______; approved exclusions: ______</td></tr>
+            <tr><th scope="row">Exact tested recovery identity</th><td>Existing commit/tag or other team-approved identifier: ______; repository/artifact location: ______; independently verified by/date: ______</td></tr>
+            <tr><th scope="row">Identity limitation</th><td>Identifier points to tested source: Yes / No; physical qualification evidence remains in run sheet: ______</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot, required mechanism, or live test is unavailable</h2>
+        <div class="fallback-box">
+          <ol>
+            <li>Complete the map-to-routine audit, current-game check, identity record, objective criteria, role rehearsal, defect/request forms, and reclassification form without power.</li>
+            <li>Use saved logs, telemetry, videos, configuration records, and Meeting 7 evidence to rehearse Pass/Fail decisions. Label every conclusion <strong>artifact review only</strong>.</li>
+            <li>If only one mechanism is unavailable, do not substitute telemetry, a fixture, or a different mechanism for required physical parity. Record that action as blocked unless the full formal reclassification process is actually approved and completed.</li>
+            <li>If the full robot is unavailable, run fixed input-decision-output traces and a complete spoken routine, but record <strong>TeleOp not physically qualified</strong>. Three paper or simulated routines do not satisfy M08-M01.</li>
+            <li>Record the missing resource, prerequisites, exact physical routine still required, owner, and target date. Preserve the integrated TeleOp and prior known-good identity for recovery.</li>
+          </ol>
+          <p class="success-check">Success looks like: useful preparation and honest blockers, with no qualification, parity, safety, or recovery claim beyond the evidence.</p>
+        </div>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> source and installed-capability audit, frozen qualification routine, setup and role record, all three run rows, release/Stop observations, defect and request queues, fault retests, approved map revisions and exclusions, final decision, and exact tested recovery identity.</p>
+        <h3>Each student explains</h3>
+        <p>Without partner help, choose one required action and trace its map row through request, decision/state, commanded output, physical result, simultaneous case, release, recovery, telemetry, and Stop criterion. Then explain one event that resets the three-run count and why a commit or tag alone does not prove qualification.</p>
+        <h3>Record each student's evidence</h3>
+        <ul>
+          <li>Record safe operation only when the student performs assigned live steps, callouts, release, Stop, shutdown, and evidence handoff correctly.</li>
+          <li>Record tracing only when the student connects one required map row to all of its observable qualification criteria.</li>
+          <li>Record diagnosis only when the student separates a defect from a request and names the evidence and retest.</li>
+          <li>Record scope reasoning only when the student can state every reclassification step and all nonwaivable capabilities.</li>
+          <li>Record each student separately. Team qualification does not prove individual independence.</li>
+        </ul>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 9</h2>
+        <p>Meeting 9 may use the qualified robot setup and safe drive method, but TeleOp qualification does not prove Autonomous behavior. Autonomous work is blocked while any enabled TeleOp behavior has an unresolved safety-critical defect.</p>
+        <div class="handoff">
+          <table class="record-table">
+            <caption>Qualification handoff to Autonomous</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence or next owner</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">Did three consecutive complete routines pass?</td><td data-label="Answer">Yes / No; status: Qualified / Not qualified</td><td data-label="Evidence">Run sheet/checker: ______</td></tr>
+              <tr><td data-label="Question">What exact required parity scope passed?</td><td data-label="Answer">Included Meeting 4 row IDs: ______</td><td data-label="Evidence">Map/routine revisions: ______</td></tr>
+              <tr><td data-label="Question">What was formally excluded?</td><td data-label="Answer">Optional/unavailable rows and rationale: ______</td><td data-label="Evidence">Approvals/disabled/event-plan record: ______</td></tr>
+              <tr><td data-label="Question">What exact identity can recover the tested source?</td><td data-label="Answer">Commit/tag/other recovery ID: ______</td><td data-label="Evidence">Independent lookup and run-sheet link: ______</td></tr>
+              <tr><td data-label="Question">Does any enabled safety-critical TeleOp defect remain?</td><td data-label="Answer">No / Yes, Autonomous blocked</td><td data-label="Evidence">Fault ID/owner/date: ______</td></tr>
+              <tr><td data-label="Question">Which safe drive method and physical setup may Meeting 9 start from?</td><td data-label="Answer">Method/setup/configuration: ______</td><td data-label="Evidence">Qualification row: ______</td></tr>
+              <tr><td data-label="Question">Which feature requests remain outside qualification?</td><td data-label="Answer">Request IDs: ______</td><td data-label="Evidence">Queue/owner: ______</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Handoff gate:</strong> Meeting 9 receives qualified hardware setup only when the final record says QUALIFIED and no enabled safety-critical TeleOp defect remains. Otherwise it receives blockers and owners, not an assumed baseline.</p>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Bring the signed Meeting 4 map, matching StarterBot trace, installed-hardware record, integrated Meeting 7 TeleOp, active configuration, fault records, exact candidate identity, and current game-source revision.</li>
+          <li>Audit that every matching, installed, required capability appears in the routine. Do not replace the map with a generic seven-action checklist or vendor demonstration.</li>
+          <li>Prepare a bounded game-arena setup, exact reset marks, accepted battery condition, legal test objects/loads, inspection tools, and one Stop owner position with clear sightlines.</li>
+          <li>Review each criterion for observable Pass/Fail evidence. Reject invented tolerances, values, physical results, or classifications.</li>
+          <li>Prepare separate defect and request queues, a formal map-revision record, three complete run rows, and an identity lookup appropriate to the team's established version-control workflow.</li>
+          <li>Do not direct recovery-point creation during this implementation task. Require students to record and independently verify the exact existing tested commit/tag or other approved recovery identifier supplied by the team's workflow.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Gate enforcement:</strong> a failed or changed routine resets the count. Safe initialization, drivetrain, Stop, and still-required actions are nonwaivable. A feature exclusion is valid only after evidence, optional/unavailable rationale, mentor and team approval, a revised map, code disablement, event-plan removal, explicit qualification exclusion, and a complete restart at Run 1.</aside>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label start-from">Start from</span> The approved Meeting 4 action/control map, integrated Meeting 7 TeleOp, installed-hardware evidence, active configuration, and open fault records.</li>
+        <li><span class="resource-label follow">Follow</span> Current Competition Manual game overview and game rules, plus current Team Updates and applicable Q&amp;A, for game relevance and legality.</li>
+        <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a>, <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html"><code>DcMotorEx</code></a>, <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/Servo.html"><code>Servo</code></a>, and <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/CRServo.html"><code>CRServo</code></a> only for documented API behavior, not physical qualification.</li>
+        <li><span class="resource-label optional">Exact match only</span> REV <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-onbot-java-overview">Starter Bot TeleOp overview</a> or the verified goBILDA <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">example artifact</a> and <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">assembly guide</a>. Vendor examples identify candidate capability only.</li>
+        <li><span class="resource-label follow">Follow</span> GitHub Docs <a href="https://docs.github.com/en/get-started/using-git/about-git#basic-git-commands">Basic Git commands</a> and <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/viewing-your-repositorys-releases-and-tags">Viewing tags</a> to interpret recorded identities; the run sheet, not Git alone, proves qualification.</li>
+        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0007-debugging-with-evidence.html">Previous: Meeting 7</a> | <a href="index.html">Course index</a> | <a href="0009-autonomous-is-a-sequence.html">Next: Meeting 9</a></p>
+  </footer>
+</body>
+</html>

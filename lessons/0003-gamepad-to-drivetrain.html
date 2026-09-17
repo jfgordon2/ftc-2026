@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 3 lesson comparing the REV and goBILDA StarterBot programs, testing only the matching program, and committing one tested telemetry change.">
+  <title>Meeting 3: Compare the StarterBot Programs | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 2, Meeting 3 / FTC SDK v12.0</p>
+    <h1>Compare the StarterBot Programs</h1>
+    <p class="lede">Trace two complete TeleOp programs, identify which one matches the installed robot, change one telemetry label in that checked-in program, and commit it only after a controlled test passes.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Different lifecycles can express similar robot actions</li>
+      <li><strong>Team work</strong><br>Compare both; run only the exact match</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0002-variables-make-a-motor-move.html">Previous: Meeting 2: Variables Make a Motor Move</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#compare">Compare programs</a>
+    <a href="#practice">Partner practice</a>
+    <a href="#test">Controlled test</a>
+    <a href="#git">Student Git steps</a>
+    <a href="#handoff">Meeting 4 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0004-decisions-and-driver-controls.html">Next: Meeting 4: Decisions and Driver Controls</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the robot do</h2>
+        <div class="outcome-banner">Your team will prove which 2026-2027 StarterBot is installed, compare both vendor TeleOps, and run only the checked-in program for that exact robot. The unmatched program remains reading comparison only and is never installed or run.</div>
+        <p>Before testing, students will change one team-specific telemetry label in the matching program. After the Supported test and any authorized Travel test pass, students will inspect only that diff and create the course's first tested robot-code commit.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>TeleOp</dt><dd>A driver-controlled OpMode that reads controls and commands robot outputs after Start.</dd>
+          <dt>Lifecycle</dt><dd>The stages in which an OpMode initializes, waits, runs repeatedly, and stops. A linear OpMode puts that flow in one <code>runOpMode()</code>; an iterative OpMode separates it into methods such as <code>init()</code> and <code>loop()</code>.</dd>
+          <dt>Method</dt><dd>A named group of instructions. Both programs use subsystem methods so a reader can follow one robot action at a time.</dd>
+          <dt>Parameter</dt><dd>An input named by a method. In <code>arcadeDrive(double forward, double rotate)</code>, <code>forward</code> and <code>rotate</code> carry requested motion into the method.</dd>
+          <dt>Source identity</dt><dd>The exact file or page, revision or access date, and checksum when available that identify the code the team reviewed.</dd>
+          <dt>Working tree</dt><dd>The files currently checked out on the laptop, including saved changes that are not yet committed.</dd>
+          <dt>Diff</dt><dd>A line-by-line view of what changed from a chosen Git version. Today it must show only one telemetry-label edit in the matching program.</dd>
+          <dt>Commit</dt><dd>A Git history record of staged changes. Today students create one only after the matching program's controlled test passes.</dd>
+          <dt>Supported test</dt><dd>A powered test with the robot stable on inspected support, drive wheels clear of the floor, mechanism travel clear, and people outside the marked exclusion area.</dd>
+          <dt>Travel test</dt><dd>A powered test in the game arena that begins at a marked start, follows a marked route to a marked stop, and keeps everyone outside the exclusion area.</dd>
+        </dl>
+        <p>Use <a href="../reference/words-we-use.html">Words we use</a> only if you want a reminder.</p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the routine Driver Station operator, observer, recorder, and a separate Stop owner. The Stop owner keeps immediate access to Stop and may press it without permission.</li>
+          <li>Press Stop, switch off the Control Hub, and disconnect the battery before touching wheels, mechanisms, wiring, supports, or game pieces.</li>
+          <li>Remove game pieces. Inspect and secure the robot, battery, Hub, wires, wheels, drivetrain, intake, launcher or flywheel, feeder or windmill, and pollen poker or corner-intake servos that exist on the matching assembly.</li>
+          <li>Compare the installed manufacturer, exact 2026-2027 assembly, saved configuration, motor map, directions, and checked-in source identity. If the evidence does not establish one exact match, do not enable either vendor program.</li>
+          <li>For the first powered run, place the robot on stable support in the game arena. Prove every drive wheel is clear and every mechanism has unobstructed travel. Mark an exclusion area and keep everyone outside it before INIT.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Supported test before Travel test.</strong> The matching program must pass the Supported test cases, neutral-output check, and Stop check before the robot moves to the marked start. Unexpected motion, support movement, interference, loose hardware, wire movement, heat, smoke, odor, unusual sound, implausible telemetry, or lost control means immediate Stop, Hub off, battery disconnected, and no contact until the Stop owner says <q>stopped</q>.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Identify the robot and retrieve prior evidence.</strong> Assign roles; check the exact assembly, complete motor map, language decision, and unresolved blockers from Meeting 2.</div></li>
+          <li><time>0:15-0:40<br>25 min</time><div><strong>Compare the two programs.</strong> Trace lifecycle, drive input, subsystem methods, and mechanisms side by side.</div></li>
+          <li><time>0:40-1:45<br>65 min</time><div><strong>Pair challenge and rotating stations.</strong> Complete the lifecycle trace, control comparison, source record, matching-path decision, and one telemetry-label edit.</div></li>
+          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, switch off the Hub, disconnect the battery, and park the Driver Station.</div></li>
+          <li><time>1:55-2:45<br>50 min</time><div><strong>Test only the matching program.</strong> Pass the Supported test before any authorized Travel test, then inspect the tested diff.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Create the tested commit and hand off.</strong> Students commit only the bounded change, record its hash, and explain one program path individually.</div></li>
+        </ol>
+      </section>
+
+      <section id="compare" aria-labelledby="compare-title">
+        <h2 id="compare-title">Follow along: trace both programs side by side</h2>
+        <p>Reading both programs teaches comparison. It does not authorize both programs to control the robot. Point to each item in the identified source before filling the table.</p>
+        <div class="vendor-paths">
+          <article class="vendor-path">
+            <h3>REV 2026-2027 Starter Bot TeleOp</h3>
+            <ul>
+              <li><strong>Lifecycle:</strong> the class extends <code>LinearOpMode</code>. One <code>runOpMode()</code> maps hardware, applies setup, waits for Start, and repeatedly calls subsystem methods while the OpMode remains active.</li>
+              <li><strong>Drive:</strong> the left-stick arcade drive in <code>arcadeDrive()</code> reads left stick X and reversed left stick Y. It sends <code>y + x</code> left and <code>y - x</code> right, so one left stick supplies forward/reverse and rotation.</li>
+              <li><strong>Intake:</strong> <code>intakeControls()</code> uses the right bumper for intake, a right-trigger press for reverse, and zero otherwise.</li>
+              <li><strong>Pollen poker:</strong> <code>pollenPoker()</code> uses edge-detected cross and circle presses to request its two positions.</li>
+              <li><strong>Flywheel and feeder:</strong> <code>flywheelControls()</code> provides manual forward and reverse flywheel requests, a velocity-gated feeder request, manual feeder forward/reverse, and a neutral branch that stops flywheel and feeder output.</li>
+            </ul>
+            <p><strong>Boundary:</strong> these names, directions, controls, mechanisms, and source settings belong only to the exact REV 2026-2027 Starter Bot example.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f01">Source M03-F01</a></p>
+          </article>
+          <article class="vendor-path">
+            <h3>goBILDA 2026-2027 StarterBot TeleOp</h3>
+            <ul>
+              <li><strong>Lifecycle:</strong> the class extends iterative <code>OpMode</code>. <code>init()</code> maps and configures hardware; <code>init_loop()</code> and <code>start()</code> are present; <code>loop()</code> repeatedly updates behavior; and <code>stop()</code> is present.</li>
+              <li><strong>Drive:</strong> <code>loop()</code> calls <code>arcadeDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x)</code>. This is left-stick forward/reverse and right-stick rotation.</li>
+              <li><strong>Parameterized method:</strong> <code>arcadeDrive(double forward, double rotate)</code> sends <code>forward + rotate</code> left and <code>forward - rotate</code> right.</li>
+              <li><strong>Trigger intake:</strong> right trigger minus left trigger creates proportional intake power, which is later sent to the intake motor and both corner-intake servos.</li>
+              <li><strong>Launcher, windmill, and intake-assist behavior:</strong> <code>launch()</code> uses a held right bumper to request launcher velocity. Above the source's velocity gate it runs the windmill and adds intake assist; otherwise it stops the windmill, and releasing the bumper requests zero launcher velocity.</li>
+            </ul>
+            <p><strong>Boundary:</strong> these names, directions, controls, mechanisms, and source settings belong only to the exact goBILDA 2026-2027 StarterBot. The verified ZIP contains this TeleOp and no Autonomous program.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f02">Source M03-F02</a></p>
+          </article>
+        </div>
+
+        <h3>Record similarities without erasing differences</h3>
+        <table class="record-table">
+          <caption>StarterBot program comparison</caption>
+          <thead><tr><th scope="col">Question</th><th scope="col">REV trace</th><th scope="col">goBILDA trace</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Question">Where does setup happen, and what repeats after Start?</td><td data-label="REV trace"><code>runOpMode()</code>: setup, wait, then active <code>while</code> loop</td><td data-label="goBILDA trace"><code>init()</code>: setup; <code>loop()</code>: repeated active work</td></tr>
+            <tr><td data-label="Question">Which stick fields become forward and rotation?</td><td data-label="REV trace">Left stick Y and left stick X</td><td data-label="goBILDA trace">Left stick Y and right stick X</td></tr>
+            <tr><td data-label="Question">Which named methods divide the robot work?</td><td data-label="REV trace"><code>intakeControls()</code>, <code>pollenPoker()</code>, <code>arcadeDrive()</code>, <code>flywheelControls()</code></td><td data-label="goBILDA trace"><code>arcadeDrive(forward, rotate)</code> and <code>launch()</code>, plus ordered intake calculation/output in <code>loop()</code></td></tr>
+            <tr><td data-label="Question">Which mechanisms and controls are vendor-specific?</td><td data-label="REV trace">Intake, flywheel, feeder, pollen poker: __________________</td><td data-label="goBILDA trace">Intake/corner servos, launcher, windmill, assist: __________________</td></tr>
+            <tr><td data-label="Question">Which shared patterns do both programs use?</td><td data-label="REV trace" colspan="2">Hardware mapping, setup, repeated gamepad reading, drive arithmetic, named subsystem work, output calls, and telemetry: __________________</td></tr>
+            <tr><td data-label="Question">Which control would we keep, and why?</td><td data-label="REV trace">________________________</td><td data-label="goBILDA trace">________________________</td></tr>
+            <tr><td data-label="Question">Which control would we reconsider, and why?</td><td data-label="REV trace">________________________</td><td data-label="goBILDA trace">________________________</td></tr>
+          </tbody>
+        </table>
+        <p class="why-it-matters"><strong>Why this matters:</strong> both programs turn gamepad intent into outputs, but their lifecycles, input maps, hardware names, mechanisms, and source settings are not interchangeable. Running the matching vendor program today does not make it team-owned code.</p>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Try it with your partner</h2>
+        <p><strong>Three pairs:</strong> rotate every 20 minutes, then use five minutes to reconcile records. <strong>Two pairs:</strong> complete Source and Lifecycle for 30 minutes, swap, then complete Match and Change for 35 minutes. Swap driver and navigator before any edit.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Source and assembly</h3>
+            <ol>
+              <li>Record the installed manufacturer, exact assembly revision, visible identifiers, saved configuration, and Meeting 2 motor-map evidence.</li>
+              <li>For REV, record the complete Java overview URL and delivery access date. For goBILDA, record ZIP filename, inspected file, delivery checksum, and download date.</li>
+              <li>Compare the physical mechanisms and configuration names with the matching source. Record every contradiction as a blocker with an owner and next check.</li>
+              <li>Mark one source <strong>matching run candidate</strong> only if all identity evidence agrees. Mark the other <strong>reading comparison only - do not install or run</strong>.</li>
+            </ol>
+            <p class="success-check">Success looks like: another student can identify the exact installed assembly, exact reviewed source, and why only one path may run.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Lifecycle and controls</h3>
+            <ol>
+              <li>Trace the REV <code>LinearOpMode</code> from <code>runOpMode()</code> through wait, active loop, and all four subsystem calls.</li>
+              <li>Trace the goBILDA iterative <code>OpMode</code> through <code>init()</code>, <code>init_loop()</code>, <code>start()</code>, <code>loop()</code>, and <code>stop()</code>.</li>
+              <li>Draw each drive-input path from physical stick to field, arithmetic, method, and left/right output.</li>
+              <li>Complete the mechanism/control rows, shared patterns, vendor assumptions, one keep choice, and one reconsider choice.</li>
+            </ol>
+            <p class="success-check">Success looks like: your trace explains both programs without claiming their controls or hardware are interchangeable.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Matching path and bounded change</h3>
+            <ol>
+              <li>Open only the matching checked-in program or the activated matching prepared Blocks project. Confirm its file/project identity against the source record.</li>
+              <li>Before editing, run the team's status view and confirm unrelated changes are identified and left untouched.</li>
+              <li>Change one team-specific telemetry label that identifies the selected path, such as changing only a caption to <code>TEAM_NAME REV | Flywheel Velocity</code> or <code>TEAM_NAME goBILDA | Motors</code>.</li>
+              <li>Do not change hardware names, directions, controls, drive arithmetic, mechanism logic, constants, imports, formatting, or the unmatched program.</li>
+              <li>Build the matching Java program, or save and validate the prepared Blocks project, then inspect the path-limited diff.</li>
+            </ol>
+            <p class="success-check">Success looks like: the matching artifact builds or validates and the diff changes exactly one telemetry-label line or one equivalent Blocks telemetry-label field.</p>
+          </article>
+        </div>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f01">Source M03-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f02">Source M03-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="blocks" aria-labelledby="blocks-title">
+        <h2 id="blocks-title">If the Meeting 2 Blocks branch is active</h2>
+        <div class="fallback-box">
+          <p>Use the equivalent mentor-prepared Blocks project for the exact installed robot as the executable matching path. Do not activate Blocks merely because today's robot test is blocked, and do not create a second curriculum.</p>
+          <ol>
+            <li>Read both Java programs side by side to practice <code>LinearOpMode</code>/<code>runOpMode()</code> and iterative <code>OpMode</code>/<code>init()</code>/<code>loop()</code> comparison.</li>
+            <li>In the prepared matching Blocks project, point to equivalent initialization, repeated input, drive arithmetic, mechanism decisions, outputs, and telemetry.</li>
+            <li>Change only one team-specific telemetry label in that checked-in project. Preserve all matching behavior and leave the unmatched artifact reading-only.</li>
+            <li>Use the same Supported test gate, Travel test gate, records, complete staged-diff review, and student commit steps as the Java branch.</li>
+          </ol>
+          <p class="success-check">Success looks like: language presentation differs, but robot identity, behavior, safety evidence, bounded change, and acceptance criteria remain the same.</p>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test it safely: Supported test before Travel test</h2>
+        <h3>A. Matching-program Supported test</h3>
+        <ol>
+          <li><strong>Write the cases:</strong> on the <a href="../reference/robot-test-card.html">robot test card</a>, list neutral, matching drive inputs, each matching mechanism request, telemetry-label result, Stop conditions, and the mentor-approved input boundaries. This makes expected motion visible before power. <strong>Success:</strong> every case names the input, expected output, observer, and abort condition without inventing a source setting.</li>
+          <li><strong>Recheck identity:</strong> compare the exact assembly, active configuration, motor map, matching checked-in file/project, source identity, and one-line diff. <strong>Success:</strong> two students sign the match and the unmatched path is marked reading comparison only.</li>
+          <li><strong>Secure and clear:</strong> with the battery disconnected, remove game pieces; place the robot on stable support; verify every drive wheel and mechanism can move without contact; secure the Hub, battery, wires, and robot; and clear the exclusion area. <strong>Success:</strong> the observer signs support, clearance, and mechanism checks.</li>
+          <li><strong>Prepare controls:</strong> position the routine operator and separate Stop owner with immediate Stop access. Connect the battery, switch on the Hub, confirm the expected Robot Controller connection, assign the gamepad, and select only the matching OpMode/project. <strong>Success:</strong> roles, connection, gamepad, and displayed identity match the card.</li>
+          <li><strong>Clear before INIT:</strong> release every control, have the operator say <q>robot live</q>, have the observer verify the exclusion area and answer <q>clear</q>, then press INIT. INIT executes user code. <strong>Success:</strong> initialization completes with no unexpected motion or diagnostic.</li>
+          <li><strong>Verify the change:</strong> confirm the team-specific telemetry label appears in the expected lifecycle stage. <strong>Success:</strong> the exact caption identifies the selected vendor path.</li>
+          <li><strong>Run one case at a time:</strong> press Start, apply only the named input within the recorded boundary, release it, and observe the matching output. Press Stop between cases whenever the card requires repositioning or inspection. <strong>Success:</strong> each observation matches its prediction, neutral removes the requested output, and no excluded behavior appears.</li>
+          <li><strong>Prove Stop:</strong> during the planned Stop case, the Stop owner presses Stop. Verify outputs and motion end, say <q>stopped</q>, switch off the Hub, and disconnect the battery before contact. <strong>Success:</strong> the result and any remaining motion are recorded exactly.</li>
+          <li><strong>Handle any failure:</strong> keep the original failed row, make the robot safe, record the symptom, and change only one evidence-supported item. Rebuild and repeat every Supported test case the correction could affect. <strong>Success:</strong> the before-and-after records remain traceable; the Travel test remains prohibited until all required Supported test cases pass.</li>
+        </ol>
+
+        <h3>B. Optional Travel test</h3>
+        <p>The Travel test is optional. Authorize it only when every required Supported test case passes and the mentor signs the Travel test authorization row. Keep every mechanism control neutral; this is a short drive-only confirmation, not mechanism testing.</p>
+        <ol>
+          <li><strong>Prepare the route:</strong> only after the Supported test gate passes, press Stop, verify motion has ended, say <q>stopped</q>, switch off the Hub, and disconnect the battery before moving the robot to the marked start in the game arena. Mark the route, marked stop, exclusion area, operator position, and Stop-owner position. <strong>Success:</strong> both operator and observer sign the marked start, marked route, marked stop, exclusion area, and role checks.</li>
+          <li><strong>Prepare the exact tested program:</strong> reconnect and switch on, select only the supported matching program, assign the gamepad, release controls, call <q>robot live</q>, receive <q>clear</q>, and press INIT. <strong>Success:</strong> identity and telemetry match the Supported test and everyone remains outside the exclusion area before Start.</li>
+          <li><strong>Run the marked route:</strong> from the marked start, press Start and apply only the card's bounded forward/reverse or rotation input. Follow the marked route, release controls, verify neutral, and press Stop at the marked stop or immediately for an abort condition. <strong>Success:</strong> the robot follows the marked route, responds as predicted, and stops at the marked stop while everyone remains outside the exclusion area.</li>
+          <li><strong>Record and power down:</strong> record marked start, marked route, marked stop, response, neutral, Stop, and any symptom; say <q>stopped</q>; switch off the Hub; and disconnect the battery. <strong>Success:</strong> the Travel test result is tied to the exact Supported test trial and source identity.</li>
+          <li><strong>Requalify after a correction:</strong> any code, configuration, electrical, or mechanical correction cancels Travel test authorization. Return to stable support and repeat every affected Supported test case before another Travel test. <strong>Success:</strong> a fresh Supported test record authorizes the new Travel test.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record what happened</h2>
+        <p class="record-prompt">Complete every field from observed evidence. A pending or blocked test is not a pass and cannot authorize a tested commit.</p>
+        <table class="record-table">
+          <caption>Meeting 3 comparison and controlled-test record</caption>
+          <thead><tr><th scope="col">What must be identified?</th><th scope="col">What did the team verify?</th><th scope="col">Who checked it?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Required evidence">Trial ID and date</td><td data-label="Team record">Trial: __________ Date: __________</td><td data-label="Checker">Student/operator: ______<br>Checker: ______</td></tr>
+            <tr><td data-label="Required evidence">Exact installed assembly and active configuration</td><td data-label="Team record">Manufacturer/revision: __________<br>Configuration: __________<br>Physical match evidence: __________</td><td data-label="Checker">____________</td></tr>
+            <tr><td data-label="Required evidence">Matching source or archive identity</td><td data-label="Team record">REV URL/access date or goBILDA ZIP/file/checksum/download date: ________________________</td><td data-label="Checker">____________</td></tr>
+            <tr><td data-label="Required evidence">Lifecycle and input mapping</td><td data-label="Team record">Matching lifecycle: __________<br>Forward field: __________ Rotation field: __________</td><td data-label="Checker">____________</td></tr>
+            <tr><td data-label="Required evidence">Shared patterns and vendor assumptions</td><td data-label="Team record">Shared: ________________________<br>Vendor-specific: ________________________</td><td data-label="Checker">____________</td></tr>
+            <tr><td data-label="Required evidence">Controls to keep or reconsider</td><td data-label="Team record">Keep/reason: ________________________<br>Reconsider/reason: ________________________</td><td data-label="Checker">____________</td></tr>
+            <tr><td data-label="Required evidence">Exact bounded change and diff</td><td data-label="Team record">File/project: __________<br>Old label: __________<br>New label: __________<br>Path-limited diff checked: Yes / No</td><td data-label="Checker">Driver: ______<br>Navigator: ______</td></tr>
+            <tr><td data-label="Required evidence">Supported-test setup, configuration, units, method, and trials</td><td data-label="Team record">Setup/configuration: ________________________<br>Units where applicable: __________<br>Method/case IDs: ________________________</td><td data-label="Checker">Observer: ______<br>Stop owner: ______</td></tr>
+            <tr><td data-label="Required evidence">Controlled-test result</td><td data-label="Team record">Supported test: Pass / Fail / Blocked<br>Travel test: Pass / Fail / Not authorized<br>Marked start/route/stop and exclusion area: ________________________<br>Observed result or blocker: ________________________</td><td data-label="Checker">____________</td></tr>
+            <tr><td data-label="Required evidence">Student-code commit after a passing test</td><td data-label="Team record">Commit message: ________________________<br>Short hash: __________</td><td data-label="Checker">Student who committed: ______<br>Diff checked by: ______</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="git" aria-labelledby="git-title">
+        <h2 id="git-title">Students: inspect the tested diff and create the commit</h2>
+        <p>Begin only after the matching program's required controlled test is recorded as passing. Keep the robot stopped, Hub off, and battery disconnected while students use Git.</p>
+        <ol>
+          <li><strong>Show the working tree and verify a clean index:</strong> a student runs <code>git status --short</code> and <code>git diff --cached --quiet</code> in the robot-code repository. The working tree is the current checked-out files and their uncommitted changes; the index holds changes selected for the next commit. <strong>Success:</strong> the team identifies every changed path and the quiet command exits successfully, proving the index is clean. If it does not, do not stage or commit until the owner resolves the existing staged work.</li>
+          <li><strong>Inspect only today's path:</strong> a student runs <code>git diff -- path/to/MATCHING_FILE</code>. <code>git diff</code> shows unstaged changes. <strong>Success:</strong> the output contains exactly the one tested telemetry-label change and no behavior change.</li>
+          <li><strong>Stage only the tested artifact:</strong> a student runs <code>git add -- path/to/MATCHING_FILE</code>. <strong>Success:</strong> only the exact matching file containing the tested telemetry label is selected.</li>
+          <li><strong>Inspect the complete index:</strong> a student runs <code>git diff --cached --name-only</code> and the unrestricted <code>git diff --cached</code>. If either command shows an unrelated path, run <code>git restore --staged -- path/to/UNRELATED_FILE</code>; this preserves its working-tree change. Repeat both complete-index commands until the name list contains only <code>path/to/MATCHING_FILE</code> and the staged diff contains exactly the one tested telemetry-label change. <strong>Success:</strong> no unrelated staged change can enter the commit.</li>
+          <li><strong>Create the record:</strong> only after the complete index passes, a student runs <code>git commit -m "Identify matching StarterBot path"</code>. <code>git commit</code> records every staged change in repository history, so do not run it unless the previous step passes. <strong>Success:</strong> Git reports one new commit containing only the matching program's tested telemetry-label change.</li>
+          <li><strong>Record its identity:</strong> a student runs <code>git rev-parse --short HEAD</code> and copies the short hash and message into the controlled-test record. <strong>Success:</strong> another student can connect the commit to the exact source, diff, and passing trial.</li>
+        </ol>
+        <p>If any required test is failed, blocked, or unperformed, students may inspect <code>git status</code> and <code>git diff</code> for learning, but they do not create the tested commit.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f03">Source M03-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot is unavailable or no exact match is proven</h2>
+        <div class="fallback-box">
+          <p>Do not install or run either vendor program. Do not claim a Supported test, Travel test, or tested commit.</p>
+          <ol>
+            <li>Complete both lifecycle, drive-input, mechanism, shared-pattern, vendor-assumption, keep, and reconsider traces from the identified source artifacts.</li>
+            <li>Record missing assembly or configuration evidence as a blocker with an owner and next check. Keep both programs reading comparison only while identity is unresolved.</li>
+            <li>In a non-executable practice copy, make the one telemetry-label edit and inspect its path-limited diff. Build locally if the project permits, but label it <strong>local build only - not deployed or robot tested</strong>.</li>
+            <li>Prepare the supported-test card and carry it forward. Do not stage or commit the practice edit as today's tested robot-code change.</li>
+          </ol>
+          <p class="success-check">Success looks like: code-reading and Git-diff learning are complete while every unavailable physical result and tested commit remain explicitly blocked.</p>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> both annotated traces, exact assembly evidence, source/archive identity, comparison table, matching-path decision, one-line diff, test cards, controlled-test result, and student-code commit hash or explicit blocker.</p>
+        <h3>Each student explains</h3>
+        <p>Give each student one lifecycle, drive, or mechanism path from either vendor program. Without partner help, the student points from lifecycle stage to physical control, field, arithmetic or decision, method, and output; then explains why that program may or may not run on the installed robot.</p>
+        <h3>Record each student's skill</h3>
+        <ul>
+          <li>Record program tracing only when the student names the exact source and vendor boundary.</li>
+          <li>Record matching-path judgment only when the student uses assembly and configuration evidence, not brand resemblance.</li>
+          <li>Record Git understanding only when the student distinguishes working tree, unstaged diff, staged change, commit, and tested commit hash.</li>
+          <li>Use the <a href="../reference/skill-tracker.html">skill tracker</a> for each student separately. Pair success does not prove individual understanding.</li>
+        </ul>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 4</h2>
+        <p>Meeting 4 will decide what the team's robot should do before assigning controls. It needs today's exact matching path, available mechanisms, current vendor controls, controls worth keeping or reconsidering, test evidence, and tested commit or blocker.</p>
+        <div class="handoff">
+          <table class="record-table">
+            <caption>Questions Meeting 4 needs answered</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Evidence or next owner</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">Which exact assembly and executable language path are current?</td><td data-label="Verified answer">Assembly: __________<br>Java / prepared Blocks: __________</td><td data-label="Evidence or owner">Identity record: ______</td></tr>
+              <tr><td data-label="Question">Which source file/project and lifecycle are current?</td><td data-label="Verified answer">Artifact: __________<br>Linear / iterative: __________</td><td data-label="Evidence or owner">Source identity: ______</td></tr>
+              <tr><td data-label="Question">Which mechanisms physically exist and matched the source?</td><td data-label="Verified answer">________________________</td><td data-label="Evidence or owner">Inspection: ______</td></tr>
+              <tr><td data-label="Question">Which controls should Meeting 4 evaluate for keeping or reconsidering?</td><td data-label="Verified answer">Keep: __________<br>Reconsider: __________</td><td data-label="Evidence or owner">Comparison row: ______</td></tr>
+              <tr><td data-label="Question">What passed, failed, or remained blocked?</td><td data-label="Verified answer">Supported: __________<br>Travel: __________</td><td data-label="Evidence or owner">Trial IDs / owner: ______</td></tr>
+              <tr><td data-label="Question">Which tested commit identifies today's bounded change?</td><td data-label="Verified answer">Short hash: __________<br>Message: __________</td><td data-label="Evidence or owner">Diff checker / blocker owner: ______</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Recheck the mutable REV Java page or download and the goBILDA ZIP at delivery. Preserve the exact reviewed REV URL/access date or goBILDA filename, contained filename, download date, and SHA-256. Compare changed artifacts before use.</li>
+          <li>Audit Meeting 2's complete motor map and Java/Blocks decision. Independently prove the installed robot's exact manufacturer and 2026-2027 assembly revision; similar parts or brand alone do not establish a match.</li>
+          <li>Check in only the exact matching program/project intended for execution. Keep the unmatched source available for reading without making it an enabled robot OpMode.</li>
+          <li>Prepare the matching program with vendor behavior intact and a clean starting tree. Do not pre-apply the student telemetry-label change.</li>
+          <li>For an active Blocks branch, prepare and check in equivalent matching behavior before the meeting. Ensure the project exposes one telemetry label and can produce an inspectable saved-file diff.</li>
+          <li>Inspect the support, game arena, marked start, marked route, marked stop, exclusion area, robot, every matching mechanism, battery, Hub, wiring, Driver Station, gamepad, and immediate Stop access. Derive input boundaries and cases from the exact robot, current manufacturer guidance, and prior evidence; record them on the test card rather than publishing universal values.</li>
+          <li>Prepare printed comparison, source-identity, test, fault, Git, handoff, and individual-skill records. Make the repository's exact matching path available for student commands.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Enablement gate:</strong> enable and deploy only when exact assembly identity, active configuration, complete motor map, source identity, matching mechanisms, secure support, free travel, clear arena, tested Stop access, and successful build/validation all agree. Any contradiction keeps both programs reading-only until resolved.</aside>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f01">Source M03-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f02">Source M03-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m03-f03">Source M03-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m03-m01">Measure it M03-M01</a></p>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> REV's complete <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-onbot-java-overview">2026-2027 Starter Bot OnBot Java overview</a> for the exact REV TeleOp specimen. Recheck this mutable page at delivery.</li>
+        <li><span class="resource-label follow">Follow</span> The goBILDA <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">2026-2027 StarterBot Resource Guide</a> and linked <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">example ZIP</a>. The curriculum-reviewed 2026-09-17 archive was <code>3200-2627-0003_example-code.zip</code>, SHA-256 <code>aadbb82cfeaef37b6fbf814589956c5305efc0734ce5ef7df23dbfa996882ca3</code>, containing <code>BioBuzzStarterbotTeleop.java</code>.</li>
+        <li><span class="resource-label follow">Follow</span> GitHub's <a href="https://docs.github.com/en/get-started/using-git/about-git#basic-git-commands">basic Git commands</a> for working-tree, staging, and commit concepts, and <a href="https://docs.github.com/en/pull-requests/committing-changes-to-your-project/viewing-and-comparing-commits/comparing-commits">comparing commits</a> for diff concepts.</li>
+        <li><span class="resource-label follow">Follow</span> Use the shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0002-variables-make-a-motor-move.html">Previous: Meeting 2: Variables Make a Motor Move</a> | <a href="index.html">Course index</a> | <a href="0004-decisions-and-driver-controls.html">Next: Meeting 4: Decisions and Driver Controls</a></p>
+  </footer>
+</body>
+</html>

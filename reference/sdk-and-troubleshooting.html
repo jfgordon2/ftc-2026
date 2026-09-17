@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BIOBUZZ's FTC SDK lookup routine and evidence-first troubleshooting ladder.">
+  <title>SDK Lookup and Troubleshooting | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <style>
+    .method-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .method-grid > section { background: var(--paper-raised); border: 1px solid var(--line); padding: 1rem 1.25rem; }
+    .symptoms td:first-child { font-weight: 800; }
+    @media (max-width: 720px) { .method-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / FTC SDK v12.0 / Evidence before editing</p>
+    <h1>SDK lookup and troubleshooting</h1>
+    <p class="lede">Use pinned SDK sources for exact code and API behavior. Capture the exact symptom before changing anything, then move down the ladder in order.</p>
+  </header>
+
+  <nav class="site-nav" aria-label="Reference navigation">
+    <a href="../lessons/index.html">Return to course index</a>
+    <a href="#lookup">SDK lookup</a>
+    <a href="#words">Words used here</a>
+    <a href="#ladder">Troubleshooting ladder</a>
+    <a href="#symptoms">Symptom table</a>
+  </nav>
+
+  <main>
+    <section id="words" aria-labelledby="words-title">
+      <h2 id="words-title">Words used while diagnosing a problem</h2>
+      <dl class="words-list">
+        <dt>Symptom</dt><dd>The exact thing you can observe that is wrong. Example: <q>The Driver Station does not list our OpMode</q>, not <q>The code is broken.</q></dd>
+        <dt>Error message</dt><dd>Text from Android Studio or the Driver Station that identifies a failure. Copy the first message exactly, including its file and line when shown.</dd>
+        <dt>Log</dt><dd>A time-ordered record of messages from an app or device. Preserve the relevant Robot Controller, Driver Station, or Logcat lines before restarting.</dd>
+        <dt>Configuration</dt><dd>The saved list that connects each Hub port and device type to an exact name. The name in Java must match it, including capitalization.</dd>
+        <dt>Hypothesis</dt><dd>One possible cause that the evidence can support or reject. Example: <q>The OpMode is missing because <code>@Disabled</code> is still present.</q></dd>
+        <dt>Evidence</dt><dd>An exact message, value, file and line, log entry, measurement, or inspection result that supports or rejects a hypothesis.</dd>
+      </dl>
+    </section>
+
+    <div class="method-grid">
+      <section id="lookup" aria-labelledby="lookup-title">
+        <h2 id="lookup-title">Five-step SDK lookup</h2>
+        <ol>
+          <li>Start at the pinned <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/readme.md">TeamCode readme</a>. Use sample names as a map: <code>Basic</code> for structure, <code>Sensor</code> for one input, <code>Robot</code> for combined capabilities, and <code>Concept</code> for one SDK feature.</li>
+          <li>Browse the pinned <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/tree/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples"><code>external/samples</code> directory</a>. Read the sample header for required hardware, configuration names, and warnings before using code.</li>
+          <li>Copy the closest sample into <code>TeamCode</code>, rename the file, class, and OpMode, then adapt names and constants. Remove <code>@Disabled</code> only when testing is safe. Never edit the source sample under <code>FtcRobotController</code>.</li>
+          <li>In Android Studio, use declaration or quick documentation on the SDK class or method. Then verify its summary, signature, parameters, limits, and return value in the pinned <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/">FTC SDK 12.0 RobotCore Javadocs</a> or the <a href="https://javadoc.io/doc/org.firstinspires.ftc">SDK artifact index</a>.</li>
+          <li>Use <a href="https://dev.java/learn/language-basics/">Oracle Java Language Basics</a> only for the language feature needed by the current robot task.</li>
+        </ol>
+      </section>
+
+      <section id="ladder" aria-labelledby="ladder-title">
+        <h2 id="ladder-title">Troubleshooting questions, in order</h2>
+        <p>Answer each question before moving down. Change one thing at a time so the next result shows whether that change mattered.</p>
+        <ol>
+          <li><strong>Did the code build?</strong> Open Android Studio's Build output. If it failed, copy the first error message and open its linked team-code file and line. Make one correction and build again. <strong>Success:</strong> Build output reports success.</li>
+          <li><strong>Did the app install?</strong> If the build succeeded, check charged 12 V power, the Control Hub USB-C connection, and the named target. Run <code>TeamCode</code> using the official install steps. <strong>Success:</strong> the Run window reports completion and the Driver Station reconnects to the Robot Controller.</li>
+          <li><strong>Does the OpMode appear?</strong> On the Driver Station, look for its exact display name. If absent, confirm its class is in <code>TeamCode</code>, has <code>@TeleOp</code> or <code>@Autonomous</code>, does not have <code>@Disabled</code>, and was included in the installed app. <strong>Success:</strong> the expected name can be selected.</li>
+          <li><strong>What is the first team-code file and line?</strong> If INIT or Run reports an exception, copy the exact Driver Station message and the first stack-trace entry shaped like <code>Class.java:line</code> that belongs to the team's file. Start there instead of changing every highlighted line.</li>
+          <li><strong>What input, decision, and output can telemetry show?</strong> If no exception appears but behavior is wrong, display the relevant input value, the choice or current state the code makes, and the output command it sends. Compare those values with the configuration, wiring, and mechanism before changing the algorithm.</li>
+          <li><strong>What does the log add?</strong> If the Driver Station message is not enough, inspect Robot Controller/Driver Station logs or Android Studio Logcat. Save the first relevant error and nearby lines before power cycling when possible.</li>
+          <li><strong>What did the evidence prove?</strong> In the <a href="fault-log.html">fault log</a>, record the symptom, one hypothesis, the evidence, the confirmed cause, the one change made, and the result of repeating the same test.</li>
+        </ol>
+      </section>
+    </div>
+
+    <aside class="safety-callout">Stop the robot before touching it. For powered tests, identify the Driver Station operator and emergency-stop owner and use the spoken states <strong>robot live</strong>, <strong>clear</strong>, and <strong>stopped</strong>.</aside>
+
+    <section id="symptoms" aria-labelledby="symptoms-title">
+      <h2 id="symptoms-title">Symptom-to-evidence table</h2>
+      <table class="course-map symptoms">
+        <caption>Collect the first evidence before selecting a fix.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Symptom</th>
+            <th scope="col">First evidence to collect</th>
+            <th scope="col">Relevant official FTC source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Symptom">Build failure</td>
+            <td data-label="First evidence">The first Android Studio Build error, including exact message, file, and line.</td>
+            <td data-label="Official source"><a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#building-and-installing-your-opmode">Building and Installing Your OpMode</a></td>
+          </tr>
+          <tr>
+            <td data-label="Symptom">Deploy failure</td>
+            <td data-label="First evidence">Control Hub power state, USB-C connection, selected target, and the exact Android Studio deployment message.</td>
+            <td data-label="Official source"><a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#building-and-installing-your-opmode">Building and Installing Your OpMode</a></td>
+          </tr>
+          <tr>
+            <td data-label="Symptom">Missing OpMode</td>
+            <td data-label="First evidence">Class location and annotation, presence of <code>@Disabled</code>, and whether the latest build deployed.</td>
+            <td data-label="Official source"><a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/readme.md#creating-your-own-opmodes">TeamCode: Creating Your Own OpModes</a></td>
+          </tr>
+          <tr>
+            <td data-label="Symptom">INIT exception</td>
+            <td data-label="First evidence">Exact Driver Station message and the first team-code <code>Class.java:line</code> in the stack trace.</td>
+            <td data-label="Official source"><a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/troubleshooting_common_issues/troubleshooting-common-issues.html">Troubleshooting Common Issues</a></td>
+          </tr>
+          <tr>
+            <td data-label="Symptom">Incorrect behavior</td>
+            <td data-label="First evidence">Telemetry showing the relevant input, decision/state, and commanded output alongside observed motion.</td>
+            <td data-label="Official source"><a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/org/firstinspires/ftc/robotcore/external/Telemetry.html">FTC SDK 12.0 Telemetry Javadoc</a></td>
+          </tr>
+          <tr>
+            <td data-label="Symptom">Gamepad issue</td>
+            <td data-label="First evidence">Driver Station gamepad assignment plus telemetry for the exact button, trigger, or axis.</td>
+            <td data-label="Official source"><a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#running-your-opmode-with-a-gamepad-connected">Running Your OpMode With a Gamepad Connected</a></td>
+          </tr>
+          <tr>
+            <td data-label="Symptom">Connection issue</td>
+            <td data-label="First evidence">Power and battery state, RC/DS connection status, device names, and the exact warning before restarting anything.</td>
+            <td data-label="Official source"><a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/index.html">Robot Control System Troubleshooting Guide</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="mentor-note">The sequence, evidence prompts, and fault-log workflow are BIOBUZZ team practices. Official FIRST documentation and pinned SDK source/Javadocs control platform behavior; current game rules control competition requirements.</aside>
+
+    <section aria-labelledby="authority-title">
+      <h2 id="authority-title">Which source controls?</h2>
+      <ol>
+        <li>Current Competition Manual and live FIRST season resources for competition rules.</li>
+        <li>Official FIRST technical documentation for the FTC control system and supported procedures.</li>
+        <li>Pinned FTC SDK <code>v12.0</code> source and <code>12.0.0</code> Javadocs for this course's exact code and API behavior.</li>
+        <li>Current manufacturer documentation for the exact installed hardware.</li>
+        <li>Supplemental teaching material for explanation only.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>FTC Docs pages marked <code>latest</code> are version-sensitive. Recheck them after SDK, app, firmware, or season updates.</p>
+  </footer>
+</body>
+</html>

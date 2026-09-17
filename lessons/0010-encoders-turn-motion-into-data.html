@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 10 lesson for measuring drivetrain rotations, deriving distance conversions, and testing guarded drive and turn actions.">
+  <title>Meeting 10: From Motor Rotations to Distance | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 5, Meeting 10 / FTC SDK v12.0</p>
+    <h1>From Motor Rotations to Distance</h1>
+    <p class="lede">Measure one visible wheel revolution, build every conversion from named evidence, then test forward, backward, and left-turn actions one at a time.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Motor counts become distance only through measured drivetrain relationships</li>
+      <li><strong>Team work</strong><br>Measure, calculate, implement, and test separately</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0009-autonomous-is-a-sequence.html">Previous: Meeting 9</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#measure">Measure first</a>
+    <a href="#formulas">Five formulas</a>
+    <a href="#build">Build the actions</a>
+    <a href="#test">Separate tests</a>
+    <a href="#handoff">Meeting 11 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0011-compose-and-tune-autonomous.html">Next: Meeting 11</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the robot do</h2>
+        <div class="outcome-banner">Using measurements from this exact assembled drivetrain, the robot will separately test 36 inches forward, 12 inches backward, and 90 degrees left. Each reusable action must end by reaching its target or by an active-check, timeout, Driver Station Stop, or observer abort, then command zero and restore every drive motor's verified pre-action controller setting.</div>
+        <p>Do not combine the three segments until each one passes its own predeclared tolerance and all stopping and exact saved-mode restoration evidence is complete. Keep Meeting 9's exact one-action Autonomous as the fallback.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Encoder count</dt><dd>One reported unit of shaft rotation. A count is not an inch and does not by itself identify floor position.</dd>
+          <dt>Motor revolution</dt><dd>One complete turn of the motor shaft where the encoder is measured.</dd>
+          <dt>Gearbox output revolution</dt><dd>One complete turn of the gearbox output shaft. Gearing can make its revolution count differ from the motor's.</dd>
+          <dt>Wheel revolution</dt><dd>One complete turn of the wheel. Another gear, chain, or belt stage can make this differ from the gearbox output.</dd>
+          <dt>Surface travel</dt><dd>The distance the wheel or assembled robot moves along the test surface. Compression and slip can make it differ from ideal geometry.</dd>
+          <dt>Assembled ratio</dt><dd>The verified number of motor revolutions for one wheel revolution through every installed transmission stage.</dd>
+          <dt>Track width</dt><dd>The measured left-to-right distance between the drivetrain's effective wheel paths used for the point-turn estimate.</dd>
+          <dt>Target and current position</dt><dd>The requested encoder position and the position reported now. Their difference shows remaining count error.</dd>
+          <dt>Motor run mode</dt><dd>A motor-controller setting that tells the SDK how to use a power command and encoder feedback. The team must identify the exact mode already used by each drive motor in its qualified normal drive code.</dd>
+          <dt><code>RUN_TO_POSITION</code></dt><dd><code>RUN_TO_POSITION</code> tells the motor controller to use encoder feedback to move toward a target position while power is applied. Code sets the target before entering this mode. It is temporary for today's bounded action, not a universal normal drive mode.</dd>
+          <dt>Mode recheck</dt><dd>The zero-output <code>getMode()</code> comparison already established by the team's earlier motor evidence. It is not introduced in Meeting 10; today students repeat it immediately before an encoder action and compare it with the Meeting 2 expected-mode record, Meeting 9 mode recheck/handoff, and current qualified team code.</dd>
+          <dt>Saved normal mode</dt><dd>The exact <code>DcMotor.RunMode</code> assigned from that passing immediate recheck before any switch to <code>RUN_TO_POSITION</code>. Each motor can have its own saved value.</dd>
+          <dt>Tolerance</dt><dd>A team-selected acceptable result range declared before seeing trial results.</dd>
+          <dt>Mode restoration</dt><dd>After any action exit, command zero and set each motor back to its own saved normal mode. Then read <code>getMode()</code> again and record whether restoration matched.</dd>
+        </dl>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f01">Source M10-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f03">Source M10-F03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the Driver Station operator, separate Stop owner, observer, measurement lead, reset lead, programmer, recorder, and checker.</li>
+          <li>Use a <strong>supported test</strong> in the game arena for the visible-revolution and sign checks: secure the frame on stable support with every wheel clear of support, floor, people, wires, and loose objects.</li>
+          <li>Use a <strong>Travel test</strong> in the game arena for each segment: mark the start, intended route, stop boundary, exclusion area, observer position, and powered-off reset path.</li>
+          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before marking, measuring, touching, or adjusting any wheel, drivetrain part, wire, support, or field reference.</li>
+          <li>Secure the robot, battery, Hub, wires, and attached pieces. Inspect wheel retention, tire seating, axle freedom, gearing, encoder connections, and clearance before every powered set.</li>
+          <li>Before power, write the expected wheel, count sign, bounded command source, stop conditions, and evidence. Do not invent a power, timeout, tolerance, ratio, or count.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected direction, speed, path, count sign, implausible telemetry, missed boundary, continued motion, slip, collision risk, looseness, unsafe vibration, wire contact, binding, unusual sound, heat, odor, communication loss, or inability to command zero means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect before entry or contact.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:20<br>20 min</time><div><strong>Audit the handoff.</strong> Confirm the one-action fallback, exact drivetrain identity, roles, arena setups, and blockers.</div></li>
+          <li><time>0:20-0:45<br>25 min</time><div><strong>See one wheel revolution.</strong> Mark a wheel, predict channels and signs, then record encoder change in a supported test.</div></li>
+          <li><time>0:45-1:30<br>45 min</time><div><strong>Measure and calculate.</strong> Measure diameter and track width, verify every gearing stage, and complete the five-formula ladder.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, switch off, disconnect, and preserve marks.</div></li>
+          <li><time>1:40-2:10<br>30 min</time><div><strong>Build reusable actions.</strong> Adapt guarded drive and turn methods with targets, telemetry, every escape, explicit zero, and exact saved-mode restoration.</div></li>
+          <li><time>2:10-2:45<br>35 min</time><div><strong>Run three separate Travel tests.</strong> Test 36 inches forward, then 12 inches backward, then 90 degrees left; reset and review between segments.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Decide and hand off.</strong> Preserve or block the combined sequence, record the fallback, and explain each input's provenance.</div></li>
+        </ol>
+      </section>
+
+      <section id="measure" aria-labelledby="measure-title">
+        <h2 id="measure-title">Measure before writing distance code</h2>
+        <p>Complete these steps in order. A blank, unexplained mismatch, or unverified installed ratio blocks distance and turn code.</p>
+        <ol>
+          <li><strong>Freeze the identity:</strong> record robot revision, active configuration, OpMode/code identity, every drive motor and encoder model, configured motor type, Hub/port, wheel and tire, gearbox, external gears/sprockets/pulleys, surface, battery acceptance, date, student, and checker. <strong>Success:</strong> every exact part and transmission stage is named or marked blocked.</li>
+          <li><strong>Retrieve the upstream mode records:</strong> for every mapped drive motor, copy the expected enum and row ID from the <strong>Meeting 2 expected-mode record</strong>. Then copy the mode, row ID, exact code/configuration identity, and blocker status from the <strong>Meeting 9 mode recheck/handoff</strong>. Locate the exact current qualified team-code line or initialization path that sets that motor's mode. <strong>Success:</strong> all three records identify the same motor, configuration, code lineage, and expected enum. If either upstream record lacks the named field or row ID, return that interface gap to its owner and block powered M10 work; do not recreate the missing upstream evidence here.</li>
+          <li><strong>Repeat the established recheck immediately before action:</strong> at explicit zero output, display each motor's current <code>getMode()</code> and compare it separately with the Meeting 2 expected mode, Meeting 9 rechecked mode, and current qualified-code declaration. <strong>Success:</strong> all four values agree before the current value is saved. If any value is unknown, the records disagree, the identity changed, or the live readback is unexpectedly <code>RUN_TO_POSITION</code>, command zero, block powered testing, and resolve the discrepancy from upstream records, qualified team code, and pinned SDK/API evidence. Do not choose <code>RUN_USING_ENCODER</code> or <code>RUN_WITHOUT_ENCODER</code> merely because a sample uses it.</li>
+          <li><strong>Separate the rotations:</strong> draw and label <q>encoder counts -&gt; motor shaft -&gt; gearbox output -&gt; external transmission -&gt; wheel -&gt; surface travel</q>. Write the published ratio for each matching documented stage and the assembled direction of motion. <strong>Success:</strong> no student uses <q>motor revolution</q> and <q>wheel revolution</q> as synonyms.</li>
+          <li><strong>Mark one visible wheel revolution:</strong> while powered down, place one removable witness mark at a named wheel and frame reference. Record the raw encoder start. Complete one approved low-output supported test until the mark returns once to the reference; command zero and press Stop. Record raw end and signed change as <code>end - start</code>. <strong>Success:</strong> the observer saw exactly one wheel revolution and the record has raw values, sign, command source, zero, and Stop proof.</li>
+          <li><strong>Repeat and reconcile:</strong> perform three one-revolution observations from the same mark without discarding inconvenient valid rows. Compare observed absolute counts with the count predicted from exact manufacturer counts and published gearing. <strong>Success:</strong> the team explains agreement within a predeclared tolerance or blocks the conversion and investigates identity, gearing, missed revolutions, sign, or looseness.</li>
+          <li><strong>Measure loaded wheel diameter:</strong> with power disconnected and the robot resting as specified by the team's method, measure at three named orientations in one stated unit. Record tire condition and compression; calculate the team's stated representative diameter and circumference. <strong>Success:</strong> every input, method, unit, and calculation is visible.</li>
+          <li><strong>Measure track width:</strong> use named left and right effective wheel-path references, measure three times in the same distance unit, and record the team's stated representative value. Do not silently substitute outer tire width or chassis width. <strong>Success:</strong> another pair can reproduce both references.</li>
+          <li><strong>Verify signs:</strong> in separate brief supported checks, predict and observe the encoder change for each side when commanded in the robot's forward direction. Record the command-space sign convention used by the reusable method. <strong>Success:</strong> forward, backward, and left-turn target signs can be derived rather than guessed.</li>
+        </ol>
+        <div class="vendor-paths">
+          <article class="vendor-path">
+            <h3>REV identity path</h3>
+            <p>The reviewed REV Starter Bot configuration identifies an example drive-motor family but does not establish this installed robot's counts per wheel revolution or complete assembled ratio. Record exact installed-part documents and the visible-revolution measurement; block conversion while either is missing.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f04">Source M10-F04</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+          </article>
+          <article class="vendor-path">
+            <h3>goBILDA identity path</h3>
+            <p>Use counts per motor revolution and gearing only from documents matching every exact installed goBILDA product and transmission stage. A StarterBot assembly guide does not prove values for a substituted motor, gearbox, sprocket, pulley, or wheel.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f05">Source M10-F05</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+          </article>
+        </div>
+
+        <table class="record-table">
+          <caption>Installed-drivetrain measurement record</caption>
+          <thead><tr><th scope="col">Input</th><th scope="col">Exact value and unit</th><th scope="col">How was it obtained?</th><th scope="col">Source or trial ID</th><th scope="col">Student and checker</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Input">Manufacturer motor counts per revolution</td><td data-label="Value">________________</td><td data-label="Method">Exact part/revision document</td><td data-label="Provenance">________________</td><td data-label="People">________________</td></tr>
+            <tr><td data-label="Input">Published gearbox and external ratios</td><td data-label="Value">________________</td><td data-label="Method">Exact documents plus installed-stage trace</td><td data-label="Provenance">________________</td><td data-label="People">________________</td></tr>
+            <tr><td data-label="Input">Observed counts for one visible wheel revolution</td><td data-label="Value">Trial 1: ____<br>Trial 2: ____<br>Trial 3: ____</td><td data-label="Method">Signed end - start; mark returned once</td><td data-label="Provenance">________________</td><td data-label="People">________________</td></tr>
+            <tr><td data-label="Input">Verified assembled motor revolutions per wheel revolution</td><td data-label="Value">________________</td><td data-label="Method">All installed stages reconciled with visible-revolution rows</td><td data-label="Provenance">________________</td><td data-label="People">________________</td></tr>
+            <tr><td data-label="Input">Loaded wheel diameter and circumference</td><td data-label="Value">Diameters: ____ / ____ / ____<br>Chosen: ____<br>Circumference: ____</td><td data-label="Method">Named references, load, surface, and representative method</td><td data-label="Provenance">________________</td><td data-label="People">________________</td></tr>
+            <tr><td data-label="Input">Track width</td><td data-label="Value">Measures: ____ / ____ / ____<br>Chosen: ____</td><td data-label="Method">Named effective left/right path references</td><td data-label="Provenance">________________</td><td data-label="People">________________</td></tr>
+            <tr><td data-label="Input">Forward encoder signs</td><td data-label="Value">Left: ____ Right: ____</td><td data-label="Method">Separate supported checks</td><td data-label="Provenance">________________</td><td data-label="People">________________</td></tr>
+          </tbody>
+        </table>
+        <table class="record-table">
+          <caption>Normal run mode progression gate: one row per drive motor</caption>
+          <thead><tr><th scope="col">Mapped drive motor</th><th scope="col">Meeting 2 expected-mode record</th><th scope="col">Meeting 9 recheck/handoff</th><th scope="col">Qualified team code and immediate readback</th><th scope="col">Saved and restored evidence</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Motor">Name/location: ______</td><td data-label="Meeting 2 expected mode">Meeting 2 row ID: ______<br>Expected mode: ______</td><td data-label="Meeting 9 recheck">Meeting 9 recheck row ID: ______<br>Mode/code/config: ______</td><td data-label="Code and immediate readback">Qualified version/file/line/mode: ______<br>Immediate <code>getMode()</code>: ______<br>[ ] All match [ ] Blocked</td><td data-label="Saved/restored evidence">Saved mode: ______<br>Restored <code>getMode()</code>: ______<br>Zero proof: ______<br>[ ] Match [ ] Blocked</td></tr>
+            <tr><td data-label="Motor">Name/location: ______</td><td data-label="Meeting 2 expected mode">Meeting 2 row ID: ______<br>Expected mode: ______</td><td data-label="Meeting 9 recheck">Meeting 9 recheck row ID: ______<br>Mode/code/config: ______</td><td data-label="Code and immediate readback">Qualified version/file/line/mode: ______<br>Immediate <code>getMode()</code>: ______<br>[ ] All match [ ] Blocked</td><td data-label="Saved/restored evidence">Saved mode: ______<br>Restored <code>getMode()</code>: ______<br>Zero proof: ______<br>[ ] Match [ ] Blocked</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f01">Source M10-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f03">Source M10-F03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+      </section>
+
+      <section id="formulas" aria-labelledby="formulas-title">
+        <h2 id="formulas-title">Use the five-formula ladder</h2>
+        <p>Keep units beside every value and do not cancel them mentally. Formula structure is a documented fact; exact product specifications are manufacturer facts; installed geometry and observed counts are measurements; and tolerances are team decisions made before results.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Wheel circumference</h3>
+            <p><code>wheel circumference = pi * measured wheel diameter</code></p>
+            <p>Units: distance/revolution = dimensionless * distance. Use the team's measured loaded diameter, not a catalog nominal diameter.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f06">Source M10-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+          </article>
+          <article class="station-card">
+            <h3>2. Counts per wheel revolution</h3>
+            <p><code>counts per wheel revolution = motor counts per revolution * motor revolutions per wheel revolution</code></p>
+            <p>Manufacturer counts and published gearing are F inputs from the one matching identity path: REV M10-F04 or goBILDA M10-F05, never both by default. The team's installed-stage trace, visible-revolution count, and verified assembled ratio are M inputs.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f04">Source M10-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f05">Source M10-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f06">Source M10-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+          </article>
+          <article class="station-card">
+            <h3>3. Counts per distance</h3>
+            <p><code>counts per distance = counts per wheel revolution / wheel circumference</code></p>
+            <p>Units: counts/revolution divided by distance/revolution = counts/distance. State whether distance is inches, centimeters, or another single chosen unit.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f06">Source M10-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+          </article>
+          <article class="station-card">
+            <h3>4. Target counts</h3>
+            <p><code>target counts = requested distance * counts per distance</code></p>
+            <p>Units: signed distance * counts/distance = signed count change. Add that change to each motor's current position using the team's verified command-space signs.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f06">Source M10-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+          </article>
+          <article class="station-card">
+            <h3>5. Point-turn wheel path</h3>
+            <p><code>point-turn wheel path = pi * track width * requested angle / 360</code></p>
+            <p>For a left point turn, the two sides receive equal path magnitudes in opposite command-space directions. Feed each signed wheel path into the target-counts formula.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f06">Source M10-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+          </article>
+        </div>
+        <p><strong>Before testing, choose:</strong> allowed distance error ______; allowed heading error ______; target-count tolerance if used ______; action timeout/escape for each segment ______; rationale and approver ______. Do not relax these criteria after seeing a result.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a></p>
+      </section>
+
+      <section id="build" aria-labelledby="build-title">
+        <h2 id="build-title">Build reusable guarded actions</h2>
+        <p>Copy pinned <code>RobotAutoDriveByEncoder_Linear</code> into <code>TeamCode</code>, rename it, and keep <code>@Disabled</code>. Reuse its target-and-guard structure, not its TETRIX names, directions, counts, wheel geometry, power, distance, or timeout. Replace every hardware-dependent item with the signed records above.</p>
+        <p><strong>Recheck, compare, save, restore:</strong> use the team's already-established <code>getMode()</code> procedure at zero output immediately before the action. Compare each live enum with its Meeting 2 expected mode, Meeting 9 rechecked mode, and qualified-code declaration. Only after all four agree may code assign the live enum to a saved-mode variable and switch to <code>RUN_TO_POSITION</code>. A Java <code>finally</code> block executes when control leaves its paired <code>try</code>, including a normal end or an early <code>return</code>; use it to command zero and restore those exact saved values.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f03">Source M10-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f07">Source M10-F07</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+        <pre><code>// Method intent; expand left/right to every mapped drive motor.
+void driveWheelDistances(double leftDistance, double rightDistance,
+                         double testedPower, double testedTimeout) {
+    // Populate only from the named upstream rows and qualified code review.
+    DcMotor.RunMode meeting2LeftExpectedMode = MEETING_2_LEFT_EXPECTED_MODE;
+    DcMotor.RunMode meeting2RightExpectedMode = MEETING_2_RIGHT_EXPECTED_MODE;
+    DcMotor.RunMode meeting9LeftRecheckedMode = MEETING_9_LEFT_RECHECKED_MODE;
+    DcMotor.RunMode meeting9RightRecheckedMode = MEETING_9_RIGHT_RECHECKED_MODE;
+    DcMotor.RunMode qualifiedCodeLeftMode = QUALIFIED_CODE_LEFT_MODE;
+    DcMotor.RunMode qualifiedCodeRightMode = QUALIFIED_CODE_RIGHT_MODE;
+
+    // This repeats the upstream getMode() check immediately before action.
+    DcMotor.RunMode leftModeRecheck = leftDrive.getMode();
+    DcMotor.RunMode rightModeRecheck = rightDrive.getMode();
+    boolean leftModeMatches = leftModeRecheck == meeting2LeftExpectedMode
+            &amp;&amp; leftModeRecheck == meeting9LeftRecheckedMode
+            &amp;&amp; leftModeRecheck == qualifiedCodeLeftMode;
+    boolean rightModeMatches = rightModeRecheck == meeting2RightExpectedMode
+            &amp;&amp; rightModeRecheck == meeting9RightRecheckedMode
+            &amp;&amp; rightModeRecheck == qualifiedCodeRightMode;
+
+    if (!UPSTREAM_MODE_RECORDS_VERIFIED
+            || !leftModeMatches || !rightModeMatches
+            || leftModeRecheck == DcMotor.RunMode.RUN_TO_POSITION
+            || rightModeRecheck == DcMotor.RunMode.RUN_TO_POSITION) {
+        leftDrive.setPower(0.0);
+        rightDrive.setPower(0.0);
+        telemetry.addData("Action blocked", "Resolve mode progression");
+        telemetry.update();
+        return;
+    }
+
+    DcMotor.RunMode savedLeftMode = leftModeRecheck;
+    DcMotor.RunMode savedRightMode = rightModeRecheck;
+
+    String exitReason = "INACTIVE_BEFORE_ACTION";
+    try {
+        if (!opModeIsActive()) return;
+
+        int leftChange = (int) Math.round(
+                leftDistance * COUNTS_PER_DISTANCE * LEFT_FORWARD_SIGN);
+        int rightChange = (int) Math.round(
+                rightDistance * COUNTS_PER_DISTANCE * RIGHT_FORWARD_SIGN);
+        int leftTarget = leftDrive.getCurrentPosition() + leftChange;
+        int rightTarget = rightDrive.getCurrentPosition() + rightChange;
+
+        leftDrive.setTargetPosition(leftTarget);  // target before position mode
+        rightDrive.setTargetPosition(rightTarget);
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        timer.reset();
+
+        leftDrive.setPower(Math.abs(testedPower));
+        rightDrive.setPower(Math.abs(testedPower));
+        while (opModeIsActive()
+                &amp;&amp; timer.seconds() &lt; testedTimeout
+                &amp;&amp; (leftDrive.isBusy() || rightDrive.isBusy())) {
+            telemetry.addData("Left target/current/busy", "%d / %d / %b",
+                    leftTarget, leftDrive.getCurrentPosition(), leftDrive.isBusy());
+            telemetry.addData("Right target/current/busy", "%d / %d / %b",
+                    rightTarget, rightDrive.getCurrentPosition(), rightDrive.isBusy());
+            telemetry.addData("Saved modes", "%s / %s",
+                    savedLeftMode, savedRightMode);
+            telemetry.addData("Elapsed/timeout", "%f / %f",
+                    timer.seconds(), testedTimeout);
+            telemetry.update();
+            // The observer presses Driver Station Stop for any abort condition.
+        }
+        exitReason = !opModeIsActive() ? "STOP_OR_ABORT"
+                : timer.seconds() &gt;= testedTimeout ? "TIMEOUT"
+                : "TARGET_REACHED";
+    } finally {
+        leftDrive.setPower(0.0);
+        rightDrive.setPower(0.0);
+        leftDrive.setMode(savedLeftMode);
+        rightDrive.setMode(savedRightMode);
+        telemetry.addData("Exit reason", exitReason);
+        telemetry.addData("Left saved/restored", "%s / %s",
+                savedLeftMode, leftDrive.getMode());
+        telemetry.addData("Right saved/restored", "%s / %s",
+                savedRightMode, rightDrive.getMode());
+        telemetry.update();
+    }
+}
+
+void driveDistance(double signedDistance, double power, double timeout) {
+    driveWheelDistances(signedDistance, signedDistance, power, timeout);
+}
+
+void turnLeftDegrees(double angle, double power, double timeout) {
+    double path = Math.PI * MEASURED_TRACK_WIDTH * angle / 360.0;
+    driveWheelDistances(-path, path, power, timeout);
+}</code></pre>
+        <p><strong>Adapt before use:</strong> if the robot has more than one motor per side, every motor needs its own Meeting 2 expected-mode row, Meeting 9 recheck/handoff row, qualified-code source, immediate <code>getMode()</code> comparison, saved enum, current position, target, busy telemetry, explicit zero, exact restoration, and restored <code>getMode()</code> evidence. Confirm whether the team's verified motor directions and sign convention make the shown left/right turn signs correct. Replace symbolic constants only from reviewed records. Use only a tested nonnegative power magnitude; target signs determine direction in this position-control pattern.</p>
+        <p><strong>Exit evidence:</strong> after the loop, record whether the target condition, timeout, inactive/Driver Station Stop, or observer-triggered Stop ended the attempt. Reaching one motor's target is not permission to omit zero or exact saved-mode restoration on another motor. A timeout, abort, failed restored-mode readback, or unexpected mode is evidence to diagnose, not a passing target.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f02">Source M10-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f03">Source M10-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test each segment separately</h2>
+        <p><strong>Required order:</strong> test and review 36 inches forward, then test and review 12 inches backward, then test and review 90 degrees left. Do not run the combined sequence as the first test. A segment advances only after its own guard, zero, exact saved-mode restoration, measurement, and predeclared tolerance evidence pass.</p>
+        <ol>
+          <li><strong>Freeze one segment:</strong> record exact robot/configuration/code, each Meeting 2 expected-mode row ID, Meeting 9 mode-recheck/handoff row ID, qualified-code mode source, immediate readback, formulas and input IDs, computed left/right count changes and targets, tested power source, timeout/escape, marked start, intended path, tolerance, roles, and stop conditions. Build and inspect the diff. <strong>Success:</strong> no sample drivetrain constant, guessed mode, missing upstream row, or blank input can reach executable code.</li>
+          <li><strong>Prepare the Travel test:</strong> with power disconnected, restore the segment's start and heading, mark its stop boundary, inspect the robot, and clear the exclusion area. Then connect, switch on, select the reviewed OpMode, press INIT, and verify zero output plus exact identity. <strong>Success:</strong> the robot remains still before Start.</li>
+          <li><strong>Run once:</strong> call <q>robot live</q>, receive <q>clear</q>, press Start, and keep Stop immediately available. Observe target/current/busy/time telemetry without field entry. <strong>Success:</strong> motion follows the predicted direction or Stop ends it immediately.</li>
+          <li><strong>End and isolate:</strong> require the <code>finally</code> cleanup to command explicit zero and restore each motor's exact saved normal mode on target completion, timeout, inactive state, Driver Station Stop, observer abort, or early return from the action. Press Stop, verify zero telemetry and no motion, say <q>stopped</q>, switch off, and disconnect before entry. <strong>Success:</strong> every touched drive motor has source, saved-mode, zero, and matching restored-<code>getMode()</code> evidence.</li>
+          <li><strong>Measure and decide:</strong> record actual travel or angle, signed error, final counts, elapsed time, exit reason, slip, tolerance result, and reset evidence. Keep valid failures. Diagnose one variable at a time; any code, setup, hardware, surface, measurement-method, or criterion change starts a new identified set. <strong>Success:</strong> the segment either passes the predeclared criterion or remains blocked.</li>
+          <li><strong>Repeat before advancing:</strong> complete the team's predeclared repeat count without changing the frozen setup. Only then move to the next segment. <strong>Success:</strong> repeatability evidence, not one best run, supports the segment.</li>
+        </ol>
+        <table class="record-table">
+          <caption>Separate segment gate</caption>
+          <thead><tr><th scope="col">Segment</th><th scope="col">Calculated targets and provenance</th><th scope="col">Actual result and error</th><th scope="col">Guard, zero, and mode-restoration evidence</th><th scope="col">Decision</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Segment"><strong>1. 36 inches forward</strong><br>Trial IDs: ______</td><td data-label="Targets">Left/right: ______<br>Input IDs: ______</td><td data-label="Result">Travel/error/time: ______</td><td data-label="Guards">Exit: ______<br>Normal-mode source: ______<br>Saved/restored: ______<br>Zero proof: ______</td><td data-label="Decision">[ ] Pass [ ] Blocked<br>Why: ______</td></tr>
+            <tr><td data-label="Segment"><strong>2. 12 inches backward</strong><br>Trial IDs: ______</td><td data-label="Targets">Left/right: ______<br>Input IDs: ______</td><td data-label="Result">Travel/error/time: ______</td><td data-label="Guards">Exit: ______<br>Normal-mode source: ______<br>Saved/restored: ______<br>Zero proof: ______</td><td data-label="Decision">[ ] Pass [ ] Blocked<br>Why: ______</td></tr>
+            <tr><td data-label="Segment"><strong>3. 90 degrees left</strong><br>Trial IDs: ______</td><td data-label="Targets">Path and left/right: ______<br>Input IDs: ______</td><td data-label="Result">Angle/error/time: ______</td><td data-label="Guards">Exit: ______<br>Normal-mode source: ______<br>Saved/restored: ______<br>Zero proof: ______</td><td data-label="Decision">[ ] Pass [ ] Blocked<br>Why: ______</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Combined guided sequence gate:</strong> [ ] all three segments passed separately under their recorded criteria; [ ] same exact code/configuration/hardware/surface remains; [ ] combined-run timeout and boundaries are approved; [ ] Meeting 9 fallback remains recoverable. If any box is empty, do not combine. If all pass, run <strong>36 inches forward -&gt; 12 inches backward -&gt; 90 degrees left</strong> from the approved start and record the complete-sequence result without erasing separate evidence.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot, exact documents, or Java path is unavailable</h2>
+        <div class="fallback-box">
+          <p>Do not claim a conversion, passing segment, reusable measured action, or combined route.</p>
+          <ol>
+            <li>Preserve Meeting 9's exact timed one-action OpMode, code identity, configuration, setup, and trial evidence as the runnable fallback.</li>
+            <li>Complete the rotation-layer diagram and five formulas with symbolic variables. If captured values are used, label them <strong>practice data - not current BIOBUZZ measurement</strong> and name their source state.</li>
+            <li>Use a powered-off robot or inert outline to practice wheel-mark, diameter, track-width, arena-marking, and reset procedures; mark every unperformed powered observation pending.</li>
+            <li>Keep the encoder copy disabled. Trace qualified normal-mode lookup, <code>getMode()</code>, one saved mode per motor, target-before-<code>RUN_TO_POSITION</code>, active, timeout, busy, telemetry, <code>finally</code>, explicit zero, exit reason, exact saved-mode restoration, and restored readback without claiming a physical pass.</li>
+            <li>If the Meeting 2 Blocks competition fallback is active, build equivalent measured forward/backward/turn actions only when that path exposes the required encoder target, guard, zero, saved pre-action mode, and exact mode-restoration behavior. Use the same M10 inputs and segment gates. If it cannot, retain the timed fallback and mark encoder work blocked rather than pretending language parity.</li>
+            <li>Record each missing document, measurement, repair, API capability, test, owner, and date needed before Meeting 11 may consume the action.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> exact drivetrain identity; Meeting 2 expected-mode and Meeting 9 mode-recheck/handoff row IDs; qualified-code source, immediate readback, saved mode, and restored evidence for every drive motor; rotation-layer diagram; product documents; three visible-revolution rows; diameter and track-width measurements; sign checks; five formulas with units and input IDs; reviewed code diff; selected criteria; separate segment rows; combined-sequence decision; and exact timed fallback identity.</p>
+        <h3>Each student explains</h3>
+        <p>Point from one raw encoder count through motor, gearbox, external transmission, wheel revolution, circumference, and surface travel. Calculate each of the five formulas with units. Then trace one action through the normal-mode source, <code>getMode()</code>, saved enum, current position, signed target, <code>RUN_TO_POSITION</code>, active/busy/timeout guards, telemetry, <code>finally</code>, explicit zero, exit reason, exact restoration, and restored readback. Name which inputs are F, M, and D and why none can be silently borrowed from a sample robot.</p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 11</h2>
+        <p>Meeting 11 may compose only actions supported by completed M10 evidence. A build, formula worksheet, or one good run does not unlock route composition. The exact Meeting 9 timed action remains the fallback.</p>
+        <div class="handoff">
+          <table class="record-table">
+            <caption>Questions Meeting 11 needs answered</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is the proof or who owns the blocker?</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">What exact robot, configuration, code, wheel, gearing, surface, and sign convention do these actions describe?</td><td data-label="Answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">What values, units, formulas, source IDs, and M10 trial IDs produced counts per distance and point-turn path?</td><td data-label="Answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">Did 36 inches forward, 12 inches backward, and 90 degrees left each pass separately, and what error/time/repeatability did each show?</td><td data-label="Answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">For every drive motor, which Meeting 2 expected-mode row, Meeting 9 recheck/handoff row, and qualified-code line agreed with the immediate <code>getMode()</code> recheck before saving, and what restored-mode evidence passed?</td><td data-label="Answer">M2/M9 row IDs: ______<br>Code/readback: ______<br>Saved/restored: ______</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">What active, timeout/escape, busy/target, explicit-zero, Stop, exit-reason, and <code>finally</code> evidence passed?</td><td data-label="Answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">Is the combined guided sequence approved, blocked, or retained as fallback, and what exact acceptance criteria control that decision?</td><td data-label="Answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">Where is Meeting 9's recoverable timed fallback?</td><td data-label="Answer">Commit/version, OpMode, configuration, setup, rows: ______</td><td data-label="Proof or owner">________________</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 9's exact one-action fallback and Meeting 2's drivetrain map. Resolve any hardware identity, configured-type, direction, encoder, or TeleOp safety blocker before M10 motion.</li>
+          <li>Obtain current exact-product documents for installed motors/encoders, gearboxes, and external transmission parts. Do not infer a ratio from brand, appearance, or a StarterBot guide for a substituted part.</li>
+          <li>Prepare wheel markers, calipers or appropriate distance tools, track-width references, stable supports, arena marks, measurement sheets, and a disabled <code>TeamCode</code> copy of the pinned sample.</li>
+          <li>Require students to choose and approve tolerances, tested outputs, timeouts/escapes, repeat count, and reset method before target results are visible. Supply no universal drivetrain value.</li>
+          <li>Review the multi-motor busy policy, Meeting 2 expected-mode rows, Meeting 9 mode-recheck/handoff rows, and current qualified-code mode source. Confirm that every mapped drive motor has a four-way matching immediate <code>getMode()</code> recheck, its own saved enum, target telemetry, explicit zero, exact restoration in <code>finally</code>, and restored-mode evidence on every action exit.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Enablement gate:</strong> exact identity and documents; complete Meeting 2 expected-mode and Meeting 9 mode-recheck/handoff rows; qualified-code mode source plus matching immediate zero-output readback for every drive motor; no unexpected <code>RUN_TO_POSITION</code>; one visible wheel revolution; reconciled counts and assembled ratio; loaded diameter/circumference; track width; signs; units; formula review; measured constants; team criteria; build; diff; arena; test card; roles; every escape; explicit zero; and exact saved-mode restoration must pass before removing <code>@Disabled</code>.</aside>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f02">Source M10-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m10-f03">Source M10-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/control_hard_compon/rc_components/encoders/encoders.html#how-do-encoders-work">How Encoders Work</a> and <a href="https://ftc-docs.firstinspires.org/en/latest/tech_tips/tech-tips/tech-tip-motor-modes/tech-tip-motor-modes.html#motor-modes">Motor Modes</a>.</li>
+        <li><span class="resource-label start-from">Start from</span> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java"><code>RobotAutoDriveByEncoder_Linear</code></a>. Its structure is a starting point; its TETRIX hardware assumptions and motion constants are not BIOBUZZ values.</li>
+        <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a> definitions for position methods and run modes.</li>
+        <li><span class="resource-label follow">Follow</span> Current exact-product manufacturer documents for each installed motor/encoder, gearbox, wheel, and external transmission component.</li>
+        <li><span class="resource-label optional">Formula explanation</span> Game Manual 0 <a href="https://gm0.org/en/latest/docs/software/tutorials/encoders.html">Encoders</a> and <a href="https://gm0.org/en/latest/docs/software/concepts/odometry.html#odometry-math">Odometry Math</a>; reconcile these explanations with exact hardware documents, SDK APIs, and installed measurements.</li>
+        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0009-autonomous-is-a-sequence.html">Previous: Meeting 9</a> | <a href="index.html">Course index</a> | <a href="0011-compose-and-tune-autonomous.html">Next: Meeting 11</a></p>
+  </footer>
+</body>
+</html>

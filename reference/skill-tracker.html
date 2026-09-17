@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="One-page BIOBUZZ student skill tracker with three active skills.">
+  <title>Student Skill Tracker | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <style>
+    .sheet { background: var(--paper-raised); border: 2px solid var(--ink); padding: 1rem; }
+    .tracker { box-shadow: none; table-layout: fixed; }
+    .tracker th:first-child { width: 18%; }
+    .tracker td { height: 5.5rem; }
+    .levels { display: grid; font-size: 0.78rem; gap: 0.15rem 0.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .box { border: 1.5px solid currentColor; display: inline-block; height: 0.72rem; margin-right: 0.2rem; vertical-align: -0.06rem; width: 0.72rem; }
+    .replacement { border: 1px solid var(--line); margin-top: 1rem; padding: 0.75rem; }
+    .replacement-grid { display: grid; gap: 0.5rem 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .write-line { border-bottom: 1px solid var(--ink); display: block; min-height: 1.5rem; }
+    @media (max-width: 720px) {
+      .tracker { table-layout: auto; }
+      .tracker th, .tracker td { min-width: 12rem; }
+      .table-scroll { overflow-x: auto; }
+      .replacement-grid { grid-template-columns: 1fr; }
+    }
+    @media print {
+      @page { margin: 0.35in; size: letter landscape; }
+      :root { font-size: 8.5pt; }
+      .site-header p { margin: 0; }
+      .site-header h1 { font-size: 22pt; }
+      .sheet { padding: 0.1in; }
+      .tracker th, .tracker td { padding: 0.06in; }
+      .tracker td { height: 0.62in; }
+      .levels { font-size: 7.3pt; gap: 0.02in 0.08in; }
+      .replacement { margin-top: 0.08in; padding: 0.06in; }
+      .write-line { min-height: 0.18in; }
+      .site-footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Demonstrated independence, not a written grade</p>
+    <h1>Student skill tracker</h1>
+  </header>
+
+  <nav class="site-nav no-print" aria-label="Reference navigation">
+    <a href="../lessons/index.html">Return to course index</a>
+  </nav>
+
+  <main>
+    <section class="sheet" aria-labelledby="tracker-title">
+      <h2 id="tracker-title">Three active skills</h2>
+      <p>Mark the highest level demonstrated without taking over. Reassess through actual robot work. Keep only three skills active at a time.</p>
+      <dl class="words-list">
+        <dt>Observed</dt><dd>The student watched the complete skill, pointed to the important controls or result, and can say what the person doing it was checking.</dd>
+        <dt>Supported</dt><dd>The student performed the skill while another person gave step-by-step prompts or corrected an action.</dd>
+        <dt>Independent</dt><dd>The student performed the skill safely, checked the visible result, and explained it with only a reminder of the goal.</dd>
+        <dt>Can Coach</dt><dd>The student guided another person with questions, noticed safety and result checks, and let that person keep control of the work.</dd>
+      </dl>
+      <p class="example-answer">For <strong>Deploy an OpMode safely</strong>, Maya selected the named Control Hub, installed the app, checked INIT telemetry, and used Stop without step-by-step help. Mark <strong>Independent</strong>. Do not mark <strong>Can Coach</strong> until she guides another student without taking over.</p>
+      <div class="table-scroll">
+        <table class="tracker">
+          <caption>Progression: Observed, Supported, Independent, Can Coach</caption>
+          <thead>
+            <tr>
+              <th scope="col">Student</th>
+              <th scope="col">Deploy an OpMode safely</th>
+              <th scope="col">Trace gamepad input to robot output</th>
+              <th scope="col">Diagnose with telemetry</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">1. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
+            <tr><th scope="row">2. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
+            <tr><th scope="row">3. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
+            <tr><th scope="row">4. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
+            <tr><th scope="row">5. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
+            <tr><th scope="row">6. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="replacement">
+        <strong>Next cycle: replace completed skills; do not add a fourth active column.</strong> Write an observable action, such as <q>Measure encoder counts for one marked roll and explain the conversion.</q>
+        <div class="replacement-grid">
+          <label>What observable skill will replace column 1?<span class="write-line"></span></label>
+          <label>What observable skill will replace column 2?<span class="write-line"></span></label>
+          <label>What observable skill will replace column 3?<span class="write-line"></span></label>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer no-print">
+    <p>Observed: saw it. Supported: step-by-step help. Independent: completed and explained with light prompting. Can Coach: helped without taking over.</p>
+  </footer>
+</body>
+</html>

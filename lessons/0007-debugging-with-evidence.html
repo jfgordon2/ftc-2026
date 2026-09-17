@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 7 lesson for integrating drivetrain and mechanism TeleOp code, testing coexistence, and debugging from evidence.">
+  <title>Meeting 7: Integrate and Debug TeleOp | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 4, Meeting 7 / FTC SDK v12.0</p>
+    <h1>Integrate and Debug TeleOp</h1>
+    <p class="lede">Combine the tested drivetrain and enabled mechanism controls, prove that they coexist, and use evidence to isolate one cause before changing one thing.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Integration exposes interactions</li>
+      <li><strong>Team work</strong><br>Produce one tested integrated candidate</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0006-mechanisms-and-safety-rules.html">Previous: Meeting 6</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#integrate">Integrate</a>
+    <a href="#debug">Debug from evidence</a>
+    <a href="#test">Coexistence test</a>
+    <a href="#handoff">Meeting 8 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0008-reliable-teleop-checkpoint.html">Next: Meeting 8</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the robot do</h2>
+        <div class="outcome-banner">The integrated TeleOp candidate will preserve the tested drivetrain and every enabled Meeting 6 mechanism action while controls are used alone and together. The team will test neutral, drivetrain, mechanism, simultaneous input, release, reverse or recovery, and Stop, then close any fault only from an evidence trail and the repeated original test.</div>
+        <p>Integration does not authorize a new action, value, hardware name, vendor assumption, or wider physical range. Begin with the recoverable drivetrain candidate and the separate mechanism candidate. Keep every pending, failed, unmatched, optional, or unavailable feature disabled.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Integration</dt><dd>Combining separately tested code paths into one candidate and checking whether they still behave correctly together.</dd>
+          <dt>Coexistence</dt><dd>Drivetrain and mechanism controls operate alone and simultaneously without stealing inputs, hiding decisions, retaining stale commands, or defeating safe release and Stop.</dd>
+          <dt>Symptom</dt><dd>The exact observed mismatch between the written expectation and the actual message, telemetry, command, sound, or movement.</dd>
+          <dt>Layer</dt><dd>One place where a cause may live: Build, Configuration, Wiring, Input, Code, or Mechanical.</dd>
+          <dt>Hypothesis</dt><dd>One possible cause that predicts what evidence should appear and what result would reject it.</dd>
+          <dt>Instrumentation</dt><dd>Bounded evidence added to reveal what happened without changing the intended control decision, such as input, decision or state, and commanded-output telemetry.</dd>
+          <dt>Cause</dt><dd>The explanation supported by the collected evidence and the result of repeating the original test after one change.</dd>
+          <dt>Integrated candidate</dt><dd>The exact reviewed code version that contains both accepted paths and is ready for the next recorded test. It is not yet a qualified baseline.</dd>
+        </dl>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a></p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you integrate or test</h2>
+        <ul class="checklist">
+          <li>Work only in the game arena. Start with a <strong>Supported test</strong>: secure the robot on stable support with every wheel clear of the support, floor, people, wires, and loose objects.</li>
+          <li>Name the Driver Station operator, mechanism operator when separate, observer, recorder, and independent Stop owner. The Stop owner has immediate access and does not wait for permission.</li>
+          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before inspection, code deployment, configuration work, physical contact, or reset.</li>
+          <li>Preserve the Meeting 5 drivetrain limit and the Meeting 6 enabled-feature scope, safe releases, measured holds, conflict rules, and tested load stage. Do not invent or widen a value during integration.</li>
+          <li>Write the exact case, expected telemetry and behavior, abort signs, and safe outputs before power. Run one bounded case at a time.</li>
+          <li>Use only a mentor-prepared, known-safe simulated fault in a disposable copy. Never unplug live wiring, partly seat a connector, loosen a structure, bypass an interlock, reverse polarity, create a bind or stall, or manufacture unsafe motion.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, lost control, missing zero or safe hold, collision, binding, stall, looseness, heat, odor, unusual sound, implausible telemetry, communication loss, or field entry means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before contact. Preserve the symptom; do not try another input.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Audit both handoffs.</strong> Confirm identities, enabled scope, separate known-good copies, roles, test boundaries, and blockers.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Rehearse the evidence loop.</strong> Follow the official ladder and practice observe, hypothesize, instrument, test, and conclude without editing first.</div></li>
+          <li><time>0:35-1:05<br>30 min</time><div><strong>Integrate in pairs.</strong> Trace calls, merge one reviewed path at a time, preserve lifecycle and safe outputs, build, and inspect the diff.</div></li>
+          <li><time>1:05-1:30<br>25 min</time><div><strong>Run telemetry-only coexistence cases.</strong> Predict and trace neutral, separate, simultaneous, release, recovery, and simulated Stop inputs.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, switch off the Hub, disconnect the battery, and preserve the candidate and records.</div></li>
+          <li><time>1:40-2:15<br>35 min</time><div><strong>Run the Supported integration test.</strong> Test the reviewed candidate on the secured robot and record every coexistence result.</div></li>
+          <li><time>2:15-2:40<br>25 min</time><div><strong>Diagnose one safe fault.</strong> Capture the symptom, instrument one hypothesis, make one justified change, and repeat the original test.</div></li>
+          <li><time>2:40-3:00<br>20 min</time><div><strong>Reconcile and hand off.</strong> Record M07 evidence, open faults, integrated scope, individual explanations, and the exact Meeting 8 candidate.</div></li>
+        </ol>
+      </section>
+
+      <section id="integrate" aria-labelledby="integrate-title">
+        <h2 id="integrate-title">Integrate without erasing what already passed</h2>
+        <ol>
+          <li><strong>Lock both inputs:</strong> record the exact drivetrain and mechanism versions, active configuration, matching vendor path and lifecycle, tested actions, safe outputs, test IDs, and open blockers. <strong>Success:</strong> each executable behavior points to upstream evidence; incomplete behavior is disabled.</li>
+          <li><strong>Map shared resources:</strong> compare gamepad fields, hardware fields, helper names, constants, lifecycle methods, telemetry captions, and output writes. Mark collisions before copying code. <strong>Success:</strong> the map says which path owns each input, decision, state, and output.</li>
+          <li><strong>Preserve one matching lifecycle:</strong> add the team-owned drive and mechanism calls to the installed robot's existing REV linear or goBILDA iterative path. Do not combine lifecycles or copy the unmatched vendor branch. <strong>Success:</strong> initialization, active loop, no-request behavior, and explicit shutdown remain traceable.</li>
+          <li><strong>Merge one path at a time:</strong> start from a recoverable copy, add the reviewed mechanism call path to the tested drivetrain candidate, build, and inspect the complete diff before adding anything else. <strong>Success:</strong> the diff contains only the intended integration and diagnostic telemetry.</li>
+          <li><strong>Command every output once per loop:</strong> calculate drivetrain and mechanism commands from fresh inputs and decisions, then make final writes. No inactive branch inherits a prior moving output. <strong>Success:</strong> neutral, release, blocked conflict, and recovery select explicit zero or a verified safe hold.</li>
+          <li><strong>Trace the interaction:</strong> add concise input, decision or state, and commanded-output telemetry for both paths. Use distinct captions and include any interlock or conflict result. <strong>Success:</strong> a reader can distinguish operator request, code choice, and command without guessing from motion.</li>
+        </ol>
+        <pre><code>// Shape only: use the team's approved names and already-tested values.
+double driveInput = gamepad1.left_stick_y;
+boolean mechanismInput = gamepad2.right_bumper;
+
+DriveDecision driveDecision = decideDrive(driveInput, turnInput);
+MechanismState mechanismState = decideMechanism(
+        mechanismInput, recoveryInput, interlockClear);
+
+double leftCommand = driveDecision.leftCommand;
+double rightCommand = driveDecision.rightCommand;
+double mechanismCommand = mechanismState.command; // zero or verified safe hold by default
+
+telemetry.addData("Drive input", driveInput);
+telemetry.addData("Drive decision", driveDecision.name);
+telemetry.addData("Drive commands", "%.2f / %.2f", leftCommand, rightCommand);
+telemetry.addData("Mechanism input", mechanismInput);
+telemetry.addData("Mechanism state", mechanismState.name);
+telemetry.addData("Mechanism command", mechanismCommand);
+telemetry.update();
+
+// Write each final command through the exact mapped output once.</code></pre>
+        <p class="why-it-matters"><strong>Why this matters:</strong> separate code can pass alone but fail after sharing inputs, names, state, loop time, or defaults. A visible ownership map and fresh final commands expose those interactions without weakening the earlier safety contract.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="debug" aria-labelledby="debug-title">
+        <h2 id="debug-title">Debug from evidence before edits</h2>
+        <p>Start with the shared <a href="../reference/sdk-and-troubleshooting.html#ladder">troubleshooting ladder</a>: Build, install, OpMode visibility, first team-code file and line, input/decision/output telemetry, then logs. FTC Docs documents common user-code and configuration failures and how to view Robot Controller logs. Preserve the first useful message and nearby context before restarting.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a></p>
+
+        <h3>Use the same five-part loop for every fault</h3>
+        <ol>
+          <li><strong>Observe:</strong> run the written bounded case once. Record exact setup, configuration, code version, controls, expectation, symptom, and first relevant message or values before changing anything. <strong>Success:</strong> the symptom states what happened, not a guessed cause.</li>
+          <li><strong>Hypothesize:</strong> choose one layer: Build, Configuration, Wiring, Input, Code, or Mechanical. Write one possible cause, its predicted evidence, and a result that would reject it. <strong>Success:</strong> the hypothesis can be wrong.</li>
+          <li><strong>Instrument:</strong> collect only evidence that separates that hypothesis from alternatives. For behavior faults, show the relevant input, decision or state, and commanded output; also record observed output or motion separately. For messages, preserve the exact text, first team-code file and line, and relevant log context. <strong>Success:</strong> instrumentation does not alter the intended command or physical scope.</li>
+          <li><strong>Test:</strong> run the smallest safe check at the established boundary. Compare actual evidence with the prediction. If supported, make exactly one cause-related change while stopped, switched off, and disconnected, then build and inspect the diff. <strong>Success:</strong> the record names that one change; rejected hypotheses remain evidence, not failures to hide.</li>
+          <li><strong>Conclude:</strong> repeat the original test with the same setup and boundary. Name a cause only when the before evidence, one change, and actual retest support it. Otherwise leave the fault open and write a new hypothesis before another check. <strong>Success:</strong> another pair can reproduce the complete trail.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+
+        <h3>Read the telemetry boundary</h3>
+        <table class="record-table">
+          <caption>What one trace can separate</caption>
+          <thead><tr><th scope="col">Evidence</th><th scope="col">Question it answers</th><th scope="col">Do not conclude yet</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Evidence">Input telemetry</td><td data-label="Question">Did the intended gamepad field and assignment produce the recorded value?</td><td data-label="Limit">A correct input does not prove the decision or output is correct.</td></tr>
+            <tr><td data-label="Evidence">Decision or state telemetry</td><td data-label="Question">Which branch, conflict rule, interlock, edge, or retained state did code select?</td><td data-label="Limit">A correct decision does not prove the hardware command or motion.</td></tr>
+            <tr><td data-label="Evidence">Commanded-output telemetry</td><td data-label="Question">What final value did code intend to send after limits and defaults?</td><td data-label="Limit">A displayed command does not prove wiring, physical output, direction, load, or movement.</td></tr>
+            <tr><td data-label="Evidence">Observed output or motion</td><td data-label="Question">What did the exact mapped hardware do under this setup?</td><td data-label="Limit">Motion alone does not identify whether the cause is wiring, configuration, code, or mechanism.</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a></p>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Integrate with your partner</h2>
+        <p><strong>Three pairs:</strong> begin at Interface Audit, Telemetry Trace, and Test/Fault Record; rotate every 20 minutes, then reconcile one candidate. <strong>Two pairs:</strong> begin at Interface Audit and Telemetry Trace, swap after 20 minutes, then jointly complete Test/Fault Record. Pair copies keep all hardware writes disabled until the shared diff passes review.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Interface audit</h3>
+            <ol>
+              <li>Record both candidate identities and list each enabled action and exact output.</li>
+              <li>Compare lifecycle, initialization, loop call sites, fields, methods, constants, inputs, and output writes.</li>
+              <li>Mark duplicate names, gamepad conflicts, stale state, missing defaults, and unmatched vendor assumptions.</li>
+              <li>Draft the smallest integration diff and identify its rollback copy.</li>
+            </ol>
+            <p class="success-check">Success looks like: every shared resource has one owner and every output retains its tested release and Stop path.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Telemetry trace</h3>
+            <ol>
+              <li>Choose one drive input and one mechanism input that can be requested together.</li>
+              <li>Predict each input value, decision or state, final command, and safe result on release.</li>
+              <li>Run fixed neutral, drive-only, mechanism-only, simultaneous, release, recovery, and simulated Stop cases without hardware writes.</li>
+              <li>Record mismatches as symptoms. Do not edit while gathering the first trace.</li>
+            </ol>
+            <p class="success-check">Success looks like: actual telemetry matches each written trace or supplies an exact fault symptom.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Test and fault record</h3>
+            <ol>
+              <li>Write the Supported test setup, case order, expected behavior, safe output, abort signs, roles, and evidence.</li>
+              <li>Prepare one known-safe simulated software or configuration fault in a disposable copy, with outputs disabled or physically bounded as its mentor key requires.</li>
+              <li>Complete symptom, layer, hypothesis, prediction, input, decision/state, command, observed result, and rejection fields before editing.</li>
+              <li>Plan one correction, the identical retest, restoration, and handoff if the fault remains open.</li>
+            </ol>
+            <p class="success-check">Success looks like: another pair can run the test without selecting a value, widening scope, or guessing what evidence to keep.</p>
+          </article>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test the integrated controls together</h2>
+        <ol>
+          <li><strong>Review the candidate:</strong> build, inspect the complete diff, and compare it with both handoffs. Confirm the exact configuration, matching lifecycle, approved controls, limits, enabled actions, safe releases, recovery, output ownership, and telemetry. <strong>Success:</strong> no unrelated, pending, or unmatched behavior is executable.</li>
+          <li><strong>Prepare the Supported test:</strong> with Hub off and battery disconnected, secure the robot in the game arena, clear every wheel and mechanism, remove load unless its prior test requires it, mark the exclusion area, and assign control and Stop ownership. <strong>Success:</strong> a second student signs setup, abort signs, and immediate Stop access.</li>
+          <li><strong>Power and prove neutral:</strong> connect the accepted battery while the Hub is off, switch on, confirm status and connection, assign gamepads, select the exact OpMode, call <q>robot live</q>, receive <q>clear</q>, then INIT and Start with all inputs released. <strong>Success:</strong> input, decision/state, and output telemetry show neutral defaults; every output is zero or its verified safe hold.</li>
+          <li><strong>Run each path alone:</strong> run one bounded drivetrain case and release, then one enabled mechanism case and release. Return to neutral between them. <strong>Success:</strong> each path matches its upstream evidence and the inactive path remains at its safe output.</li>
+          <li><strong>Run simultaneous input:</strong> apply the written drivetrain and mechanism requests together, including any approved cross-system conflict or interlock case. Do not add load or travel. <strong>Success:</strong> both input traces, decisions/states, commands, and observed behaviors match predictions without a hidden conflict.</li>
+          <li><strong>Prove release and reverse or recovery:</strong> release one request while holding the other, then release both. Run only the approved reverse or recovery case and return to neutral. <strong>Success:</strong> no stale drive or mechanism command survives release, and recovery does not bypass its limits or conflict rule.</li>
+          <li><strong>Prove Stop:</strong> during the written bounded simultaneous case, the independent Stop owner presses Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery. <strong>Success:</strong> actual drivetrain and mechanism Stop behavior matches the upstream verified safe outputs; record observation rather than inferring it from code.</li>
+          <li><strong>Handle every mismatch:</strong> preserve the failed row and enter the evidence loop. Make no edit until symptom, layer, hypothesis, prediction, and needed instrumentation are written. After one justified change, repeat the exact failed case plus neutral, release, and Stop cases affected by that change. <strong>Success:</strong> the record closes from evidence or stays honestly open.</li>
+          <li><strong>Decide integrated scope:</strong> name the exact candidate, configuration, enabled actions, passed cases, open faults, and highest physical scope. Any unresolved safety fault blocks Meeting 8 powered qualification. <strong>Success:</strong> code, test record, and handoff describe the same scope.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record M07 delivery evidence</h2>
+        <p class="record-prompt"><strong>M07-M01 status before delivery: pending delivery evidence.</strong> Complete one record for every actual fault. A blank, prediction, or telemetry-only trace is not a physical pass.</p>
+        <table class="record-table">
+          <caption>M07-M01 evidence-first fault record</caption>
+          <thead><tr><th scope="col">Required field</th><th scope="col">Exact record</th></tr></thead>
+          <tbody>
+            <tr><th scope="row" data-label="Field">Trial identity and setup</th><td data-label="Record">Fault/trial ID: __________<br>Code version and diff: __________<br>Robot/revision: __________<br>Active configuration and OpMode: __________<br>Supported-test fixture/load: __________<br>Units/method: __________<br>Date/student/checker: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Observe</th><td data-label="Record">Starting state and exact reproduction: __________<br>Expected result: __________<br>Exact symptom/message/file/line: __________<br>Abort signs and safe boundary: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Hypothesize</th><td data-label="Record">Layer: Build / Configuration / Wiring / Input / Code / Mechanical<br>One hypothesis: __________<br>Predicted evidence: __________<br>Result that would reject it: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Instrument</th><td data-label="Record">Input telemetry and units: __________<br>Decision or state telemetry: __________<br>Commanded-output telemetry and units: __________<br>Observed output/motion/log evidence: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Test and one change</th><td data-label="Record">Smallest safe check and actual result: __________<br>Hypothesis supported / rejected / still open because: __________<br>Exactly one change, or no change: __________<br>Reviewed diff/configuration/physical record: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Conclude and retest</th><td data-label="Record">Confirmed cause, or still open: __________<br>Same original setup and steps used: Yes / No<br>Actual repeated result: __________<br>Affected neutral/release/recovery/Stop results: __________<br>Closed / Open; owner and next check: __________</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+
+        <table class="record-table">
+          <caption>Integrated coexistence result</caption>
+          <thead><tr><th scope="col">Case</th><th scope="col">Input, decision/state, and command evidence</th><th scope="col">Observed result and disposition</th></tr></thead>
+          <tbody>
+            <tr><th scope="row" data-label="Case">Neutral after INIT and Start</th><td data-label="Trace">________________</td><td data-label="Result">Pass / Fail / Blocked: __________</td></tr>
+            <tr><th scope="row" data-label="Case">Drivetrain alone; mechanism safe</th><td data-label="Trace">________________</td><td data-label="Result">Pass / Fail / Blocked: __________</td></tr>
+            <tr><th scope="row" data-label="Case">Mechanism alone; drivetrain zero</th><td data-label="Trace">________________</td><td data-label="Result">Pass / Fail / Blocked: __________</td></tr>
+            <tr><th scope="row" data-label="Case">Simultaneous drive and mechanism</th><td data-label="Trace">________________</td><td data-label="Result">Pass / Fail / Blocked: __________</td></tr>
+            <tr><th scope="row" data-label="Case">Release one, release both</th><td data-label="Trace">________________</td><td data-label="Result">Pass / Fail / Blocked: __________</td></tr>
+            <tr><th scope="row" data-label="Case">Approved reverse or recovery</th><td data-label="Trace">________________</td><td data-label="Result">Pass / Fail / Blocked: __________</td></tr>
+            <tr><th scope="row" data-label="Case">Stop during bounded simultaneous work</th><td data-label="Trace">________________</td><td data-label="Result">Pass / Fail / Blocked: __________</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot, one candidate, or logs are unavailable</h2>
+        <div class="fallback-box">
+          <p>Do not report an integrated physical pass, physical direction, coexistence, release, recovery, or Stop result that was not observed.</p>
+          <ol>
+            <li>Record the missing robot, candidate identity, configuration, log access, upstream evidence, or test setup. Assign an owner and next check date.</li>
+            <li>Use recoverable copies of the latest verified drivetrain and mechanism candidates. Disable every hardware write and every feature whose upstream evidence is missing.</li>
+            <li>Complete the interface audit, integrate the matching lifecycle, build, inspect the diff, and run fixed neutral, drive-only, mechanism-only, simultaneous, release, recovery, and simulated Stop traces.</li>
+            <li>For each trace, record input, decision or state, commanded output, and expected safe output. Label the result <strong>code-path evidence only - not robot tested</strong>.</li>
+            <li>If live logs are unavailable, use a saved exact Build message, Robot Controller log excerpt, configuration capture, or telemetry trace. Predict what the next artifact should show before revealing it.</li>
+            <li>Prepare the complete Supported test and fault records for later use, including physical prerequisites, exact cases, abort signs, owner, and date. Meeting 8 remains physically blocked.</li>
+          </ol>
+          <p class="success-check">Success looks like: the integrated code path and diagnosis reasoning are reviewable within their stated scope, while every unperformed physical conclusion remains visibly blocked.</p>
+        </div>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> both input candidate identities and handoffs, interface ownership map, pair traces, reviewed integration diff and build, integrated candidate identity, Supported test record, coexistence results, every closed or open M07 fault record, restored safe-fault copies, enabled/disabled scope, and Meeting 8 handoff.</p>
+        <h3>Each student explains</h3>
+        <p>Without partner help, trace one simultaneous case from both inputs through both decisions or states to each commanded output and observed behavior. Then receive one new symptom, choose one layer, state a rejectable hypothesis, name the next discriminating evidence, and explain why no edit comes first.</p>
+        <h3>Record each student's skill</h3>
+        <ul>
+          <li>Record integration tracing only when the student separates both inputs, decisions/states, commands, safe releases, and observed outputs.</li>
+          <li>Record diagnosis only when the student follows observe, hypothesize, instrument, test, and conclude; makes one evidence-supported change; and repeats the original test.</li>
+          <li>Record safe deployment only when the student follows the Supported test setup, roles, live/clear/stopped callouts, abort boundary, shutdown, and evidence handoff.</li>
+          <li>Record each student separately. A pair's code-path trace does not prove that student's physical-test independence.</li>
+        </ul>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 8</h2>
+        <p>Meeting 8 may qualify only the exact integrated candidate and scope proved here. A telemetry-only trace, closed simulated fault, or passing build does not prove physical TeleOp coexistence.</p>
+        <div class="handoff">
+          <p class="record-prompt">Answer from the reviewed diff, test records, and fault records. Write <strong>blocked</strong> with an owner and next check when evidence is absent.</p>
+          <table class="record-table">
+            <caption>Integrated TeleOp handoff</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">Exact answer or observed result</th><th scope="col">Evidence, blocker, or owner</th></tr></thead>
+            <tbody>
+              <tr><th scope="row" data-label="Question">Which drivetrain and mechanism candidates were consumed?</th><td data-label="Answer">Drive version: __________<br>Mechanism version: __________</td><td data-label="Evidence">Handoffs/test IDs: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which exact integrated candidate, matching lifecycle, OpMode, and active configuration should Meeting 8 use?</th><td data-label="Answer">________________</td><td data-label="Evidence">Build/diff/config check: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which required installed actions and outputs remain enabled or disabled?</th><td data-label="Answer">Enabled: __________<br>Disabled: __________</td><td data-label="Evidence">M05/M06/M07 records: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Did neutral, each path alone, simultaneous input, release, recovery, and Stop physically pass?</th><td data-label="Answer">Pass / Fail / Blocked by case: __________</td><td data-label="Evidence">M07 trials: __________</td></tr>
+              <tr><th scope="row" data-label="Question">What input, decision/state, command, and observed-output telemetry must remain for qualification?</th><td data-label="Answer">________________</td><td data-label="Evidence">Trace/captions: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which actual faults were closed by an identical retest?</th><td data-label="Answer">________________</td><td data-label="Evidence">Fault IDs: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which fault, safety issue, or physical check remains open?</th><td data-label="Answer">________________</td><td data-label="Evidence">Owner/next check/date: __________</td></tr>
+              <tr><th scope="row" data-label="Question">What is the exact rollback identity if qualification finds a regression?</th><td data-label="Answer">________________</td><td data-label="Evidence">Verified location: __________</td></tr>
+            </tbody>
+          </table>
+          <p><strong>An unresolved enabled safety fault blocks powered Meeting 8 qualification. Keep the integrated candidate recoverable, but do not call it qualified or known-good until Meeting 8's complete repeated gate passes.</strong></p>
+        </div>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 5's tested drivetrain candidate and Meeting 6's mechanism handoff. Prepare exact recoverable copies and one clean integration copy; do not repair missing upstream evidence during setup.</li>
+          <li>Confirm the exact installed robot, matching vendor path and lifecycle, active configuration, enabled actions, limits, holds, safe releases, conflict/recovery rules, and highest tested physical scope.</li>
+          <li>Prepare pair copies with all hardware writes disabled, a complete interface-audit prompt, telemetry cases, Supported test fixture, exclusion marking, accepted battery, cards, and immediate Stop access.</li>
+          <li>Seed only known-safe faults in disposable copies: a harmless compiler typo; an inactive exact-name mismatch that stops at INIT with outputs disabled; a wrong gamepad field with outputs disabled; a stale-command logic branch exercised telemetry-only; or a bounded wrong decision whose hardware writes remain disabled. Record the seed, expected evidence, restoration, and maximum test boundary in a mentor key.</li>
+          <li>Do not seed live wiring, loose or partial connectors, reversed polarity, weakened structure, removed restraints, blocked mechanisms, hard-stop contact, stalls, unsafe directions, widened values, or any fault requiring students to approach a live robot.</li>
+          <li>Rehearse Android Studio Build output, Driver Station log viewing, Robot Controller logs, and Logcat access. Prepare saved exact captures in case the live path is unavailable.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Edit gate:</strong> allow no source, configuration, wiring, or physical change until the pair records trial identity, exact symptom and reproduction, one layer, one rejectable hypothesis, predicted evidence, instrumentation, and safe test. Allow one cause-related change, then require the original test and every affected neutral/release/recovery/Stop case.</aside>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label start-from">Start from</span> Meeting 5's exact tested drivetrain candidate and Meeting 6's exact enabled mechanism candidate, evidence, and handoff. Integrate no unmatched or pending behavior.</li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/troubleshooting_common_issues/troubleshooting-common-issues.html#unable-to-find-a-hardware-device">Unable to Find a Hardware Device</a> for the matching configuration symptom only.</li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/using_log_files/using-log-files.html#viewing-the-first-tech-challenge-robot-controller-log-file">Viewing the Robot Controller Log File</a> and <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/using_log_files/using-log-files.html#using-android-studio-to-view-log-messages">Android Studio Log Messages</a>.</li>
+        <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/org/firstinspires/ftc/robotcore/external/Telemetry.html"><code>Telemetry</code> Javadoc</a> for API behavior. Telemetry displays code-path evidence; it does not prove physical output or motion.</li>
+        <li><span class="resource-label follow">Follow</span> Shared <a href="../reference/sdk-and-troubleshooting.html">SDK lookup and troubleshooting ladder</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/robot-test-card.html">robot test card</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>. Add the M07 telemetry and integration fields from this lesson until the shared forms are updated.</li>
+      </ul>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0006-mechanisms-and-safety-rules.html">Previous: Meeting 6</a> | <a href="index.html">Course index</a> | <a href="0008-reliable-teleop-checkpoint.html">Next: Meeting 8</a></p>
+  </footer>
+</body>
+</html>

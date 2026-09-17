@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 14 lesson on inspection, safe known-failure practice, evidence-first recovery, Self-Inspect, and a student-owned pit guide.">
+  <title>Meeting 14: Reliability and Failure Recovery | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 7, Meeting 14 / FTC SDK v12.0</p>
+    <h1>Reliability and Failure Recovery</h1>
+    <p class="lede">Inspect the robot, preserve what it tells you, practice only a safe known failure the team has already rehearsed, and write a pit guide another student can follow.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Recover from evidence, not guesses</li>
+      <li><strong>Team work</strong><br>Four pit lanes and a shared guide</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0013-sensors-and-collaboration.html">Previous: Meeting 13: Sensors and Small-Team Collaboration</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#follow">Follow along</a>
+    <a href="#practice">Pit practice</a>
+    <a href="#test">Recovery practice</a>
+    <a href="#record">Pit guide</a>
+    <a href="#handoff">Meeting 15 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0015-match-simulation-and-event-readiness.html">Next: Meeting 15: Match Simulation and Event Readiness</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the team able to do</h2>
+        <div class="outcome-banner">Every pair will inspect the robot through mechanical, electrical/control-system, code/log, and documentation pit lanes. The team will run Driver Station Self-Inspect, verify the current FIRST inspection source, and practice recovery only from an actual symptom or a safe known failure already rehearsed. The finished one-page guide will say what students saw, what evidence they checked first, what safe action fixed it, when to stop and ask for help, and how they proved the robot returned to known-good behavior.</div>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Inspection</dt><dd>A careful check against current rules, exact-part instructions, and the team's known-good condition before relying on the robot.</dd>
+          <dt>Pit</dt><dd>The event work area and team process used to inspect, diagnose, repair, document, and prepare the robot between runs.</dd>
+          <dt>Self-Inspect</dt><dd>The current Driver Station feature that checks and displays control-system readiness items. Its result must be recorded from today's device.</dd>
+          <dt>Failure rehearsal</dt><dd>Practice recognizing and recovering from an actual failure or a safe known failure the team has already rehearsed without damage.</dd>
+          <dt>Recovery</dt><dd>The evidence-based process of finding the affected layer, taking one safe action, and proving the original test works again.</dd>
+          <dt>Restore</dt><dd>Return the physical robot, configuration, code, and controls to the exact known-good state.</dd>
+          <dt>Escalation</dt><dd>Stop work and ask the mentor or event authority for help because the condition is unsafe, damaged, uncertain, or outside the team's rehearsed guide.</dd>
+        </dl>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the Driver Station operator and Stop owner, mechanical lead, electrical/control lead, code/log lead, documentation lead, and shared-clock owner.</li>
+          <li>Begin from the exact tested robot version, OpModes, active configuration, accepted battery, and Meeting 13 handoff. Record these before changing anything.</li>
+          <li>Press Stop, switch off the Hub, disconnect and isolate the battery, and release or support stored energy before touching wiring, fasteners, mechanisms, sensors, or the robot.</li>
+          <li>Use current FIRST resources for event procedure and inspection. Use current exact-part manufacturer instructions only for the installed component.</li>
+          <li>Practice only an actual observed symptom or a mentor-approved safe failure already rehearsed on this robot. Never invent a new failure during the meeting.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Never create damage to teach recovery.</strong> Never intentionally stall, restrain, jam, or drive a powered mechanism into a hard stop. Never loosen a robot fastener for a powered run, change or partially seat a live power/motor/sensor connector, short or reverse a battery, defeat battery retention, pull a live Hub cable, overheat a part, or use damaged insulation or a swollen battery. Press Stop for unexpected motion, binding, repeated reset, connector movement, communication loss, abnormal sound, heat, swelling, smoke, or odor. Verify stopped, switch off, disconnect/isolate, and escalate.</aside>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's 180-minute plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Pit kickoff.</strong> Audit the handoff, known-good identity, safety exclusions, approved practice cases, roles, and shared clock.</div></li>
+          <li><time>0:15-0:30<br>15 min</time><div><strong>Follow one evidence-first recovery.</strong> Capture symptom/time/version, isolate one layer, restore, and repeat the original test.</div></li>
+          <li><time>0:30-0:45<br>15 min</time><div><strong>Pit rotation 1.</strong> Pairs begin occupied mechanical, electrical/control, code/log, or documentation lanes.</div></li>
+          <li><time>0:45-1:00<br>15 min</time><div><strong>Pit rotation 2.</strong> Every pair advances one lane; unused lanes remain safely idle.</div></li>
+          <li><time>1:00-1:15<br>15 min</time><div><strong>Pit rotation 3.</strong> Advance, preserve evidence, and hand off before another lane acts.</div></li>
+          <li><time>1:15-1:30<br>15 min</time><div><strong>Pit rotation 4.</strong> Every pair completes and signs its fourth distinct lane.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Press Stop, switch off, disconnect/isolate, and preserve logs, configuration, and version.</div></li>
+          <li><time>1:40-2:00<br>20 min</time><div><strong>Run Self-Inspect and current source check.</strong> Record today's displayed results and live FIRST inspection resource.</div></li>
+          <li><time>2:00-2:25<br>25 min</time><div><strong>Practice safe known-failure recovery.</strong> Diagnose, restore the known-good state, and repeat the exact bounded test.</div></li>
+          <li><time>2:25-2:50<br>25 min</time><div><strong>Write the one-page pit guide.</strong> Include only actual observations and completed safe rehearsals.</div></li>
+          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Pairs respond to a rehearsed surprise symptom and record Meeting 15 blockers.</div></li>
+        </ol>
+        <p><strong>Total: 15 + 15 + 15 + 15 + 15 + 15 + 10 + 20 + 25 + 25 + 10 = 180 minutes.</strong></p>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Follow along: preserve the symptom before acting</h2>
+        <ol>
+          <li><strong>Read an actual symptom:</strong> copy exactly what a student saw or what the Driver Station displayed. Add clock time, robot version, OpMode, configuration, battery/cable/controller identity, and starting state. This prevents a vague memory from becoming the diagnosis. <strong>Success:</strong> another student can identify the same event.</li>
+          <li><strong>Preserve the first evidence:</strong> save the message, telemetry, timestamped log, witness-mark change, loose item, indicator state, or operator observation before restarting or editing. This keeps the strongest clue. <strong>Success:</strong> the evidence still exists if the symptom disappears.</li>
+          <li><strong>Choose one layer:</strong> classify the next check as mechanical, electrical/control, code/log, configuration, or operator procedure. This limits simultaneous guessing. <strong>Success:</strong> the team writes one testable reason for that check.</li>
+          <li><strong>Take one safe action:</strong> follow the exact part, FIRST, or team-rehearsed procedure and record what changed. This makes the outcome interpretable. <strong>Success:</strong> no second repair is hidden in the same step.</li>
+          <li><strong>Restore and repeat:</strong> return to the documented known-good identity and run the exact original bounded test. A restart or disappearing message alone is not proof. <strong>Success:</strong> the original symptom is absent and the known-good behavior passes with recorded evidence.</li>
+        </ol>
+
+        <h3>Use each source only for what it controls</h3>
+        <div class="vendor-paths">
+          <article class="vendor-path"><h3>REV control system and parts</h3><p>Use current REV troubleshooting only for the installed REV Control/Driver Hub setup and exact REV parts. Match the named component, indicator, connector, firmware/app context, and procedure. REV does not replace current FIRST event wireless, Self-Inspect, inspection, or rules authority.</p></article>
+          <article class="vendor-path"><h3>goBILDA mechanics</h3><p>Use the exact goBILDA build revision, assembly guide, CAD, and product documents only for installed goBILDA structure, transmission, fasteners, alignment, wear, wiring paths, and service points. They do not establish event legality or control-system procedure. Current FIRST resources control inspection and event decisions.</p></article>
+        </div>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Try all four pit lanes with your partner</h2>
+        <p>Label lanes 1-4 in a loop. <strong>Three pairs:</strong> start in three consecutive lanes and leave one empty; every 15 minutes all pairs and the empty place advance one lane. <strong>Two pairs:</strong> start opposite each other, leave two lanes empty, and advance one lane each block. Both team sizes complete all four lanes. The robot stays stopped unless the later integrated rehearsal authorizes power.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Mechanical inspection</h3>
+            <ol>
+              <li>Record posture and symptom, then Stop, switch off, disconnect, and release or support stored energy.</li>
+              <li>Use exact-part instructions and team witness-mark or torque process to inspect accessible structure, wheels, shafts, hubs, mechanisms, mounts, and battery restraint. Never guess torque or tighten everything.</li>
+              <li>Check play, alignment, rubbing, cracks, guards, hard-stop approach, mechanism envelope, cable travel, strain relief, and debris without forcing motion.</li>
+              <li>For an actual prior stall symptom, inspect obstruction, load, alignment, transmission, existing current/log/timeout evidence, and safe output. Never reproduce the stall.</li>
+            </ol>
+            <p class="success-check">Success looks like: each finding names its location, observed condition, safe action, whether the part must be labeled and kept out of use (quarantine), and required bounded retest.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Electrical and control system</h3>
+            <ol>
+              <li>With power off, inspect battery identity/acceptance, restraint, leads, fuse/switch path, housings, pins, latches, polarity/keying, strain relief, and abrasion.</li>
+              <li>Inspect Hub power/data paths, antenna placement, labeled ports, and USB-C deployment path. Pull housings, never wires, and connect only in the documented safe state.</li>
+              <li>Before motion, verify Robot Controller and Driver Station compatibility, connection, selected robot/configuration, gamepad assignment, and live input telemetry.</li>
+              <li>Compare exact configuration names/types/ports with the signed hardware record before changing code or configuration.</li>
+            </ol>
+            <p class="success-check">Success looks like: one exact item and smallest restore action are recorded; hot, swollen, damaged, or uncertain items are isolated and escalated.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Code and logs</h3>
+            <ol>
+              <li>Record commit/version, OpMode, configuration, app versions, symptom, time, starting state, and reproduction steps before editing or restarting.</li>
+              <li>Preserve the first build/deploy error or Driver Station message and the first relevant team-code file and line.</li>
+              <li>For wrong behavior, capture input, decision/state, and commanded output telemetry. Retrieve current logs when the displayed message is not enough.</li>
+              <li>Test one hypothesis. Rebuild or redeploy only if needed, then repeat the original bounded test on the same identified setup.</li>
+            </ol>
+            <p class="success-check">Success looks like: the record connects one symptom to one evidence-supported action and a pass, fail, or blocked repeat test.</p>
+          </article>
+          <article class="station-card">
+            <h3>4. Documentation and coordination</h3>
+            <ol>
+              <li>Maintain one timeline with reporter, robot/version/configuration, battery/cable/controller identity, time, power state, evidence location, and owner.</li>
+              <li>Connect symptom, hypothesis, evidence, cause, action, and repeated test in the shared fault log.</li>
+              <li>Rank actual issues by safety consequence, event effect, recurrence, detectability, and recovery time. Safety blockers stay blocked.</li>
+              <li>Draft a guide row only after completed recovery proof. Coordinate <q>robot live</q>, <q>clear</q>, and <q>stopped</q> callouts.</li>
+            </ol>
+            <p class="success-check">Success looks like: another pair can see the current owner and next safe action without hidden verbal context.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test it safely: Self-Inspect and known-failure recovery</h2>
+        <h3>Record current inspection evidence</h3>
+        <ol>
+          <li><strong>Run today's Self-Inspect:</strong> on the current Driver Station, follow the current FTC Docs procedure and copy each displayed result, date/time, device/app versions, and any action. <strong>Success:</strong> the record comes from today's device, not an old screenshot.</li>
+          <li><strong>Check the live FIRST source:</strong> open <a href="https://ftc-resources.firstinspires.org/ftc/team">FIRST Team Resources</a>, record the season and inspection resource title/URL it currently shows, and compare the robot against that source. <strong>Success:</strong> any conflict is assigned for resolution before event use.</li>
+          <li><strong>Use dated material only as comparison:</strong> compare the 2027 checklist after the live check. Current Team Resources, Competition Manual, and event officials control when they differ. <strong>Success:</strong> no archived checklist is presented as permanently current.</li>
+        </ol>
+        <p><strong>Self-Inspect date/time and displayed results:</strong> ____________________ <strong>Live FIRST season/title/URL:</strong> ____________________ <strong>Dated comparison or conflict owner:</strong> ____________________</p>
+
+        <h3>Practice a safe failure we have already rehearsed</h3>
+        <ol>
+          <li><strong>Authorize the exact case:</strong> use only an actual symptom or a completed mentor record naming the previous harmless rehearsal, zero-motion setup, expected symptom, evidence, restore action, and abort conditions. <strong>Success:</strong> invented, unsafe, or unproven cases are excluded.</li>
+          <li><strong>Set the safe baseline:</strong> press Stop; verify all outputs are zero or documented safe; say <q>stopped</q>; switch off; disconnect/isolate; and check physical boundaries. Apply the known condition only by its rehearsed procedure. <strong>Success:</strong> no live connector, loosened fastener, restrained mechanism, or unsafe battery condition is used.</li>
+          <li><strong>Observe without revealing the cause:</strong> if the procedure requires power, reconnect the accepted battery only with the Hub off; switch on; confirm Hub/Driver Station status; select the exact safe test; press INIT; verify identity and safe outputs; then expose only the rehearsed symptom. <strong>Success:</strong> students capture exact symptom, time, version/configuration, and first evidence.</li>
+          <li><strong>Stop and diagnose:</strong> press Stop, verify safe outputs and no motion, say <q>stopped</q>, switch off, disconnect/isolate before contact, select one evidence-based next check, and change one thing. Escalate heat, damage, swelling, smoke, odor, unsafe motion, a fuse or other safety device that trips again after being reset (repeated protection reset), or uncertain wiring. <strong>Success:</strong> one documented action addresses one supported cause.</li>
+          <li><strong>Restore known-good state:</strong> restore physical, configuration, code, battery, USB, gamepad, connectors/fasteners, and mechanism clearance relevant to the case. <strong>Success:</strong> another student verifies the restoration against the baseline record.</li>
+          <li><strong>Power the restored setup:</strong> connect the accepted battery while the Hub is off, switch on, and confirm Hub and Driver Station status. <strong>Success:</strong> the expected devices reconnect without a new symptom.</li>
+          <li><strong>Select and prepare the exact test:</strong> verify the restored version and configuration, select the original bounded test, press INIT, and verify safe outputs. <strong>Success:</strong> every identity matches the baseline before motion.</li>
+          <li><strong>Run the original bounded action:</strong> call <q>robot live</q>, receive <q>clear</q>, and perform only the original action. <strong>Success:</strong> the known-good behavior returns and the original symptom is absent.</li>
+          <li><strong>Stop the retest:</strong> press Stop and verify safe outputs and no motion. Say <q>stopped</q>. <strong>Success:</strong> the robot stops as the original card requires.</li>
+          <li><strong>Shut down:</strong> switch the Hub off and disconnect/isolate the battery before contact. <strong>Success:</strong> the setup is safe to approach.</li>
+          <li><strong>Preserve retest evidence:</strong> record the observed behavior, Stop proof, version/configuration, and test record ID. <strong>Success:</strong> the original test passes with recorded proof; a restart alone does not pass.</li>
+        </ol>
+
+        <p class="record-prompt">Use only actual evidence or an approved safe known-failure rehearsal. Write the exact record ID; leave unsafe or unrehearsed categories blocked.</p>
+        <table class="record-table">
+          <caption>Safe coverage record</caption>
+          <thead><tr><th scope="col">What category did we inspect or rehearse?</th><th scope="col">What safe evidence or known practice did we use?</th><th scope="col">What is prohibited?</th><th scope="col">What did we observe, and where is the record?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Category">Battery / power</td><td data-label="Safe evidence">Known-good/rejected inspection, captured warning, retention, identity, approved acceptance, robot-off replacement</td><td data-label="Prohibited">No short, reversed polarity, damaged/swollen pack, defeated restraint, or deliberate discharge</td><td data-label="Observation and record">________________</td></tr>
+            <tr><td data-label="Category">USB / deployment</td><td data-label="Safe evidence">Rehearsed zero-motion laptop-side disconnect or known non-data cable specimen; restore known-good data path</td><td data-label="Prohibited">No wire pulling, port damage, or live robot power/motor/sensor connector change</td><td data-label="Observation and record">________________</td></tr>
+            <tr><td data-label="Category">Gamepad assignment</td><td data-label="Safe evidence">Secured/immobile robot with outputs disabled or safe; use current assignment procedure and input telemetry</td><td data-label="Prohibited">No floor motion with uncertain controls or without immediate Stop ownership</td><td data-label="Observation and record">________________</td></tr>
+            <tr><td data-label="Category">Configuration</td><td data-label="Safe evidence">Disposable named practice configuration or disabled OpMode already proven harmless; restore active known-good identity</td><td data-label="Prohibited">No remap that can energize an unintended actuator or damage the only known-good configuration</td><td data-label="Observation and record">________________</td></tr>
+            <tr><td data-label="Category">Connectors / fasteners</td><td data-label="Safe evidence">Powered-off inspection, mock fixture, actual finding, or prior photo/log; restore by exact-part procedure</td><td data-label="Prohibited">No live connector change, loosened robot fastener for a run, guessed torque, or indiscriminate tightening</td><td data-label="Observation and record">________________</td></tr>
+            <tr><td data-label="Category">Mechanism stall</td><td data-label="Safe evidence">Actual prior symptom/log, powered-off obstruction/alignment inspection, safe no-load check, existing timeout/safe-output evidence</td><td data-label="Prohibited">Never restrain, jam, stall, or drive into a hard stop to create evidence</td><td data-label="Observation and record">________________</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="record" class="print-sheet" aria-labelledby="record-title">
+        <h2 id="record-title">Record what happened: one-page pit guide</h2>
+        <p class="record-prompt">Add a row only after students observed or safely rehearsed the symptom, checked the named evidence, completed the safe action, restored known-good state, and passed the original bounded test. Write these answers so another student can act without guessing.</p>
+        <table class="record-table">
+          <caption>BIOBUZZ event recovery guide - keep this section to one printed page</caption>
+          <thead><tr><th scope="col">What did students see?</th><th scope="col">What evidence should they check first?</th><th scope="col">What safe action fixed it?</th><th scope="col">When must they stop and ask for help?</th><th scope="col">How did they prove known-good behavior returned?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="What we saw">________________</td><td data-label="First evidence">________________</td><td data-label="Safe action">________________</td><td data-label="Stop and ask">________________</td><td data-label="Restore proof">Test/record ID: ______</td></tr>
+            <tr><td data-label="What we saw">________________</td><td data-label="First evidence">________________</td><td data-label="Safe action">________________</td><td data-label="Stop and ask">________________</td><td data-label="Restore proof">Test/record ID: ______</td></tr>
+            <tr><td data-label="What we saw">________________</td><td data-label="First evidence">________________</td><td data-label="Safe action">________________</td><td data-label="Stop and ask">________________</td><td data-label="Restore proof">Test/record ID: ______</td></tr>
+            <tr><td data-label="What we saw">________________</td><td data-label="First evidence">________________</td><td data-label="Safe action">________________</td><td data-label="Stop and ask">________________</td><td data-label="Restore proof">Test/record ID: ______</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Guide identity:</strong> robot/version/configuration ____________________; date ____________________; Self-Inspect record ____________________; live FIRST source/date ____________________; known-good bounded test ____________________. <strong>Universal escalation:</strong> Stop, switch off, disconnect/isolate, and call the mentor for heat, swelling, smoke, odor, damaged insulation/housing, uncertain polarity/wiring, repeated protection reset, unexpected motion, binding, or any action not rehearsed in this guide.</p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot, network, or live FIRST source is unavailable</h2>
+        <div class="fallback-box">
+          <ol>
+            <li>Record the unavailable item, time, owner, and exact rerun. Do not invent Self-Inspect results, current-source status, physical passes, or recovery proof.</li>
+            <li>Run all four lanes with the powered-off robot, safe mock connector/fastener fixture, labeled safe parts, prior fault records, screenshots, and captured logs.</li>
+            <li>Use only captured failures with known source and identity. Mark every result <strong>inspection or captured practice - not current powered proof</strong>.</li>
+            <li>If the live FIRST page is unavailable, label the dated 2027 checklist <strong>currency not verified</strong> and assign a delivery-time recheck.</li>
+            <li>Keep guide rows only for previously completed rehearsals. Leave new rows blank and hand off current physical inspection, Self-Inspect, recovery, and bounded-test work with owners and dates.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> Meeting 13 audit; known-good version/configuration; authorized safe-practice records and exclusions; all four pit-lane records; battery/USB/gamepad/configuration/connector/fastener/stall-safe coverage; symptom timelines; preserved messages/telemetry/logs; one-action recovery records; Self-Inspect results; live FIRST inspection source; dated comparison; one-page guide; unresolved risk ranking; and Meeting 15 handoff.</p>
+        <h3>Each student explains</h3>
+        <p>For one category actually inspected or rehearsed, state the exact symptom, immediate Stop/power safety, first evidence, affected layer, one safe next action, escalation boundary, restore steps, and repeated test required before release. Each student must also locate today's Self-Inspect and current FIRST source record. <q>Restart and see</q> is not enough.</p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 15</h2>
+        <p>Meeting 15 may run full match simulations only from an inspected, identified baseline. It needs the exact event candidate, current inspection evidence, student-owned recovery guide, proven backups, and every unresolved blocker.</p>
+        <div class="handoff">
+          <p class="record-prompt">Answer from the robot, repository, configuration, four lane records, Self-Inspect, live FIRST source, recovery rows, and one-page guide.</p>
+          <table class="record-table">
+            <caption>Questions Meeting 15 needs answered</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is the proof or who owns the blocker?</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">What exact code version, OpModes, configuration, and known-good bounded test identify the robot?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">Which mechanical and electrical/control inspections passed, and what remains blocked?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">What did today's Self-Inspect show?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">What current FIRST inspection source and date control event preparation?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">Which safe known failures were recovered, and which students independently proved each recovery?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">Where is the one-page guide, and what unresolved risk/owner/due date remains before simulation?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">Owner/date: ______</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 13's exact tested state, sensor disposition, actual symptoms, and unresolved safety blockers.</li>
+          <li>Select only actual high-value symptoms or safe conditions previously rehearsed as harmless on this robot. For each, document setup, expected symptom, zero-motion state, evidence, restore action, abort condition, and previous result.</li>
+          <li>Prepare accepted batteries, known-good data path, controllers, active configuration, exact code identity, exact-part instructions/tools, a labeled place that keeps suspect parts out of use (quarantine area), logs, and shared records.</li>
+          <li>Open current Driver Station Self-Inspect and the live FIRST Team Resources page before delivery. Treat archived inspection links as dated comparisons only.</li>
+          <li>Exclude shorting, reversed polarity, live connector disturbance, damaged insulation, defeated restraint, blocked powered mechanisms, deliberate stalls/overcurrent/heat, and radio or event-network interference.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Formal note:</strong> controlled creation of a known condition is sometimes called <em>fault injection</em>. Do not use that phrase as permission to improvise. In this lesson it means only mentor-controlled use of a documented, harmless condition already rehearsed on this exact setup; students follow the safe known-failure practice above.</aside>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> FIRST's <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/index.html">Robot Control System Troubleshooting Guide</a>, <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/troubleshooting_common_issues/troubleshooting-common-issues.html">Troubleshooting Common Issues</a>, and <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/using_log_files/using-log-files.html">Using Log Files</a>.</li>
+        <li><span class="resource-label follow">Follow</span> Current FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/self_inspect/new-self-inspect.html">Driver Station Self-Inspect</a>, then the live <a href="https://ftc-resources.firstinspires.org/ftc/team">FIRST Team Resources</a> page, current Competition Manual, and event officials. The dated <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/event/inspection-check">2027 Inspection Checklist</a> is comparison material, not permanent authority.</li>
+        <li><span class="resource-label follow">Follow</span> Current manufacturer documentation for every exact installed battery, connector, cable, Hub, controller, fastener, actuator, transmission, sensor, and mechanism.</li>
+        <li><span class="resource-label optional">Optional explanation</span> REV Robotics <a href="https://docs.revrobotics.com/duo-control/troubleshooting-the-control-system/troubleshooting-the-control-system.md">General Troubleshooting</a> and <a href="https://docs.revrobotics.com/duo-control/managing-the-control-system/downloading-log-file.md">Accessing Log Files</a> only for the matching installed REV setup. Menus and procedures require a delivery-time check.</li>
+        <li><span class="resource-label optional">Optional explanation</span> The <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">goBILDA 2026-2027 StarterBot Resource Guide</a> and its exact assembly guide/CAD or product pages only for installed goBILDA mechanics and that assembled revision.</li>
+        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/sdk-and-troubleshooting.html">SDK lookup/troubleshooting ladder</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/robot-test-card.html">robot test card</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0013-sensors-and-collaboration.html">Previous: Meeting 13: Sensors and Small-Team Collaboration</a> | <a href="index.html">Course index</a> | <a href="0015-match-simulation-and-event-readiness.html">Next: Meeting 15: Match Simulation and Event Readiness</a></p>
+  </footer>
+</body>
+</html>

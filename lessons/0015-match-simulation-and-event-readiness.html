@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 15 lesson for current-procedure match simulations, role practice, defect triage, and an exact rollback-ready event candidate.">
+  <title>Meeting 15: Match Simulation and Event Readiness | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 8, Meeting 15 / FTC SDK v12.0</p>
+    <h1>Match Simulation and Event Readiness</h1>
+    <p class="lede">Rehearse the current event flow, rotate every responsibility, recover from recorded evidence, and protect the exact robot version that repeatedly passes.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Freeze and rollback</li>
+      <li><strong>Team result</strong><br>Tested event candidate</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0014-reliability-and-failure-recovery.html">Previous: Meeting 14: Reliability and Failure Recovery</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#follow">Follow along</a>
+    <a href="#practice">Role practice</a>
+    <a href="#test">Match simulations</a>
+    <a href="#handoff">Meeting 16 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0016-capstone-demo-and-handoff.html">Next: Meeting 16: Capstone Demo and Handoff</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the team able to do</h2>
+        <div class="outcome-banner">Complete three consecutive uncoached, event-like autonomous-to-driver-controlled passes using timing and procedure checked from current FIRST sources on delivery day. Rotate event, build, code, and test responsibilities; safely recover every failure; then identify one exact deployed and tested commit as the event candidate and name a known-good rollback. Any failed qualifying attempt or intervention listed in the test section resets the count to zero; earlier attempts remain useful nonqualifying evidence.</div>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Match simulation</dt><dd>A complete practice run that follows the currently verified event phases, transitions, setup, Stop, and reset procedure.</dd>
+          <dt>Field reset</dt><dd>Returning the practice area and game pieces to the verified starting condition only after the robot is stopped and safe to approach.</dd>
+          <dt>Observer</dt><dd>A student who does not coach during the run and records what actually happened against the current cue card.</dd>
+          <dt>Pit</dt><dd>The event work area and process for inspection, diagnosis, repair, code recovery, and readiness between runs.</dd>
+          <dt>Triage</dt><dd>Sorting an issue by urgency and choosing the next safe action after the run.</dd>
+          <dt>Must-fix defect</dt><dd>A safety or event-blocking problem that must be corrected and fully retested before release.</dd>
+          <dt>Event candidate</dt><dd>The exact commit and robot configuration deployed for the complete passing simulations and proposed for the event.</dd>
+          <dt>Freeze</dt><dd>We stop adding features and identify the exact tested version. Files are still technically editable, but any later correction needs a new commit and the required tests again.</dd>
+          <dt>Rollback</dt><dd>Returning to a named earlier known-good commit and configuration when the candidate is unsafe, unavailable, mismatched, or broken.</dd>
+        </dl>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Copy the exact candidate commit, configuration, autonomous and fallback, TeleOp, battery, controllers, and Meeting 14 blockers before changing or running anything.</li>
+          <li>Record the current Competition Manual title, season, revision/date, URL, and check time. Copy current phases, timing, transitions, field interaction, drive-team limits, and local event instructions; do not use remembered constants.</li>
+          <li>Name the Driver Station operator and a separate Stop caller. Name a primary and backup for every active role.</li>
+          <li>Before contact or reset, press Stop, verify zero commanded motion, say <q>stopped</q>, switch off the Hub, disconnect/isolate the battery, and release or support stored energy.</li>
+          <li>Before motion, keep the Hub off while connecting the accepted battery; switch on; confirm Hub and Driver Station connection; select the exact candidate/configuration; press INIT; and verify identity and safe outputs before <q>robot live</q> and <q>clear</q>.</li>
+        </ul>
+        <aside class="safety-callout">Press Stop for unexpected motion, unsafe field entry, loose hardware, cable movement, binding, communication loss, repeated reset, abnormal sound, heat, swelling, smoke, or odor. Verify zero motion, say <q>stopped</q>, switch off, and disconnect before anyone enters or touches the robot. Never combine field entry or robot contact with Driver Station control or Stop ownership.</aside>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's 180-minute plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Current-source and handoff audit.</strong> Verify procedure, candidate, fallback, blockers, roles, and Stop ownership.</div></li>
+          <li><time>0:15-0:30<br>15 min</time><div><strong>Follow one event flow.</strong> Walk setup, power, phases, Stop, reset, triage, freeze, and rollback without motion.</div></li>
+          <li><time>0:30-0:45<br>15 min</time><div><strong>Role rotation 1.</strong> Begin event, build, code/pit, or test/observer work.</div></li>
+          <li><time>0:45-1:00<br>15 min</time><div><strong>Role rotation 2.</strong> Move one lane and hand over the written record.</div></li>
+          <li><time>1:00-1:15<br>15 min</time><div><strong>Role rotation 3.</strong> Move again; swap doer and recorder inside each pair.</div></li>
+          <li><time>1:15-1:30<br>15 min</time><div><strong>Role rotation 4.</strong> Complete all four lanes and assign backups.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Stop, verify zero motion, switch off, disconnect, and preserve identities.</div></li>
+          <li><time>1:40-1:55<br>15 min</time><div><strong>Integrated preflight.</strong> Inspect, run today's Self-Inspect/current checklist, and perform the established bounded check.</div></li>
+          <li><time>1:55-2:45<br>50 min</time><div><strong>Consecutive complete simulations.</strong> Follow current procedure, rotate named live roles, preserve all attempts, and reset the qualifying count after a failure or intervention.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Freeze or block.</strong> Record exact identity, rollback, packing gaps, individual proof, and Meeting 16 handoff.</div></li>
+        </ol>
+        <p><strong>Total: 15 + 15 + 15 + 15 + 15 + 15 + 10 + 15 + 50 + 15 = 180 minutes.</strong></p>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Follow along: trace one complete event flow</h2>
+        <ol>
+          <li><strong>Verify the cue card:</strong> copy current official phases, timing, transition/start cues, field and human-player actions, and Stop/reset procedure. This prevents stale instructions. <strong>Success:</strong> the card names its current source and check time.</li>
+          <li><strong>Identify the robot:</strong> read the full commit, configuration, autonomous/fallback, TeleOp, battery, and controllers aloud. This prevents a good run from being credited to unknown code. <strong>Success:</strong> every run record can repeat the same identity.</li>
+          <li><strong>Walk the safe transition:</strong> rehearse Hub-off battery connection, Hub-on status, Driver Station connection, candidate selection, INIT safe outputs, live/clear, current event cues, Stop, zero motion, stopped, Hub off, battery disconnection, and only then field reset/contact. <strong>Success:</strong> each caller knows the next state and who controls it.</li>
+          <li><strong>Practice silent observation:</strong> the observer records cues, behavior, failures, and Stop without coaching. This preserves honest evidence. <strong>Success:</strong> the team can describe the run after it ends without changing it during the run.</li>
+          <li><strong>Make the release decision:</strong> triage each issue as must-fix, nonblocking defect, request, or current-rule question. This protects reliability from late features. <strong>Success:</strong> every item has a reason, owner, and required retest or defer decision.</li>
+        </ol>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Try all four roles with your partner</h2>
+        <p><strong>Three pairs:</strong> start in three lanes with one lane empty; every 15 minutes all pairs and the empty place move one lane. <strong>Two pairs:</strong> start in opposite lanes with two empty; move one lane each block. Every pair completes event, build, code/pit, and test/observer work. Swap the student acting and recording halfway through each lane.</p>
+        <div class="station-grid">
+          <article class="station-card"><h3>1. Event and field</h3><ol><li>Use the current cue card to mark setup, queue, field reset, human-player actions, phase cues, Stop, and exit.</li><li>Map available field elements and label every substitute or absent interaction.</li><li>Name the primary and backup; rehearse the clear-field and stopped calls.</li></ol><p class="success-check">Record: current-source cue card, reset map, unavailable limits, and primary/backup proof.</p></article>
+          <article class="station-card"><h3>2. Build and inspection</h3><ol><li>With power off and battery disconnected, inspect structure, fasteners/witness marks, wheels, mechanisms, guards, battery retention, wiring, connectors, starting posture, and clearance.</li><li>Use FIRST for current inspection/legal equipment and exact manufacturer documents only for the installed part's inspection or service.</li><li>Record accepted condition, must-fix item, exact spare, and required retest.</li></ol><p class="success-check">Record: signed inspection, today's Self-Inspect/current checklist, exact part/source, and gap owner.</p></article>
+          <article class="station-card"><h3>3. Code and pit</h3><ol><li>Verify full candidate and rollback hashes, clean state, configuration backup, build/deploy path, OpModes, and who may authorize a change.</li><li>Locate the Meeting 14 recovery guide and practice finding one symptom, first evidence, safe action, and restore proof.</li><li>List only exact tested spares, cables, tools, and recovery files.</li></ol><p class="success-check">Record: candidate/rollback card, restore path, recovery record, and packing gaps.</p></article>
+          <article class="station-card"><h3>4. Test and observer</h3><ol><li>Write one run row with prediction, setup identity, roles, current cues, expected behavior, Stop condition, and pass rule.</li><li>Observe without prompting; record actual behavior, messages, field state, and failure time.</li><li>State whether a complete rerun is required and why.</li></ol><p class="success-check">Record: runnable test card, objective observer notes, disposition, and named retest.</p></article>
+        </div>
+
+        <h3>Staff every live run</h3>
+        <p>Record a name and a different named backup for each responsibility before every run. The Driver Station operator/drive-team student controls the robot. The immediate Stop owner/caller does not operate the Driver Station and keeps uninterrupted access to Stop. The field-reset student enters only after <q>stopped</q>, Hub off, and battery disconnection. The pit responder preserves evidence and leads between-run recovery. The observer/logger watches without coaching and records the complete flow.</p>
+        <ul>
+          <li><strong>Four students / two pairs:</strong> Student A is Driver Station operator/drive team; Student B is the separate immediate Stop owner/caller; Student C observes/logs during the run and performs field reset only after safe shutdown; Student D is pit responder. On the next run, rotate A -> pit, B -> Driver Station, C -> Stop, and D -> observer/field reset; continue the same rotation. Name backups from students who already rehearsed that responsibility during the four practice lanes. Never combine Driver Station operation with Stop ownership.</li>
+          <li><strong>Six students / three pairs:</strong> assign one student each to Driver Station operator/driver, second drive-team role if permitted by current rules, immediate Stop owner/caller, field reset, pit responder, and observer/logger. Rotate every student one position after each run, except use only role combinations permitted by the current manual and local event procedure. If the second drive-team role is not applicable, that student shadows one named backup without touching controls.</li>
+        </ul>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test it safely: three consecutive complete passes</h2>
+        <aside class="mentor-note"><strong>No coaching during a run.</strong> Mentors and inactive students may call Stop for safety but may not prompt setup, controls, strategy, code, or recovery. A coached run is practice, not one of the three passing simulations.</aside>
+        <ol>
+          <li><strong>Predict and inspect:</strong> name the expected autonomous, transition, driver-controlled behavior, fallback, and Stop result. Complete current inspection and identity checks. <strong>Success:</strong> all fields and role backups are named before power-up.</li>
+          <li><strong>Power and run:</strong> use the full safe power-up sequence, then follow the current official timing and procedure from queue/setup through autonomous, transition, driver control, Stop, zero motion, power-off/disconnection, reset, and pit return. <strong>Success:</strong> the observer records the whole flow without coaching.</li>
+          <li><strong>Triage after stopped:</strong> preserve symptom, time, hash, configuration, battery, input, field state, messages, telemetry, and logs. Test one explanation. Only a must-fix defect may justify the smallest controlled correction today.</li>
+          <li><strong>Reset the qualifying count:</strong> return to zero after any failed, coached, or otherwise nonqualifying attempt; redeploy; rebuild; repair; setup or procedure intervention outside the written normal reset; candidate or configuration change; or identity mismatch. Repeat inspection and the entire affected event flow before starting a new set. Keep every earlier attempt, but mark it nonqualifying rather than counting passes from before and after the interruption together.</li>
+          <li><strong>Freeze or block:</strong> freeze only after three new complete, consecutive, uncoached passes on the same exact deployed commit/configuration with no reset trigger between them and no unresolved must-fix defect. Otherwise restore the verified rollback when appropriate or leave release blocked.</li>
+        </ol>
+        <p class="record-prompt">Keep failed, coached, interrupted, and earlier passing attempts. Add rows or use another copy as needed. Only three new passes numbered 1, 2, and 3 with no reset trigger between them form the qualifying set.</p>
+        <table class="record-table">
+          <caption>Complete simulation record - preserve every attempt and identify the consecutive qualifying set</caption>
+          <thead><tr><th scope="col">Which attempt, version, and five live-role names?</th><th scope="col">What setup and current procedure did we use?</th><th scope="col">What happened through Stop and reset?</th><th scope="col">Did a failure or intervention reset the count?</th><th scope="col">Is this consecutive qualifying pass 1, 2, or 3?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Attempt, version, live roles">Attempt ___ / full hash: ______<br>DS/drive: ___ Stop: ___ Field reset: ___ Pit: ___ Observer/logger: ___<br>Backups - DS: ___ Stop: ___ Field: ___ Pit: ___ Observer: ___</td><td data-label="Setup and procedure">Source/cue/config/battery IDs: __________________</td><td data-label="Observed flow">Auto/transition/driver/Stop/reset: __________________</td><td data-label="Reset trigger">[ ] None [ ] Failed/coached/nonqualifying [ ] Redeploy/rebuild [ ] Repair [ ] Setup/procedure intervention [ ] Candidate/config change [ ] Identity mismatch<br>Action: ______</td><td data-label="Consecutive qualifying pass">[ ] Nonqualifying [ ] Pass 1 [ ] Pass 2 [ ] Pass 3<br>Observer signature: ___</td></tr>
+            <tr><td data-label="Attempt, version, live roles">Attempt ___ / full hash: ______<br>DS/drive: ___ Stop: ___ Field reset: ___ Pit: ___ Observer/logger: ___<br>Backups - DS: ___ Stop: ___ Field: ___ Pit: ___ Observer: ___</td><td data-label="Setup and procedure">Source/cue/config/battery IDs: __________________</td><td data-label="Observed flow">Auto/transition/driver/Stop/reset: __________________</td><td data-label="Reset trigger">[ ] None [ ] Failed/coached/nonqualifying [ ] Redeploy/rebuild [ ] Repair [ ] Setup/procedure intervention [ ] Candidate/config change [ ] Identity mismatch<br>Action: ______</td><td data-label="Consecutive qualifying pass">[ ] Nonqualifying [ ] Pass 1 [ ] Pass 2 [ ] Pass 3<br>Observer signature: ___</td></tr>
+            <tr><td data-label="Attempt, version, live roles">Attempt ___ / full hash: ______<br>DS/drive: ___ Stop: ___ Field reset: ___ Pit: ___ Observer/logger: ___<br>Backups - DS: ___ Stop: ___ Field: ___ Pit: ___ Observer: ___</td><td data-label="Setup and procedure">Source/cue/config/battery IDs: __________________</td><td data-label="Observed flow">Auto/transition/driver/Stop/reset: __________________</td><td data-label="Reset trigger">[ ] None [ ] Failed/coached/nonqualifying [ ] Redeploy/rebuild [ ] Repair [ ] Setup/procedure intervention [ ] Candidate/config change [ ] Identity mismatch<br>Action: ______</td><td data-label="Consecutive qualifying pass">[ ] Nonqualifying [ ] Pass 1 [ ] Pass 2 [ ] Pass 3<br>Observer signature: ___</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record the freeze and rollback decision</h2>
+        <p class="record-prompt">Answer from deployed identities and run records, not the newest file on a laptop. Meeting 16 will recover exactly this candidate without modifying it.</p>
+        <table class="record-table">
+          <caption>Event candidate decision</caption>
+          <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is the proof or who owns the blocker?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Question">Which full commit hash and configuration were deployed for all three new consecutive passing runs, with no reset trigger between them?</td><td data-label="Verified answer">Hash/configuration: __________________</td><td data-label="Proof or owner">Consecutive pass 1/2/3 IDs and build/deploy record: __________________</td></tr>
+            <tr><td data-label="Question">Which current manual/resource and cue card controlled timing, procedure, inspection, and legal equipment?</td><td data-label="Verified answer">Title/revision/URL/check time: __________________</td><td data-label="Proof or owner">Checker/current-source record: __________________</td></tr>
+            <tr><td data-label="Question">Which autonomous, fallback, TeleOp, Stop result, and known limitation belong to this candidate?</td><td data-label="Verified answer">__________________</td><td data-label="Proof or owner">Test/log IDs: __________________</td></tr>
+            <tr><td data-label="Question">Which earlier known-good commit/configuration is the rollback, and what triggers it?</td><td data-label="Verified answer">Rollback/trigger: __________________</td><td data-label="Proof or owner">Restore proof/owner: __________________</td></tr>
+            <tr><td data-label="Question">Did every freeze gate pass, or what exact evidence remains blocked?</td><td data-label="Verified answer">[ ] Freeze [ ] Block<br>Reason: __________________</td><td data-label="Proof or owner">Owner/full rerun due: __________________</td></tr>
+          </tbody>
+        </table>
+        <p>If frozen, stop adding features and protect that exact identity. A later must-fix correction gets a new commit, inspection, and three new consecutive complete passes before another candidate decision. Never move or overwrite the frozen identity.</p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the field, robot, network, or current source is unavailable</h2>
+        <div class="fallback-box"><ol>
+          <li><strong>Partial field:</strong> mark available boundaries and rehearse queue, setup, cues, controls, Stop, handoff, and reset. Record absent interactions; do not claim scoring, collision, clearance, or official-field proof.</li>
+          <li><strong>No safe motion or robot:</strong> use the actual candidate, configuration, controllers, prior logs/video with source, and tabletop cards. Build and rehearse roles, but do not count physical passes or freeze newly unproven behavior.</li>
+          <li><strong>No current source:</strong> do not state remembered timing or procedure. Mark the latest recorded official document <strong>currency unverified</strong>, practice untimed flow, and assign a live recheck before freeze or event use.</li>
+          <li><strong>Not enough time/equipment:</strong> preserve the last proven version and record the blocked run, owner, and date for three complete physical simulations.</li>
+        </ol></div>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> current-source cue card; field/reset map; four lane records; inspection and Self-Inspect; exact candidate/configuration; failed, coached, and passing run rows; fault/retest records; freeze/rollback decision; packing gaps; and Meeting 16 handoff.</p>
+        <h3>Each student explains and demonstrates</h3>
+        <p>Independently explain one current-procedure cue, one inspection item, one observed result, and the difference among must-fix, defer, freeze, and rollback. Then demonstrate one event, build, code/pit, or test/observer action and one different backup action. Record only what the student performed without takeover.</p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 16</h2>
+        <p>Meeting 16 needs one protected exact candidate, the proof behind it, a safe rollback, current event authority, role backups, and known packing gaps so students can prove recovery and ownership without risking the event robot.</p>
+        <div class="handoff">
+          <table class="record-table">
+            <caption>Questions Meeting 16 needs answered</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is it, or who owns the blocker?</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">What are the candidate full hash, configuration, OpModes, and three consecutive passing run IDs?</td><td data-label="Verified answer">________________</td><td data-label="Location or owner">________________</td></tr>
+              <tr><td data-label="Question">What rollback identity, trigger, and restore proof protect the team?</td><td data-label="Verified answer">________________</td><td data-label="Location or owner">________________</td></tr>
+              <tr><td data-label="Question">What current source/cue card and inspection records must be rechecked?</td><td data-label="Verified answer">________________</td><td data-label="Location or owner">________________</td></tr>
+              <tr><td data-label="Question">Who proved each event/build/code/test role and who proved its backup?</td><td data-label="Verified answer">________________</td><td data-label="Location or owner">________________</td></tr>
+              <tr><td data-label="Question">Which exact hardware, cable, spare, document, access, or event proof is missing?</td><td data-label="Verified answer">________________</td><td data-label="Location or owner">Owner/due: ______</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note"><ul class="checklist">
+        <li>Audit Meeting 14's exact identity, recovery guide, inspection evidence, unresolved risks, and student demonstrations.</li>
+        <li>At delivery, open live FIRST Team Resources and the current Competition Manual/event resources. Record title, season, revision/date, URL, and time; extract current timing/procedure instead of supplying remembered values.</li>
+        <li>Compare the Driver Station Practice Timer with current procedure. If it differs, use a neutral timekeeper and written current-source cue card.</li>
+        <li>Prepare the safest realistic field, reset map, protected observer locations, battery flow, printed shared records, and explicit substitutes for unavailable elements.</li>
+        <li>Do not authorize a freeze unless three new consecutive complete uncoached passes with no reset trigger between them, exact deployed identity, inspection, Stop proof, no unresolved must-fix defect, and rollback are all recorded.</li>
+      </ul></aside>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> Live <a href="https://ftc-resources.firstinspires.org/ftc/team">FIRST Team Resources</a>, the current Competition Manual/resource it identifies, current inspection material, and event staff instructions for match procedure, timing, field interaction, roles, inspection, and legal equipment.</li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/tech_tips/tech-tips/tech-tip-competition-prep/tech-tip-competition-prep.html#automatic-auto-to-driver-control-program-switching">Automatic Auto to Driver Control Program Switching</a> and Practice Timer guidance only after comparison with the current manual; use <a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/self_inspect/new-self-inspect.html">Self-Inspect</a> on today's devices.</li>
+        <li><span class="resource-label follow">Follow</span> GitHub Docs <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/viewing-your-repositorys-releases-and-tags">Viewing releases and tags</a> and FIRST's <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/fork_and_clone_github_repository/Fork-and-Clone-From-GitHub.html#a-short-digression-on-tags">tag explanation</a>. The three-pass threshold and freeze policy are BIOBUZZ practices.</li>
+        <li><span class="resource-label optional">Optional explanation</span> Use current exact-product REV documentation only for installed REV hardware inspection/recovery and the matching <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">goBILDA assembly/part material</a> only for the exact assembled revision's inspection, service, and spares. Vendors do not control competition procedure or legality.</li>
+        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/sdk-and-troubleshooting.html">troubleshooting ladder</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0014-reliability-and-failure-recovery.html">Previous: Meeting 14: Reliability and Failure Recovery</a> | <a href="index.html">Course index</a> | <a href="0016-capstone-demo-and-handoff.html">Next: Meeting 16: Capstone Demo and Handoff</a></p>
+  </footer>
+</body>
+</html>

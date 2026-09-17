@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="One-page BIOBUZZ robot test card for safe, predicted, evidence-based tests.">
+  <title>Robot Test Card | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <style>
+    .sheet { background: var(--paper-raised); border: 2px solid var(--ink); padding: 1rem; }
+    .form-grid { display: grid; gap: 0.75rem 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .field { break-inside: avoid; }
+    .field.full { grid-column: 1 / -1; }
+    .field-label { display: block; font-weight: 800; }
+    .write-line { border-bottom: 1px solid var(--ink); display: block; min-height: 1.8rem; }
+    .write-box { border: 1px solid var(--ink); display: block; min-height: 4rem; margin-top: 0.25rem; }
+    .choice { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; margin-top: 0.25rem; }
+    .box { border: 1.5px solid currentColor; display: inline-block; height: 0.85rem; margin-right: 0.3rem; vertical-align: -0.08rem; width: 0.85rem; }
+    .callouts { border: 3px double var(--ink); display: flex; font-size: 1.05rem; font-weight: 900; justify-content: space-around; letter-spacing: 0.04em; margin: 0.8rem 0; padding: 0.6rem; text-transform: uppercase; }
+    @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } .callouts { align-items: center; flex-direction: column; gap: 0.4rem; } }
+    @media print {
+      @page { margin: 0.38in; size: letter portrait; }
+      :root { font-size: 9.5pt; }
+      .site-header p { margin: 0; }
+      .site-header h1 { font-size: 23pt; }
+      .sheet { padding: 0.12in; }
+      .form-grid { gap: 0.08in 0.14in; }
+      .write-line { min-height: 0.22in; }
+      .write-box { min-height: 0.78in; }
+      .callouts { margin: 0.08in 0; padding: 0.05in; }
+      .site-footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Print one card per change</p>
+    <h1>Robot test card</h1>
+  </header>
+
+  <nav class="site-nav no-print" aria-label="Reference navigation">
+    <a href="../lessons/index.html">Return to course index</a>
+  </nav>
+
+  <main>
+    <p>Use one card for one change. A prediction gives the team something exact to compare with what actually happens.</p>
+    <table class="record-table">
+      <caption>EXAMPLE: telemetry-only test with no hardware motion</caption>
+      <thead><tr><th scope="col">What one change are we testing?</th><th scope="col">What do we predict?</th><th scope="col">What did we actually see?</th><th scope="col">Did it match?</th></tr></thead>
+      <tbody><tr><td data-label="Change">Change the waiting telemetry from <code>Ready</code> to <code>Pair 2 ready</code>.</td><td data-label="Prediction">After INIT, the Driver Station will show <code>Pair 2 ready</code>; no hardware will move.</td><td data-label="Observed">The exact message appeared after INIT; no hardware moved.</td><td data-label="Match?">Yes.</td></tr></tbody>
+    </table>
+    <form class="sheet" aria-label="Robot test card">
+      <div class="form-grid">
+        <label class="field full"><span class="field-label">What one change are we testing?</span><span class="write-line"></span></label>
+        <label class="field full"><span class="field-label">What do we predict the robot will do, and when must we press Stop?</span><span class="write-line"></span></label>
+
+        <div class="field full safety-callout">
+          <strong>Setup gate before contact:</strong> Press Stop, switch the Control Hub off, and disconnect the battery before touching wiring or moving hardware. Stop alone ends the OpMode; it does not remove electrical power or make contact safe.
+          <span class="choice"><span><span class="box"></span>OpMode stopped</span><span><span class="box"></span>Hub off</span><span><span class="box"></span>Battery disconnected</span></span>
+        </div>
+
+        <div class="field full">
+          <span class="field-label">Safety check:</span>
+          <span class="choice"><span><span class="box"></span>No-travel test: the robot frame is securely supported on a stable structure, and every wheel is clear of the structure and anything else.</span><span><span class="box"></span>Travel test: the robot is in the game arena, and its entire planned travel area is clear of people and loose objects.</span></span>
+          <span class="choice"><span><span class="box"></span>All attached pieces and mechanisms are secure.</span><span><span class="box"></span>Battery retained</span><span><span class="box"></span>Wiring clear</span></span>
+        </div>
+
+        <label class="field full"><span class="field-label">Who controls the Driver Station, and who has immediate access to the Stop button?</span><span class="write-line"></span></label>
+      </div>
+
+      <div class="callouts" aria-label="Spoken robot states">
+        <span>Robot live</span><span>Clear</span><span>Stopped</span>
+      </div>
+
+      <div class="form-grid">
+        <label class="field full"><span class="field-label">What exact steps will we perform? Number the smallest safe sequence.</span><span class="write-box"></span></label>
+        <label class="field full"><span class="field-label">What did we actually see? Record messages, values, movement, and Stop response.</span><span class="write-box"></span></label>
+
+        <div class="field">
+          <span class="field-label">Did the result match the prediction?</span>
+          <span class="choice"><span><span class="box"></span>Yes</span><span><span class="box"></span>No</span><span><span class="box"></span>Blocked before test</span></span>
+        </div>
+        <label class="field full"><span class="field-label">What commit hash did the workspace start from before this change?</span><span class="write-line"></span></label>
+        <label class="field full"><span class="field-label">What uncommitted workspace did we actually test? List every changed file and the saved diff file/location plus its saved time.</span><span class="write-line"></span></label>
+        <label class="field full"><span class="field-label">What resulting commit hash was created after this test, if any?</span><span class="write-line"></span><span>Write <strong>not created</strong> if the tested diff is still uncommitted.</span></label>
+
+        <label class="field full"><span class="field-label">What must happen before another test? Name the one next change or safety action, its owner, and the test to repeat.</span><span class="write-line"></span></label>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer no-print">
+    <p>Predict before testing. Stop, switch the Hub off, and disconnect the battery before contact. Commit only the behavior that was actually tested.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BIOBUZZ's 16-meeting FTC Java and robot-readiness course.">
+  <title>BIOBUZZ Programming Mentorship Course</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Eight-week robot programming workshop</p>
+    <h1>Make the robot move, respond, and recover.</h1>
+    <p class="lede">After eight weeks, you will be able to drive the competition robot, make it complete a simple route on its own, test changes safely, explain what its code does, and restore a working version when something goes wrong.</p>
+  </header>
+
+  <nav class="site-nav" aria-label="Course navigation">
+    <a href="#purpose">Purpose</a>
+    <a href="#words">Words to know</a>
+    <a href="#use">How to use the course</a>
+    <a href="#decision-gate">Tool choice</a>
+    <a href="#references">Reference sheets</a>
+    <a href="#course-map">Meeting map</a>
+  </nav>
+
+  <main>
+    <section id="words" aria-labelledby="words-title">
+      <h2 id="words-title">Words to know before you start</h2>
+      <dl class="words-list">
+        <dt>Java and Blocks</dt>
+        <dd>Java is the text-based primary path. Blocks is a visual bridge to Java ideas and the documented event-code fallback only if the Meeting 2 readiness check does not pass.</dd>
+        <dt>TeamCode and Android Studio</dt>
+        <dd>TeamCode is the folder for the team's robot programs. Android Studio is the app used to read Java code, check it for errors, and turn it into the robot-control app.</dd>
+        <dt>Git and commit</dt>
+        <dd>Git records code history. A commit is one saved set of understood changes in that history.</dd>
+        <dt>TeleOp and autonomous</dt>
+        <dd>Students use gamepads during TeleOp. During autonomous, the robot follows programmed instructions without gamepad driving.</dd>
+        <dt>OpMode and INIT</dt>
+        <dd>An OpMode is a robot program for one activity. INIT prepares the selected OpMode before students press Start.</dd>
+        <dt>Driver Station and Control Hub</dt>
+        <dd>Students choose and control an OpMode from the Driver Station. The Control Hub is the computer on the robot that runs it.</dd>
+        <dt>Telemetry</dt>
+        <dd>Messages and values that robot code sends to the Driver Station so students can see what is happening.</dd>
+      </dl>
+    </section>
+
+    <section id="purpose" aria-labelledby="purpose-title">
+      <h2 id="purpose-title">Course purpose</h2>
+      <div class="outcome-banner">By the first event, every student can safely understand, change, test, explain, and recover the competition robot's basic code.</div>
+      <p>The team will produce reliable TeleOp, a simple repeatable autonomous routine, one independently demonstrated workflow per student, and a practiced backup for every critical role. Programming instruction stays attached to normal building, testing, driving, strategy, and documentation work.</p>
+    </section>
+
+    <section id="use" aria-labelledby="use-title">
+      <h2 id="use-title">How to use the course</h2>
+      <ol>
+        <li>Before each meeting, the mentor confirms that the code and equipment are ready and provides instructions for the exact installed hardware.</li>
+        <li>Students work in pairs. The driver controls the keyboard, gamepad, or robot. The navigator reads the next step aloud, checks it, and records what happens. Partners swap these jobs during the meeting and rotate each week.</li>
+        <li>Robot access begins with a prediction and a written test. Use parallel robot, code, and team stations so one robot never leaves most students waiting.</li>
+        <li>Each meeting follows observe, predict, change, test safely, explain, and, once Git is introduced, commit the tested change.</li>
+        <li>When the robot or mechanism is unavailable, use the lesson's alternate activity to practice the same programming idea without claiming that hardware passed a test.</li>
+        <li>End by demonstrating the result, saving the work and individual skill record, and writing what the next meeting needs.</li>
+      </ol>
+      <aside class="safety-callout">Stop the robot before touching it. Identify the Driver Station operator and emergency-stop owner before powered tests. Use the spoken states <strong>robot live</strong>, <strong>clear</strong>, and <strong>stopped</strong>.</aside>
+    </section>
+
+    <section id="decision-gate" aria-labelledby="gate-title">
+      <h2 id="gate-title">Java/Blocks decision gate</h2>
+      <p>Java remains the primary course and competition path. Blocks diagrams may be used briefly to make program flow visible before students return to Java. At the end of Meeting 2, each pair tries a new but similar motor task. Continue the Java competition path when most pairs can find the relevant line, change it, check it for errors, and explain it with light prompting. Only if that readiness check does not pass, document Blocks as the event-code fallback while students continue optional Java practice away from competition-critical code. This choice measures whether the current tool and teaching path are clear and safe, not whether students pass or fail. Record the fallback decision and the observed evidence for the next meeting.</p>
+    </section>
+
+    <section id="references" aria-labelledby="references-title">
+      <h2 id="references-title">Roadmap and reference sheets</h2>
+      <p>Use these shared sheets when a lesson asks you to set up software, plan a test, diagnose a problem, or record individual progress. <strong>Words we use</strong> is a quick-recall backup, not a prerequisite to read before Meeting 1; each lesson defines a term when you first need it.</p>
+      <ul class="reference-list">
+        <li><a href="../reference/words-we-use.html">Words we use: quick recall</a></li>
+        <li><a href="../reference/meeting-roadmap.html">Eight-week meeting roadmap</a></li>
+        <li><a href="../reference/android-studio-setup-and-deploy.html">Android Studio setup and code installation</a></li>
+        <li><a href="../reference/sdk-and-troubleshooting.html">Robot software lookup and troubleshooting</a></li>
+        <li><a href="../reference/robot-test-card.html">Robot test card</a></li>
+        <li><a href="../reference/fault-log.html">Fault log</a></li>
+        <li><a href="../reference/skill-tracker.html">Skill tracker</a></li>
+      </ul>
+    </section>
+
+    <section id="course-map" aria-labelledby="map-title">
+      <h2 id="map-title">Sixteen-meeting course map</h2>
+      <table class="course-map">
+        <caption>Programming instruction and the competition robot advance together.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Meeting</th>
+            <th scope="col">Programming concept</th>
+            <th scope="col">Robot milestone</th>
+            <th scope="col">Normal team activity</th>
+            <th scope="col">Lesson</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Meeting">1</td>
+            <td data-label="Programming concept">Install an OpMode from Android Studio, follow what happens from INIT through Stop, and read telemetry messages</td>
+            <td data-label="Robot milestone">Students open TeamCode, check it for errors, choose the Control Hub as the destination, install the robot-control app, and complete INIT, Start, and Stop</td>
+            <td data-label="Team activity">Inventory electronics, label ports, and establish the safe test area</td>
+            <td data-label="Lesson"><a href="0001-robot-programs-are-instructions.html">Robot Programs Are Instructions</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">2</td>
+            <td data-label="Programming concept">Store and update a value under a name, connect an exact saved hardware name to one motor, and use a build error's file and line</td>
+            <td data-label="Robot milestone">One motor is connected to an exact saved name and tested direction</td>
+            <td data-label="Team activity">Secure a drive motor so it cannot move unexpectedly, label wiring, and choose between Java and Blocks</td>
+            <td data-label="Lesson"><a href="0002-variables-make-a-motor-move.html">Variables Make a Motor Move</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">3</td>
+            <td data-label="Programming concept">Read gamepad input, calculate motor output, and save the first tested change in Git</td>
+            <td data-label="Robot milestone">The robot's drive system responds to tested gamepad controls</td>
+            <td data-label="Team activity">Finish the drive system, check it with wheels raised, and use a low-speed driving lane</td>
+            <td data-label="Lesson"><a href="0003-gamepad-to-drivetrain.html">Gamepad Input to Drivetrain Output</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">4</td>
+            <td data-label="Programming concept">Make one choice when a condition is true and another when it is false</td>
+            <td data-label="Robot milestone">Slow mode or control of a small position motor, called a servo, tested while it is securely held</td>
+            <td data-label="Team activity">Prototype a mechanism and collect driver feedback</td>
+            <td data-label="Lesson"><a href="0004-decisions-and-driver-controls.html">Decisions and Driver Controls</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">5</td>
+            <td data-label="Programming concept">Give an action a name and pass it different input values called parameters</td>
+            <td data-label="Robot milestone">TeleOp uses a named drive action without changing behavior</td>
+            <td data-label="Team activity">Strengthen the drive system, wiring, battery retention, and service access</td>
+            <td data-label="Lesson"><a href="0005-methods-give-actions-names.html">Methods Give Actions Names</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">6</td>
+            <td data-label="Programming concept">Give repeated values names, limit them to safe ranges, and prevent unsafe combinations</td>
+            <td data-label="Robot milestone">One core mechanism operates inside tested physical limits</td>
+            <td data-label="Team activity">Measure stops and collision zones, then test under controlled load</td>
+            <td data-label="Lesson"><a href="0006-mechanisms-and-safety-rules.html">Mechanisms and Safety Rules</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">7</td>
+            <td data-label="Programming concept">Use robot messages, saved records, and controlled checks to find a problem</td>
+            <td data-label="Robot milestone">Deliberately introduced code and saved-hardware-setting problems are found safely</td>
+            <td data-label="Team activity">Inspect connectors, fasteners, battery, and mechanism binding</td>
+            <td data-label="Lesson"><a href="0007-debugging-with-evidence.html">Debugging With Evidence</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">8</td>
+            <td data-label="Programming concept">Combine tested parts, make focused fixes, and save a known-working version in Git</td>
+            <td data-label="Robot milestone">A known-working TeleOp version passes three complete cycles</td>
+            <td data-label="Team activity">Rotate match roles and separate problems from ideas for new behavior</td>
+            <td data-label="Lesson"><a href="0008-reliable-teleop-checkpoint.html">Reliable TeleOp Checkpoint</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">9</td>
+            <td data-label="Programming concept">Put autonomous actions in order, measure elapsed time, and define when motion stops</td>
+            <td data-label="Robot milestone">Low-speed timed mobility routine with a safe stop</td>
+            <td data-label="Team activity">Build a field area and a guide that places the robot at the same start each time</td>
+            <td data-label="Lesson"><a href="0009-autonomous-is-a-sequence.html">Autonomous Is a Sequence</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">10</td>
+            <td data-label="Programming concept">Use motor rotation counts, calculate movement from team measurements, and stop if motion takes too long</td>
+            <td data-label="Robot milestone">Measured movement replaces one fragile timing assumption</td>
+            <td data-label="Team activity">Verify wheels, gearing, axles, tires, and the motor rotation sensors called encoders</td>
+            <td data-label="Lesson"><a href="0010-encoders-turn-motion-into-data.html">Encoders Turn Motion Into Data</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">11</td>
+            <td data-label="Programming concept">Combine named actions and adjust one value at a time using repeated test results</td>
+            <td data-label="Robot milestone">Readable event autonomous plus a preserved backup routine</td>
+            <td data-label="Team activity">Reset from marked starts, measure error, and change one variable</td>
+            <td data-label="Lesson"><a href="0011-compose-and-tune-autonomous.html">Compose and Tune Autonomous Actions</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">12</td>
+            <td data-label="Programming concept">Respond once when a button changes while keeping the robot's other controls responsive</td>
+            <td data-label="Robot milestone">Responsive mechanism control where the robot needs it</td>
+            <td data-label="Team activity">Move the mechanism by hand through planned positions, check for collisions, and test the Stop response</td>
+            <td data-label="Lesson"><a href="0012-state-without-freezing.html">State Without Freezing the Robot</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">13</td>
+            <td data-label="Programming concept">Use sensor readings inside tested limits and review a partner's code</td>
+            <td data-label="Robot milestone">A safely mounted sensor sends useful telemetry or supports one justified behavior</td>
+            <td data-label="Team activity">Mount the exact sensor and collect realistic-condition data</td>
+            <td data-label="Lesson"><a href="0013-sensors-and-collaboration.html">Sensors and Small-Team Collaboration</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">14</td>
+            <td data-label="Programming concept">Use safe starting values, messages, records, and practiced recovery steps</td>
+            <td data-label="Robot milestone">Important failures stop safely or can be found quickly</td>
+            <td data-label="Team activity">Inspect the robot, run the Driver Station's built-in Self-Inspect check, and practice finding a safely introduced problem</td>
+            <td data-label="Lesson"><a href="0014-reliability-and-failure-recovery.html">Reliability and Failure Recovery</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">15</td>
+            <td data-label="Programming concept">Choose which fixes matter most and protect the tested event version from last-minute changes</td>
+            <td data-label="Robot milestone">Event version saved and left unchanged after three full simulations</td>
+            <td data-label="Team activity">Run match cycles, rotate event roles, inspect, and pack</td>
+            <td data-label="Lesson"><a href="0015-match-simulation-and-event-readiness.html">Match Simulation and Event Readiness</a></td>
+          </tr>
+          <tr>
+            <td data-label="Meeting">16</td>
+            <td data-label="Programming concept">Independently explain, restore, install, and diagnose the robot code</td>
+            <td data-label="Robot milestone">Students own event setup and recovery with role backups</td>
+            <td data-label="Team activity">Restore the code in a new folder, run a short check of critical functions, inventory equipment, and discuss what to improve</td>
+            <td data-label="Lesson"><a href="0016-capstone-demo-and-handoff.html">Capstone Demo and Handoff</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Reliability beats feature count. Predict before testing. Evidence before editing. Every critical role gets a backup.</p>
+  </footer>
+</body>
+</html>

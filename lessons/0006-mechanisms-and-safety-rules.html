@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 6 lesson for building approved mechanism controls with matching vendor evidence, safe release, recovery, telemetry, and explicit shutdown.">
+  <title>Meeting 6: Build the Mechanism Controls | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 3, Meeting 6 / FTC SDK v12.0</p>
+    <h1>Build the Mechanism Controls</h1>
+    <p class="lede">Turn only the approved Meeting 4 actions into readable controls, then prove every request, release, recovery, conflict, and Stop command on the matching robot path.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Input patterns express operator intent</li>
+      <li><strong>Team work</strong><br>Build and test required mechanisms</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0005-methods-give-actions-names.html">Previous: Meeting 5</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#patterns">Input patterns</a>
+    <a href="#vendors">Vendor path</a>
+    <a href="#test">Safe test</a>
+    <a href="#handoff">Meeting 7 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0007-debugging-with-evidence.html">Next: Meeting 7</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the robot do</h2>
+        <div class="outcome-banner">The matching team TeleOp will control every installed action classified <strong>required</strong> on the approved Meeting 4 map and no optional, unavailable, or unapproved action. Each enabled action will use its approved input pattern, reject its recorded conflict, provide required reverse or recovery, report useful telemetry, and return every touched output to explicit zero or its verified safe hold when the request is absent and when Stop occurs.</div>
+        <p>A source value is only a candidate for the exact named vendor assembly. A physical power, position, velocity threshold, or limit becomes a retained team value only after its exact source and installed-robot test are recorded. An unperformed measurement remains <strong>pending</strong> and its output remains disabled.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Proportional input</dt><dd>An input whose amount changes the requested output, such as trigger travel controlling intake power. Neutral must calculate explicit zero.</dd>
+          <dt>Held input</dt><dd>An action requested only while a button or thresholded trigger remains active. Releasing it must immediately select the documented safe release.</dd>
+          <dt>One-press input</dt><dd>An action requested once on the edge from not pressed to pressed. It is appropriate only when the approved action requires a retained state; holding the button must not repeatedly create new state changes.</dd>
+          <dt>Mutual exclusion</dt><dd>A decision that prevents conflicting requests from commanding hardware together. The action map says which request wins or whether both are blocked.</dd>
+          <dt>Safe release</dt><dd>The explicit zero output or verified safe hold commanded when an action request is absent. Safe release is recorded for each output, not assumed from a missing code branch.</dd>
+          <dt>Reverse or recovery</dt><dd>The approved operator action for safely undoing motion, clearing a recoverable jam, or returning to a known state. It is not permission to overpower a bind or hard stop.</dd>
+          <dt>Safe hold</dt><dd>A measured retained position that is safe for the exact positional mechanism. It has a named command and evidence; it is not an unknown servo endpoint.</dd>
+          <dt>Enabled-feature scope</dt><dd>The set of required, installed actions whose source, controls, values, conflict rules, and tests are complete. Everything else stays disabled.</dd>
+        </dl>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f01">Source M06-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Use a <strong>supported test</strong> in the game arena: secure the frame on stable support and keep every wheel clear of the support, floor, people, wires, and loose objects.</li>
+          <li>Name the routine Driver Station operator and a separate Stop owner with immediate Stop access and authority to press it without permission.</li>
+          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before touching, loading, measuring, clearing, or changing a mechanism.</li>
+          <li>Secure the robot, battery, Hub, wires, attached pieces, mechanism, and test artifact. Mark the exclusion area and keep everyone outside it while live.</li>
+          <li>Match the installed robot and revision to REV, goBILDA, or unmatched. Use the current Competition Manual for legal actuator/control-system choices; vendor code does not establish legality.</li>
+          <li>Write the prediction, one bounded command, safe release, Stop condition, and evidence before power. Change one test variable at a time.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, loose hardware, unsafe vibration, collision, pinch risk, binding, stall, unusual sound, heat, odor, implausible telemetry, loss of control, or inability to command zero/safe hold means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before entry or contact. Never power through a jam.</aside>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f04">Source M06-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:20<br>20 min</time><div><strong>Audit the contract.</strong> Select the matching vendor path and mark required, installed, sourced, measured, pending, and disabled actions.</div></li>
+          <li><time>0:20-0:45<br>25 min</time><div><strong>Trace three input patterns.</strong> Rehearse proportional, held, and one-press behavior, including mutual exclusion, release, recovery, and telemetry.</div></li>
+          <li><time>0:45-1:30<br>45 min</time><div><strong>Build in pairs.</strong> Add named commands and one-write-per-output logic in telemetry-only copies; inspect and compare each diff.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, switch off the Hub, disconnect the battery, and leave mechanisms unloaded.</div></li>
+          <li><time>1:40-2:10<br>30 min</time><div><strong>Integrate the matching path.</strong> Apply only reviewed required actions, add explicit initialization/release/Stop commands, build, and inspect the diff.</div></li>
+          <li><time>2:10-2:45<br>35 min</time><div><strong>Run bounded supported tests.</strong> Prove neutral, each request, conflict, release, reverse/recovery, and Stop one mechanism at a time.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Explain and hand off.</strong> Record M06 evidence, enabled-feature scope, blockers, individual traces, and the exact Meeting 7 candidate.</div></li>
+        </ol>
+      </section>
+
+      <section id="contract" aria-labelledby="contract-title">
+        <h2 id="contract-title">Start from the approved action map</h2>
+        <ol>
+          <li><strong>Choose one matching path:</strong> prove the exact installed assembly is REV or goBILDA from the robot identity/build record. If neither match is proved, use the unmatched fallback. <strong>Success:</strong> only one path is executable.</li>
+          <li><strong>Filter the action map:</strong> copy only actions marked required and installed. Preserve the approved gamepad, proportional/held/one-press classification, release, reverse/recovery, conflict, feedback, and telemetry decisions. <strong>Success:</strong> every code method points to one approved row.</li>
+          <li><strong>Gate each value:</strong> identify every power, position, velocity threshold, and physical limit. Record the matching source candidate and M06 installed test status. <strong>Success:</strong> completed values have source and measurement IDs; pending values are blank in the executable declaration and their feature is disabled.</li>
+          <li><strong>Write safe outputs first:</strong> list explicit zero or the verified safe hold for every actuator touched by each action. Use the same list for initialization, no request, blocked conflicts, and Stop. <strong>Success:</strong> no output depends on a prior loop value or on the OpMode ending silently.</li>
+        </ol>
+        <table class="record-table">
+          <caption>Implementation gate: one row per required output</caption>
+          <thead><tr><th scope="col">Approved action/output</th><th scope="col">Pattern, release, conflict, recovery</th><th scope="col">Value provenance</th><th scope="col">Status</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Action/output">________________</td><td data-label="Control contract">Pattern: ____<br>Release: ____<br>Conflict/recovery: ____</td><td data-label="Provenance">Matching source/revision: ____<br>M06 trial/measurement: ____</td><td data-label="Status">Enabled / Pending / Disabled</td></tr>
+            <tr><td data-label="Action/output">________________</td><td data-label="Control contract">Pattern: ____<br>Release: ____<br>Conflict/recovery: ____</td><td data-label="Provenance">Matching source/revision: ____<br>M06 trial/measurement: ____</td><td data-label="Status">Enabled / Pending / Disabled</td></tr>
+            <tr><td data-label="Action/output">________________</td><td data-label="Control contract">Pattern: ____<br>Release: ____<br>Conflict/recovery: ____</td><td data-label="Provenance">Matching source/revision: ____<br>M06 trial/measurement: ____</td><td data-label="Status">Enabled / Pending / Disabled</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f02">Source M06-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f03">Source M06-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="patterns" aria-labelledby="patterns-title">
+        <h2 id="patterns-title">Use the input pattern the action requires</h2>
+        <p>These traces use names, not reusable values. The matching branch below supplies only names whose declarations have been populated from its signed source-and-measurement record.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>Proportional</h3>
+            <p>Calculate a fresh command from the approved analog inputs every loop. Apply the recorded mutual-exclusion rule, then write the output once. Fully released inputs must calculate explicit zero.</p>
+            <p class="success-check">Trace: input amounts &rarr; conflict decision &rarr; bounded command &rarr; output and telemetry.</p>
+          </article>
+          <article class="station-card">
+            <h3>Held</h3>
+            <p>Start from explicit zero/safe hold each loop. Select forward only while its request is held, or the approved reverse/recovery only while that request is held. On both or neither, apply the action map's recorded safe result.</p>
+            <p class="success-check">Trace: held booleans &rarr; mutual exclusion &rarr; named command or safe release &rarr; output.</p>
+          </article>
+          <article class="station-card">
+            <h3>One-press</h3>
+            <p>Detect the false-to-true edge and select only a measured approved retained position. With no new edge, explicitly command the currently approved safe hold. At Stop, command the separately verified Stop hold.</p>
+            <p class="success-check">Trace: current/prior button &rarr; edge &rarr; approved retained state &rarr; verified safe hold.</p>
+          </article>
+        </div>
+        <pre><code>// Shared decision shape; declarations come from the selected vendor record.
+double command = safeRelease;
+if (forwardRequested &amp;&amp; !recoveryRequested &amp;&amp; conflictClear) {
+    command = approvedForward;
+} else if (recoveryRequested &amp;&amp; !forwardRequested &amp;&amp; recoveryClear) {
+    command = approvedRecovery;
+}
+
+telemetry.addData("Request", requestName);
+telemetry.addData("Conflict clear", conflictClear);
+telemetry.addData("Command", command);
+// The selected branch writes command to its exact mapped output once.</code></pre>
+        <p class="why-it-matters"><strong>Why this matters:</strong> setting a safe command before decisions prevents a released, conflicting, or rejected request from inheriting the previous loop's moving output.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f01">Source M06-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="vendors" aria-labelledby="vendors-title">
+        <h2 id="vendors-title">Build only the matching vendor path</h2>
+        <p>Use one branch as executable team work. The other is a reading comparison. Do not transfer names, controls, directions, powers, positions, thresholds, limits, or lifecycle assumptions between branches.</p>
+        <div class="vendor-paths">
+          <article class="vendor-path">
+            <h3>REV path: exact 2026-2027 REV Starter Bot only</h3>
+            <p>The verified REV material names intake forward/reverse, pollen-poker positions, manual flywheel forward/reverse recovery, velocity-gated feed, and manual feeder recovery. Implement only rows that Meeting 4 marked required and the installed robot actually has. Copy candidate values only from the current exact REV page, record its access date, and retain them only after M06 physical evidence.</p>
+            <pre><code>// Values below are declarations in the team file, populated only from the
+// signed REV source + M06 record. No number comes from this lesson.
+double revIntakeCommand = 0.0;
+if (revIntakeRequested &amp;&amp; !revIntakeRecoveryRequested) {
+    revIntakeCommand = REV_INTAKE_FORWARD;
+} else if (revIntakeRecoveryRequested &amp;&amp; !revIntakeRequested) {
+    revIntakeCommand = REV_INTAKE_RECOVERY;
+}
+revIntake.setPower(revIntakeCommand); // one write; release/conflict is zero
+
+// This declaration exists only after the exact hold passes M06 measurement.
+double revPokerHold = REV_POKER_SAFE_HOLD;
+if (revPokerActionPressed &amp;&amp; !revPokerActionWasPressed) {
+    revPokerHold = REV_POKER_ACTION_HOLD;
+} else if (revPokerRecoveryPressed &amp;&amp; !revPokerRecoveryWasPressed) {
+    revPokerHold = REV_POKER_SAFE_HOLD;
+}
+revPollenPoker.setPosition(revPokerHold); // explicit verified retained hold
+
+// In a finally/shutdown path reached after the active loop:
+revIntake.setPower(0.0);
+revFlywheel.setVelocity(0.0);
+revFeeder.setPower(0.0);
+revPollenPoker.setPosition(REV_POKER_STOP_HOLD);</code></pre>
+            <p><strong>Initialization:</strong> <code>REV_POKER_SAFE_HOLD</code> is not a lesson value. The mentor may add that declaration only after the exact position is copied from the matching REV source, tested as the installed mechanism's safe hold under M06-M01, and signed. Until then, the pollen-poker feature stays disabled and no position is written. <strong>Mutual exclusion:</strong> simultaneous forward/recovery requests command zero. The approved map may name a different conservative winner only if that decision and its test are recorded. <strong>Safe release:</strong> intake, flywheel, and CR-servo feeder use explicit zero; the positional pollen poker uses only its measured current hold and separately verified Stop hold. A flywheel/feed implementation must also command both outputs explicitly when the velocity gate is false.</p>
+            <p><strong>Linear shutdown:</strong> place the active REV loop inside <code>try</code> and the four brief shutdown commands shown above inside <code>finally</code>. When <code>opModeIsActive()</code> becomes false, exit the loop immediately; do not continue mechanism work after Stop.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f05">Source M06-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f06">Source M06-F06</a></p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f01">Source M06-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f02">Source M06-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+          </article>
+          <article class="vendor-path">
+            <h3>goBILDA path: exact 2026-2027 goBILDA StarterBot only</h3>
+            <p>The verified goBILDA artifact names one intake motor, left/right corner-intake CR servos, launcher motor, and windmill CR servo. It demonstrates proportional right-trigger minus left-trigger intake and a held launcher request with velocity-gated windmill feed. It does not supply a positional-servo one-press mechanism or a launcher reverse control; do not invent either. Implement recovery only where the approved map and exact installed mechanism provide measured evidence.</p>
+            <pre><code>// Bounds and thresholds are declarations in the team file, populated only
+// from the signed goBILDA artifact + M06 record.
+double gobildaIntakeCommand = gamepad1.right_trigger - gamepad1.left_trigger;
+gobildaIntakeCommand = Range.clip(gobildaIntakeCommand,
+        GOBILDA_INTAKE_REVERSE_LIMIT, GOBILDA_INTAKE_FORWARD_LIMIT);
+
+double gobildaLauncherCommand = 0.0;
+double gobildaWindmillCommand = 0.0;
+if (gobildaLaunchRequested) {
+    gobildaLauncherCommand = GOBILDA_LAUNCHER_TARGET;
+    if (gobildaMeasuredVelocity &gt;= GOBILDA_FEED_THRESHOLD) {
+        gobildaWindmillCommand = GOBILDA_WINDMILL_FEED;
+    }
+}
+
+gobildaIntake.setPower(gobildaIntakeCommand);
+gobildaLeftCornerIntake.setPower(gobildaIntakeCommand);
+gobildaRightCornerIntake.setPower(gobildaIntakeCommand);
+gobildaLauncher.setVelocity(gobildaLauncherCommand);
+gobildaWindmill.setPower(gobildaWindmillCommand);
+
+@Override public void stop() {
+    gobildaIntake.setPower(0.0);
+    gobildaLeftCornerIntake.setPower(0.0);
+    gobildaRightCornerIntake.setPower(0.0);
+    gobildaLauncher.setVelocity(0.0);
+    gobildaWindmill.setPower(0.0);
+}</code></pre>
+            <p><strong>Mutual exclusion:</strong> trigger subtraction makes equal opposing intake requests produce zero; test that result and any team deadband or limit rather than assuming it. <strong>Safe release:</strong> released triggers calculate zero, released launcher request commands zero velocity and zero windmill power, and <code>stop()</code> explicitly zeros every touched mechanism output. The iterative SDK calls <code>stop()</code> once when the OpMode stops, but hardware-control ability is limited then, so no-request zeros remain mandatory in every loop. The verified artifact's empty <code>stop()</code> is not the team shutdown implementation.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f07">Source M06-F07</a></p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f01">Source M06-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f03">Source M06-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Build with your partner</h2>
+        <p><strong>Three pairs:</strong> begin at Contract, Control Logic, and Test/Evidence, then rotate every 15 minutes. <strong>Two pairs:</strong> begin at Contract and Control Logic, swap after 20 minutes, then reconcile one test/evidence record together. Use telemetry-only pair copies; only the reviewed matching implementation reaches the shared candidate.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Contract and values</h3>
+            <ol>
+              <li>Cross out optional, unavailable, unmatched-vendor, and unapproved actions.</li>
+              <li>For each required output, record input pattern, conflict, release, reverse/recovery, and telemetry.</li>
+              <li>Trace every power, position, threshold, and limit to the matching source plus completed or pending M06 trial.</li>
+              <li>Mark incomplete actions disabled; do not fill unknown declarations with estimates.</li>
+            </ol>
+            <p class="success-check">Success looks like: executable scope contains only complete required rows and every retained value has two-part provenance.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Control logic</h3>
+            <ol>
+              <li>Initialize each command to explicit zero or verified safe hold every loop.</li>
+              <li>Apply the proportional, held, or one-press pattern named by its approved row.</li>
+              <li>Make conflicting requests select the documented safe command; add required reverse/recovery without bypassing limits.</li>
+              <li>Write each output once and display input, decision/state, measured condition, and final command.</li>
+            </ol>
+            <p class="success-check">Success looks like: neutral, action, conflict, release, and recovery telemetry match predictions without hardware calls in the pair copy.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Test and evidence</h3>
+            <ol>
+              <li>Write one bounded supported-test card per mechanism, beginning without a game artifact or mechanism load.</li>
+              <li>Name setup, exact configuration, units, method, trial ID, command, observer, Stop owner, abort signs, and pass criteria.</li>
+              <li>Include initialization, no request, each request, simultaneous conflict, release, reverse/recovery, and Stop.</li>
+              <li>Record student, checker, date, actual result, and highest passed scope. A failed case disables that action.</li>
+            </ol>
+            <p class="success-check">Success looks like: another pair can run the card without choosing a value or interpreting a missing branch.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test one bounded mechanism at a time</h2>
+        <ol>
+          <li><strong>Review before deployment:</strong> compare the selected matching branch with the approved map, provenance table, telemetry-only cases, build result, and diff. Confirm unrelated and pending features are disabled. <strong>Success:</strong> every hardware call and possible command points to a signed row.</li>
+          <li><strong>Prepare the supported test:</strong> with the Hub off and battery disconnected, secure all hardware and the unloaded mechanism, verify configuration and exclusion area, and position the operator and Stop owner. <strong>Success:</strong> a second student signs setup and immediate Stop access.</li>
+          <li><strong>Prove initialization and no request:</strong> connect the battery while the Hub is off, switch on, confirm connection, call <q>robot live</q>, receive <q>clear</q>, then INIT and Start with controls neutral. <strong>Success:</strong> telemetry and every touched output show explicit zero or the verified safe hold.</li>
+          <li><strong>Run bounded cases:</strong> command one approved action, release it, command approved reverse/recovery, and test the recorded conflict. Return controls to neutral between cases. <strong>Success:</strong> input, decision/state, measured condition, command, and observed behavior match each written prediction without an abort sign.</li>
+          <li><strong>Prove Stop:</strong> while the mechanism is in a bounded active case, the Stop owner presses Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery. <strong>Success:</strong> each motor/CR servo reaches zero and each positional output reaches its verified Stop hold; record actual behavior rather than inferring it from code.</li>
+          <li><strong>Decide scope:</strong> enable only complete passing actions. A source-only, telemetry-only, failed, or pending case stays disabled for integration. Any part, linkage, wiring, code value, or source change invalidates affected M06 evidence and requires retest. <strong>Success:</strong> the candidate and record name the same enabled-feature scope.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f01">Source M06-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record M06 delivery evidence</h2>
+        <p class="record-prompt"><strong>M06-M01 status before delivery: pending.</strong> Complete one row for every retained position, power, velocity threshold, range/limit, release, and conflict output. Record source and physical evidence separately.</p>
+        <p><strong>Setup:</strong> robot/vendor/revision: __________; mechanism/part/linkage: __________; active configuration and Hub/ports: __________; code version/diff: __________; supported-test setup: __________; units/method: __________; date: __________; student: __________; checker: __________.</p>
+        <table class="record-table">
+          <caption>M06-M01 mechanism command and behavior record</caption>
+          <thead><tr><th scope="col">Command/value and provenance</th><th scope="col">Trial and predicted behavior</th><th scope="col">Actual result and evidence</th><th scope="col">Decision</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Command">Initialization/no request: ____<br>Source/revision: ____<br>Physical limit/hold evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+            <tr><td data-label="Command">Required action: ____<br>Source/revision: ____<br>Physical limit evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+            <tr><td data-label="Command">Release/reverse/recovery: ____<br>Source/revision: ____<br>Physical evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+            <tr><td data-label="Command">Conflict/Stop: ____<br>Source/revision: ____<br>Physical evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot, action map, or measurement is unavailable</h2>
+        <div class="fallback-box">
+          <p>Do not choose a vendor path by appearance, invent a value, map unavailable hardware, or report a physical pass.</p>
+          <ol>
+            <li>Mark the missing identity, approval, source, configuration, part, setup, or measurement and assign an owner and next check.</li>
+            <li>Keep every affected feature disabled. Replace hardware writes with telemetry showing input, conflict decision/state, pending provenance, and explicit zero/safe-hold intent.</li>
+            <li>Run neutral, request, simultaneous conflict, release, reverse/recovery, and simulated Stop cases. Label the result <strong>telemetry only</strong>.</li>
+            <li>Use an unpowered diagram to mark travel, collisions, pinch areas, wire strain, loading, release, and recovery. Do not convert diagram estimates into code values.</li>
+            <li>Schedule the supported physical trials in order. Carry the exact prerequisites, cards, disabled features, owner, and date into Meeting 7.</li>
+          </ol>
+          <p class="success-check">Success looks like: complete logic evidence within its stated scope, no active unknown output, and an honest blocker record for every unperformed physical claim.</p>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> approved action-map rows, vendor/assembly match, source revisions or checksum, value provenance table, pair predictions and telemetry, reviewed diff/build, supported-test cards, M06-M01 records, enabled/disabled list, and unresolved blockers.</p>
+        <h3>Each student explains</h3>
+        <p>Without partner help, trace one required input through its pattern, conflict decision, named command, exact output, telemetry, safe release, reverse/recovery, and Stop behavior. Then identify whether each value came from matching source evidence, completed team measurement, or remains pending.</p>
+        <h3>Record each student's skill</h3>
+        <ul>
+          <li>Record input-to-output tracing only when the student follows input, decision/state, value provenance, command, and output.</li>
+          <li>Record safe deployment only when the student follows supported setup, live/clear/stopped callouts, release, recovery, Stop, and evidence.</li>
+          <li>Record diagnosis only when telemetry evidence identifies whether a mismatch lies at input, decision/state, measured condition, or command.</li>
+          <li>Record each student separately. Telemetry-only work proves logic, not physical mechanism behavior.</li>
+        </ul>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 7</h2>
+        <p>Meeting 7 integrates the tested drivetrain and mechanism candidate, then diagnoses conflicts without widening today's enabled-feature scope or bypassing safe release.</p>
+        <div class="handoff">
+          <table class="record-table">
+            <caption>Mechanism candidate handoff</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence, blocker, or owner</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">Which vendor, assembly revision, configuration, code version, and source artifact match?</td><td data-label="Answer">________________</td><td data-label="Evidence">Identity/source/checksum: ______</td></tr>
+              <tr><td data-label="Question">Which required actions and exact outputs are enabled or disabled?</td><td data-label="Answer">Enabled: ____<br>Disabled: ____</td><td data-label="Evidence">Approved rows/diff: ______</td></tr>
+              <tr><td data-label="Question">Which input pattern, conflict, safe release, and reverse/recovery belongs to each enabled action?</td><td data-label="Answer">________________</td><td data-label="Evidence">Control map/test: ______</td></tr>
+              <tr><td data-label="Question">What source and M06 trial support every retained power, position, threshold, hold, and limit?</td><td data-label="Answer">________________</td><td data-label="Evidence">M06-M01 rows: ______</td></tr>
+              <tr><td data-label="Question">Did initialization, neutral, requests, conflict, release, recovery, and Stop pass?</td><td data-label="Answer">________________</td><td data-label="Evidence">Cards/trial IDs: ______</td></tr>
+              <tr><td data-label="Question">What remains pending, failed, unmatched, or unsafe to integrate?</td><td data-label="Answer">________________</td><td data-label="Evidence">Owner/next check/date: ______</td></tr>
+              <tr><td data-label="Question">Where are the known-good drivetrain candidate and separate mechanism candidate?</td><td data-label="Answer">________________</td><td data-label="Evidence">Versions/builds: ______</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Meeting 7 may integrate only actions listed enabled here. It must preserve each explicit zero/safe hold and Stop path while adding diagnostic telemetry.</strong></p>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 4's signed action/control map and Meeting 5's tested drivetrain candidate. Prepare no action that lacks required/installed status.</li>
+          <li>Identify the exact robot branch. For REV, record current page access dates. For goBILDA, verify the artifact identity against the registered filename and SHA-256 before using its behavior or candidate values.</li>
+          <li>Prepare branch-specific declarations from source records, but leave each feature disabled until its exact physical M06 trial passes. Do not place vendor constants in shared or unmatched code.</li>
+          <li>Prepare one telemetry-only copy per pair and one clean integration candidate. Ensure the matching lifecycle reaches an explicit shutdown method or <code>finally</code> path.</li>
+          <li>Prepare supported-test fixtures, exclusion marking, exact-part documents, measuring tools, unloaded test artifacts, cards, evidence forms, and immediate power access.</li>
+          <li>Review current Competition Manual updates and FIRST channels for actuator/control-system legality. Resolve conflicts before enabling output.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Powered gate:</strong> require exact assembly match, approved required action, source identity, configured output, completed physical bounds/hold evidence, secured supported test, written prediction and abort criteria, neutral proof, operator, independent Stop owner, successful build, and reviewed diff. A missing item leaves that feature disabled.</aside>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f02">Source M06-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f03">Source M06-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m06-f04">Source M06-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m06-m01">Measure it M06-M01</a></p>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> The approved Meeting 4 action/control map and Meeting 5's tested team TeleOp; do not recover optional or unavailable actions from vendor examples.</li>
+        <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a>, <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html"><code>DcMotorEx</code></a>, <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/Servo.html"><code>Servo</code></a>, <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/CRServo.html"><code>CRServo</code></a>, and <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/Gamepad.html"><code>Gamepad</code></a> behavior. APIs do not establish physical safety.</li>
+        <li><span class="resource-label follow">REV only</span> Exact 2026-2027 REV <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-subsystems">subsystem controls</a> and <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-flywheel">flywheel controls</a>; record access date and exact assembly match.</li>
+        <li><span class="resource-label follow">goBILDA only</span> Verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip"><code>BioBuzzStarterbotTeleop.java</code></a> artifact and <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">2026-2027 resource guide</a>; verify the registered checksum and exact assembly match.</li>
+        <li><span class="resource-label follow">Follow</span> Current Competition Manual sections 12.5 and 12.7 plus updates for legal motors, actuators, control, command, and signal choices.</li>
+        <li><span class="resource-label follow">Follow</span> Shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/skill-tracker.html">skill tracker</a>, and <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0005-methods-give-actions-names.html">Previous: Meeting 5</a> | <a href="index.html">Course index</a> | <a href="0007-debugging-with-evidence.html">Next: Meeting 7</a></p>
+  </footer>
+</body>
+</html>

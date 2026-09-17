@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Printable BIOBUZZ fault log for evidence-based robot diagnosis.">
+  <title>Fault Log | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <style>
+    .sheet { background: var(--paper-raised); border: 2px solid var(--ink); padding: 1rem; }
+    .meta { display: grid; gap: 0.75rem 1rem; grid-template-columns: 2fr 1fr 1fr; }
+    .field { break-inside: avoid; margin-bottom: 0.75rem; }
+    .field-label { display: block; font-weight: 800; }
+    .write-line { border-bottom: 1px solid var(--ink); display: block; min-height: 1.8rem; }
+    .write-box { border: 1px solid var(--ink); display: block; min-height: 3.5rem; margin-top: 0.25rem; }
+    .layers { display: flex; flex-wrap: wrap; gap: 0.35rem 0.9rem; margin-top: 0.3rem; }
+    .box { border: 1.5px solid currentColor; display: inline-block; height: 0.85rem; margin-right: 0.3rem; vertical-align: -0.08rem; width: 0.85rem; }
+    .columns { display: grid; gap: 0 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 620px) { .meta, .columns { grid-template-columns: 1fr; } }
+    @media print {
+      @page { margin: 0.38in; size: letter portrait; }
+      :root { font-size: 9pt; }
+      .site-header p { margin: 0; }
+      .site-header h1 { font-size: 23pt; }
+      .sheet { padding: 0.12in; }
+      .field { margin-bottom: 0.07in; }
+      .meta { gap: 0.06in 0.14in; }
+      .write-line { min-height: 0.21in; }
+      .write-box { min-height: 0.58in; }
+      .site-footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / One fault, one evidence trail</p>
+    <h1>Fault log</h1>
+  </header>
+
+  <nav class="site-nav no-print" aria-label="Reference navigation">
+    <a href="../lessons/index.html">Return to course index</a>
+  </nav>
+
+  <main>
+    <section aria-labelledby="words-title">
+      <h2 id="words-title">What each diagnosis word asks for</h2>
+      <dl class="words-list">
+        <dt>Symptom</dt><dd>The exact wrong result you can observe, such as a message, value, sound, or movement.</dd>
+        <dt>Hypothesis</dt><dd>One possible reason for the symptom that a check can support or reject.</dd>
+        <dt>Evidence</dt><dd>A message, file and line, telemetry value, log entry, measurement, or inspection result that supports what you say happened.</dd>
+        <dt>Cause</dt><dd>The reason the symptom occurred, confirmed by evidence rather than guessed.</dd>
+        <dt>Fix</dt><dd>The smallest change that corrects the confirmed cause.</dd>
+        <dt>Retest</dt><dd>Repeat the same check after the fix so the before-and-after results can be compared.</dd>
+      </dl>
+      <p>Change only one thing before each retest. If several things change together, the team cannot tell which change affected the result.</p>
+      <p class="example-answer"><strong>Symptom:</strong> INIT showed <code>device left_drive not found</code>. <strong>Hypothesis:</strong> the Java name does not match the saved configuration. <strong>Evidence:</strong> Java used <code>left_drive</code>; the Driver Station configuration showed <code>left_rive</code>. <strong>Cause:</strong> the saved name was missing the letter <code>d</code>. <strong>Fix:</strong> correct that spelling only. <strong>Retest:</strong> repeat INIT and confirm the message is gone. Keep the robot secured because a successful INIT may make later motion possible.</p>
+    </section>
+    <form class="sheet" aria-label="Fault log">
+      <div class="meta">
+        <label class="field"><span class="field-label">Who investigated this fault?</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">When did we investigate it?</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Which commit or code version did we test?</span><span class="write-line"></span></label>
+      </div>
+
+      <label class="field"><span class="field-label">What exact symptom did we observe? Quote the message and describe only what happened.</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">How can another student make the symptom happen again? Give the starting state, actions, and the point where it appears.</span><span class="write-box"></span></label>
+
+      <div class="field">
+        <span class="field-label">Where might the cause be? Choose one area before editing.</span>
+        <span class="layers"><span><span class="box"></span>Build</span><span><span class="box"></span>Configuration</span><span><span class="box"></span>Code</span><span><span class="box"></span>Electrical</span><span><span class="box"></span>Mechanical</span><span><span class="box"></span>Operator</span></span>
+      </div>
+
+      <div class="columns">
+        <label class="field"><span class="field-label">What one possible cause is our hypothesis?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What evidence did we collect? Include exact messages, file and line, telemetry, logs, measurements, or inspection.</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What cause did the evidence confirm?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What one smallest fix did we make?</span><span class="write-box"></span></label>
+      </div>
+
+      <label class="field"><span class="field-label">What happened when we repeated the same test after the fix? Record the actual result, not only pass or fail.</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">What should the team label, check, teach, or document to prevent this fault?</span><span class="write-box"></span></label>
+    </form>
+  </main>
+
+  <footer class="site-footer no-print">
+    <p>Capture first. Hypothesize. Test one thing. Fix the cause. Repeat the original test.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Quick definitions of words used throughout the BIOBUZZ course.">
+  <title>Words We Use | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Quick recall reference</p>
+    <h1>Words we use</h1>
+    <p class="lede">Look here when a familiar course word slips your mind. Each lesson still defines a word when you first need it, so this page is a backup, not reading you must finish before Meeting 1.</p>
+  </header>
+
+  <nav class="site-nav" aria-label="Reference navigation">
+    <a href="../lessons/index.html">Return to course index</a>
+    <a href="#robot-control">Robot and control system</a>
+    <a href="#programming">Programming</a>
+    <a href="#testing">Testing and evidence</a>
+    <a href="#git">Git and recovery</a>
+    <a href="#event">Event readiness</a>
+  </nav>
+
+  <main>
+    <section id="robot-control" aria-labelledby="robot-control-title">
+      <h2 id="robot-control-title">Robot and Control System</h2>
+      <dl class="words-list">
+        <dt>OpMode</dt>
+        <dd>A robot program for one activity. Example: choose <code>Drive Practice</code> on the Driver Station before pressing INIT.</dd>
+        <dt>TeleOp</dt>
+        <dd>An OpMode in which drivers use gamepads to control the robot. Example: moving a stick commands the drivetrain during driver-controlled play.</dd>
+        <dt>Autonomous</dt>
+        <dd>An OpMode that follows programmed instructions without gamepad driving. Example: after Start, the robot drives forward for a measured distance and stops.</dd>
+        <dt>Configuration</dt>
+        <dd>The saved list that connects each Hub port and device type to an exact name. Example: the motor on port 0 is saved as <code>left_drive</code>.</dd>
+        <dt><code>hardwareMap</code></dt>
+        <dd>The code lookup that connects a configured device name to a Java variable. Example: <code>hardwareMap.get(DcMotor.class, "left_drive")</code> finds that configured motor.</dd>
+        <dt>Telemetry</dt>
+        <dd>Messages and values that robot code sends to the Driver Station. Example: display the launcher speed while testing it.</dd>
+        <dt>INIT</dt>
+        <dd>The step that prepares the selected OpMode before Start. Example: press INIT and confirm the status message before anyone presses Start.</dd>
+        <dt>Encoder</dt>
+        <dd>A sensor that reports rotation as counts, often called ticks. Example: compare drivetrain encoder counts before and after a measured roll.</dd>
+      </dl>
+    </section>
+
+    <section id="programming" aria-labelledby="programming-title">
+      <h2 id="programming-title">Programming</h2>
+      <dl class="words-list">
+        <dt>Compile / build</dt>
+        <dd>Check source code and turn it into software the control system can run. Example: build after editing and use the reported file and line to fix a missing semicolon.</dd>
+        <dt>Deploy</dt>
+        <dd>Install the built Robot Controller app on the selected Control Hub. Example: connect the laptop to the correct Hub and run <code>TeamCode</code>.</dd>
+        <dt>Loop</dt>
+        <dd>Instructions that run repeatedly while an OpMode is active. Example: each loop reads the gamepad and updates motor power.</dd>
+        <dt>Stop condition</dt>
+        <dd>A check that ends an action instead of letting it run forever. Example: stop driving when the target is reached, time expires, or the OpMode is no longer active.</dd>
+        <dt>Threshold</dt>
+        <dd>A measured boundary used to make a decision. Example: feed a game element only when launcher speed is above the tested threshold.</dd>
+        <dt>State</dt>
+        <dd>The robot's current named step or condition. Example: a mechanism changes from <code>WAITING</code> to <code>FEEDING</code> without freezing drivetrain control.</dd>
+      </dl>
+    </section>
+
+    <section id="testing" aria-labelledby="testing-title">
+      <h2 id="testing-title">Testing and Evidence</h2>
+      <dl class="words-list">
+        <dt>Fixture</dt>
+        <dd>A guide or support that holds something in a repeatable, safer position. Example: place the robot against a marked starting fixture before every autonomous run.</dd>
+        <dt>Test stand</dt>
+        <dd>A stable setup that secures one component or subsystem for controlled testing. Example: clamp the motor test stand before applying low power.</dd>
+        <dt>Retest</dt>
+        <dd>Run the same check again after one change. Example: repair a loose connector, then retest with the same battery and steps.</dd>
+        <dt>Baseline</dt>
+        <dd>A known-working result or version used for comparison. Example: compare a new TeleOp change with the version that passed three complete runs.</dd>
+      </dl>
+    </section>
+
+    <section id="git" aria-labelledby="git-title">
+      <h2 id="git-title">Git and Recovery</h2>
+      <dl class="words-list">
+        <dt>Diff</dt>
+        <dd>A view of exactly what changed between two code versions. Example: check that a diff changes one motor constant and nothing unrelated.</dd>
+        <dt>Commit</dt>
+        <dd>One saved set of understood changes in Git history. Example: commit the new slow mode after both test cases pass.</dd>
+        <dt>Tag</dt>
+        <dd>A fixed name attached to one exact commit. Example: tag the tested event version <code>event-2026-10-24</code>.</dd>
+        <dt>Clone</dt>
+        <dd>A complete working copy of a repository made in a new folder. Example: clone the team repository on a backup laptop and build the event tag.</dd>
+      </dl>
+    </section>
+
+    <section id="event" aria-labelledby="event-title">
+      <h2 id="event-title">Event Readiness</h2>
+      <dl class="words-list">
+        <dt>Fallback</dt>
+        <dd>The rehearsed backup used when a primary feature, device, or person is unavailable. Example: a backup student restores and deploys the tagged code from a clean clone.</dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Use the lesson for the full explanation and this page for a quick reminder.</p>
+  </footer>
+</body>
+</html>

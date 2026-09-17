@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BIOBUZZ's integrated eight-week programming, build, test, and documentation roadmap.">
+  <title>Eight-Week Meeting Roadmap | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <style>
+    .roadmap { font-size: 0.82rem; }
+    .roadmap th, .roadmap td { padding: 0.55rem; }
+    .gate { font-weight: 800; }
+    @media (max-width: 720px) {
+      .roadmap, .roadmap caption, .roadmap thead, .roadmap tbody, .roadmap tr, .roadmap th, .roadmap td { display: block; }
+      .roadmap { max-width: 100%; min-width: 0; }
+      .roadmap caption { width: 100%; }
+      .roadmap thead { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+      .roadmap tr { background: var(--paper-raised); border: 1px solid var(--line); margin-bottom: 1rem; padding: 0.4rem; }
+      .roadmap td { border: 0; border-bottom: 1px solid var(--line); padding-left: 9.5rem; position: relative; }
+      .roadmap td:last-child { border-bottom: 0; }
+      .roadmap td::before { content: attr(data-label); font-size: 0.7rem; font-weight: 850; left: 0.7rem; letter-spacing: 0.04em; position: absolute; text-transform: uppercase; top: 0.65rem; width: 8.2rem; }
+      .roadmap td:nth-child(2)::before { content: "Code outcome"; }
+      .roadmap td:nth-child(3)::before { content: "Robot readiness"; }
+      .roadmap td:nth-child(4)::before { content: "Visible test"; }
+      .roadmap td:nth-child(5)::before { content: "Team record"; }
+      .roadmap td:nth-child(6)::before { content: "Robot access"; }
+      .roadmap td:nth-child(7)::before { content: "If hardware is late"; }
+    }
+    @media print {
+      .roadmap { font-size: 7.5pt; }
+      .roadmap th, .roadmap td { padding: 0.35rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Mentor planning reference</p>
+    <h1>Eight-week meeting roadmap</h1>
+    <p class="lede">Use this matrix to coordinate programming with build, drive, test, and documentation work. A fallback is the backup activity used when hardware is unavailable; it preserves the learning goal but does not mean an unavailable or unsafe robot passed a physical test.</p>
+  </header>
+
+  <nav class="site-nav" aria-label="Reference navigation">
+    <a href="../lessons/index.html">Return to course index</a>
+    <a href="#roadmap">Meeting roadmap</a>
+    <a href="#gates">Readiness gates</a>
+  </nav>
+
+  <main>
+    <section id="gates" aria-labelledby="gates-title">
+      <h2 id="gates-title">Robot readiness gates</h2>
+      <p>A readiness gate is a condition the team must prove before the next kind of test. These gates keep a software lesson from depending on unsafe, loose, or inconsistent hardware.</p>
+      <ul>
+        <li><strong>Before Meeting 3:</strong> the left and right drive motors, wheels, battery, and wires that make up the drive system (the drivetrain) are secured and clear. Raised-wheel checks must pass before floor driving because the first gamepad commands may use the wrong direction.</li>
+        <li><strong>Before Meetings 4 and 6:</strong> any moving mechanism is held in a stable test setup, has measured clear space and conservative limits, and has a named emergency-stop owner. The code cannot provide safe limits until the team has measured the real mechanism.</li>
+        <li><strong>Before Meeting 10:</strong> wiring for the sensors that report motor rotation as counts (encoders), motor type, motor direction, wheels, tires, axles, and gearing are consistent and recorded. Otherwise the same code can produce different counts, so a distance calculation would not describe the assembled drivetrain.</li>
+        <li><strong>Before Meeting 13:</strong> the exact sensor is installed, protected, listed in the saved hardware list on the Driver Station, and matched to its manufacturer documentation and official sample. This must happen before the team treats a reading as meaningful.</li>
+        <li><strong>Before Meetings 15 and 16:</strong> the event robot, control system, tested event code, and recovery equipment are complete enough to rehearse the actual setup, match, and restore steps. Missing equipment must be marked blocked rather than treated as passed.</li>
+      </ul>
+    </section>
+
+    <section id="roadmap" aria-labelledby="roadmap-title">
+      <h2 id="roadmap-title">Integrated meeting matrix</h2>
+      <table class="roadmap">
+        <caption>Two three-hour meetings per week. Reliability takes priority over adding features.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Week / meeting</th>
+            <th scope="col">What students will make the code do</th>
+            <th scope="col">What must be ready on the robot</th>
+            <th scope="col">What students will visibly test</th>
+            <th scope="col">What the team will record</th>
+            <th scope="col">Robot access required</th>
+            <th scope="col">If the mechanism is late</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0001-robot-programs-are-instructions.html">Week 1 / M1: Robot Programs Are Instructions</a></strong></td>
+            <td data-label="Programming">Open the project and find the team's Java-code folder (<code>TeamCode</code>). Build and install the app; press INIT to prepare the program, Start to run it, and Stop to end it. Point to the loop, the instructions repeated while active, and telemetry, the messages and values shown on the Driver Station.</td>
+            <td data-label="Build">Inventory electronics, label ports, and establish a clear test area.</td>
+            <td data-label="Test / drive">Each pair changes one Driver Station message, sees the changed text after Start, and rehearses the spoken safety states.</td>
+            <td data-label="Artifact">Exact build and installation results, notes showing what appeared after INIT, Start, and Stop, and a hardware inventory; use the <a href="android-studio-setup-and-deploy.html">setup/deploy guide</a>.</td>
+            <td data-label="Robot access">Mentor-prepared laptops plus configured Control Hub/Driver Station; powered motion is not required.</td>
+            <td data-label="Fallback">Build locally and record the blocked target or installation step; use cards to trace what should happen at INIT, Start, and Stop without claiming the app was installed.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0002-variables-make-a-motor-move.html">Week 1 / M2: Variables Make a Motor Move</a></strong></td>
+            <td data-label="Programming">Connect one Java motor name to the same saved Driver Station name, change one power within a mentor-approved limit, and use the first build error's file and line. Blocks may briefly show the same idea before students return to Java. Java stays primary when most pairs can locate, change, build, and explain a similar motor task with light prompting. If that readiness gate fails, record Blocks as the first-event competition-critical fallback while optional Java continues away from event-critical code.</td>
+            <td data-label="Build">Secure one drive motor in a stable test setup; verify its saved name, expected direction, and wire labels.</td>
+            <td data-label="Test / drive">Brief low-power motor test with Stop confirmed.</td>
+            <td data-label="Artifact">Exact saved motor name, readiness evidence, and the recorded Java or Blocks competition-path decision.</td>
+            <td data-label="Robot access">One securely held motor and Control Hub.</td>
+            <td data-label="Fallback">Build prepared code changes; trace expected motor commands against the saved hardware-name table.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0003-gamepad-to-drivetrain.html">Week 2 / M3: Gamepad Input to Drivetrain Output</a></strong></td>
+            <td data-label="Programming">Follow one gamepad value to the left and right motor commands. Inspect the Git diff, the exact added and removed lines, then make a commit, one saved set of tested changes.</td>
+            <td data-label="Build"><span class="gate">Gate: drivetrain ready</span>, wired, retained, and safe for raised-wheel tests.</td>
+            <td data-label="Test / drive">Raised-wheel check, then low-speed floor driving in a clear lane.</td>
+            <td data-label="Artifact">Robot test card and the first Git commit that saves tested robot behavior.</td>
+            <td data-label="Robot access">Complete drivetrain required for floor tests.</td>
+            <td data-label="Fallback">Trace joystick values through prepared code, build it, inspect the exact changed lines, and use written input and output values. Do not claim a floor test passed.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0004-decisions-and-driver-controls.html">Week 2 / M4: Decisions and Driver Controls</a></strong></td>
+            <td data-label="Programming">Write and test one true-or-false decision (a Boolean conditional) that selects slow drive power or a servo command.</td>
+            <td data-label="Build"><span class="gate">Gate: mechanism held in a stable test setup</span> with its full travel clear, or use the drive-system slow-mode option.</td>
+            <td data-label="Test / drive">Run both true and false cases; gather driver feedback.</td>
+            <td data-label="Artifact">Two-case test and control decision notes.</td>
+            <td data-label="Robot access">Drive system for slow mode, or a servo secured in a stable test setup.</td>
+            <td data-label="Fallback">Add slow mode to the current drive code, or show the true and false decisions as Driver Station values without moving hardware.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0005-methods-give-actions-names.html">Week 3 / M5: Methods Give Actions Names</a></strong></td>
+            <td data-label="Programming">Move repeated drive instructions into one named Java action without changing behavior. Bring in teammates' saved changes and inspect the history.</td>
+            <td data-label="Build">Harden drivetrain wiring, battery retention, and service access.</td>
+            <td data-label="Test / drive">Run the same short test before and after moving the instructions; the visible robot behavior must stay the same.</td>
+            <td data-label="Artifact">Reviewed list of exact changed lines and the before-and-after test result.</td>
+            <td data-label="Robot access">Short drivetrain check after code review.</td>
+            <td data-label="Fallback">Move instructions in a copy of known-working code, review each use of the named action and each value it receives, and mark the physical before-and-after check blocked.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0006-mechanisms-and-safety-rules.html">Week 3 / M6: Mechanisms and Safety Rules</a></strong></td>
+            <td data-label="Programming">Give safe limits clear names, keep commands inside the measured range, and add one check that blocks an unsafe mechanism action.</td>
+            <td data-label="Build"><span class="gate">Gate: mechanism held in a stable test setup</span>; builders measure physical stops, areas where parts could collide, and load risks.</td>
+            <td data-label="Test / drive">Test without a game element, then under controlled load at conservative power.</td>
+            <td data-label="Artifact">Table of measured safe limits, operating notes, and robot test card.</td>
+            <td data-label="Robot access">Installed mechanism, or one secured separately, that passes the safety gate.</td>
+            <td data-label="Fallback">Write named limits and test the condition that prevents an unsafe action by using telemetry or prepared example values; do not invent physical limits.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0007-debugging-with-evidence.html">Week 4 / M7: Debugging With Evidence</a></strong></td>
+            <td data-label="Programming">Diagnose prepared build, saved-hardware-name, gamepad-input, and motor-direction problems using exact messages and values.</td>
+            <td data-label="Build">Inspect connectors, fasteners, battery state, and mechanism binding.</td>
+            <td data-label="Test / drive">Reproduce one known safe failure; display the input, the code's decision, and the output command; verify one smallest fix.</td>
+            <td data-label="Artifact">Completed fault log.</td>
+            <td data-label="Robot access">Useful for saved-hardware-name or wiring problems; not required for build and code-reading problems.</td>
+            <td data-label="Fallback">Diagnose build errors, time-ordered app messages, prepared Driver Station values, and code that uses the wrong saved hardware name.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0008-reliable-teleop-checkpoint.html">Week 4 / M8: Reliable TeleOp Checkpoint</a></strong></td>
+            <td data-label="Programming">Combine tested features into one reliable driver-controlled program (TeleOp). Name the exact known-working commit used for comparison (the baseline).</td>
+            <td data-label="Build">Complete basic drivetrain and core-mechanism reliability work.</td>
+            <td data-label="Test / drive">Pass the same complete TeleOp cycle three times; separate defects from requests.</td>
+            <td data-label="Artifact">Known-working checklist, observed-problem list, and a Git tag, a fixed name attached to the exact tested commit.</td>
+            <td data-label="Robot access">Competition robot with all hardware needed by the known-working TeleOp version.</td>
+            <td data-label="Fallback">Establish and repeat the known-working result only for available parts of the robot; mark tests for absent mechanisms blocked, not passed.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0009-autonomous-is-a-sequence.html">Week 5 / M9: Autonomous Is a Sequence</a></strong></td>
+            <td data-label="Programming">Build a low-speed sequence that runs without gamepad driving and stops after each written time or safety condition.</td>
+            <td data-label="Build">Prepare a clear field area and a marked guide that places the robot at the same start each time.</td>
+            <td data-label="Test / drive">Measure one simple mobility action from the marked start.</td>
+            <td data-label="Artifact">Action sequence, measurements, and tested commit.</td>
+            <td data-label="Robot access">Working drivetrain and controlled floor area.</td>
+            <td data-label="Fallback">Arrange and narrate action cards; implement and review stop conditions without claiming physical repeatability.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0010-encoders-turn-motion-into-data.html">Week 5 / M10: Encoders Turn Motion Into Data</a></strong></td>
+            <td data-label="Programming">Display encoder counts, use measured counts instead of elapsed time for one movement, and add a time limit that stops the attempt if the target is never reached.</td>
+            <td data-label="Build"><span class="gate">Gate: consistent encoder wiring</span>, motor type, direction, wheel, axle, tire, and gearing setup.</td>
+            <td data-label="Test / drive">Collect repeated ticks/distance data and compare time-based versus encoder-based motion.</td>
+            <td data-label="Artifact">Encoder wiring record and a table showing the distance actually measured for recorded encoder counts.</td>
+            <td data-label="Robot access">Stable drivetrain with verified encoders.</td>
+            <td data-label="Fallback">Use recorded encoder counts to calculate distance. Review the time limit and the check for whether a motor is still moving toward its target; do not choose final robot values.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0011-compose-and-tune-autonomous.html">Week 6 / M11: Compose and Tune Autonomous Actions</a></strong></td>
+            <td data-label="Programming">Combine named actions for a program that runs without gamepad driving (autonomous), then change one value at a time using repeated results.</td>
+            <td data-label="Build">Keep the starting guide fixed and correct loose or inconsistent hardware before changing code values.</td>
+            <td data-label="Test / drive">Run repeated trials from the same starting mark; keep a simpler tested autonomous program as the backup if the primary sequence becomes unreliable.</td>
+            <td data-label="Artifact">Trial table, chosen code values, and preserved simpler backup version.</td>
+            <td data-label="Robot access">Event drivetrain and realistic starting setup.</td>
+            <td data-label="Fallback">Arrange named code actions and analyze earlier trial data; do not choose values for hypothetical hardware.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0012-state-without-freezing.html">Week 6 / M12: State Without Freezing the Robot</a></strong></td>
+            <td data-label="Programming">If needed, make one button press trigger once, or divide a mechanism action into named states, the mechanism's current steps, that let drive code keep running.</td>
+            <td data-label="Build">Move through each named mechanism step by hand; check for collisions and verify the safe Stop response.</td>
+            <td data-label="Test / drive">Confirm controls respond through each transition, the change from one named step to the next.</td>
+            <td data-label="Artifact">Diagram of each state and the transition arrows showing when it changes, plus the focused test result.</td>
+            <td data-label="Robot access">Mechanism only if the event robot needs the pattern.</td>
+            <td data-label="Fallback">Use cards and Driver Station messages to model each named step; defer physical integration or the optional behavior.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0013-sensors-and-collaboration.html">Week 7 / M13: Sensors and Small-Team Collaboration</a></strong></td>
+            <td data-label="Programming">Display the sensor's unprocessed readings and have another student inspect the change. After separated useful data, the team may choose a measured decision boundary and bounded command, but telemetry-only, rejecting the sensor for this use, or remounting and recollecting are complete valid outcomes.</td>
+            <td data-label="Build"><span class="gate">Gate: sensor installed</span>, protected, listed by its exact saved hardware name, and documented for the exact part.</td>
+            <td data-label="Test / drive">Collect readings at the distances, lighting, and field conditions the robot will encounter. Enable sensor-assisted behavior only if separated useful data justifies it.</td>
+            <td data-label="Artifact">Unprocessed-reading table, peer-review notes, and one recorded disposition: telemetry-only, reject, remount/recollect, or optional supported boundary/command with its test card.</td>
+            <td data-label="Robot access">Exact installed sensor for claims about readings, a decision boundary, or behavior.</td>
+            <td data-label="Fallback">Read an exact matching sample and review captured readings. Keep the outcome telemetry-only or blocked; do not choose a final decision boundary.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0014-reliability-and-failure-recovery.html">Week 7 / M14: Reliability and Failure Recovery</a></strong></td>
+            <td data-label="Programming">Set outputs to safe values when input is missing or invalid, display messages and values that locate failures, and practice restoring the exact tested Git version.</td>
+            <td data-label="Build">Use the event inspection checklist in the work area and correct high-risk wiring or mechanical failures.</td>
+            <td data-label="Test / drive">Practice one known safe failure the team has rehearsed. Run Driver Station Self-Inspect, its built-in control-system check, record any warning, and repeat the original test after the fix.</td>
+            <td data-label="Artifact">Event troubleshooting guide and fault logs.</td>
+            <td data-label="Robot access">The event robot setup is preferred; selected build and app-message checks can run without motion.</td>
+            <td data-label="Fallback">Practice diagnosing build messages, time-ordered app messages, saved hardware names, and code restoration; list physical recovery checks still blocked.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0015-match-simulation-and-event-readiness.html">Week 8 / M15: Match Simulation and Event Readiness</a></strong></td>
+            <td data-label="Programming">Sort observed defects into must-fix or defer, repeat every test affected by a fix, then stop adding features and record the exact tested event candidate for Meeting 16 release verification.</td>
+            <td data-label="Build"><span class="gate">Gate: event-ready robot</span> with working control system, charged batteries, needed spares, and every inspection item checked.</td>
+            <td data-label="Test / drive">Complete at least three full simulations from the no-gamepad program into the driver-controlled program, rotating student roles.</td>
+            <td data-label="Artifact">Run log; a fix-now or defer decision with a reason for each problem; the exact tested candidate and rollback identities; and a backup record.</td>
+            <td data-label="Robot access">Complete event-ready robot and realistic match setup.</td>
+            <td data-label="Fallback">Rehearse roles, setup, timing, defect sorting, and event-version steps; do not tag robot behavior that has not passed its physical test.</td>
+          </tr>
+          <tr>
+            <td data-label="Week / meeting"><strong><a href="../lessons/0016-capstone-demo-and-handoff.html">Week 8 / M16: Capstone Demo and Handoff</a></strong></td>
+            <td data-label="Programming">Without mentor keyboard use, each student explains a code path and makes one telemetry-text change in an assigned isolated practice copy. Students then create a separate clean clone, select the exact tested full hash, build it, run the written readiness test when safe, diagnose one rehearsed problem, and complete the ordered tag/release proof.</td>
+            <td data-label="Build"><span class="gate">Gate: event-ready robot</span> with laptops, cables, required accounts and passwords, spares, and a backup student for each role.</td>
+            <td data-label="Test / drive">Use the event system for one student-led readiness sequence with separate verify, INIT, run, Stop, shutdown, and evidence checks. Individual telemetry changes stay in disposable copies and are never deployed to the event robot.</td>
+            <td data-label="Artifact">Individual explanation/change/build-or-incomplete records, practiced backup-role list, clean recovery proof, exact shared tag/release/archive proof or blocker, and keep/change/learn-next answers.</td>
+            <td data-label="Robot access">Complete event system for the team readiness demonstration; personal telemetry/build evidence uses isolated copies.</td>
+            <td data-label="Fallback">Create a fresh working copy and build it, explain the code, and diagnose at a table. Mark each blocked personal build/check and final installation item incomplete with an explicit owner/date; do not substitute event-candidate evidence.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>BIOBUZZ planning reference. Team sequencing and fallback choices are local practice; current FIRST rules and documentation remain authoritative.</p>
+  </footer>
+</body>
+</html>

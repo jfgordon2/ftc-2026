@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 16 lesson for individual capstone proof, isolated clean recovery, exact release identity, packing, and ownership handoff.">
+  <title>Meeting 16: Capstone Demo and Handoff | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 8, Meeting 16 / FTC SDK v12.0</p>
+    <h1>Capstone Demo and Handoff</h1>
+    <p class="lede">Show what you understand, prove another student can cover your role, restore the exact event version in isolation, and hand the robot, records, and next work to named owners.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Recoverable ownership</li>
+      <li><strong>Team result</strong><br>Event release and handoff</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0015-match-simulation-and-event-readiness.html">Previous: Meeting 15: Match Simulation and Event Readiness</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#follow">Follow along</a>
+    <a href="#practice">Ownership practice</a>
+    <a href="#test">Clean recovery</a>
+    <a href="#handoff">Final handoff</a>
+    <a href="#prep">Mentor preparation</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the team able to do</h2>
+        <div class="outcome-banner">Every student independently explains one subsystem or workflow, personally makes and verifies one harmless small change in a disposable isolated copy, shows the visible proof, and proves one different backup role. The team restores the exact Meeting 15 candidate from a clean location on another prepared laptop without changing or risking the event candidate, builds it, completes controlled deployment or records the blocked equivalent, verifies the exact tested release/tag and archive, packs with two people able to perform each critical role, and leaves a prioritized post-event backlog.</div>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Capstone</dt><dd>A short final demonstration in which each student explains, does, and shows one real part of the team's work.</dd>
+          <dt>Clean clone</dt><dd>A new working copy of the repository made in an empty location, separate from every existing team checkout.</dd>
+          <dt>Fetch tags</dt><dd>Ask Git to copy the shared repository's fixed tag names and their targets into the local clone without changing the files currently shown. The command form is <code>git fetch origin --tags</code>.</dd>
+          <dt>Check out</dt><dd>Make one working directory show the files from an exact tag or commit. For this recovery drill, students use a separate clone and select the approved full hash without editing it.</dd>
+          <dt>Tracked changes</dt><dd>Differences Git reports in files it already records. An empty <code>git status --short</code> result means Git sees no tracked or untracked workspace changes.</dd>
+          <dt>Full hash</dt><dd>The complete 40-character Git commit identifier, not an abbreviated ID. It identifies the exact saved code being checked.</dd>
+          <dt>Annotated event tag</dt><dd>A fixed Git name plus a message attached to one exact commit for the event release. Create it once; never move or reuse it.</dd>
+          <dt>Checksum</dt><dd>An optional calculated fingerprint for a saved file or archive. Matching checksums support file-identity checking; they do not prove the robot behavior passed.</dd>
+          <dt>Recovery drill</dt><dd>A rehearsal that proves students can restore the exact event version and its records after a laptop or working copy is unavailable.</dd>
+          <dt>Archive</dt><dd>An indexed collection of exact code, configuration, test, inspection, recovery, packing, and ownership records that another student can open and verify.</dd>
+          <dt>Backup role</dt><dd>A different event responsibility the student has actually practiced, not only a name beside a role.</dd>
+          <dt>Handoff owner</dt><dd>The named student responsible for receiving an item or task, checking it, and carrying it forward.</dd>
+          <dt>Backlog</dt><dd>A prioritized list of evidence-based work to keep, change, or learn next after the event; it does not modify the frozen release today.</dd>
+          <dt>Disposable isolated copy</dt><dd>A separate checkout or copied working folder used only for a harmless practice change, then discarded or returned to its recorded starting version without touching the event candidate.</dd>
+        </dl>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot or event version</h2>
+        <ul class="checklist">
+          <li>Read the Meeting 15 candidate full hash, configuration, passing run IDs, rollback, current-source record, blockers, and freeze decision. A blocked candidate cannot become a release today.</li>
+          <li>Use a spare prepared laptop or new empty directory outside all existing checkouts for clean recovery. Use a separate disposable location for any rehearsed mystery problem.</li>
+          <li>Do not edit, reset, retag, overwrite, or diagnose inside the event candidate, known-good working copy, sole configuration copy, event Driver Station setup, or release archive.</li>
+          <li>Before robot contact, press Stop, verify zero commanded motion, say <q>stopped</q>, switch off the Hub, disconnect/isolate the battery, and release or support stored energy.</li>
+          <li>Before motion, connect the accepted battery only with the Hub off; switch on; confirm Hub/Driver Station status; verify exact hash/configuration; press INIT; verify safe outputs; then call <q>robot live</q> and <q>clear</q>.</li>
+        </ul>
+        <aside class="safety-callout">Software recovery never justifies risking event hardware. Press Stop for unexpected motion, field entry, loose hardware, binding, communication loss, cable movement, repeated reset, abnormal sound, heat, swelling, smoke, or odor. Verify zero motion, say <q>stopped</q>, switch off, and disconnect before contact.</aside>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's 180-minute plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Student-led handoff audit.</strong> Verify candidate, rollback, authority, blockers, roles, recovery locations, and Stop ownership.</div></li>
+          <li><time>0:15-0:30<br>15 min</time><div><strong>Follow one capstone proof.</strong> Practice explain, do, show, observer recording, and backup-role proof.</div></li>
+          <li><time>0:30-0:50<br>20 min</time><div><strong>Ownership lane 1.</strong> Begin event/backup explanation, build/packing, or individual code/evidence work.</div></li>
+          <li><time>0:50-1:10<br>20 min</time><div><strong>Ownership lane 2.</strong> Move one lane and swap doer/recorder; each student owns their bounded action.</div></li>
+          <li><time>1:10-1:30<br>20 min</time><div><strong>Ownership lane 3.</strong> Complete the remaining lane and every individual or blocked-follow-up record.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Stop, verify zero motion, switch off, disconnect, and preserve every identity/location.</div></li>
+          <li><time>1:40-2:00<br>20 min</time><div><strong>Student-led readiness demonstration.</strong> Inspect, prepare, verify, deploy, run the bounded test, Stop, shut down, and preserve evidence as separate checks.</div></li>
+          <li><time>2:00-2:30<br>30 min</time><div><strong>Clean recovery and rehearsed problem.</strong> Students create the clean clone, select the exact hash, build, record deployment status, and diagnose one separate known problem.</div></li>
+          <li><time>2:30-2:50<br>20 min</time><div><strong>Prepared exact release and archive operations.</strong> Execute only the prewritten host-release checklist, prepared second-clone location, staged archive index, and approved destinations; verify tag type/hash and open or restore one item, or record the exact incomplete step and continuation.</div></li>
+          <li><time>2:50-3:00<br>10 min</time><div><strong>Pack and hand off.</strong> Assign practiced primary/backup ownership, packing gaps, and the prioritized backlog.</div></li>
+        </ol>
+        <p><strong>Total: 15 + 15 + 20 + 20 + 20 + 10 + 20 + 30 + 20 + 10 = 180 minutes.</strong></p>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Follow along: explain, do, and show</h2>
+        <ol>
+          <li><strong>Explain:</strong> choose one actual subsystem or workflow and trace its starting input/state, decision, commanded output, physical or screen result, safe Stop/failure behavior, and exact file/configuration. <strong>Success:</strong> a peer can point to the same path.</li>
+          <li><strong>Do:</strong> in a mentor-approved disposable isolated copy, personally make one harmless small change, such as pair-specific telemetry text. Explain the exact diff, build it, and check the saved build output or telemetry-only result. Do not deploy uncertain disposable code to the event robot. <strong>Success:</strong> the observer identifies the student's change, explanation, build/check, and proof without taking the keyboard.</li>
+          <li><strong>Show and discard:</strong> locate the diff and saved output/file name, path, time, or checksum when available that proves the result. Then discard the disposable change or return that isolated copy to its recorded starting hash and verify the change is gone. <strong>Success:</strong> the practice evidence remains while the event candidate and clean recovered copy remain unchanged.</li>
+          <li><strong>Prove a backup role:</strong> perform or lead a tabletop/zero-motion version of a different event responsibility and state when to Stop, use rollback, ask current event authority, or call the mentor. <strong>Success:</strong> no critical role depends on one person.</li>
+        </ol>
+        <p class="why-it-matters"><strong>Why the clean-clone drill matters:</strong> it proves the exact code can be restored on another prepared laptop. Because the drill occurs in a new isolated location, students can diagnose or discard that copy without changing or risking the protected event candidate.</p>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Try every ownership lane with your partner</h2>
+        <p><strong>Three pairs:</strong> start one pair in each lane and rotate every 20 minutes. <strong>Two pairs:</strong> start in two lanes with one lane empty; all pairs and the empty place advance every 20 minutes. Every pair receives 20 minutes in all three lanes. Every student must lead at least one action, record a different student's action, and prove a backup role.</p>
+        <div class="station-grid">
+          <article class="station-card"><h3>1. Event and backup explanation</h3><ol><li>Use the current official-source cue card to explain setup, role call, current procedure, Stop, reset, and pit communication.</li><li>Each student performs or leads one tightly bounded primary or backup action.</li><li>Prepare the bounded final test with setup, expected behavior, Stop condition, and visible pass evidence.</li><li>State the escalation boundary, rollback cue, and next handoff owner.</li></ol><p class="success-check">Show: explanation, performed backup action, runnable test, limitation, escalation boundary, and receiver.</p></article>
+          <article class="station-card"><h3>2. Build and packing</h3><ol><li>With power off/disconnected, inspect exact installed parts, fasteners, wiring paths, battery restraint, guards, service points, and containers.</li><li>Use exact manufacturer documents to identify actual spares, fasteners, cables, and service instructions.</li><li>Use current FIRST sources, not vendor pages, for inspection and legal equipment.</li><li>Record the item, condition, source, container, gap, primary, backup, and return owner.</li></ol><p class="success-check">Show: one checkable packing row and one practiced backup action per student.</p></article>
+          <article class="station-card"><h3>3. Individual code and evidence</h3><ol><li>Each student opens the mentor-prepared isolated disposable copy assigned to that student and verifies its recorded starting full hash. This is not the later student-created clean clone.</li><li>Each student personally changes only one mentor-approved telemetry text string and explains the exact diff.</li><li>Each student starts and checks the cached <code>TeamCode</code> build, then records its result and saved output file/path/time or optional checksum.</li><li>Each student discards the change or returns only that disposable copy to the starting hash, then verifies the telemetry change is gone.</li><li>If cached dependencies, storage, or tools block the personal build/check, mark that student's proof incomplete and schedule an owner/date follow-up. Never substitute Meeting 15 or event-candidate evidence.</li></ol><p class="success-check">Show: each student's starting hash, telemetry-only diff, personal cached build/check or explicit incomplete status, discard proof, and follow-up when needed.</p></article>
+        </div>
+
+        <p class="record-prompt">Use one row per student; add rows on another copy. Every student personally makes, explains, builds/checks, and discards/resets one harmless small change in isolated disposable state. Group success or a partner typing does not prove independence.</p>
+        <table class="record-table">
+          <caption>Independent capstone and backup-role record</caption>
+          <thead><tr><th scope="col">Who and what did they explain?</th><th scope="col">What harmless isolated change did they personally make?</th><th scope="col">What build/check and discard/reset proof did they show?</th><th scope="col">Which different backup role did they prove?</th><th scope="col">What level was observed?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Student and explanation">Name/topic: ______<br>Input/decision/output/Stop: ______</td><td data-label="Personal isolated change">Starting hash/path/change/diff: __________________</td><td data-label="Build, check, discard proof">Saved output/file identity and result: ______<br>[ ] Discarded/reset [ ] Starting hash rechecked</td><td data-label="Backup-role proof">Role/action/escalation: ______</td><td data-label="Observed level">[ ] Observed [ ] Supported [ ] Independent [ ] Can Coach<br>Observer: ___</td></tr>
+            <tr><td data-label="Student and explanation">Name/topic: ______<br>Input/decision/output/Stop: ______</td><td data-label="Personal isolated change">Starting hash/path/change/diff: __________________</td><td data-label="Build, check, discard proof">Saved output/file identity and result: ______<br>[ ] Discarded/reset [ ] Starting hash rechecked</td><td data-label="Backup-role proof">Role/action/escalation: ______</td><td data-label="Observed level">[ ] Observed [ ] Supported [ ] Independent [ ] Can Coach<br>Observer: ___</td></tr>
+            <tr><td data-label="Student and explanation">Name/topic: ______<br>Input/decision/output/Stop: ______</td><td data-label="Personal isolated change">Starting hash/path/change/diff: __________________</td><td data-label="Build, check, discard proof">Saved output/file identity and result: ______<br>[ ] Discarded/reset [ ] Starting hash rechecked</td><td data-label="Backup-role proof">Role/action/escalation: ______</td><td data-label="Observed level">[ ] Observed [ ] Supported [ ] Independent [ ] Can Coach<br>Observer: ___</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test it safely: readiness and isolated recovery</h2>
+        <h3>Student-led final readiness demonstration</h3>
+        <ol>
+          <li><strong>Inspect:</strong> complete the current inspection and Self-Inspect. <strong>Success:</strong> no unresolved must-fix item remains.</li>
+          <li><strong>Verify identity:</strong> compare the installed full hash and configuration with Meeting 15. <strong>Success:</strong> every identity matches the tested candidate.</li>
+          <li><strong>Predict:</strong> state the bounded behavior and the expected Stop result. <strong>Success:</strong> the test card names visible pass and abort evidence.</li>
+          <li><strong>Prepare power:</strong> with the Hub off, connect the accepted battery, switch on, and confirm Hub and Driver Station status. <strong>Success:</strong> the expected control system reconnects.</li>
+          <li><strong>Select and INIT:</strong> select the exact OpMode/configuration, press INIT, and verify identity and safe outputs. <strong>Success:</strong> no motion starts before Start.</li>
+          <li><strong>Run:</strong> call <q>robot live</q>, receive <q>clear</q>, and perform only the bounded action. <strong>Success:</strong> observed behavior matches the written criterion or is recorded as a failure.</li>
+          <li><strong>Stop:</strong> press Stop and verify zero commanded motion and no physical motion. Say <q>stopped</q>. <strong>Success:</strong> Stop proof is visible and recorded.</li>
+          <li><strong>Shut down:</strong> switch off the Hub and disconnect the battery before contact. <strong>Success:</strong> the robot is safe to approach.</li>
+          <li><strong>Preserve evidence:</strong> record inspection, installed identity, behavior, Stop, student roles, shutdown, and result. <strong>Success:</strong> another student reconciles the row with the Meeting 15 candidate.</li>
+        </ol>
+
+        <h3>Clean-clone recovery on another prepared laptop</h3>
+        <ol>
+          <li><strong>Isolate:</strong> use a spare laptop or new empty directory outside every existing checkout. Record machine, path, operator, repository URL, and the full candidate hash recorded and approved in Meeting 15. Do not delete or repurpose the known-good copy.</li>
+          <li><strong>Create the clean clone:</strong> a student runs <code>git clone &lt;TEAM_REPOSITORY_URL&gt; &lt;NEW_EMPTY_DIRECTORY&gt;</code>. Text inside angle brackets is a placeholder that students replace with the team's recorded actual value; it is not a literal command value. <strong>Success:</strong> the new folder was created by the student during this drill, not prepared in advance.</li>
+          <li><strong>Fetch fixed tag names:</strong> inside the new clone, run <code>git fetch origin --tags</code>. <strong>Success:</strong> the command finishes without changing the checked-out files; a network/authentication failure is recorded as blocked.</li>
+          <li><strong>Check out the tested commit:</strong> run <code>git switch --detach &lt;TESTED_FULL_HASH&gt;</code> using the actual Meeting 15 full hash. <strong>Success:</strong> <code>git rev-parse HEAD</code> prints that exact 40-character hash before Android Studio opens.</li>
+          <li><strong>Verify clean files:</strong> run <code>git status --short</code>. <strong>Success:</strong> it prints nothing. Any output means the clone is not clean and blocks release proof until explained.</li>
+          <li><strong>Build without edits:</strong> record SDK/project/tool identity and build <code>TeamCode</code>. Do not edit to make recovery pass. <strong>Success:</strong> build output, time, machine, full hash, and saved output file name/path are recorded; an optional checksum may be added.</li>
+          <li><strong>Deploy without candidate risk:</strong> prefer spare hardware. If only the event robot exists, first prove exact hash, preserve installed/configuration identity and restore method, inspect, then deploy only the unchanged hash using the full safe power sequence. If any gate fails, stop at clean build and record controlled deployment as blocked.</li>
+          <li><strong>Verify the recovered OpModes:</strong> compare the displayed names with the Meeting 15 record before INIT. <strong>Success:</strong> names and configuration agree.</li>
+          <li><strong>Run the recovered bounded test:</strong> complete only the established low-risk behavior. <strong>Success:</strong> behavior matches the written criterion or is recorded as failed.</li>
+          <li><strong>Stop and shut down:</strong> press Stop, verify zero commanded motion and no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before contact. <strong>Success:</strong> clone hash, clean state, build, configuration, deploy or explicit blocked equivalent, test, Stop, and shutdown records agree.</li>
+        </ol>
+
+        <h3>Each student's harmless disposable change evidence</h3>
+        <ol>
+          <li><strong>Use the assigned practice state:</strong> each student uses the mentor-prepared isolated disposable copy assigned before the meeting at the recorded starting full hash. These copies keep ownership work parallel; they do not replace the student-created clean clone above. Record the student, path, and starting hash. The clean recovered copy and event candidate remain untouched.</li>
+          <li><strong>Make and explain one small change:</strong> the student personally changes a mentor-approved harmless item, such as pair-specific telemetry text, and explains the diff. The mentor supervises scope and safety but does not type. <strong>Success:</strong> the diff contains only that student's intended harmless change.</li>
+          <li><strong>Build and check:</strong> the student starts and checks the cached build in the disposable copy and records the exact output or telemetry-only check. Do not deploy uncertain disposable code to the event robot. <strong>Success:</strong> the student's row names the build/check result and saved output/file identity. If infrastructure blocks the personal check, mark it incomplete and schedule an explicit follow-up; do not substitute event-candidate evidence.</li>
+          <li><strong>Discard and verify:</strong> discard the disposable folder or return only that isolated copy to its recorded starting hash; then verify the student's change is absent. <strong>Success:</strong> the row records discard/reset proof, while the clean recovered copy and event candidate still show the approved full hash and no changes.</li>
+        </ol>
+
+        <h3>Separate rehearsed recovery problem</h3>
+        <p>Use only a harmless Meeting 14 problem in a disposable checkout, mock setup, spare device, or zero-motion rehearsal configuration. Record symptom/time/hash/configuration, test one explanation, change only disposable state, repeat the bounded check, discard that state safely, and re-verify the clean candidate hash. Never merge, tag, release, or deploy the practice fix to the event candidate. If the mentor reveals the cause or takes the keyboard, record Supported and rerun later.</p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record the exact release, archive, and packing answers</h2>
+        <p class="record-prompt">A label does not make code tested. Create or verify the event tag/release only when it resolves to the exact Meeting 15 deployed-and-tested commit and today's required recovery/readiness proof passes.</p>
+        <h3>Create or verify the release in this order</h3>
+        <p>In the command examples below, text inside angle brackets is a placeholder. Replace it with the mentor-approved actual team value; never type the brackets or example format as though it were the team's value.</p>
+        <p><strong>Twenty-minute boundary:</strong> this block completes only operations prepared before the meeting. If any step or archive input cannot finish inside the block, record <strong>release/archive incomplete</strong>, the exact blocked step or missing input, owner, and continuation date; then continue in that scheduled post-meeting session. Never claim completion or rush, omit, or weaken verification to fit the clock.</p>
+        <ol>
+          <li><strong>Verify the exact tested identity:</strong> compare Meeting 15's approved full hash with <code>git rev-parse HEAD</code>, then reconcile its configuration, passing run IDs, rollback, inspection, today's readiness result, clean recovery build, and every release blocker. <strong>Success:</strong> all release-gate records identify the same full hash and no blocker remains.</li>
+          <li><strong>Fetch existing tags:</strong> run <code>git fetch origin --tags</code>. <strong>Success:</strong> the local clone has the current shared tag records. Record authentication or network failure as blocked.</li>
+          <li><strong>Check whether the approved actual tag exists:</strong> use the mentor-approved actual tag name and check for <code>refs/tags/&lt;ACTUAL_TAG_NAME&gt;</code>. If it exists, do not recreate, move, force, or reuse it. If it is absent, continue to the creation step.</li>
+          <li><strong>Verify an existing tag object:</strong> for an existing ref, run <code>git cat-file -t "refs/tags/&lt;ACTUAL_TAG_NAME&gt;"</code>. <strong>Success:</strong> the only accepted output is <code>tag</code>; <code>commit</code> identifies a lightweight tag and blocks release.</li>
+          <li><strong>Resolve the existing tag's commit:</strong> separately run <code>git rev-parse "refs/tags/&lt;ACTUAL_TAG_NAME&gt;^{}"</code>. <strong>Success:</strong> the complete output exactly equals the tested 40-character full hash.</li>
+          <li><strong>Create the annotated tag only if absent:</strong> after a mentor approves the actual tag name and message, run <code>git tag -a &lt;ACTUAL_TAG_NAME&gt; &lt;TESTED_FULL_HASH&gt; -m "&lt;ACTUAL_APPROVED_MESSAGE&gt;"</code>. Never move, force, or reuse an existing event tag.</li>
+          <li><strong>Verify the newly created tag object:</strong> run <code>git cat-file -t "refs/tags/&lt;ACTUAL_TAG_NAME&gt;"</code>. <strong>Success:</strong> the only accepted output is <code>tag</code>.</li>
+          <li><strong>Resolve the newly created tag's commit:</strong> separately run <code>git rev-parse "refs/tags/&lt;ACTUAL_TAG_NAME&gt;^{}"</code>. <strong>Success:</strong> the complete output exactly equals the tested 40-character full hash.</li>
+          <li><strong>Push only that tag:</strong> run <code>git push origin "refs/tags/&lt;ACTUAL_TAG_NAME&gt;"</code>. Do not push a branch or all tags as part of this step. <strong>Success:</strong> the shared repository accepts that one tag; otherwise record release sharing as blocked.</li>
+          <li><strong>Create the independent clone:</strong> a second student uses the mentor-prepared second empty parent/location and runs <code>git clone --no-tags --no-checkout &lt;TEAM_REPOSITORY_URL&gt; &lt;SECOND_NEW_EMPTY_DIRECTORY&gt;</code>. <strong>Success:</strong> the student creates this second clone during the block; it was not pre-created.</li>
+          <li><strong>Fetch only the actual tag:</strong> inside the second clone, run <code>git fetch --no-tags origin "refs/tags/&lt;ACTUAL_TAG_NAME&gt;:refs/tags/&lt;ACTUAL_TAG_NAME&gt;"</code>. <strong>Success:</strong> the fetch names only the approved actual tag ref.</li>
+          <li><strong>Independently verify the tag object:</strong> in the second clone, run <code>git cat-file -t "refs/tags/&lt;ACTUAL_TAG_NAME&gt;"</code>. <strong>Success:</strong> the only accepted output is <code>tag</code>.</li>
+          <li><strong>Independently resolve the tag's commit:</strong> separately run <code>git rev-parse "refs/tags/&lt;ACTUAL_TAG_NAME&gt;^{}"</code>. <strong>Success:</strong> the complete output exactly equals the tested 40-character full hash.</li>
+          <li><strong>Follow the prepared named host checklist:</strong> use the mentor-written <q>Repository-host release checklist: ______</q>, which contains the team's exact approved UI path or authenticated CLI command. Create or locate the release attached to the actual tag without exposing secrets or relabeling a different build. <strong>Success:</strong> the checklist result, release tag, and displayed commit agree with the independently checked hash.</li>
+          <li><strong>Complete the staged archive index:</strong> fill the prepared template with the actual exact source/configuration identity, test and inspection record IDs, pit guide, role matrix, packing list, rollback, release location, and each approved primary/backup storage destination. Do not substitute example or intended locations. <strong>Success:</strong> every entry contains the saved item's exact identity and actual location.</li>
+          <li><strong>Save to the approved destinations:</strong> save the indexed items only to the prepared primary and backup destinations. <strong>Success:</strong> the student records the actual resulting locations; a planned destination is not proof of a saved item.</li>
+          <li><strong>Open or restore proof:</strong> a different student uses the index to download/open the release archive and restore or open one backup item. Record exact item identity, actual location, time, optional checksum, and what opened successfully. <strong>Success:</strong> proof demonstrates independent access to saved material, not merely that a link exists.</li>
+          <li><strong>Record the final state:</strong> if authentication, network, tag type/hash, creation/push, second clone/fetch, prepared host checklist, archive input/save, or restore proof fails or exceeds the block, mark <strong>release/archive incomplete</strong> with the exact blocked step or input, owner, and scheduled continuation date. Do not claim release completion. <strong>Success:</strong> the record says released only when every required step passes without skipped verification.</li>
+        </ol>
+        <table class="record-table">
+          <caption>Release and archive questions</caption>
+          <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Who checked it, and where is the proof?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Question">Which full hash, configuration, SDK/tool identity, OpModes, and fallback are being released?</td><td data-label="Verified answer">________________</td><td data-label="Checker and proof">________________</td></tr>
+            <tr><td data-label="Question">What mentor-approved actual tag name/message was used, did both clones report object type <code>tag</code>, and did both separately resolve it to the tested full hash? <code>event-YYYY-MM-DD</code> is format only, not a team value.</td><td data-label="Verified answer">Actual tag/message: ______<br>Primary type/hash: ______ / ______<br>Second-clone type/hash: ______ / ______</td><td data-label="Checker and proof">Students/command results: __________________</td></tr>
+            <tr><td data-label="Question">Where are the Meeting 15 passes, today's inspection, clean build, deploy/equivalent, bounded test, and Stop records?</td><td data-label="Verified answer">Record IDs/locations: __________________</td><td data-label="Checker and proof">________________</td></tr>
+            <tr><td data-label="Question">Which prepared named host checklist was followed, and where are the release, completed archive index, configuration, current-source record, pit guide, fault/test records, role matrix, packing list, backlog, and rollback?</td><td data-label="Verified answer">Checklist name/result: ______<br>Actual release/archive/index locations: __________________</td><td data-label="Checker and proof">Backup opened/restored exact item/location/time/optional checksum: ______</td></tr>
+            <tr><td data-label="Question">Is release/archive complete, or which exact authentication, network, tag type/hash, push, second-clone, host-checklist, archive-input/save, or restore step is incomplete?</td><td data-label="Verified answer">[ ] Released and archived [ ] Release/archive incomplete<br>Exact blocked step/input/reason: ______</td><td data-label="Checker and proof">Owner/continuation date: __________________</td></tr>
+          </tbody>
+        </table>
+        <p>Never move, force, or reuse a published event tag. A must-fix correction gets a new tested commit, the complete required retest, and a new mentor-approved release identity. The archive records access checks, not secrets.</p>
+
+        <p class="record-prompt">Answer each packing question from the actual item and current exact-product instructions. Examples describe answer shape only; they are not required quantities, legal claims, or team hardware.</p>
+        <table class="record-table">
+          <caption>Event packing questions - two people must be able to perform each critical role</caption>
+          <thead><tr><th scope="col">What exact question must we answer?</th><th scope="col">What actual item, condition, or gap did we verify?</th><th scope="col">Where is it and how was it checked?</th><th scope="col">Who owns it, backs it up, and receives it after the event?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Packing question">Which robot restraints, protection, and current-rule field interfaces travel? <strong>Example:</strong> exact labeled restraint and inspected condition.</td><td data-label="Item, condition, gap">________________</td><td data-label="Location and check">________________</td><td data-label="Primary, backup, return">______ / ______ / ______</td></tr>
+            <tr><td data-label="Packing question">Which accepted batteries, chargers, exact leads, and safe transport items travel?</td><td data-label="Item, condition, gap">________________</td><td data-label="Location and check">________________</td><td data-label="Primary, backup, return">______ / ______ / ______</td></tr>
+            <tr><td data-label="Packing question">Which Driver Station, controllers, and currently legal/verified cables and adapters travel?</td><td data-label="Item, condition, gap">________________</td><td data-label="Location and check">________________</td><td data-label="Primary, backup, return">______ / ______ / ______</td></tr>
+            <tr><td data-label="Packing question">Which exact tools, spares, fasteners, wiring, and service instructions match installed hardware?</td><td data-label="Item, condition, gap">________________</td><td data-label="Location and check">________________</td><td data-label="Primary, backup, return">______ / ______ / ______</td></tr>
+            <tr><td data-label="Packing question">Which laptops, source/configuration copies, inspection, test, fault, and pit records travel?</td><td data-label="Item, condition, gap">________________</td><td data-label="Location and check">________________</td><td data-label="Primary, backup, return">______ / ______ / ______</td></tr>
+            <tr><td data-label="Packing question">Who verified repository/document access and event contacts without writing secrets here?</td><td data-label="Item, condition, gap">Access pass/fail and gap: ______</td><td data-label="Location and check">Checked by: ______</td><td data-label="Primary, backup, return">______ / ______ / ______</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot, network, account, or candidate is unavailable</h2>
+        <div class="fallback-box"><ol>
+          <li><strong>Robot unavailable:</strong> complete individual explanations, clean source/build, configuration comparison, captured-log diagnosis, tabletop setup, archive, packing, and backups. Mark inspection, deploy, motion, Stop, and physical test blocked with owners/dates.</li>
+          <li><strong>Network/account unavailable:</strong> use a previously verified local repository and immutable hash for practice. Do not claim a clean network clone, remote backup, pushed tag/release, or backup-owner access.</li>
+          <li><strong>Release/archive block expires or an input is missing:</strong> stop at the last fully verified step. Record <strong>release/archive incomplete</strong>, the exact blocked step or missing archive input, owner, and scheduled post-meeting continuation date. Never rush, skip a type/hash/access check, or report completion to fit 20 minutes.</li>
+          <li><strong>Candidate mismatch or Meeting 15 blocked:</strong> stop release work, preserve both identities, and schedule missing inspection/full simulations. Never tag the newest file merely because it builds.</li>
+          <li><strong>No safe deployment target:</strong> finish isolated clean build, compare exact hash/configuration with installed proof, record <strong>fresh deploy not rerun</strong>, and assign controlled deployment.</li>
+          <li><strong>Personal build/check infrastructure blocked:</strong> preserve the student's telemetry-only diff and starting hash, mark the personal check incomplete, and schedule the named student, machine/dependency fix, owner, and date. Meeting 15, clean-recovery, or event-candidate evidence cannot replace that student's proof.</li>
+          <li><strong>Student absent:</strong> record missing explain/do/show and backup proof; do not infer independence or leave a role with one owner.</li>
+        </ol></div>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned and choose what comes next</h2>
+        <p>Each student locates the exact event hash/tag and one archive item; explains subsystem input-to-output and Stop/failure behavior; performs one independent safe action; shows its proof; states a practiced backup role; and names one escalation or rollback boundary. Update the skill tracker only from observed work.</p>
+        <p class="record-prompt">Use event impact and an exact observation/record ID. Do not modify the frozen release here.</p>
+        <table class="record-table">
+          <caption>Post-event backlog: keep, change, learn next</caption>
+          <thead><tr><th scope="col">What should we keep, change, or learn?</th><th scope="col">What observation proves this belongs here?</th><th scope="col">What is the next smallest outcome?</th><th scope="col">Who owns and backs it up, and when is it due?</th><th scope="col">Why is this the priority?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Keep, change, or learn">Keep: __________________</td><td data-label="Observation and proof">Record ID: ______</td><td data-label="Next outcome">Preserve/rehearse: ______</td><td data-label="Owner, backup, due">______ / ______ / ______</td><td data-label="Priority reason">________________</td></tr>
+            <tr><td data-label="Keep, change, or learn">Change: __________________</td><td data-label="Observation and proof">Record ID: ______</td><td data-label="Next outcome">________________</td><td data-label="Owner, backup, due">______ / ______ / ______</td><td data-label="Priority reason">________________</td></tr>
+            <tr><td data-label="Keep, change, or learn">Learn next: ______________</td><td data-label="Observation and proof">Record ID: ______</td><td data-label="Next outcome">________________</td><td data-label="Owner, backup, due">______ / ______ / ______</td><td data-label="Priority reason">________________</td></tr>
+          </tbody>
+        </table>
+        <p>Rank safety and event-blocking recovery first, reliability and shared ownership next, scoring improvements after that, and advanced features last.</p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Complete the event and post-event handoff</h2>
+        <p>The receiving students need exact identities, locations, owners, and open work so no release, role, kit, or decision depends on hidden memory.</p>
+        <div class="handoff">
+          <table class="record-table">
+            <caption>Final handoff questions</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Who receives it and who is backup?</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">What tag/full hash, release, configuration, clean recovery, test, rollback, and known limits identify the event version?</td><td data-label="Verified answer">________________</td><td data-label="Receiver and backup">______ / ______</td></tr>
+              <tr><td data-label="Question">Where is the archive, and which backup opened or restored each critical item?</td><td data-label="Verified answer">________________</td><td data-label="Receiver and backup">______ / ______</td></tr>
+              <tr><td data-label="Question">Where is the event/build/code/test primary-backup matrix, and what individual proof is missing?</td><td data-label="Verified answer">________________</td><td data-label="Receiver and backup">______ / ______</td></tr>
+              <tr><td data-label="Question">Which containers travel, who has custody, and who returns each one?</td><td data-label="Verified answer">________________</td><td data-label="Receiver and backup">______ / ______</td></tr>
+              <tr><td data-label="Question">Who rechecks current FIRST event information, and which top backlog items follow the event?</td><td data-label="Verified answer">Source/date/items: ______</td><td data-label="Receiver and backup">______ / ______</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Acceptance:</strong> [ ] Exact tested identity verified [ ] Archive opened/restored by backup [ ] No critical role has one owner [ ] Packing gaps assigned [ ] Current-source recheck assigned [ ] Frozen code unchanged. <strong>Primary:</strong> ______ <strong>Backup:</strong> ______ <strong>Mentor witness/date:</strong> ______.</p>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note"><ul class="checklist">
+        <li>Audit Meeting 15's exact candidate, three passing runs or blocked status, rollback, current authority, role proof, packing gaps, and deferred work. Do not release a blocked candidate.</li>
+        <li>Prepare the spare laptop and an empty parent location outside all existing checkouts for the student-created recovery clone. Separately prepare a second empty parent/location for the second student's independent release-verification clone. Do not pre-create either clone.</li>
+        <li>Prepare one isolated disposable copy per student at the recorded starting full hash. Cache and verify the required build dependencies in each copy so each student can start/check a bounded build within the 20-minute lane; do not pre-make the student's telemetry change.</li>
+        <li>Prepare a separate disposable recovery-problem location and the one harmless problem previously rehearsed in Meeting 14. Never alter the candidate, sole copies, event hardware/configuration, or tag.</li>
+        <li>Prefer spare hardware for deployment. If only the event robot exists, require exact-hash equality, preserved installed/configuration identity, restore plan, inspection, and the smallest established test.</li>
+        <li>Before the meeting, select and write the team's exact repository-host release procedure as a named checklist, including the exact approved UI path or authenticated CLI command for that host. Verify each assigned student's access without displaying, copying, or recording secrets; do not assume GitHub CLI or any other host/tool.</li>
+        <li>Pre-stage an empty archive index/template naming every required input field and prepare the approved primary and backup storage destinations. Do not prefill identities, locations, results, checksums, access proof, or restore proof that students must observe.</li>
+        <li>Verify non-secret access to the prepared archive destinations and schedule a post-meeting continuation owner/date in case the bounded release/archive operations cannot finish. Recheck current FIRST event/inspection sources and exact installed-hardware service documentation.</li>
+      </ul></aside>
+      <aside class="mentor-note"><strong>Students own the keyboard and decisions.</strong> The mentor may stop unsafe work and ask neutral proof questions, but must not type commands, touch controls to finish a step, dictate the next command, reveal the rehearsed problem, or complete an explanation. Record Supported and schedule a rerun after any takeover.</aside>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> GitHub Docs <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository#cloning-a-repository">Cloning a repository</a> and FIRST's <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/fork_and_clone_github_repository/Fork-and-Clone-From-GitHub.html#getting-started-quick-start-guide">Fork and Clone quick start</a> for isolated recovery.</li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#building-and-installing-your-opmode">Building and Installing</a> and <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#running-your-opmode">Running Your OpMode</a>, checked against SDK v12.0 and current devices.</li>
+        <li><span class="resource-label follow">Follow</span> Live <a href="https://ftc-resources.firstinspires.org/ftc/team">FIRST Team Resources</a>, the current Competition Manual/event instructions, and <a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/self_inspect/new-self-inspect.html">Self-Inspect</a> for event procedure, inspection, and legal equipment.</li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/tech_tips/tech-tips/tech-tip-protecting-robot-code/tech-tip-protecting-robot-code.html">Protecting and Backing Up Robot Code</a> for backup principles. Its OnBot Java backup steps do not replace this Android Studio Git/GitHub recovery.</li>
+        <li><span class="resource-label optional">Optional explanation</span> Use current documentation for each exact installed REV model and the matching <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">goBILDA revision/part documents</a> only to verify hardware inspection, exact spares, fasteners, cables, service points, and packing. Vendors are not competition authorities.</li>
+        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/sdk-and-troubleshooting.html">troubleshooting ladder</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0015-match-simulation-and-event-readiness.html">Previous: Meeting 15: Match Simulation and Event Readiness</a> | <a href="index.html">Course index</a> | Reliability first. Evidence survives the handoff.</p>
+  </footer>
+</body>
+</html>

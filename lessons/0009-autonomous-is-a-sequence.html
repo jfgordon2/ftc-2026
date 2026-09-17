@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 9 lesson on building and proving one safe, bounded Autonomous drive action.">
+  <title>Meeting 9: Autonomous Starts With One Action | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 5, Meeting 9 / FTC SDK v12.0</p>
+    <h1>Autonomous Starts With One Action</h1>
+    <p class="lede">Register one Autonomous OpMode, run one low-speed drive action only while its guards are true, and prove that every exit commands zero.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Autonomous code acts without gamepad driving</li>
+      <li><strong>Team result</strong><br>One measured, recoverable action</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0008-reliable-teleop-checkpoint.html">Previous: Meeting 8: Reliable TeleOp Checkpoint</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#follow">Follow along</a>
+    <a href="#practice">Partner practice</a>
+    <a href="#test">Supported and travel tests</a>
+    <a href="#handoff">Meeting 10 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0010-encoders-turn-motion-into-data.html">Next: Meeting 10: Encoders Turn Motion Into Data</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the robot do</h2>
+        <div class="outcome-banner">From a repeatable marked start, the qualified drivetrain will perform one team-tested, low-speed drive action after Start and then explicitly command zero. It will stop when time expires, the OpMode is no longer active, or the Stop owner ends the attempt.</div>
+        <p>This is the smallest Autonomous baseline, not a route. Preserve Meeting 8's qualified TeleOp recovery identity unchanged while you create a separate Autonomous OpMode.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Autonomous</dt><dd>An OpMode that follows programmed instructions after Start without gamepad driving.</dd>
+          <dt><code>@Autonomous</code></dt><dd>The annotation that registers this class as an Autonomous OpMode on the Driver Station.</dd>
+          <dt>Active check</dt><dd><code>opModeIsActive()</code>, the check that permits the action to continue only while the OpMode remains active.</dd>
+          <dt>Bounded stopping condition</dt><dd>A known limit that prevents an action from continuing forever. Today's normal bound is the team's recorded elapsed-time limit, also called a timeout.</dd>
+          <dt>Escape</dt><dd>An early way out. Driver Station Stop makes the active check false; the Stop owner uses it for an observer abort.</dd>
+          <dt>Explicit stop</dt><dd>A code statement that commands every drive motor to zero instead of assuming that leaving a loop stops the motors.</dd>
+          <dt>Telemetry</dt><dd>Named Driver Station evidence showing the action, elapsed time, commanded output, active state, and exit reason.</dd>
+          <dt>Motor run mode</dt><dd>A motor-controller setting that affects how the SDK uses a power command. This lesson reads the current mode; it does not choose or change one.</dd>
+          <dt>Expected normal run mode</dt><dd>The exact mode recorded for one drivetrain motor in the Meeting 2 motor map and corroborated by the initialization path in the qualified team code. Each motor needs its own source; a blank or contradiction means unknown.</dd>
+          <dt>Observed run mode</dt><dd>The value returned by that motor's <code>getMode()</code> during the reviewed zero-output check. It must match the expected normal run mode before the one action can start.</dd>
+          <dt>Supported test</dt><dd>A powered test in the arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
+          <dt>Travel test</dt><dd>A powered test in the arena from a marked start along a marked route to a marked stop while everyone stays outside the exclusion area.</dd>
+        </dl>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a></p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Confirm Meeting 8 qualified safe initialization, drivetrain control, and Stop with no unresolved enabled safety-critical defect. If not, Autonomous physical testing is blocked.</li>
+          <li>Name one Driver Station operator and Stop owner. Also name the observer, field reset lead, programmer, and recorder.</li>
+          <li>Press Stop, switch off the Hub, and disconnect the battery before touching the robot, support, wheels, wires, battery, field marks, or test artifact.</li>
+          <li>Secure the frame, battery, Hub, wires, attached pieces, and mechanisms. Establish the arena exclusion area and keep everyone outside it while the robot is live.</li>
+          <li>Before each command, state the predicted direction, setup, command, stopping conditions, and evidence to record.</li>
+        </ul>
+        <aside class="safety-callout">Press Stop for unexpected direction or movement, loose hardware, unsafe vibration, implausible telemetry, loss of control, field entry, or inability to command zero. Verify no motion, say <q>stopped</q>, switch off the Hub, verify it is off, and disconnect the battery before anyone enters or touches the setup.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check the handoff.</strong> Confirm the qualified drivetrain, recovery identity, exact configuration, roles, arena, and blockers.</div></li>
+          <li><time>0:15-0:30<br>15 min</time><div><strong>Trace one action.</strong> Connect registration, Start, active-and-time guards, telemetry, and explicit zero.</div></li>
+          <li><time>0:30-0:50<br>20 min</time><div><strong>Station 1.</strong> Begin the source-and-code trace, supported-test setup, or travel-and-evidence design.</div></li>
+          <li><time>0:50-1:10<br>20 min</time><div><strong>Station 2.</strong> Rotate and swap code driver and navigator.</div></li>
+          <li><time>1:10-1:30<br>20 min</time><div><strong>Station 3.</strong> Rotate, finish all records, and reconcile one test identity.</div></li>
+          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Leave the robot stopped, Hub off, battery disconnected, and field marks undisturbed.</div></li>
+          <li><time>1:40-2:00<br>20 min</time><div><strong>Build and supported test.</strong> Review, deploy, and prove direction, bounded exit, telemetry, and explicit zero with wheels clear.</div></li>
+          <li><time>2:00-2:35<br>35 min</time><div><strong>Travel test.</strong> Complete three controlled trials from the same marked start without changing the frozen setup.</div></li>
+          <li><time>2:35-2:50<br>15 min</time><div><strong>Evaluate and preserve.</strong> Check the evidence gate and identify the exact one-action baseline or the blocker.</div></li>
+          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Complete individual evidence and Meeting 10 inputs.</div></li>
+        </ol>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Follow along: trace one guarded action</h2>
+        <p>Copy pinned <code>RobotAutoDriveByTime_Linear</code> into <code>TeamCode</code>, give the copy a unique name, and keep it disabled while editing. The sample supplies a starting pattern, not your robot's hardware or motion values.</p>
+        <ol>
+          <li><strong>Register Autonomous:</strong> replace the sample registration name with the team's unique name and use <code>@Autonomous</code>. <strong>Why:</strong> the Driver Station must distinguish this OpMode from TeleOp. <strong>Success:</strong> the source has one Autonomous registration and no TeleOp registration.</li>
+          <li><strong>Keep verified hardware facts only:</strong> replace every sample name and direction with the exact configuration names and proven directions from the qualified drivetrain. Remove every extra action. <strong>Why:</strong> a sample's assumptions do not identify the installed robot. <strong>Success:</strong> a side-by-side audit links each lookup and direction to Meeting 8 evidence.</li>
+          <li><strong>Retrieve every expected mode:</strong> for each mapped drivetrain motor, copy its expected normal run mode and row identity from the Meeting 2 motor map, then point to the qualified code version, file, line, or initialization path that supports the same value. If the map has no mode field or either source is absent or contradictory, write <strong>unknown - action blocked</strong>. Do not infer a value from the timed sample or another motor. <strong>Why:</strong> the qualified drivetrain state, not this lesson, owns normal drive behavior. <strong>Success:</strong> every motor has one agreeing map and qualified-code source, or the action remains blocked.</li>
+          <li><strong>Read without changing:</strong> command explicit zero, display every motor's <code>getMode()</code> value during INIT, and compare each observed value with its expected normal mode. Do not call a mode-changing method in this lesson. <strong>Why:</strong> telemetry checks the controller state actually present without replacing it. <strong>Success:</strong> all expected and observed modes match while output remains zero; any unknown or mismatched mode blocks Start and all nonzero output.</li>
+          <li><strong>Wait without moving:</strong> only after the mode gate passes, show ready-at-zero telemetry and call <code>waitForStart()</code>. <strong>Why:</strong> no action may begin before Start or with an unresolved mode. <strong>Success:</strong> INIT shows each motor's expected mode, observed mode, source, match result, zero output, and no wheel motion.</li>
+          <li><strong>Start one action:</strong> only if <code>opModeIsActive()</code> is true, reset elapsed time and command the recorded low drive output. <strong>Why:</strong> the action needs an active OpMode and a known time origin. <strong>Success:</strong> code review finds one nonzero drive command after Start.</li>
+          <li><strong>Continue only under both guards:</strong> update telemetry while <code>opModeIsActive()</code> is true <em>and</em> elapsed time remains below the team's bounded limit. <strong>Why:</strong> Stop is the escape and elapsed time is the normal bound. <strong>Success:</strong> making either guard false leaves the loop.</li>
+          <li><strong>Command explicit zero:</strong> immediately after the loop, command zero to every drive motor and report the exit reason and zero command. <strong>Why:</strong> a false condition ends a loop but is not itself a motor command. <strong>Success:</strong> every normal, timeout, or active-false path reaches the visible zero statements.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a></p>
+
+        <h3>The one-action Java shape</h3>
+        <p>This is a structural sketch, not buildable code: the team must map its motors and implement <code>setDrivePower</code>. It intentionally omits reusable numbers. Replace each named placeholder only with the team's linked evidence; otherwise keep the OpMode disabled.</p>
+        <pre><code>@Autonomous(name = "TEAM_UNIQUE_NAME")
+public class TeamOneActionAuto extends LinearOpMode {
+    private final ElapsedTime runtime = new ElapsedTime();
+
+    @Override
+    public void runOpMode() {
+        // Map exact qualified drivetrain names and directions.
+        setDrivePower(0);
+        boolean normalModesVerified = compareGetModeForEveryDriveMotor(
+                MEETING_2_MAP_AND_QUALIFIED_CODE);
+        telemetry.addData("normal modes verified", normalModesVerified);
+        if (!normalModesVerified) {
+            telemetry.addData("state", "blocked at zero");
+            telemetry.update();
+            return;
+        }
+        telemetry.addData("state", "ready at zero");
+        telemetry.update();
+        waitForStart();
+
+        if (opModeIsActive()) {
+            runtime.reset();
+            setDrivePower(TEAM_TESTED_LOW_OUTPUT);
+            while (opModeIsActive()
+                    &amp;&amp; runtime.seconds() &lt; TEAM_BOUNDED_TIME) {
+                telemetry.addData("action", "one drive action");
+                telemetry.addData("elapsed", runtime.seconds());
+                telemetry.addData("command", TEAM_TESTED_LOW_OUTPUT);
+                telemetry.update();
+            }
+        }
+
+        setDrivePower(0);
+        telemetry.addData("command", 0);
+        telemetry.addData("state", "stopped");
+        telemetry.update();
+    }
+}</code></pre>
+        <p class="why-it-matters"><strong>Read it aloud:</strong> zero first, retrieve each expected mode, read each observed mode, block on unknown or mismatch, wait for Start, check active, reset time, command one action, continue while active and before the bound, then command zero. This sketch's comparison helper stands for a team-owned per-motor check; it does not change any mode. Do not add a turn, mechanism, pause, or second drive action today.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+
+        <h3>Use the matching language and hardware path</h3>
+        <div class="vendor-paths">
+          <article class="vendor-path">
+            <h3>Java path</h3>
+            <p>Use the pinned SDK timed sample only for registration, lifecycle, elapsed-time guard, telemetry, sequence, and explicit-stop structure. Whether the installed robot is REV, goBILDA, or another verified drivetrain, carry forward only its qualified configuration names and directions. Team output and time remain pending measurements until the supported and travel evidence below passes.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a></p>
+          </article>
+          <article class="vendor-path">
+            <h3>goBILDA caveat</h3>
+            <p>The official goBILDA <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">supplied ZIP</a> contains <strong>no Autonomous file</strong>. Its TeleOp may identify matching, already-qualified drivetrain hardware facts, but it is not an Autonomous source. Do not invent a goBILDA Autonomous file or reuse vendor TeleOp powers as Autonomous values.</p>
+          </article>
+          <article class="vendor-path">
+            <h3>Blocks fallback</h3>
+            <p>If Meeting 2 selected the documented Blocks competition path, create the equivalent one-action sequence: initialize every drive output to zero; retrieve every expected normal mode from the Meeting 2 map and qualified Blocks project; display the equivalent current-mode readback for every motor; block Start for any unknown, conflict, or mismatch without changing a mode; then wait for Start, require the active check and bounded elapsed-time condition, show telemetry, and explicitly set every drive output to zero after every exit. Use the same supported test, travel test, Stop owner, evidence rows, and pass gates. Blocks changes the representation, not the safety or proof.</p>
+            <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Try it with your partner</h2>
+        <p><strong>Three pairs:</strong> one pair begins at each station and rotates every 20 minutes. <strong>Two pairs:</strong> begin at Code Trace and Test Design, swap after 20 minutes, then complete Evidence Design together. Swap code driver and navigator at every rotation. No powered motion occurs during stations.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Source and code trace</h3>
+            <ol>
+              <li>Mark sample structure that is supported by M09-F01, M09-F02, and M09-F03.</li>
+              <li>Cross out sample hardware names, directions, outputs, and times as team values.</li>
+              <li>For every drive motor, locate the Meeting 2 motor-map mode entry and the matching qualified code file/line or initialization path. Mark a missing or contradictory source blocked.</li>
+              <li>Trace registration, zero initialization, expected/observed mode comparison, blocked return, Start, active-and-time guards, telemetry, and explicit zero.</li>
+            </ol>
+            <p class="success-check">Success looks like: every retained line has a source, team decision, or pending measurement, and the action count is exactly one.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Supported-test design</h3>
+            <ol>
+              <li>Choose stable support that secures the frame with every wheel clear.</li>
+              <li>Write each motor's expected normal run mode, Meeting 2 row, qualified code source, planned <code>getMode()</code> label, and match criterion.</li>
+              <li>Copy the candidate low output and short time only from existing signed evidence; otherwise mark each value blocked.</li>
+              <li>Write the active-false, time-expired, observer-abort, and unexpected-behavior stop cases.</li>
+            </ol>
+            <p class="success-check">Success looks like: another pair can inspect the setup and identify command, bounds, Stop owner, expected motion, and evidence before power is connected.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Travel and evidence design</h3>
+            <ol>
+              <li>Mark one repeatable frame position and heading, one straight route, one expected stop mark, and a larger safety boundary.</li>
+              <li>Name the robot and floor references used to measure actual travel, including units.</li>
+              <li>Write the powered-off reset and the criteria that invalidate a trial.</li>
+              <li>Prepare three rows for setup identity, selected power/time, actual elapsed time and travel, exit reason, zero/Stop evidence, and validity.</li>
+            </ol>
+            <p class="success-check">Success looks like: the route has room for an early or late stop, and a different recorder could apply the same measurement method.</p>
+          </article>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test one action safely</h2>
+        <h3>A. Freeze the test identity</h3>
+        <ol>
+          <li>Record the qualified drivetrain/configuration source, Autonomous source version, OpMode name, code identity, action-card revision, candidate output and time with evidence, battery acceptance, roles, and every stopping condition. For each drive motor, also record the Meeting 2 motor-map row, expected normal run mode, and qualified code file/line or initialization path.</li>
+          <li>Build while the OpMode remains disabled. Inspect the diff and reject any extra action, borrowed hardware fact, unsupported value, mode-changing call, missing guard, or path that misses explicit zero. An absent Meeting 2 expected mode or qualified-code source blocks the action.</li>
+          <li>With the Hub off and battery disconnected, inspect and secure the robot and either the supported-test setup or marked travel setup. Any setup change requires inspection again.</li>
+        </ol>
+
+        <h3>B. Prove the shape in a supported test</h3>
+        <ol>
+          <li>Secure the robot on stable support in the arena with every wheel clear of support, floor, people, wires, and loose objects. Clear the exclusion area.</li>
+          <li>Remove <code>@Disabled</code> only for the reviewed zero-output preflight after the code, expected-mode-source, and setup gates pass. With the Hub off, connect the accepted battery; switch on; verify Hub and Driver Station connection; deploy; select the exact OpMode and active configuration; press INIT.</li>
+          <li>At INIT, confirm explicit zero and no motion. Read and record every motor's <code>getMode()</code> telemetry beside its expected mode, Meeting 2 row, and qualified code source. If any expected mode is unknown, either source conflicts, or any observed value differs, remain at zero, do not press Start, press Stop, shut down, and resolve the record. The lesson does not change a mode to force a match.</li>
+          <li>Only after every per-motor mode row matches, the operator calls <q>robot live</q>; the observer checks the area and calls <q>clear</q>; the operator presses Start.</li>
+          <li>Observe one brief command only. Compare every wheel direction with the prediction. Confirm elapsed telemetry updates and that time expiry reaches explicit zero.</li>
+          <li>Repeat the supported check and press Driver Station Stop before time expires. Confirm the active check becomes false, execution leaves the loop, and explicit zero is reached. If the runtime ends before telemetry can display the final update, use source trace plus observed motion ending as separate evidence and record that telemetry limit honestly.</li>
+          <li>Press Stop, verify zero command and no motion, say <q>stopped</q>, switch off, verify Hub off, and disconnect the battery before anyone approaches.</li>
+        </ol>
+        <p class="success-check">Supported-test gate: every expected mode has a Meeting 2 and qualified-code source, every zero-output <code>getMode()</code> readback matches, predicted wheel directions, active-false escape, elapsed-time bound, telemetry, explicit zero, Driver Station Stop, and complete shutdown all pass. Otherwise keep powered action and travel blocked.</p>
+
+        <h3>C. Measure the travel test</h3>
+        <ol>
+          <li>With power off and the battery disconnected, remove the support and place the robot at the marked start and heading. Verify the marked route, expected stop mark, larger safety boundary, exclusion area, reset path, and measurement references.</li>
+          <li>Complete the same Hub-off, battery-connect, Hub-on, status, connection, select, INIT, identity, zero, per-motor expected/observed mode comparison, live, clear, and Start sequence used by the supported test. Any mode discrepancy blocks that trial before motion.</li>
+          <li>Observe only the one action. The Stop owner presses Stop for any abort sign or before the robot can cross the safety boundary. Explicit zero must follow a normal time exit or active-false exit.</li>
+          <li>Verify no motion, say <q>stopped</q>, switch off, verify Hub off, and disconnect the battery. Only then enter, measure actual elapsed time and travel, inspect the robot, and record the exit reason and Stop evidence.</li>
+          <li>Restore the exact marked start while powered down and repeat until three valid trials use one unchanged code, configuration, robot, battery acceptance, surface, route, criterion, and measurement method. Keep valid failures. Any change invalidates comparison and restarts Trial 1.</li>
+        </ol>
+        <p class="success-check">One-action baseline gate: three valid trials remain inside the safety boundary, stop through a recorded guard or abort, reach explicit zero, and contain complete evidence. Passing this gate supports only this action and setup; it does not prove a route.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record what happened</h2>
+        <p class="record-prompt">Write actual observations. A valid trial used the frozen setup and complete safety transition; validity does not mean the motion matched the prediction.</p>
+        <table class="record-table">
+          <caption>Pre-action normal run mode gate: copy one row for every drivetrain motor</caption>
+          <thead><tr><th scope="col">Mapped motor</th><th scope="col">Expected normal mode and Meeting 2 source</th><th scope="col">Qualified team code source</th><th scope="col">Observed zero-output mode</th><th scope="col">Gate result</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Mapped motor">Name/location/Hub port: __________________</td><td data-label="Expected mode and map source">Expected: ______<br>Meeting 2 map row/revision: ______</td><td data-label="Qualified code source">Version/file/line or initialization path: __________________</td><td data-label="Observed mode"><code>getMode()</code>: ______<br>Telemetry/run ID: ______</td><td data-label="Gate result">[ ] Match [ ] Blocked<br>Reason/owner/next check: ______</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Mode gate:</strong> actual drivetrain motor count ______; completed matching rows ______. These counts must agree before the one action starts. This record reads modes only; it does not authorize a mode change.</p>
+        <table class="record-table">
+          <caption>One-action Autonomous evidence</caption>
+          <thead><tr><th scope="col">Test</th><th scope="col">What exact setup and values were tested?</th><th scope="col">What happened, with units?</th><th scope="col">Why did motion end and what proved zero?</th><th scope="col">Is the evidence valid?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Test">Supported: time exit</td><td data-label="Setup and values">Code/config/output/time/support/mode-gate rows: __________________</td><td data-label="Observed result">Directions/elapsed/telemetry: __________________</td><td data-label="Exit and zero">__________________</td><td data-label="Validity">Pass / Fail / Blocked because: ______</td></tr>
+            <tr><td data-label="Test">Supported: active-false escape</td><td data-label="Setup and values">Same identity: Yes / No</td><td data-label="Observed result">Stop response/telemetry: __________________</td><td data-label="Exit and zero">__________________</td><td data-label="Validity">Pass / Fail / Blocked because: ______</td></tr>
+            <tr><td data-label="Test">Travel Trial 1</td><td data-label="Setup and values">Start/route/code/config/output/time: __________________</td><td data-label="Observed result">Elapsed: ____ Travel: ____ Units: ____</td><td data-label="Exit and zero">__________________</td><td data-label="Validity">Valid / Invalid because: ______</td></tr>
+            <tr><td data-label="Test">Travel Trial 2</td><td data-label="Setup and values">Same frozen setup: Yes / No</td><td data-label="Observed result">Elapsed: ____ Travel: ____ Units: ____</td><td data-label="Exit and zero">__________________</td><td data-label="Validity">Valid / Invalid because: ______</td></tr>
+            <tr><td data-label="Test">Travel Trial 3</td><td data-label="Setup and values">Same frozen setup: Yes / No</td><td data-label="Observed result">Elapsed: ____ Travel: ____ Units: ____</td><td data-label="Exit and zero">__________________</td><td data-label="Validity">Valid / Invalid because: ______</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Decision:</strong> [ ] one-action baseline supported [ ] blocked. Exact code/recovery identity ______; exact OpMode/configuration ______; evidence row IDs ______; known limit or blocker ______; owner/date ______.</p>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If powered testing is unavailable</h2>
+        <div class="fallback-box">
+          <p>Do not claim an Autonomous action, safe output, travel result, or tested baseline.</p>
+          <ol>
+            <li>Keep the OpMode disabled. Build and inspect the one-action Java or Blocks sequence with symbolic output and time placeholders when evidence is missing.</li>
+            <li>Trace registration, zero initialization, Meeting 2 and qualified-code mode sources, per-motor <code>getMode()</code> readback, blocked mismatch path, Start, active-and-time guards, telemetry, explicit zero, and both action exits on cards.</li>
+            <li>Prepare and inspect the supported-test and travel-test layouts with power disconnected. Mark every unverified clearance or physical fact.</li>
+            <li>Practice filling evidence rows using clearly labeled example or previously captured data. Do not mix that data with today's physical evidence.</li>
+            <li>Record the missing gate, exact next physical test, prerequisites, owner, and date. Meeting 10 receives a blocker, not an assumed pass.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> Meeting 8 qualification identity, matching hardware/configuration evidence, every motor's expected mode with Meeting 2 and qualified-code sources, observed <code>getMode()</code> telemetry, source and diff, one-action card, supported-test record, marked-route/reset record, all trial rows, exact baseline identity or blocker, and the Meeting 10 handoff.</p>
+        <h3>Each student explains</h3>
+        <p>For one motor, point from the Meeting 2 map and qualified code source to the expected normal run mode and observed <code>getMode()</code> telemetry. Explain why an unknown or mismatched mode keeps output zero without changing the mode. Then point to <code>@Autonomous</code>, <code>waitForStart()</code>, the active check, elapsed-time bound, telemetry, and explicit zero in Java or the equivalent Blocks sequence.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 10</h2>
+        <p>Meeting 10 may measure motor rotations and build reusable distance actions only from the exact drivetrain and one-action evidence recorded here. Preserve this timed action as the lower-complexity recovery point.</p>
+        <div class="handoff">
+          <p class="record-prompt">Answer from physical labels, configuration, source, and today's test rows. Mark an unknown or untested answer blocked.</p>
+          <table class="record-table">
+            <caption>Questions Meeting 10 needs answered</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is the proof or who owns the blocker?</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">What code identity, OpMode, configuration, action card, output, and time identify the one-action baseline?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">Did active-false escape, elapsed-time bound, telemetry, explicit zero, and Stop pass in the supported test?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">For every drive motor, what expected normal run mode, Meeting 2 map row, qualified code source, and observed <code>getMode()</code> value matched before action?</td><td data-label="Verified answer">Motor/expected/observed: __________________</td><td data-label="Proof or owner">Map row/code file-line/telemetry: __________________</td></tr>
+              <tr><td data-label="Question">What marked start, route, reset, measurement references, units, and three travel rows must remain unchanged?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">What exact installed motor, encoder, gearbox, wheel, configured motor type, and Hub port are on each side?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
+              <tr><td data-label="Question">What safety, source, hardware, or physical-test blocker remains?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">Owner/date: ______</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 8's qualification record, exact recovery identity, active configuration, safe drive method, enabled defects, and language-path decision. For every drive motor, reconcile the Meeting 2 expected normal run mode with the qualified code file/line or initialization path. A missing map field, unknown value, or conflict blocks the action.</li>
+          <li>Prepare a disabled TeamCode copy of pinned SDK v12.0 <code>RobotAutoDriveByTime_Linear</code>. For the Blocks fallback, prepare the equivalent disabled one-action project before delivery.</li>
+          <li>Prepare stable support inside the arena, a marked travel route and safety boundary, exclusion markings, measuring tools, action cards, and evidence rows. Supply no invented output or time.</li>
+          <li>Recheck mutable FTC and vendor sources before delivery. State visibly that the goBILDA supplied ZIP has no Autonomous file.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Enablement gate:</strong> exact qualified names and directions, one action only, every motor's expected mode with Meeting 2 and qualified-code sources, matching zero-output <code>getMode()</code> readbacks, no mode-changing call, evidenced low output and bounded time, active check, telemetry, explicit zero, successful Build/diff review, secured supported setup, assigned Stop owner, and complete predicted evidence must pass before Start. Supported-test success is required before travel.</aside>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#examining-the-structure-of-your-opmode">Examining the Structure of Your OpMode</a> for Autonomous registration and operation.</li>
+        <li><span class="resource-label start-from">Start from</span> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByTime_Linear.java"><code>RobotAutoDriveByTime_Linear</code></a>. Copy it into <code>TeamCode</code>, keep it disabled, and reject its hardware and motion assumptions as team values.</li>
+        <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html"><code>LinearOpMode</code></a> and <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/util/ElapsedTime.html"><code>ElapsedTime</code></a> Javadocs.</li>
+        <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a> Javadoc for the run-mode readback API. Meeting 2's map and qualified team code, not this lesson, supply each expected normal mode.</li>
+        <li><span class="resource-label optional">Hardware identity only</span> The matching goBILDA <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">supplied ZIP</a> is TeleOp-only and is not an Autonomous source.</li>
+        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0008-reliable-teleop-checkpoint.html">Previous: Meeting 8: Reliable TeleOp Checkpoint</a> | <a href="index.html">Course index</a> | <a href="0010-encoders-turn-motion-into-data.html">Next: Meeting 10: Encoders Turn Motion Into Data</a></p>
+  </footer>
+</body>
+</html>

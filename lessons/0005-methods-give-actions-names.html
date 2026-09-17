@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 5 lesson rebuilding a team-owned drivetrain method while preserving separate REV and goBILDA lifecycles.">
+  <title>Meeting 5: Build and Structure Our TeleOp | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 3, Meeting 5 / FTC SDK v12.0</p>
+    <h1>Build and Structure Our TeleOp</h1>
+    <p class="lede">Turn the approved forward-and-turn control into one team-owned drive action, then prove its signs, limits, zero output, and travel behavior.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>A method turns intent into one named action</li>
+      <li><strong>Team work</strong><br>Rebuild, test, and explain the drivetrain</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0004-decisions-and-driver-controls.html">Previous: Meeting 4: Decide What Our Robot Should Do</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#follow">Follow along</a>
+    <a href="#practice">Partner practice</a>
+    <a href="#test">Safe test</a>
+    <a href="#handoff">Meeting 6 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0006-mechanisms-and-safety-rules.html">Next: Meeting 6: Build the Mechanism Controls</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the robot do</h2>
+        <div class="outcome-banner">The approved gamepad controls will send a forward request and a turn request to <code>drive(double forward, double turn)</code>. The method will calculate bounded left and right outputs, send them to the verified drivetrain motors, report concise telemetry, and command zero when no motion is requested or the OpMode stops.</div>
+        <p>You will preserve the installed robot's verified names, types, and directions. The REV path stays linear. The goBILDA path stays iterative. Both paths express the same team intent without copying hardware assumptions between robots.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Method</dt><dd>A named group of Java instructions. The team-owned <code>drive</code> method has one job: turn a motion request into drivetrain output.</dd>
+          <dt>Method definition</dt><dd>The method heading and body that say what Java does when the method runs. Today its heading is <code>drive(double forward, double turn)</code>.</dd>
+          <dt>Parameter</dt><dd>A name in a method definition that receives a value. <code>forward</code> and <code>turn</code> receive the two requested motions.</dd>
+          <dt>Call site</dt><dd>The place that asks a method to run, such as <code>drive(forwardRequest, turnRequest);</code>.</dd>
+          <dt>Steering math</dt><dd>The team-selected rule that combines forward and turn requests into left and right outputs. For the approved two-side arcade design, left adds turn and right subtracts turn.</dd>
+          <dt>Output limiting</dt><dd>Keeping final motor commands inside the API range and the team's verified drive limit. The team must record and approve a limit from <code>0.0</code> through <code>1.0</code> before scaling; the bounds come from the motor-command API, but the chosen value comes from team evidence.</dd>
+          <dt>Normalization</dt><dd>Dividing all related outputs by the same amount when one is too large. This preserves their proportion while bringing the largest magnitude to the limit.</dd>
+          <dt>Clipping</dt><dd>Restricting each output separately to a lower and upper bound. Clipping can change the proportion between outputs.</dd>
+          <dt>Safe default zero</dt><dd>The explicit drivetrain command used before motion is allowed, whenever the request is neutral, and when the OpMode stops.</dd>
+          <dt>Lifecycle</dt><dd>The ordered methods an OpMode uses for setup, Start, repeated work, and Stop. This lesson keeps each matching vendor program's lifecycle.</dd>
+          <dt>Supported test</dt><dd>A powered test in the game arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
+          <dt>Travel test</dt><dd>A powered test in the game arena that begins at a marked start, follows a marked route to a marked stop, and keeps everyone outside the exclusion area.</dd>
+        </dl>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+        <p>Use <a href="../reference/words-we-use.html">Words we use</a> only if you want a reminder.</p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Bring Meeting 2's complete motor map and Meeting 4's approved action/control map. Do not guess a name, type, direction, gamepad field, steering rule, or drive limit.</li>
+          <li>Name the routine Driver Station operator and a separate Stop owner. Give the Stop owner immediate access to Driver Station Stop and authority to press it without permission.</li>
+          <li>With the Hub off and battery disconnected, secure the robot frame, stable support, battery, Hub, wires, attached pieces, and mechanisms. Confirm every wheel is clear.</li>
+          <li>Write expected left and right output signs for neutral, forward, reverse, left turn, and right turn before enabling output.</li>
+          <li>Build and inspect the diff before power. The diff must preserve the verified hardware setup and matching lifecycle.</li>
+          <li>Complete every Supported test case, including zero and Stop, before moving the robot to a Travel test.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement or direction, loose hardware, unsafe vibration, implausible telemetry, loss of control or communication, inability to command zero, heat, smoke, odor, or unusual sound means press Stop. Verify motion has ended, say <q>stopped</q>, switch off the Hub, and disconnect the battery before anyone enters the exclusion area or touches the robot.</aside>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check the contracts.</strong> Confirm the matching vendor path, motor map, approved controls, roles, and written output-sign predictions.</div></li>
+          <li><time>0:15-0:40<br>25 min</time><div><strong>Trace the drive action.</strong> Connect the call site, parameters, steering math, limiting choice, motor output, zero command, and telemetry.</div></li>
+          <li><time>0:40-1:45<br>65 min</time><div><strong>Build in pairs.</strong> Keep the matching lifecycle, implement the shared method intent, build, inspect the diff, and compare pair evidence.</div></li>
+          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, verify zero and no motion, say <q>stopped</q>, switch off the Hub, disconnect the battery, and park the gamepad.</div></li>
+          <li><time>1:55-2:45<br>50 min</time><div><strong>Prove supported motion, then travel.</strong> Test one named case at a time, preserve observations, and move to the marked route only after every supported gate passes.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Explain and hand off.</strong> Each student traces one request to output; the team records evidence, blockers, and Meeting 6 inputs.</div></li>
+        </ol>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Follow along: build one named drive action</h2>
+        <p>The driver points or types. The navigator reads the next step, explains why it matters, and checks the evidence. Swap before editing the shared method.</p>
+        <ol>
+          <li><strong>Start from approved records:</strong> place Meeting 2's motor map beside Meeting 4's action/control map. Highlight the exact gamepad fields, forward sign, turn sign, motor fields, configured names, types, directions, and team drive limit. This prevents a vendor example from silently replacing team evidence. <strong>Success:</strong> every highlighted code fact points to one approved record or is marked blocked with an owner and next check.</li>
+          <li><strong>Write the call site first:</strong> read the approved gamepad fields into <code>forwardRequest</code> and <code>turnRequest</code>, then call <code>drive(forwardRequest, turnRequest);</code>. This makes the program state the driver's intent before motor detail. <strong>Success:</strong> each argument can be traced to one approved control and its intended sign.</li>
+          <li><strong>Write the method definition:</strong> add <code>drive(double forward, double turn)</code> outside the lifecycle method but inside the OpMode class. This gives one name to the drivetrain job. <strong>Success:</strong> students can point to the method name, two parameters, opening and closing braces, and call site.</li>
+          <li><strong>Calculate left and right:</strong> for the approved two-side arcade design, calculate <code>left = forward + turn</code> and <code>right = forward - turn</code>. This converts robot motion intent into side intent. <strong>Success:</strong> neutral predicts zero/zero, forward predicts matching signs, and a turn predicts different side signs or magnitudes according to the written test.</li>
+          <li><strong>Verify the team drive limit:</strong> copy the value and decision-record ID only from the signed team record, confirm <code>0.0 &lt;= teamDriveLimit &lt;= 1.0</code>, and then set the verification flag. The API bounds establish what the command accepts; they do not supply a universal robot value. <strong>Success:</strong> code remains fail-closed at zero until the exact value, record ID, approvers, and date are checked.</li>
+          <li><strong>Apply the recorded limiting policy:</strong> choose normalization or clipping deliberately and record why. If normalizing, divide both outputs by the same denominator before applying the verified team drive limit. If clipping, apply the verified limit and record the control-feel tradeoff. After scaling, use <code>Range.clip</code> on every final output as an API-range guard. <strong>Success:</strong> fixed-input calculations remain within the API range and verified team limit, and the record identifies the selected policy and approvers.</li>
+          <li><strong>Send output once:</strong> place only the final verified left and right motor calls in <code>drive</code>. This keeps motor output behind one team-owned interface. <strong>Success:</strong> no other active code path writes to those drive motors, except an intentionally documented diagnostic that remains disabled during this lesson.</li>
+          <li><strong>Add concise telemetry:</strong> display forward request, turn request, final left output, and final right output. This lets students compare intent, math, and command without hiding useful values in prose. <strong>Success:</strong> the four labels fit on the Driver Station and agree with the paper cases.</li>
+          <li><strong>Make zero explicit:</strong> call <code>drive(0.0, 0.0)</code> before motion is allowed and when the lifecycle ends. Neutral input must also calculate zero/zero. This makes the safe default reviewable in code and testable on the robot. <strong>Success:</strong> the diff shows every required zero call and fixed-input telemetry shows zero/zero for neutral.</li>
+          <li><strong>Build and inspect:</strong> build <code>TeamCode</code> and compare the diff with the selected matching baseline. This catches Java errors and crossed vendor assumptions before robot power. <strong>Success:</strong> the build passes and reviewers find only approved controls, the team method, selected math/limiting, telemetry, and explicit zero behavior.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f01">Source M05-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+
+        <h3>The shared method intent</h3>
+        <p>This example shows normalization for a two-side arcade drivetrain. <code>leftDriveMotor</code> and <code>rightDriveMotor</code> are placeholders for verified team fields. <code>teamDriveLimit</code> has no published default: copy it from the signed team decision, copy that record's ID, confirm the API bounds, and set <code>teamDriveLimitVerified</code> only after both entries are checked. The method otherwise commands zero. A team that approves clipping writes and tests that policy instead, but still verifies the limit before scaling and applies final <code>Range.clip</code>.</p>
+        <pre><code>import com.qualcomm.robotcore.util.Range;
+
+// Fill these from the signed team decision before enabling drive output.
+private double teamDriveLimit;
+private String teamDriveLimitDecisionId;
+private boolean teamDriveLimitVerified = false;
+
+private void drive(double forward, double turn) {
+    double left = 0.0;
+    double right = 0.0;
+
+    boolean usableDriveLimit = teamDriveLimitVerified
+            &amp;&amp; teamDriveLimitDecisionId != null
+            &amp;&amp; !teamDriveLimitDecisionId.trim().isEmpty()
+            &amp;&amp; 0.0 &lt;= teamDriveLimit &amp;&amp; teamDriveLimit &lt;= 1.0;
+    if (usableDriveLimit) {
+        left = forward + turn;
+        right = forward - turn;
+
+        double denominator = Math.max(1.0,
+                Math.max(Math.abs(left), Math.abs(right)));
+        left = Range.clip((left / denominator) * teamDriveLimit, -1.0, 1.0);
+        right = Range.clip((right / denominator) * teamDriveLimit, -1.0, 1.0);
+    } else {
+        telemetry.addData("Drive blocked", "Verify team drive-limit record");
+    }
+
+    leftDriveMotor.setPower(left);
+    rightDriveMotor.setPower(right);
+
+    telemetry.addData("Drive limit record", teamDriveLimitDecisionId);
+    telemetry.addData("Drive request", "forward %.2f, turn %.2f", forward, turn);
+    telemetry.addData("Drive output", "left %.2f, right %.2f", left, right);
+}</code></pre>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+
+        <h3>Keep the matching lifecycle</h3>
+        <div class="vendor-paths">
+          <article class="vendor-path">
+            <h3>REV path: retain <code>LinearOpMode</code> and <code>runOpMode()</code></h3>
+            <p>Begin with the checked-in program for the verified REV 2026-2027 Starter Bot. Preserve its verified hardware fields, configuration names, types, and directions. Do not import names or constants from goBILDA.</p>
+            <pre><code>public void runOpMode() {
+    // Map only the verified REV hardware here.
+    drive(0.0, 0.0);
+    telemetry.update();
+
+    waitForStart();
+    while (opModeIsActive()) {
+        double forwardRequest = /* approved REV-path gamepad expression */;
+        double turnRequest = /* approved REV-path gamepad expression */;
+        drive(forwardRequest, turnRequest);
+        telemetry.update();
+    }
+
+    drive(0.0, 0.0);
+}</code></pre>
+            <p class="success-check">Success looks like: the team method is called from the active linear loop, zero is explicit before Start and after the loop, and every hardware assumption still traces to the verified REV robot.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f04">Source M05-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+          </article>
+          <article class="vendor-path">
+            <h3>goBILDA path: retain iterative <code>OpMode</code>, <code>init()</code>, and <code>loop()</code></h3>
+            <p>Begin with the checked-in program for the verified goBILDA 2026-2027 StarterBot. Preserve its verified hardware fields, configuration names, types, and directions. Do not import names or constants from REV.</p>
+            <pre><code>public void init() {
+    // Map only the verified goBILDA hardware here.
+    drive(0.0, 0.0);
+}
+
+public void loop() {
+    double forwardRequest = /* approved goBILDA-path gamepad expression */;
+    double turnRequest = /* approved goBILDA-path gamepad expression */;
+    drive(forwardRequest, turnRequest);
+    telemetry.update();
+}
+
+public void stop() {
+    drive(0.0, 0.0);
+}</code></pre>
+            <p class="success-check">Success looks like: <code>init()</code> establishes zero, <code>loop()</code> calls the team method, <code>stop()</code> commands zero, and every hardware assumption still traces to the verified goBILDA robot.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f05">Source M05-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+          </article>
+        </div>
+        <p class="why-it-matters"><strong>Why this matters:</strong> a common method signature gives the team shared language for driving. Separate lifecycle paths keep each robot's verified initialization, names, directions, and controls from being replaced by assumptions from a different assembly.</p>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Try it with your partner</h2>
+        <p><strong>Three pairs:</strong> begin at one station each and rotate within the 65-minute block. <strong>Two pairs:</strong> begin at Trace and Method, swap after 25 minutes, then compare both sets of written tests and diffs. Keep robot power off. Swap driver and navigator before keyboard work.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Trace the contracts</h3>
+            <ol>
+              <li>Identify the matching vendor path and lifecycle from the checked-in program.</li>
+              <li>Trace every drivetrain field to Meeting 2's name, type, Hub/port, and direction record.</li>
+              <li>Trace forward and turn controls to Meeting 4's approved map.</li>
+              <li>Mark each unknown blocked with its reason, owner, and next check.</li>
+            </ol>
+            <p class="success-check">Success looks like: another pair can identify every consumed record and no unmatched vendor fact enters executable code.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Build the method</h3>
+            <ol>
+              <li>Write the call site and <code>drive(double forward, double turn)</code> definition in a fresh pair copy.</li>
+              <li>Copy the drive limit and decision ID from the signed team record, verify <code>0.0 &lt;= teamDriveLimit &lt;= 1.0</code>, then implement the approved steering and limiting policy with final <code>Range.clip</code>.</li>
+              <li>Add only the final motor calls, explicit zero calls, and concise telemetry.</li>
+              <li>Build and annotate the diff; reset the pair copy after preserving evidence.</li>
+            </ol>
+            <p class="success-check">Success looks like: the pair build passes and each student can trace both arguments through the method to final output.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Predict the tests</h3>
+            <ol>
+              <li>Choose fixed classroom inputs for neutral, forward, reverse, left turn, right turn, and one combined request.</li>
+              <li>Calculate raw left/right values and final limited values with units recorded as motor-command values.</li>
+              <li>Predict every wheel's visible direction from one named viewing position.</li>
+              <li>Write the Supported test and Travel test setup, command, Stop conditions, and evidence before power.</li>
+            </ol>
+            <p class="success-check">Success looks like: a different pair can reproduce every calculation and knows exactly what observation passes or blocks each case.</p>
+          </article>
+        </div>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test it safely: Supported test before Travel test</h2>
+        <h3>A. Supported test</h3>
+        <ol>
+          <li><strong>Write predictions:</strong> record the exact forward/turn input, raw left/right calculation, final limited output, and every expected wheel direction for neutral, forward, reverse, left turn, right turn, and the selected combined case. This makes signs and limits testable before motion. <strong>Success:</strong> a second student checks the arithmetic and named viewing position.</li>
+          <li><strong>Prepare the setup:</strong> in the game arena, keep the Hub off and battery disconnected while securing the frame on stable support, every clear wheel, battery, Hub, wires, attached pieces, and mechanisms. Mark the exclusion area and name the routine operator, Stop owner, observer, and recorder. <strong>Success:</strong> a second student signs the setup and immediate Stop access.</li>
+          <li><strong>Verify identity:</strong> compare the robot revision, active configuration, motor map, matching lifecycle source, build, selected OpMode, controls, limiting policy, team drive limit, signed decision-record ID, approvers, and date with the test record. Confirm the recorded limit satisfies <code>0.0 &lt;= teamDriveLimit &lt;= 1.0</code> before scaling and that final outputs use <code>Range.clip</code>. This prevents testing the wrong program, value, or assumptions. <strong>Success:</strong> every identity and provenance field agrees or drive output remains zero and powered work stays blocked.</li>
+          <li><strong>Power and clear:</strong> connect the accepted battery while the Hub is off, switch on, confirm Hub status and Driver Station connection, assign the gamepad, select the intended OpMode, release all controls, then call <q>robot live</q> and receive <q>clear</q> before INIT. <strong>Success:</strong> everyone is outside the exclusion area and the Stop owner confirms immediate access.</li>
+          <li><strong>Check safe default zero:</strong> press INIT and observe all wheels and telemetry before Start. Start with all controls neutral, then release controls after every case. This proves the explicit zero path before and between motion requests. <strong>Success:</strong> telemetry reports zero/zero and every wheel remains or returns motionless.</li>
+          <li><strong>Run one case at a time:</strong> briefly apply only the recorded input for forward, reverse, left turn, right turn, and the selected combined case. Compare telemetry and every wheel with the prediction, returning to neutral after each case. <strong>Success:</strong> each row records commanded values, observed directions, zero return, and any discrepancy without silently changing the setup.</li>
+          <li><strong>Prove Stop:</strong> during a bounded final case, press Stop; verify all wheels stop, say <q>stopped</q>, switch off the Hub, verify power is off, and disconnect the battery before entry. <strong>Success:</strong> the record names the observed Stop response and no output remains.</li>
+          <li><strong>Decide the gate:</strong> authorize Travel test only if every required sign, limiting, telemetry, neutral-zero, Stop, stability, and hardware condition passes. If any case fails, preserve the row, make one evidence-supported correction while disconnected, then repeat every affected Supported test case. <strong>Success:</strong> the signed decision says pass or blocked and identifies the exact trial.</li>
+        </ol>
+
+        <h3>B. Travel test</h3>
+        <ol>
+          <li><strong>Prepare the route:</strong> only after the Supported test gate passes, keep the Hub off and battery disconnected while moving the robot to the marked start in the game arena. Mark the route, stop, exclusion area, operator position, and Stop-owner position. <strong>Success:</strong> the route uses the approved controls and has measurable pass criteria written before motion.</li>
+          <li><strong>Power and clear:</strong> secure the battery and attached pieces, connect while the Hub is off, switch on, confirm Hub status and Driver Station connection, assign the gamepad, select the intended OpMode, release controls, call <q>robot live</q>, and receive <q>clear</q> before INIT. <strong>Success:</strong> every person remains outside the exclusion area with Stop immediately available.</li>
+          <li><strong>Run the marked route:</strong> from the marked start, use the approved bounded controls to travel forward, make the planned turn, and command zero at the marked stop. This checks behavior under load only after supported direction proof. <strong>Success:</strong> observers record start, path, turn, stop location, drift or correction, final telemetry, and whether zero ended motion.</li>
+          <li><strong>Stop and make safe:</strong> press Stop at the planned boundary or immediately for any stop condition. Verify motion ends, say <q>stopped</q>, switch off the Hub, verify power is off, and disconnect before anyone enters or touches the robot. <strong>Success:</strong> Stop response and final robot position are recorded before the setup changes.</li>
+          <li><strong>Handle a mismatch:</strong> preserve the failed trial, change one evidence-supported item while disconnected, and return to all affected Supported test cases before another Travel test. This keeps cause and effect visible. <strong>Success:</strong> the new trial has a new ID and does not overwrite the original observation.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record what happened</h2>
+        <p class="record-prompt">Complete every field from actual records and observations. Do not turn a prediction, telemetry value, or source claim into an unperformed physical result.</p>
+        <table class="record-table">
+          <caption>Meeting 5 drivetrain design decision</caption>
+          <thead><tr><th scope="col">Question</th><th scope="col">Team answer</th><th scope="col">Evidence, approval, or blocker</th></tr></thead>
+          <tbody>
+            <tr><th scope="row" data-label="Question">Which matching path and lifecycle did we retain?</th><td data-label="Team answer">REV linear / goBILDA iterative / blocked: __________</td><td data-label="Evidence">Robot/source identity: __________<br>Checked by/date: __________</td></tr>
+            <tr><th scope="row" data-label="Question">Which control fields supply forward and turn, and what signs mean the intended requests?</th><td data-label="Team answer">Forward field/sign: __________<br>Turn field/sign: __________</td><td data-label="Evidence">Approved Meeting 4 map: __________<br>Checked by/date: __________</td></tr>
+            <tr><th scope="row" data-label="Question">Which steering rule did we approve?</th><td data-label="Team answer">Left expression: __________<br>Right expression: __________</td><td data-label="Evidence">Rationale/approvers/date: __________</td></tr>
+            <tr><th scope="row" data-label="Question">Did we choose normalization or clipping, and why?</th><td data-label="Team answer">Policy: __________<br>Expected control-feel effect: __________</td><td data-label="Evidence">Fixed-input comparison: __________<br>Approvers/date: __________</td></tr>
+            <tr><th scope="row" data-label="Question">What verified team drive limit applies?</th><td data-label="Team answer">Limit from 0.0 through 1.0: __________ motor-command units<br>Bounds check passed: Yes / No</td><td data-label="Evidence">Signed decision-record ID: __________<br>Source trial/card: __________<br>Approved by/date: __________<br>Blocked owner/next check if absent or out of range: __________</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+
+        <table class="record-table">
+          <caption>M05-M01 drivetrain test evidence</caption>
+          <thead><tr><th scope="col">Required evidence field</th><th scope="col">Recorded evidence</th></tr></thead>
+          <tbody>
+            <tr><th scope="row" data-label="Field">Trial identity</th><td data-label="Evidence">Supported trial ID(s): __________<br>Travel trial ID(s): __________<br>Code version/build: __________<br>Date: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Exact configuration</th><td data-label="Evidence">Robot manufacturer/revision: __________<br>Active configuration: __________<br>OpMode/source path: __________<br>Battery ID/accepted condition: __________<br>Surface/support/route revision: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Verified drivetrain</th><td data-label="Evidence">For every motor, attach or copy exact saved name, configured type, Hub/port, software direction, physical location, and checker from the motor map: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Method and units</th><td data-label="Evidence">Forward/turn inputs and motor-command units: __________<br>Steering and limiting method: __________<br>Verified team drive limit: __________<br>Signed decision-record ID/approvers/date: __________<br><code>0.0 &lt;= teamDriveLimit &lt;= 1.0</code> checked before scaling by: __________<br>Final <code>Range.clip</code> checked by: __________<br>Viewing position and observation method: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Supported test trials</th><td data-label="Evidence">For neutral, forward, reverse, left turn, right turn, combined request, and Stop, attach predicted inputs/raw outputs/final outputs/signs and observed telemetry/wheel directions/zero/Stop results: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Travel test trials</th><td data-label="Evidence">Marked start/route/stop: __________<br>Commands and final telemetry: __________<br>Observed path/turn/stop/drift: __________<br>Zero and Stop response: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Result and people</th><td data-label="Evidence">Pass / Blocked / Failed: __________<br>Unexpected result: __________<br>Student operator: __________<br>Observer: __________<br>Recorder: __________<br>Stop owner: __________<br>Checker: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Blocker or change</th><td data-label="Evidence">Missing evidence or exact one-variable change: __________<br>Owner: __________<br>Next check/date: __________<br>Affected Supported test cases to repeat: __________</td></tr>
+          </tbody>
+        </table>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the robot is unavailable</h2>
+        <div class="fallback-box">
+          <p>Mark Supported test, Travel test, observed wheel direction, physical zero, and Stop response <strong>blocked</strong>. A build, calculation, or telemetry-only run does not prove physical drivetrain behavior.</p>
+          <ol>
+            <li>Use the latest verified copies of Meeting 2's motor map and Meeting 4's approved controls. Mark stale or unavailable facts blocked with an owner and next check.</li>
+            <li>In each pair's fresh copy of the matching lifecycle program, implement <code>drive(double forward, double turn)</code> with motor calls replaced by telemetry. Preserve separate REV and goBILDA paths.</li>
+            <li>For neutral, forward, reverse, left turn, right turn, and one combined request, calculate raw and limited left/right outputs before running the telemetry case. <strong>Success:</strong> each pair's actual values and signs match its written prediction.</li>
+            <li>Inspect the diff, build, and trace safe default zero before active work and at lifecycle end. Label the artifact <strong>code-path evidence only - not robot tested</strong>.</li>
+            <li>Complete the full Supported test and Travel test cards with commands, Stop conditions, evidence fields, blocker owner, and next test date. Keep Travel test prohibited until Supported test passes physically.</li>
+          </ol>
+          <p class="success-check">Success looks like: every student can trace the complete call and math, pair telemetry agrees with written cases, vendor paths remain separate, and every physical claim remains visibly blocked.</p>
+        </div>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> consumed motor and control records, every pair's method trace and build, selected shared diff, limiting decision, fixed-input calculations, Supported test records, Travel test records, and every blocked physical result with its owner and next check.</p>
+        <h3>Each student explains</h3>
+        <p>Without partner help, identify the matching lifecycle and call site; trace one approved gamepad value into <code>forward</code> or <code>turn</code>; calculate both raw outputs; apply the selected limiting policy; point to final motor calls and telemetry; then explain where zero is commanded and why a Supported test must pass before a Travel test.</p>
+        <h3>Each student demonstrates</h3>
+        <ul>
+          <li>Use the <a href="../reference/skill-tracker.html">skill tracker</a> to record method tracing, fixed-input calculation, lifecycle identification, test prediction, safe operation, and evidence recording separately.</li>
+          <li>Record Observed, Supported, Independent, or Can Coach only from that student's own explanation or action. Pair success is not individual proof.</li>
+          <li>For physical safe-operation credit, the student must follow the matching test card, callouts, zero check, Stop procedure, and honest result recording.</li>
+          <li>When the robot is unavailable, record code tracing and calculation only; keep supported motion, travel behavior, physical zero, and Stop response blocked.</li>
+        </ul>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 6</h2>
+        <p>Meeting 6 adds only the mechanism actions approved in Meeting 4. It needs a recoverable drivetrain version, the matching vendor path, every enabled control, proof that drive commands return to zero, and open conflicts so mechanism controls do not hide or replace safe driving behavior.</p>
+        <div class="handoff">
+          <p class="record-prompt">Answer from the approved maps, diff, build, and test records. If physical proof is missing, write <strong>blocked</strong>, name the owner, and schedule the next check instead of writing pass.</p>
+          <table class="record-table">
+            <caption>Meeting 6 TeleOp handoff</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">Exact answer or observed result</th><th scope="col">Evidence or next owner</th></tr></thead>
+            <tbody>
+              <tr><th scope="row" data-label="Question">Which vendor path and lifecycle must Meeting 6 preserve?</th><td data-label="Answer">REV linear / goBILDA iterative / blocked: __________</td><td data-label="Evidence or owner">Robot/source record: __________<br>Checked by/date: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Where is the team-owned drive method and which build identifies it?</th><td data-label="Answer">File/method location: __________<br>Version/build: __________</td><td data-label="Evidence or owner">Reviewed diff: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which controls, steering math, limiting policy, and drive limit are approved?</th><td data-label="Answer">Controls/signs: __________<br>Math/policy: __________<br>Verified limit from 0.0 through 1.0: __________</td><td data-label="Evidence or owner">Meeting 4 map: __________<br>Signed limit decision-record ID/approvers/date: __________<br>Bounds and final <code>Range.clip</code> checked by: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Did every Supported test case, neutral zero, and Stop pass?</th><td data-label="Answer">Pass / Blocked / Failed: __________</td><td data-label="Evidence or owner">Trial IDs: __________<br>Owner/next check if blocked: __________</td></tr>
+              <tr><th scope="row" data-label="Question">What did the Travel test prove?</th><td data-label="Answer">Observed path/turn/stop: __________<br>Pass / Blocked / Failed: __________</td><td data-label="Evidence or owner">Trial ID: __________<br>Owner/next check if blocked: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which gamepad controls remain available, and what drive/mechanism conflicts must Meeting 6 resolve?</th><td data-label="Answer">Available controls: __________<br>Conflicts/recovery need: __________</td><td data-label="Evidence or owner">Approved action map or decision owner: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which exact mechanism actions, parts, safe release behavior, and current sources are ready?</th><td data-label="Answer">Action/part: __________<br>Safe release: __________<br>Ready / Blocked: __________</td><td data-label="Evidence or owner">Source/measurement or owner/next check: __________</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Meeting 6 may keep the tested drivetrain active only when its exact source and physical evidence remain valid. It may power a mechanism only after that lesson's separate exact-part, limit, support, role, and written-test gates pass.</strong></p>
+          <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 2's current motor map and Meeting 4's approved action/control map. Resolve contradictory names, types, directions, controls, or signs before class; otherwise keep powered work blocked.</li>
+          <li>Identify the exact installed robot and prepare only its checked-in matching program. Preserve a recoverable copy. The unmatched vendor program remains reading material and never becomes executable team code.</li>
+          <li>For REV, prepare the retained <code>LinearOpMode</code>/<code>runOpMode()</code> structure. For goBILDA, prepare the retained iterative <code>OpMode</code>/<code>init()</code>/<code>loop()</code> structure. Do not preselect a lifecycle migration.</li>
+          <li>Prepare pair copies with motor output replaced by telemetry, fixed-input worksheets, diff/build access, test cards, skill trackers, and the Meeting 6 handoff.</li>
+          <li>Prepare the game-arena Supported test and Travel test: stable support, clear wheels, marked exclusion area, marked travel start/route/stop, visible Driver Station, secured robot and battery, and immediate Stop access.</li>
+          <li>Confirm the team's existing tested drive limit, signed decision-record ID, approvers, date, and physical evidence. Require <code>0.0 &lt;= teamDriveLimit &lt;= 1.0</code> before scaling and final <code>Range.clip</code> after scaling. Keep drive output fail-closed at zero when verification is absent or the value is out of range. The bounds come from the pinned API; do not publish or improvise a reusable team value. Require students to record and approve normalization or clipping before physical testing.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Migration gate:</strong> retaining the matching lifecycle is the lesson path. A lifecycle migration is separate engineering work and remains blocked unless the team writes the reason, maps old and new initialization/active/Stop behavior, defines acceptance tests, and deliberately retests every affected behavior.</aside>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f04">Source M05-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f05">Source M05-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> Oracle <a href="https://dev.java/learn/classes-objects/defining-methods/">Defining Methods</a> for method definitions, parameters, and call syntax.</li>
+        <li><span class="resource-label start-from">Structure only</span> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/BasicOpMode_Linear.java"><code>BasicOpMode_Linear</code></a> for lifecycle and motor-call structure, not robot names, directions, controls, or limits.</li>
+        <li><span class="resource-label follow">Follow</span> RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a> and <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/util/Range.html"><code>Range</code></a> Javadocs for pinned motor-output and clipping behavior.</li>
+        <li><span class="resource-label optional">Exact REV path</span> Current <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-subsystems">REV programming subsystems</a> and <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-onbot-java-overview">Java overview</a>, only for the matching 2026-2027 REV Starter Bot.</li>
+        <li><span class="resource-label optional">Exact goBILDA path</span> Verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip"><code>BioBuzzStarterbotTeleop.java</code></a>, only for the matching 2026-2027 goBILDA StarterBot and only with the archive identity recorded in the claim register.</li>
+        <li><span class="resource-label follow">Follow</span> Use the shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/skill-tracker.html">skill tracker</a>, and <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0004-decisions-and-driver-controls.html">Previous: Meeting 4: Decide What Our Robot Should Do</a> | <a href="index.html">Course index</a> | <a href="0006-mechanisms-and-safety-rules.html">Next: Meeting 6: Build the Mechanism Controls</a></p>
+  </footer>
+</body>
+</html>

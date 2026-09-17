@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 2 lesson testing every drivetrain motor one at a time and choosing the Java or prepared Blocks path.">
+  <title>Meeting 2: Making the Motor Move | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 1, Meeting 2 / FTC SDK v12.0</p>
+    <h1>Making the Motor Move</h1>
+    <p class="lede">Connect each exact configuration name to its physical drivetrain motor, test every motor one at a time with all wheels clear, and choose the team's competition programming path from visible evidence.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>A Java value reaches one exactly named motor</li>
+      <li><strong>Team work</strong><br>Complete the drivetrain motor map and language decision</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0001-robot-programs-are-instructions.html">Previous: Meeting 1: Robot Init</a>
+    <a href="#outcome">Today's result</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#follow">Follow along</a>
+    <a href="#practice">Team work</a>
+    <a href="#test">Supported tests</a>
+    <a href="#record">Motor map</a>
+    <a href="#gate">Language-path decision</a>
+    <a href="#handoff">Meeting 3 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0003-gamepad-to-drivetrain.html">Next: Meeting 3: Compare the StarterBot Programs</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the robot do</h2>
+        <div class="outcome-banner">Every actual drivetrain motor will turn by itself in a Supported test, return to explicit zero, respond to Driver Station Stop, and gain its own checked row in the team's motor map.</div>
+        <p>You will trace a Java <code>double</code>, assignment, method call, and <code>hardwareMap</code> lookup; repair the first compiler error; then complete a fresh task that decides whether Java or the prepared Blocks project is the competition path.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Variable</dt><dd>A named place that holds a value. In <code>double testPower = approvedTestPower;</code>, <code>testPower</code> is the variable and <code>double</code> is its Java type.</dd>
+          <dt>Assignment</dt><dd>Putting a value into a variable with <code>=</code>.</dd>
+          <dt>Method call</dt><dd>An instruction asking an object to do an action. <code>testMotor.setPower(testPower)</code> calls the motor's <code>setPower</code> method.</dd>
+          <dt>Active configuration</dt><dd>The saved robot configuration currently selected on the Driver Station. Its Hub, port, motor type, and device name must describe the physical motor before Java uses that name.</dd>
+          <dt>Hardware map</dt><dd>The FTC connection between a configured device name and a Java object. The text in <code>hardwareMap.get</code> must exactly match the saved name.</dd>
+          <dt>Configured motor type</dt><dd>The motor type selected for that device in the active Robot Controller configuration. Record what the screen shows; do not infer it from appearance.</dd>
+          <dt>Direction setting</dt><dd>The software choice <code>FORWARD</code> or <code>REVERSE</code> used for that motor. It is separate from the direction students observe at a named wheel or side.</dd>
+          <dt>Motor run mode</dt><dd>The setting that controls how the motor controller interprets commands. The read-only call <code>motor.getMode()</code> reports the current setting. Today you display and record that expected normal mode; you do not switch modes.</dd>
+          <dt>Compiler error</dt><dd>A build message that identifies Java the compiler cannot accept. Begin with the first message, file, and line instead of guessing from later messages.</dd>
+          <dt>Explicit zero</dt><dd>A motor command that sends <code>0.0</code>. The team must still observe whether output stops and whether Driver Station Stop ends the OpMode.</dd>
+          <dt>Finally cleanup</dt><dd>A Java <code>finally</code> block that runs when control leaves its paired <code>try</code> block. The prepared test uses it to command every mapped drivetrain motor to zero after normal completion, Stop, return, or interruption.</dd>
+          <dt>Supported test</dt><dd>A powered test in the game arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
+          <dt>Light prompting</dt><dd>The mentor may repeat the fresh task or ask what evidence the pair will check, but does not point to the line, dictate the edit, or repair the code.</dd>
+          <dt>Blocks fallback</dt><dd>The mentor-prepared competition project for this exact installed robot, used if the observable Java readiness threshold is not met. It does not create a second set of hardware facts or acceptance tests.</dd>
+        </dl>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a></p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before any motor can move</h2>
+        <ul class="checklist">
+          <li>Work only in the game arena. Secure the robot frame on stable support and prove that every wheel clears the support, floor, people, wires, and loose objects through a full hand rotation.</li>
+          <li>Secure the battery, Control Hub, wires, attached pieces, and mechanisms. Keep all wires away from wheels, shafts, gears, sharp edges, and pinch points.</li>
+          <li>Switch off the Hub and disconnect the battery before touching wiring, wheels, motors, support, or the robot. Say <q>stopped</q> before anyone enters the exclusion area.</li>
+          <li>Name a routine Driver Station operator and a separate Stop owner. Both keep immediate access to Stop; the Stop owner may press it without permission.</li>
+          <li>Before INIT, identify the one motor selected for the trial, predict the moved side or wheel and observed direction, confirm every other motor is commanded to explicit zero, and record the signed test-card ID.</li>
+          <li>Stop immediately for unexpected movement, a second motor moving, loose hardware, unsafe vibration, rubbing, wire movement, implausible telemetry, loss of communication or control, inability to command zero, heat, smoke, odor, or unusual sound.</li>
+        </ul>
+        <aside class="safety-callout"><strong>One motor, one trial.</strong> Never use floor travel here. After each trial, press Stop, switch off the Hub, disconnect the battery, and record the result before selecting another motor.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Retrieve and inspect.</strong> Read Meeting 1's robot identity, active configuration, drivetrain count, exact names, model evidence, and blockers; assign pair and Stop roles.</div></li>
+          <li><time>0:15-0:40<br>25 min</time><div><strong>Trace one motor task.</strong> Connect <code>double</code>, assignment, <code>hardwareMap</code>, method calls, direction, explicit zero, and the first compiler error.</div></li>
+          <li><time>0:40-1:45<br>65 min</time><div><strong>Build, map, and test.</strong> Pairs rotate through identity, code, and Supported test workstreams while the team tests actual drivetrain motors one at a time.</div></li>
+          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, switch off the Hub, disconnect the battery, and leave the robot secured.</div></li>
+          <li><time>1:55-2:45<br>50 min</time><div><strong>Complete the map and readiness gate.</strong> Finish every motor's trial, reconcile records, and have each pair locate, change, build, and explain a fresh Java task.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Decide and hand off.</strong> Record the Java or exact prepared Blocks path, support plan, individual evidence, complete map, and blockers for Meeting 3.</div></li>
+        </ol>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Follow one value to one exact motor</h2>
+        <p>The driver controls the keyboard while the navigator reads the Meeting 1 handoff and checks each visible result. Swap roles before repairing the compiler error.</p>
+        <h3>On the Driver Station: configure the exact motor</h3>
+        <ol>
+          <li><strong>Open the active configuration:</strong> while paired to the Robot Controller, open the Driver Station's three-dot menu, choose <strong>Configure Robot</strong>, and select the configuration named in Meeting 1. Open that configuration for editing; do not create a replacement unless the mentor and robot record require one. <strong>Success:</strong> the displayed configuration name matches the robot identity record.</li>
+          <li><strong>Select the actual Control Hub and port:</strong> open the Hub whose identity is recorded for this robot, choose <strong>Motors</strong>, and point to the physical motor's actual numbered port. Trace the labeled wire before editing. <strong>Success:</strong> physical wire, Hub identity, port number, and selected screen row all agree.</li>
+          <li><strong>Create or edit the motor device:</strong> at that port, select the exact configured motor type supported by the installed motor's verified product identity. If exact identity is blocked, stop and record the blocker rather than choosing a similar-looking type. <strong>Success:</strong> the selected type and exact-product evidence are recorded together.</li>
+          <li><strong>Name the device:</strong> assign an exact case-sensitive descriptive name for that physical location. Read every capital letter, lowercase letter, number, and underscore aloud; do not use a name copied from an unmatched example. <strong>Success:</strong> another student can identify the physical motor from the name and verifies it character by character.</li>
+          <li><strong>Save and activate:</strong> choose <strong>Done</strong> until the top configuration screen, save the configuration, return to the main Driver Station screen, and verify that this saved file is the active configuration. <strong>Success:</strong> the active configuration name and exact device row are recorded as Driver Station evidence.</li>
+          <li><strong>Match Java side by side:</strong> keep the active Driver Station motor row visible beside the Java file. Copy the exact device name into <code>hardwareMap.get</code>, then have the student and checker compare both strings character by character. <strong>Success:</strong> Driver Station evidence and Java evidence record the same name, plus configuration, Hub/port, file, and line, before INIT.</li>
+          <li><strong>Read the expected normal mode:</strong> after the prepared file maps and zeros every motor, read each displayed <code>motor.getMode()</code> result without changing it. Record the exact returned mode beside that motor's Driver Station name, configured type, Hub/port, and Java direction setting. <strong>Success:</strong> every motor row has one read-only expected normal mode, and any unexplained mismatch between motors blocks INIT.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <h3>In Java: trace and build the prepared test</h3>
+        <ol>
+          <li><strong>Match identity:</strong> choose one row from the Meeting 1 handoff. Point to its physical location, labeled Hub/port, exact saved name, configured motor type, and exact-product source or blocker. <strong>Why:</strong> a correct Java statement can still select the wrong device. <strong>Success:</strong> the physical labels, active configuration, and handoff agree without guessing.</li>
+          <li><strong>Find the lookup:</strong> compare the saved name character by character with <code>hardwareMap.get(DcMotor.class, "EXACT_SAVED_NAME")</code>. <strong>Why:</strong> the Java lookup uses that exact configured name. <strong>Success:</strong> another student independently confirms the same match.</li>
+          <li><strong>Trace the value:</strong> point from <code>approvedTestPower</code> through the <code>testPower</code> assignment to <code>setPower(testPower)</code>. Then point to <code>setPower(0.0)</code>. <strong>Why:</strong> this separates the trial's command from its explicit zero. <strong>Success:</strong> you explain each line without substituting a reusable number.</li>
+          <li><strong>Trace direction:</strong> compare <code>approvedDirection</code> with the selected motor row's direction setting, then predict the side or wheel and direction that observers should see. <strong>Why:</strong> software direction and observed movement are different facts. <strong>Success:</strong> the prediction names a viewing side and remains written even if the result differs.</li>
+          <li><strong>Build before power:</strong> build the disabled clean copy and read the result. <strong>Why:</strong> a successful build is required before deployment but does not prove hardware behavior. <strong>Success:</strong> the clean copy builds with the selected motor name unchanged.</li>
+          <li><strong>Repair the first compiler error:</strong> build the prepared copy containing one missing semicolon. Record the first message, file, and line; add only the semicolon; rebuild. <strong>Why:</strong> the first diagnostic gives a bounded place to start. <strong>Success:</strong> the record preserves the original diagnostic and the repaired copy builds.</li>
+        </ol>
+        <p>The mentor prepares one exact name and direction entry for every actual drivetrain motor, the selected row index, and the trial-specific values only after verifying the exact installed motors, robot revision, source guidance, and stable setup. Values belong on the signed test card and trial record; this lesson supplies no reusable power or duration. The method below is placed inside the prepared <code>LinearOpMode</code> and called with those mentor-reviewed arrays and values.</p>
+        <pre><code>private void runOneMotorTest(
+        String[] exactDriveMotorNames,
+        DcMotor.Direction[] approvedDirections,
+        int approvedSelectedMotorIndex,
+        double approvedTestPower,
+        long approvedTestDurationMs) throws InterruptedException {
+    if (exactDriveMotorNames.length != approvedDirections.length
+            || approvedSelectedMotorIndex &lt; 0
+            || approvedSelectedMotorIndex &gt;= exactDriveMotorNames.length) {
+        throw new IllegalArgumentException("Incomplete drivetrain test setup");
+    }
+
+    DcMotor[] driveMotors = new DcMotor[exactDriveMotorNames.length];
+    for (int i = 0; i &lt; driveMotors.length; i++) {
+        driveMotors[i] = hardwareMap.get(
+                DcMotor.class, exactDriveMotorNames[i]);
+        driveMotors[i].setDirection(approvedDirections[i]);
+        driveMotors[i].setPower(0.0);
+        telemetry.addData(
+                exactDriveMotorNames[i] + " expected normal mode",
+                driveMotors[i].getMode());
+    }
+    telemetry.update();
+
+    DcMotor selectedMotor = driveMotors[approvedSelectedMotorIndex];
+    try {
+        waitForStart();
+        if (opModeIsActive()) {
+            selectedMotor.setPower(approvedTestPower);
+            sleep(approvedTestDurationMs);
+            selectedMotor.setPower(0.0);
+        }
+    } finally {
+        for (DcMotor motor : driveMotors) {
+            motor.setPower(0.0);
+        }
+    }
+}</code></pre>
+        <p class="success-check">Before enabling the prepared file, count the name and direction entries against the motor map. The setup loop must map every actual drivetrain motor, command every one to zero, and display every <code>getMode()</code> result before <code>waitForStart()</code>. Compare the returned modes across all motor rows; an unexplained mismatch blocks INIT. During the bounded test only <code>selectedMotor</code> receives the approved test power. Normal completion and every exit through <code>finally</code> command all mapped motors to zero. Do not call <code>setMode()</code> or teach mode switching in Meeting 2.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a></p>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Build the evidence in three workstreams</h2>
+        <p><strong>Three pairs:</strong> begin at different workstreams and rotate. <strong>Two pairs:</strong> begin at Identity and Code, swap, then serve together as the test crew. Swap driver and navigator at each move. No pair may approve its own trial alone.</p>
+        <div class="station-grid">
+          <article class="station-card">
+            <h3>1. Identity and product source</h3>
+            <ol>
+              <li>Count the actual drivetrain motors and compare the count with Meeting 1.</li>
+              <li>For each motor, open the active configuration and trace physical location to the actual Hub, numbered port, and exact saved name.</li>
+              <li>Create or edit that port's device only as needed; choose the exact configured motor type, assign the exact case-sensitive descriptive name, save, activate, and record the Driver Station evidence.</li>
+              <li>Beside each motor's name, type, Hub/port, and direction, record the expected normal mode returned by the prepared file's read-only <code>getMode()</code> display.</li>
+              <li>Match the installed manufacturer/model/revision to its exact product page, or mark model-specific work blocked with an owner and next check.</li>
+              <li>Prepare one blank motor-map row per actual motor and assign each a unique trial ID.</li>
+            </ol>
+            <p class="success-check">Success looks like: motor count equals prepared rows, every identity is observed rather than inferred, and every source is exact or explicitly blocked.</p>
+          </article>
+          <article class="station-card">
+            <h3>2. Java and build evidence</h3>
+            <ol>
+              <li>Prepare one disabled test selection at a time; compare its lookup string side by side with the active Driver Station motor row and record the Java evidence.</li>
+              <li>Display <code>getMode()</code> for every mapped drivetrain motor before <code>waitForStart()</code>. Compare all returned modes and block INIT on any unexplained mismatch.</li>
+              <li>Confirm all drivetrain motors begin at explicit zero and only the selected motor can receive the signed card's trial-specific command.</li>
+              <li>Build the clean copy, then record and repair the first compiler error in the seeded-error copy.</li>
+              <li>Record the exact Java lookup and direction setting in the selected motor row.</li>
+            </ol>
+            <p class="success-check">Success looks like: clean code builds, the first diagnostic is preserved, and no second drivetrain motor can receive nonzero output in the selected trial.</p>
+          </article>
+          <article class="station-card">
+            <h3>3. Supported test and observation</h3>
+            <ol>
+              <li>Inspect the support, all-wheel clearance, secured hardware, wire route, exclusion area, operator, Stop owner, and signed test card.</li>
+              <li>Write the predicted moved side or wheel and direction before INIT.</li>
+              <li>Observe the selected motor's movement, explicit-zero result, and Stop response without entering the exclusion area.</li>
+              <li>Press Stop, power down, disconnect, and obtain the student's and independent checker's names before the next motor.</li>
+            </ol>
+            <p class="success-check">Success looks like: one and only one selected motor moves, it returns to zero, Stop ends the OpMode, and the complete trial is signed before selection changes.</p>
+          </article>
+        </div>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f06">Source M02-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Run one Supported test for every motor</h2>
+        <ol>
+          <li><strong>Select one motor:</strong> mark one untested motor row and trial ID. Keep all other drivetrain outputs at explicit zero. <strong>Why:</strong> one-at-a-time selection isolates the code-to-hardware connection. <strong>Success:</strong> two students agree on the location, Hub/port, saved name, Java lookup, configured type, and selected code line.</li>
+          <li><strong>Inspect while unpowered:</strong> with the Hub off and battery disconnected, secure the frame, support, battery, Hub, wires, attached pieces, and mechanisms; hand-rotate every wheel to prove clearance. <strong>Why:</strong> no wheel may contact the support or surroundings. <strong>Success:</strong> the independent checker signs the setup.</li>
+          <li><strong>Approve the trial:</strong> the mentor checks the exact product source and setup, chooses trial-specific power and duration, and signs the test card. Record its ID, values with units, source, and approver in the trial evidence; do not reuse them for another motor or setup without approval. <strong>Why:</strong> the lesson cannot supply universal motor values. <strong>Success:</strong> no command or duration is invented or copied from another robot.</li>
+          <li><strong>Verify configuration, Java, and run mode side by side:</strong> display the active Driver Station configuration and selected motor row beside the Java lookup and pre-start telemetry. Compare configuration name, actual Hub/port, configured motor type, exact case-sensitive name, Java direction setting, and the expected normal mode returned by <code>getMode()</code>; record Driver Station and Java evidence with student and checker. Compare the mode with every other motor row. <strong>Why:</strong> saved configuration, source, and controller state must describe the intended drivetrain. <strong>Success:</strong> every identity field agrees and no unexplained run-mode mismatch remains before INIT.</li>
+          <li><strong>Predict and build:</strong> write the expected moved side or wheel and direction from a named viewing side. Confirm the prepared method maps every drivetrain motor, zeros each one before <code>waitForStart()</code>, commands only the selected motor, and zeros all motors in <code>finally</code>; then build successfully. <strong>Why:</strong> a written prediction and executable cleanup make mismatches and exit behavior visible. <strong>Success:</strong> the prediction, all-motor count, cleanup review, and successful build are recorded before power is connected.</li>
+          <li><strong>Clear before INIT:</strong> position the routine operator and separate Stop owner with immediate Stop access. Move everyone outside the exclusion area; the operator calls <q>robot live</q>, and the observer checks the arena and answers <q>clear</q>. <strong>Why:</strong> the complete powered setup must be safe before the program begins. <strong>Success:</strong> live, clear, and Stop access are confirmed before INIT.</li>
+          <li><strong>Run and return to zero:</strong> the operator presses INIT, confirms no motion, then presses Start. Observe only from outside the exclusion area. The selected motor receives the trial-specific command and then explicit zero. <strong>Why:</strong> the trial must show both output and its planned safe state. <strong>Success:</strong> only the selected side or wheel moves and it stops at the explicit-zero command.</li>
+          <li><strong>Stop and make safe:</strong> the operator presses Stop at the planned boundary, or the Stop owner presses it immediately for any stop condition without permission. Say <q>stopped</q>, switch off the Hub, and disconnect the battery. <strong>Why:</strong> contact is allowed only after power is removed. <strong>Success:</strong> Stop ends the OpMode and the team records its observed response.</li>
+          <li><strong>Record before repeating:</strong> complete and sign every field in that motor's row. If any result is blocked or unexpected, name the owner and next check; do not retest or select another motor until the setup is safe. <strong>Why:</strong> each row must describe its own evidence. <strong>Success:</strong> completed rows equal the actual motor count, with one unique trial per motor.</li>
+        </ol>
+        <p class="success-check">The team passes this activity only when every actual drivetrain motor has its own completed one-at-a-time Supported test row. A result from one motor never proves another motor's lookup, direction, zero, or Stop response.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Complete the drivetrain motor map</h2>
+        <p class="record-prompt">Count the actual drivetrain motors, then copy the complete row below once for every motor. Do not omit a motor or copy an observation between rows. Use <strong>blocked</strong>, a reason, owner, and next check instead of guessing.</p>
+        <p><strong>Actual drivetrain motor count:</strong> ______ &nbsp; <strong>Completed motor rows:</strong> ______ &nbsp; <strong>Count checked by:</strong> ______ &nbsp; <strong>Date:</strong> ______</p>
+        <table class="record-table">
+          <caption>Complete motor record: copy for every actual drivetrain motor</caption>
+          <thead><tr><th scope="col">Identity and source</th><th scope="col">Code and observed result</th><th scope="col">Trial evidence and people</th></tr></thead>
+          <tbody>
+            <tr>
+              <td data-label="Identity and source"><strong>Physical location:</strong> __________<br><strong>Hub/port:</strong> __________<br><strong>Saved name:</strong> __________<br><strong>Configured motor type:</strong> __________<br><strong>Driver Station evidence:</strong> active configuration, Hub/port row, exact name, student/checker/date __________<br><strong>Exact-product source:</strong> URL/artifact and revision __________<br><strong>Source blocker, owner, next check:</strong> __________</td>
+              <td data-label="Code and observed result"><strong>Java lookup:</strong> <code>hardwareMap.get(__________)</code><br><strong>Java evidence:</strong> file, line, exact string, student/checker/date __________<br><strong>Side-by-side match before INIT:</strong> Pass / Blocked __________<br><strong>Direction setting:</strong> FORWARD / REVERSE / Blocked<br><strong>Expected normal mode from <code>motor.getMode()</code>:</strong> __________<br><strong>All-motor mode comparison:</strong> Match / Explained difference / Unexplained mismatch - INIT blocked<br><strong>Mode evidence checked by/date:</strong> __________<br><strong>Moved side/wheel:</strong> __________<br><strong>Observed direction and viewing side:</strong> __________<br><strong>Explicit zero:</strong> Stopped / Did not stop / Blocked<br><strong>Stop response:</strong> __________</td>
+              <td data-label="Trial evidence and people"><strong>Trial ID:</strong> __________<br><strong>Supported-test setup and exact active configuration:</strong> __________<br><strong>Signed test-card ID:</strong> __________<br><strong>Approved command/duration with units, source, and approver:</strong> __________<br><strong>Method and result:</strong> __________<br><strong>Date:</strong> __________<br><strong>Student:</strong> __________<br><strong>Operator:</strong> __________<br><strong>Observer/Stop owner:</strong> __________<br><strong>Checker:</strong> __________<br><strong>Unexpected result or blocker, owner, next check:</strong> __________</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="example-answer"><strong>Example form, not a claimed result:</strong> identify one physical motor and exact configuration entry, copy its exact lookup, name the viewed wheel and direction, and record separate observations for explicit zero and Driver Station Stop. The signed test card holds that trial's reviewed values and provenance.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f06">Source M02-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If powered robot work is unavailable</h2>
+        <div class="fallback-box">
+          <p>Do not claim a motor lookup, movement, direction, explicit-zero result, or Stop response passed. Hardware unavailability alone does not activate the Blocks fallback.</p>
+          <ol>
+            <li>Reconcile Meeting 1's motor count, physical labels, saved names, configured types, and product sources wherever those records are directly available. Mark every unchecked fact blocked with an owner and next check.</li>
+            <li>Trace and build the disabled Java task. Repair the seeded semicolon error and preserve its first message, file, and line. A local build proves syntax only, not deployment or motion.</li>
+            <li>On paper, predict the selected motor, direction, explicit zero, and Stop evidence for each planned trial. Do not enter power or duration until the mentor approves the exact setup and source.</li>
+            <li>Assign a date, owner, unique trial ID, student, and checker for every missing Supported test before Meeting 3 uses the motor map.</li>
+          </ol>
+          <p class="success-check">Success looks like: available source and build evidence is complete, every physical result remains visibly blocked, and no unavailable test is represented as passing.</p>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="gate" aria-labelledby="gate-title">
+        <h2 id="gate-title">Choose the competition programming path</h2>
+        <p>Each pair receives an unseen, disabled Java motor task for the exact installed robot and a fresh mentor-approved change card. No pair runs this task on hardware. With light prompting, every pair must complete all four rows.</p>
+        <table class="record-table">
+          <caption>Fresh-task Java readiness evidence</caption>
+          <thead><tr><th scope="col">Observable requirement</th><th scope="col">Pair evidence</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Requirement"><strong>Locate:</strong> point to the exact saved-name lookup, <code>double</code> assignment, motor method call, direction setting, and explicit zero without line-by-line help.</td><td data-label="Evidence">What the pair pointed to: __________</td><td data-label="Result">Pass / Needs support</td></tr>
+            <tr><td data-label="Requirement"><strong>Change:</strong> copy only the fresh card's requested value into the intended assignment without changing the saved name, direction, duration, or zero.</td><td data-label="Evidence">Diff checked by: __________</td><td data-label="Result">Pass / Needs support</td></tr>
+            <tr><td data-label="Requirement"><strong>Build:</strong> start Build and use the first result; one self-directed correction is allowed, and the final disabled task must build.</td><td data-label="Evidence">First result/correction/final result: __________</td><td data-label="Result">Pass / Needs support</td></tr>
+            <tr><td data-label="Requirement"><strong>Explain:</strong> name which exact motor the lookup selects, what the changed assignment would affect, the expected visible result, why hardware proof is still pending, and which line commands zero.</td><td data-label="Evidence">Student explanation checked by: __________</td><td data-label="Result">Pass / Needs support</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Threshold:</strong> continue Java as the competition path only when most pairs pass every row with light prompting: <strong>at least 2 of 3 pairs, or both pairs on a two-pair team</strong>. Record each pair separately; do not average partial rows into a pass.</p>
+        <p><strong>If the threshold is not met:</strong> activate the mentor-prepared Blocks competition project for the exact installed robot and continue short supported Java practice away from competition-critical work. This is a tool-path decision, not a judgment about students.</p>
+        <div class="handoff">
+          <p><strong>Pairs passing every row:</strong> _____ of _____ &nbsp; <strong>Threshold:</strong> _____ &nbsp; <strong>Decision:</strong> Java / Prepared Blocks fallback</p>
+          <p><strong>Exact prepared Blocks project:</strong> project name __________ &nbsp; file/export identity or checksum __________ &nbsp; robot revision __________ &nbsp; active configuration __________ &nbsp; verified by/date __________</p>
+          <p><strong>Support plan:</strong> failed observable rows __________ &nbsp; next Java practice __________ &nbsp; mentor/support owner __________ &nbsp; date to recheck __________</p>
+          <p><strong>Shared-path agreement:</strong> both paths use this same motor map, action map, test cards, measurements, safety gates, qualification routine, Autonomous route, reliability checks, event handoff, and physical acceptance tests. Neither path may claim an unperformed robot test.</p>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> Meeting 1 handoff, motor count, one complete row per actual drivetrain motor including its expected normal mode and all-motor comparison, signed test cards, first compiler-error record, per-pair readiness evidence, language decision, exact Blocks identity if activated, support plan, and blocker list.</p>
+        <h3>Each student explains</h3>
+        <p>Without partner help, choose one completed motor row and trace physical location to Hub/port, saved name, Java lookup, configured type, direction setting, expected normal mode from <code>getMode()</code>, command, moved wheel, observed direction, explicit zero, and Stop response. Explain why an unexplained mode mismatch blocks INIT, why another motor needs its own trial, and why a successful build does not prove motion.</p>
+        <h3>Record individual skill</h3>
+        <ul>
+          <li>Use the <a href="../reference/skill-tracker.html">skill tracker</a> to record Java tracing, build-evidence use, Supported test safety, and explanation of one motor row.</li>
+          <li>Record Observed, Supported, Independent, or Can Coach for each student. A pair gate result does not prove both students can explain the motor path.</li>
+          <li>Record the next practice for any student who cannot yet locate, change, build, or explain the fresh task.</li>
+        </ul>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 3</h2>
+        <div class="handoff">
+          <p><strong>Motor-map gate:</strong> actual drivetrain motor count _____; complete signed rows _____; unresolved identity, source, motion, zero, or Stop blockers ____________________; blocker owner and next check ____________________.</p>
+          <p><strong>Programming path:</strong> Java / exact prepared Blocks project ____________________. <strong>Decision evidence:</strong> _____ pairs passed of _____; required threshold _____. <strong>Support owner/next practice:</strong> ____________________.</p>
+          <p><strong>Run-mode record retained for Meetings 9-10:</strong> every motor's expected normal mode recorded: Yes / Blocked; all-motor comparison: Match / Explained differences / Unexplained mismatch; explanation or blocker owner/next check: ____________________. Meeting 2 does not switch modes. Meetings 9-10 must review this baseline before teaching or applying mode changes.</p>
+          <p><strong>Meeting 3 may use only a complete checked motor map and the recorded programming path. It may not copy one motor's direction or response into another row, treat a build as physical proof, or begin floor motion from an incomplete map.</strong></p>
+        </div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 1's robot identity, matching vendor path, active configuration, actual drivetrain count, every motor's location/Hub/port/name, model source or blocker, and working deployment path. Resolve contradictions before powered work.</li>
+          <li>Practice the current Driver Station workflow: open <strong>Configure Robot</strong>, select the recorded configuration and actual Hub/port, create or edit the motor device with the exact configured type and case-sensitive descriptive name, save, return to the main screen, and verify that configuration is active.</li>
+          <li>Prepare a disabled TeamCode test using only the pinned sample's verified mapping, direction, and power-call syntax as reference. Supply one exact name and direction per actual drivetrain motor. Use the shown method to map and zero all motors, display each read-only <code>getMode()</code> value, and update telemetry before <code>waitForStart()</code>; command only the selected motor and zero all motors through <code>finally</code> on every exit. Include no mode-changing call.</li>
+          <li>After checking the exact installed product source, robot revision, stable support, full wheel clearance, and current manufacturer guidance, choose trial-specific power and duration. Record values with units, source, approver, setup, and trial ID on a signed test card. Publish no reusable defaults.</li>
+          <li>Prepare a separate copy with exactly one missing semicolon. Verify that its first compiler diagnostic is harmless and reproducible.</li>
+          <li>Prepare one unseen disabled Java motor task and fresh change card per pair. The task must use the exact installed configuration but must not be deployed or run during the readiness gate.</li>
+          <li>Prepare and verify the exact Blocks competition project for this robot before class, including project/export identity, robot revision, active configuration, and recovery copy. It remains unused unless the readiness threshold fails.</li>
+          <li>Print one motor-map row and test card per actual drivetrain motor, plus readiness forms and skill trackers. Provide stable support, visible wheel markers, labels, eye protection, and an arena exclusion-area marker.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Powered-work gate:</strong> proceed only when the selected motor's physical identity, Hub/port, saved name, configured type, Java lookup, direction setting, and exact product status agree; all drivetrain outputs begin at zero; the clean file builds; the robot, battery, Hub, wires, pieces, mechanisms, and support are secure; every wheel is clear; trial values and roles are signed; and Stop is immediately accessible. Otherwise keep output disabled and use fallback work.</aside>
+      <aside class="mentor-note"><strong>Claim boundary:</strong> FTC and Java sources establish configuration and API behavior. REV and goBILDA sources apply only to their exact named or installed products. Only the team's signed per-motor trials establish movement, direction, explicit-zero result, and Stop response on this robot.</aside>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f06">Source M02-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> FTC Docs: <a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/getting_started/getting-started.html#creating-a-configuration-file-using-the-driver-station">Creating a Configuration File Using the Driver Station</a>, <a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/configuring_dc_motor/configuring-dc-motor.html#configuring-a-dc-motor-instructions">Configuring a DC Motor</a>, <a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/saving_config/saving-config.html">Saving the Configuration</a>, and <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#examining-the-structure-of-your-opmode">Examining the OpMode structure</a>.</li>
+        <li><span class="resource-label start-from">Inspect directly</span> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/BasicOpMode_Linear.java"><code>BasicOpMode_Linear</code></a> only for its mapping, direction, and power-call syntax. It contains no motor mode call and does not supply BIOBUZZ's bounded one-motor test or all-motor cleanup.</li>
+        <li><span class="resource-label follow">Follow</span> Pinned <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code> 12.0.0 Javadoc</a> and Oracle <a href="https://dev.java/learn/language-basics/primitive-types/">Primitive Types</a> and <a href="https://dev.java/learn/language-basics/expressions-statements-blocks/">Expressions, Statements, and Blocks</a>.</li>
+        <li><span class="resource-label follow">Follow exact product only</span> Use the current exact installed motor/gearbox product page. The <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto#configuration">REV Starter Bot configuration</a> applies only to its named example; the <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">goBILDA StarterBot Resource Guide</a> is only the candidate assembly index until the installed product is matched.</li>
+        <li><span class="resource-label follow">Follow</span> Use the shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/skill-tracker.html">skill tracker</a>, and <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0001-robot-programs-are-instructions.html">Previous: Meeting 1: Robot Init</a> | <a href="index.html">Course index</a> | <a href="0003-gamepad-to-drivetrain.html">Next: Meeting 3: Compare the StarterBot Programs</a></p>
+  </footer>
+</body>
+</html>
