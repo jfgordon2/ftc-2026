@@ -11,6 +11,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 4, Meeting 7 / FTC SDK v12.0</p>
     <h1>Integrate and Debug TeleOp</h1>
+    <p><strong>Integrated</strong> means the separately tested drivetrain and mechanism code paths are combined in one reviewed version. <strong>Coexist</strong> means those paths work alone and together without stealing inputs, retaining stale commands, or defeating safe release and Stop. A <strong>candidate</strong> is the exact reviewed code version ready for the next recorded test; it is not yet qualified or known-good.</p>
     <p class="lede">Combine the tested drivetrain and enabled mechanism controls, prove that they coexist, and use evidence to isolate one cause before changing one thing.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
@@ -22,7 +23,7 @@
 
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
-    <a href="0006-mechanisms-and-safety-rules.html">Previous: Meeting 6</a>
+    <a href="0006-build-the-mechanism-controls.html">Previous: Meeting 6: Build the Mechanism Controls</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -31,7 +32,7 @@
     <a href="#test">Coexistence test</a>
     <a href="#handoff">Meeting 8 handoff</a>
     <a href="#prep">Mentor preparation</a>
-    <a href="0008-reliable-teleop-checkpoint.html">Next: Meeting 8</a>
+    <a href="0008-qualify-teleop.html">Next: Meeting 8: Qualify TeleOp</a>
   </nav>
 
   <main>
@@ -40,7 +41,7 @@
         <h2 id="outcome-title">What you will make the robot do</h2>
         <div class="outcome-banner">The integrated TeleOp candidate will preserve the tested drivetrain and every enabled Meeting 6 mechanism action while controls are used alone and together. The team will test neutral, drivetrain, mechanism, simultaneous input, release, reverse or recovery, and Stop, then close any fault only from an evidence trail and the repeated original test.</div>
         <p>Integration does not authorize a new action, value, hardware name, vendor assumption, or wider physical range. Begin with the recoverable drivetrain candidate and the separate mechanism candidate. Keep every pending, failed, unmatched, optional, or unavailable feature disabled.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
       </section>
 
       <section id="words" aria-labelledby="words-title">
@@ -55,7 +56,7 @@
           <dt>Cause</dt><dd>The explanation supported by the collected evidence and the result of repeating the original test after one change.</dd>
           <dt>Integrated candidate</dt><dd>The exact reviewed code version that contains both accepted paths and is ready for the next recorded test. It is not yet a qualified baseline.</dd>
         </dl>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a></p>
       </section>
 
       <section id="safety" aria-labelledby="safety-title">
@@ -69,7 +70,7 @@
           <li>Use only a mentor-prepared, known-safe simulated fault in a disposable copy. Never unplug live wiring, partly seat a connector, loosen a structure, bypass an interlock, reverse polarity, create a bind or stall, or manufacture unsafe motion.</li>
         </ul>
         <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, lost control, missing zero or safe hold, collision, binding, stall, looseness, heat, odor, unusual sound, implausible telemetry, communication loss, or field entry means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before contact. Preserve the symptom; do not try another input.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d02">Team choice M07-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
       </section>
 
       <section id="agenda" aria-labelledby="agenda-title">
@@ -96,7 +97,8 @@
           <li><strong>Command every output once per loop:</strong> calculate drivetrain and mechanism commands from fresh inputs and decisions, then make final writes. No inactive branch inherits a prior moving output. <strong>Success:</strong> neutral, release, blocked conflict, and recovery select explicit zero or a verified safe hold.</li>
           <li><strong>Trace the interaction:</strong> add concise input, decision or state, and commanded-output telemetry for both paths. Use distinct captions and include any interlock or conflict result. <strong>Success:</strong> a reader can distinguish operator request, code choice, and command without guessing from motion.</li>
         </ol>
-        <pre><code>// Shape only: use the team's approved names and already-tested values.
+        <p><strong>Non-compilable pseudocode:</strong> this shape-only snippet intentionally uses undefined placeholders, including <code>turnInput</code>, <code>recoveryInput</code>, <code>interlockClear</code>, <code>DriveDecision</code>, <code>MechanismState</code>, <code>decideDrive</code>, and <code>decideMechanism</code>. Do not paste or deploy it; substitute only the team's approved names and already-tested values.</p>
+        <pre><code>// NON-COMPILABLE PSEUDOCODE: undefined placeholders show structure only.
 double driveInput = gamepad1.left_stick_y;
 boolean mechanismInput = gamepad2.right_bumper;
 
@@ -118,7 +120,7 @@ telemetry.update();
 
 // Write each final command through the exact mapped output once.</code></pre>
         <p class="why-it-matters"><strong>Why this matters:</strong> separate code can pass alone but fail after sharing inputs, names, state, loop time, or defaults. A visible ownership map and fresh final commands expose those interactions without weakening the earlier safety contract.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
       </section>
 
       <section id="debug" aria-labelledby="debug-title">
@@ -152,7 +154,7 @@ telemetry.update();
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Integrate with your partner</h2>
-        <p><strong>Three pairs:</strong> begin at Interface Audit, Telemetry Trace, and Test/Fault Record; rotate every 20 minutes, then reconcile one candidate. <strong>Two pairs:</strong> begin at Interface Audit and Telemetry Trace, swap after 20 minutes, then jointly complete Test/Fault Record. Pair copies keep all hardware writes disabled until the shared diff passes review.</p>
+        <p><strong>Three pairs:</strong> begin at Interface Audit, Telemetry Trace, and Test/Fault Record; rotate every 20 minutes, then reconcile one candidate. <strong>Two pairs:</strong> begin at Interface Audit and Telemetry Trace, swap stations after 20 minutes, then jointly complete Test/Fault Record. Within every pair, the <strong>code driver</strong> controls the keyboard and makes only the agreed change; the <strong>code navigator</strong> reads the requirement, traces both paths, checks each edit against the evidence and safety boundary, and records questions and results. Swap code driver and code navigator after the first reviewed path or after 15 minutes, whichever comes first, so every student serves in both roles at least once. Pair copies keep all hardware writes disabled until the shared diff passes review.</p>
         <div class="station-grid">
           <article class="station-card">
             <h3>1. Interface audit</h3>
@@ -178,14 +180,14 @@ telemetry.update();
             <h3>3. Test and fault record</h3>
             <ol>
               <li>Write the Supported test setup, case order, expected behavior, safe output, abort signs, roles, and evidence.</li>
-              <li>Prepare one known-safe simulated software or configuration fault in a disposable copy, with outputs disabled or physically bounded as its mentor key requires.</li>
+              <li>Receive one mentor-prepared, known-safe simulated software or configuration fault in a disposable copy and follow its mentor-set test boundary. Students must never prepare, seed, or create the simulated fault; outputs remain disabled or physically bounded exactly as the mentor key requires.</li>
               <li>Complete symptom, layer, hypothesis, prediction, input, decision/state, command, observed result, and rejection fields before editing.</li>
               <li>Plan one correction, the identical retest, restoration, and handoff if the fault remains open.</li>
             </ol>
             <p class="success-check">Success looks like: another pair can run the test without selecting a value, widening scope, or guessing what evidence to keep.</p>
           </article>
         </div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d02">Team choice M07-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
       </section>
 
       <section id="test" aria-labelledby="test-title">
@@ -201,7 +203,7 @@ telemetry.update();
           <li><strong>Handle every mismatch:</strong> preserve the failed row and enter the evidence loop. Make no edit until symptom, layer, hypothesis, prediction, and needed instrumentation are written. After one justified change, repeat the exact failed case plus neutral, release, and Stop cases affected by that change. <strong>Success:</strong> the record closes from evidence or stays honestly open.</li>
           <li><strong>Decide integrated scope:</strong> name the exact candidate, configuration, enabled actions, passed cases, open faults, and highest physical scope. Any unresolved safety fault blocks Meeting 8 powered qualification. <strong>Success:</strong> code, test record, and handoff describe the same scope.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d02">Team choice M07-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
       </section>
 
       <section id="record" aria-labelledby="record-title">
@@ -251,7 +253,7 @@ telemetry.update();
           </ol>
           <p class="success-check">Success looks like: the integrated code path and diagnosis reasoning are reviewable within their stated scope, while every unperformed physical conclusion remains visibly blocked.</p>
         </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
       </section>
 
       <section id="evidence" aria-labelledby="evidence-title">
@@ -266,7 +268,7 @@ telemetry.update();
           <li>Record safe deployment only when the student follows the Supported test setup, roles, live/clear/stopped callouts, abort boundary, shutdown, and evidence handoff.</li>
           <li>Record each student separately. A pair's code-path trace does not prove that student's physical-test independence.</li>
         </ul>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d02">Team choice M07-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
       </section>
 
       <section id="handoff" aria-labelledby="handoff-title">
@@ -307,7 +309,7 @@ telemetry.update();
         </ul>
       </aside>
       <aside class="mentor-note"><strong>Edit gate:</strong> allow no source, configuration, wiring, or physical change until the pair records trial identity, exact symptom and reproduction, one layer, one rejectable hypothesis, predicted evidence, instrumentation, and safe test. Allow one cause-related change, then require the original test and every affected neutral/release/recovery/Stop case.</aside>
-      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d01">Team choice M07-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m07-d02">Team choice M07-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m07-m01">Measure it M07-M01</a></p>
     </section>
 
     <section id="resources" aria-labelledby="resources-title">
@@ -324,7 +326,7 @@ telemetry.update();
   </main>
 
   <footer class="site-footer">
-    <p><a href="0006-mechanisms-and-safety-rules.html">Previous: Meeting 6</a> | <a href="index.html">Course index</a> | <a href="0008-reliable-teleop-checkpoint.html">Next: Meeting 8</a></p>
+    <p><a href="0006-build-the-mechanism-controls.html">Previous: Meeting 6: Build the Mechanism Controls</a> | <a href="index.html">Course index</a> | <a href="0008-qualify-teleop.html">Next: Meeting 8: Qualify TeleOp</a></p>
   </footer>
 </body>
 </html>

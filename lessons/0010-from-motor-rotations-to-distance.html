@@ -22,7 +22,7 @@
 
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
-    <a href="0009-autonomous-is-a-sequence.html">Previous: Meeting 9</a>
+    <a href="0009-autonomous-starts-with-one-action.html">Previous: Meeting 9: Autonomous Starts With One Action</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -32,15 +32,15 @@
     <a href="#test">Separate tests</a>
     <a href="#handoff">Meeting 11 handoff</a>
     <a href="#prep">Mentor preparation</a>
-    <a href="0011-compose-and-tune-autonomous.html">Next: Meeting 11</a>
+    <a href="0011-compose-the-autonomous-route.html">Next: Meeting 11: Compose the Autonomous Route</a>
   </nav>
 
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
         <h2 id="outcome-title">What you will make the robot do</h2>
-        <div class="outcome-banner">Using measurements from this exact assembled drivetrain, the robot will separately test 36 inches forward, 12 inches backward, and 90 degrees left. Each reusable action must end by reaching its target or by an active-check, timeout, Driver Station Stop, or observer abort, then command zero and restore every drive motor's verified pre-action controller setting.</div>
-        <p>Do not combine the three segments until each one passes its own predeclared tolerance and all stopping and exact saved-mode restoration evidence is complete. Keep Meeting 9's exact one-action Autonomous as the fallback.</p>
+        <div class="outcome-banner">Using measurements from this exact assembled drivetrain, the robot will separately test 36 inches forward, 12 inches backward, and 90 degrees left. Each reusable action must end by reaching its target or by an active-check, timeout, Driver Station Stop, or observer abort, then command zero.</div>
+        <p>Do not combine the three segments until each one passes its own predeclared tolerance and all stopping and controller-state evidence is complete. Keep Meeting 9's exact one-action Autonomous as the fallback.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
       </section>
 
@@ -198,7 +198,9 @@ void driveWheelDistances(double leftDistance, double rightDistance,
     DcMotor.RunMode qualifiedCodeLeftMode = QUALIFIED_CODE_LEFT_MODE;
     DcMotor.RunMode qualifiedCodeRightMode = QUALIFIED_CODE_RIGHT_MODE;
 
-    // This repeats the upstream getMode() check immediately before action.
+    // Keep output at zero while repeating the upstream getMode() check.
+    leftDrive.setPower(0.0);
+    rightDrive.setPower(0.0);
     DcMotor.RunMode leftModeRecheck = leftDrive.getMode();
     DcMotor.RunMode rightModeRecheck = rightDrive.getMode();
     boolean leftModeMatches = leftModeRecheck == meeting2LeftExpectedMode
@@ -371,18 +373,18 @@ void turnLeftDegrees(double angle, double power, double timeout) {
     <section id="resources" aria-labelledby="resources-title">
       <h2 id="resources-title">Resources</h2>
       <ul>
-        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/control_hard_compon/rc_components/encoders/encoders.html#how-do-encoders-work">How Encoders Work</a> and <a href="https://ftc-docs.firstinspires.org/en/latest/tech_tips/tech-tips/tech-tip-motor-modes/tech-tip-motor-modes.html#motor-modes">Motor Modes</a>.</li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/control_hard_compon/rc_components/encoders/encoders.html">How Encoders Work</a> and <a href="https://ftc-docs.firstinspires.org/en/latest/tech_tips/tech-tips/tech-tip-motor-modes/tech-tip-motor-modes.html#motor-modes">Motor Modes</a>.</li>
         <li><span class="resource-label start-from">Start from</span> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java"><code>RobotAutoDriveByEncoder_Linear</code></a>. Its structure is a starting point; its TETRIX hardware assumptions and motion constants are not BIOBUZZ values.</li>
         <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a> definitions for position methods and run modes.</li>
         <li><span class="resource-label follow">Follow</span> Current exact-product manufacturer documents for each installed motor/encoder, gearbox, wheel, and external transmission component.</li>
-        <li><span class="resource-label optional">Formula explanation</span> Game Manual 0 <a href="https://gm0.org/en/latest/docs/software/tutorials/encoders.html">Encoders</a> and <a href="https://gm0.org/en/latest/docs/software/concepts/odometry.html#odometry-math">Odometry Math</a>; reconcile these explanations with exact hardware documents, SDK APIs, and installed measurements.</li>
+        <li><span class="resource-label optional">Formula explanation</span> Game Manual 0 <a href="https://gm0.org/en/latest/docs/software/tutorials/encoders.html">Encoders</a> and <a href="https://gm0.org/en/latest/docs/software/concepts/odometry.html#angle-and-displacement">Odometry Math</a>; reconcile these explanations with exact hardware documents, SDK APIs, and installed measurements.</li>
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p><a href="0009-autonomous-is-a-sequence.html">Previous: Meeting 9</a> | <a href="index.html">Course index</a> | <a href="0011-compose-and-tune-autonomous.html">Next: Meeting 11</a></p>
+    <p><a href="0009-autonomous-starts-with-one-action.html">Previous: Meeting 9: Autonomous Starts With One Action</a> | <a href="index.html">Course index</a> | <a href="0011-compose-the-autonomous-route.html">Next: Meeting 11: Compose the Autonomous Route</a></p>
   </footer>
 </body>
 </html>

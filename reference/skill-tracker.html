@@ -3,43 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="One-page BIOBUZZ student skill tracker with three active skills.">
+  <meta name="description" content="BIOBUZZ individual skill tracker for the Trace, Evaluate, Rebuild progression.">
   <title>Student Skill Tracker | BIOBUZZ</title>
   <link rel="stylesheet" href="../assets/lesson.css">
   <style>
     .sheet { background: var(--paper-raised); border: 2px solid var(--ink); padding: 1rem; }
+    .meta { display: grid; gap: 0.75rem 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .write-line { background: transparent; border: 0; border-bottom: 1px solid var(--ink); color: var(--ink); display: block; font: inherit; min-height: 1.5rem; width: 100%; }
     .tracker { box-shadow: none; table-layout: fixed; }
-    .tracker th:first-child { width: 18%; }
-    .tracker td { height: 5.5rem; }
-    .levels { display: grid; font-size: 0.78rem; gap: 0.15rem 0.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .box { border: 1.5px solid currentColor; display: inline-block; height: 0.72rem; margin-right: 0.2rem; vertical-align: -0.06rem; width: 0.72rem; }
-    .replacement { border: 1px solid var(--line); margin-top: 1rem; padding: 0.75rem; }
-    .replacement-grid { display: grid; gap: 0.5rem 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .write-line { border-bottom: 1px solid var(--ink); display: block; min-height: 1.5rem; }
-    @media (max-width: 720px) {
-      .tracker { table-layout: auto; }
-      .tracker th, .tracker td { min-width: 12rem; }
-      .table-scroll { overflow-x: auto; }
-      .replacement-grid { grid-template-columns: 1fr; }
-    }
+    .tracker th:first-child { width: 20%; }
+    .tracker th:nth-child(2) { width: 43%; }
+    .tracker th:nth-child(3) { width: 23%; }
+    .levels { border: 0; display: grid; font-size: 0.78rem; gap: 0.15rem 0.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; min-width: 0; padding: 0; }
+    .levels label { align-items: center; display: flex; gap: 0.2rem; }
+    .levels input { accent-color: var(--blue-dark); margin: 0; }
+    .field-label { display: block; font-size: 0.76rem; font-weight: 700; }
+    .field-label + .write-line { margin-bottom: 0.25rem; }
+    .sr-only { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+    @media (max-width: 720px) { .meta { grid-template-columns: 1fr; } }
     @media print {
-      @page { margin: 0.35in; size: letter landscape; }
-      :root { font-size: 8.5pt; }
+      @page { margin: 0.3in; size: letter landscape; }
+      :root { font-size: 7.5pt; }
       .site-header p { margin: 0; }
-      .site-header h1 { font-size: 22pt; }
-      .sheet { padding: 0.1in; }
-      .tracker th, .tracker td { padding: 0.06in; }
-      .tracker td { height: 0.62in; }
-      .levels { font-size: 7.3pt; gap: 0.02in 0.08in; }
-      .replacement { margin-top: 0.08in; padding: 0.06in; }
-      .write-line { min-height: 0.18in; }
+      .site-header h1 { font-size: 20pt; }
+      .sheet { padding: 0.08in; }
+      .meta { gap: 0.04in 0.12in; }
+      .write-line { min-height: 0.16in; }
+      .tracker th, .tracker td { padding: 0.045in; }
+      .levels { font-size: 6.7pt; gap: 0.01in 0.06in; }
+      .levels input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
       .site-footer { display: none; }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <p>BIOBUZZ / Demonstrated independence, not a written grade</p>
+    <p>BIOBUZZ / Individual demonstrated evidence, not a written grade</p>
     <h1>Student skill tracker</h1>
   </header>
 
@@ -49,50 +48,42 @@
 
   <main>
     <section class="sheet" aria-labelledby="tracker-title">
-      <h2 id="tracker-title">Three active skills</h2>
-      <p>Mark the highest level demonstrated without taking over. Reassess through actual robot work. Keep only three skills active at a time.</p>
-      <dl class="words-list">
-        <dt>Observed</dt><dd>The student watched the complete skill, pointed to the important controls or result, and can say what the person doing it was checking.</dd>
-        <dt>Supported</dt><dd>The student performed the skill while another person gave step-by-step prompts or corrected an action.</dd>
-        <dt>Independent</dt><dd>The student performed the skill safely, checked the visible result, and explained it with only a reminder of the goal.</dd>
-        <dt>Can Coach</dt><dd>The student guided another person with questions, noticed safety and result checks, and let that person keep control of the work.</dd>
-      </dl>
-      <p class="example-answer">For <strong>Deploy an OpMode safely</strong>, Maya selected the named Control Hub, installed the app, checked INIT telemetry, and used Stop without step-by-step help. Mark <strong>Independent</strong>. Do not mark <strong>Can Coach</strong> until she guides another student without taking over.</p>
-      <div class="table-scroll">
-        <table class="tracker">
-          <caption>Progression: Observed, Supported, Independent, Can Coach</caption>
-          <thead>
-            <tr>
-              <th scope="col">Student</th>
-              <th scope="col">Deploy an OpMode safely</th>
-              <th scope="col">Trace gamepad input to robot output</th>
-              <th scope="col">Diagnose with telemetry</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">1. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
-            <tr><th scope="row">2. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
-            <tr><th scope="row">3. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
-            <tr><th scope="row">4. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
-            <tr><th scope="row">5. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
-            <tr><th scope="row">6. __________</th><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td><td><span class="levels"><span><span class="box"></span>Observed</span><span><span class="box"></span>Supported</span><span><span class="box"></span>Independent</span><span><span class="box"></span>Can Coach</span></span></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="replacement">
-        <strong>Next cycle: replace completed skills; do not add a fourth active column.</strong> Write an observable action, such as <q>Measure encoder counts for one marked roll and explain the conversion.</q>
-        <div class="replacement-grid">
-          <label>What observable skill will replace column 1?<span class="write-line"></span></label>
-          <label>What observable skill will replace column 2?<span class="write-line"></span></label>
-          <label>What observable skill will replace column 3?<span class="write-line"></span></label>
+      <h2 id="tracker-title">Trace, Evaluate, Rebuild progression</h2>
+      <p>Mark the highest level this student demonstrated without another person taking over. Record the exact artifact, trial, claim, or handoff ID that supports the mark. Pair or team completion does not prove individual skill.</p>
+      <form aria-label="Individual skill progression">
+        <div class="meta">
+          <label>Student<input class="write-line" type="text" name="student"></label>
+          <label>Review date<input class="write-line" type="text" name="review-date"></label>
+          <label>Reviewer<input class="write-line" type="text" name="reviewer"></label>
         </div>
-      </div>
+        <dl class="words-list">
+          <dt>Observed</dt><dd>The student watched the complete skill, identified the important controls or result, and explained what the doer checked.</dd>
+          <dt>Supported</dt><dd>The student performed the skill with step-by-step prompts or a corrected action.</dd>
+          <dt>Independent</dt><dd>The student performed the skill safely, checked the visible result, and explained the evidence with only a reminder of the goal.</dd>
+          <dt>Can Coach</dt><dd>The student guided another person with questions, noticed safety and evidence checks, and let that person keep control.</dd>
+        </dl>
+        <table class="record-table tracker">
+        <caption>Use one row per course competency. A blank evidence field means the level is not yet demonstrated.</caption>
+        <thead><tr><th scope="col">Competency</th><th scope="col">Observable demonstration</th><th scope="col">Highest level</th><th scope="col">Evidence ID and next step</th></tr></thead>
+        <tbody>
+          <tr><th scope="row" data-label="Competency">Vendor trace</th><td data-label="Demonstration">Identify the exact StarterBot path; trace matching lifecycle, inputs, decisions, outputs, telemetry, safe output, and Stop; keep unmatched code reading-only.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Vendor trace level</legend><label><input type="radio" name="vendor-trace-level" value="observed">Observed</label><label><input type="radio" name="vendor-trace-level" value="supported">Supported</label><label><input type="radio" name="vendor-trace-level" value="independent">Independent</label><label><input type="radio" name="vendor-trace-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Record/trial/claim ID</span><input class="write-line" type="text" name="vendor-trace-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="vendor-trace-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">Action design</th><td data-label="Demonstration">Use game and workload evidence to classify an action and explain its input behavior, feedback, safe release, recovery, conflicts, and telemetry in the approved action map.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Action design level</legend><label><input type="radio" name="action-design-level" value="observed">Observed</label><label><input type="radio" name="action-design-level" value="supported">Supported</label><label><input type="radio" name="action-design-level" value="independent">Independent</label><label><input type="radio" name="action-design-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Map/claim ID</span><input class="write-line" type="text" name="action-design-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="action-design-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">TeleOp qualification</th><td data-label="Demonstration">Run the complete unchanged required-scope routine safely, verify release/zero and Stop, preserve defects separately, and identify the exact recovery point.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">TeleOp qualification level</legend><label><input type="radio" name="teleop-qualification-level" value="observed">Observed</label><label><input type="radio" name="teleop-qualification-level" value="supported">Supported</label><label><input type="radio" name="teleop-qualification-level" value="independent">Independent</label><label><input type="radio" name="teleop-qualification-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Qualification trial IDs</span><input class="write-line" type="text" name="teleop-qualification-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="teleop-qualification-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">Encoder conversion</th><td data-label="Demonstration">Trace documented counts and gearing through wheel circumference, counts per distance, target counts, and one measured drive or turn result with units.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Encoder conversion level</legend><label><input type="radio" name="encoder-conversion-level" value="observed">Observed</label><label><input type="radio" name="encoder-conversion-level" value="supported">Supported</label><label><input type="radio" name="encoder-conversion-level" value="independent">Independent</label><label><input type="radio" name="encoder-conversion-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Calculation/trial/claim IDs</span><input class="write-line" type="text" name="encoder-conversion-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="encoder-conversion-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">Route composition</th><td data-label="Demonstration">Compose measured segments from a repeatable start, preserve segment evidence and error, run the complete route, and retain the measured fallback.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Route composition level</legend><label><input type="radio" name="route-composition-level" value="observed">Observed</label><label><input type="radio" name="route-composition-level" value="supported">Supported</label><label><input type="radio" name="route-composition-level" value="independent">Independent</label><label><input type="radio" name="route-composition-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Route/trial IDs</span><input class="write-line" type="text" name="route-composition-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="route-composition-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">Guarded launcher action</th><td data-label="Demonstration">Trace active check, timeout, measured ready condition, abort, telemetry, feed inhibition, and every named explicit zero through Supported and eligible Travel tests.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Guarded launcher action level</legend><label><input type="radio" name="guarded-launcher-level" value="observed">Observed</label><label><input type="radio" name="guarded-launcher-level" value="supported">Supported</label><label><input type="radio" name="guarded-launcher-level" value="independent">Independent</label><label><input type="radio" name="guarded-launcher-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Action/trial/claim IDs</span><input class="write-line" type="text" name="guarded-launcher-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="guarded-launcher-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">PIDF graph interpretation</th><td data-label="Demonstration">Read target and measured velocity, calculate error, distinguish noise/one crossing/oscillation, and describe a pattern as a question rather than a certain diagnosis.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">PIDF graph interpretation level</legend><label><input type="radio" name="pidf-graph-level" value="observed">Observed</label><label><input type="radio" name="pidf-graph-level" value="supported">Supported</label><label><input type="radio" name="pidf-graph-level" value="independent">Independent</label><label><input type="radio" name="pidf-graph-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Dataset/claim ID</span><input class="write-line" type="text" name="pidf-graph-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="pidf-graph-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">Sequential tuning</th><td data-label="Demonstration">Preserve read-back rollback, compare F only with its baseline, establish the P-phase baseline, compare P only, keep I/D fixed, and retain or restore from repeated criteria.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Sequential tuning level</legend><label><input type="radio" name="sequential-tuning-level" value="observed">Observed</label><label><input type="radio" name="sequential-tuning-level" value="supported">Supported</label><label><input type="radio" name="sequential-tuning-level" value="independent">Independent</label><label><input type="radio" name="sequential-tuning-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Baseline/candidate/trial IDs</span><input class="write-line" type="text" name="sequential-tuning-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="sequential-tuning-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">Recovery</th><td data-label="Demonstration">Preserve first evidence, test one hypothesis, repair one confirmed cause, restore exact known-good identity, and rerun the complete affected flow.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Recovery level</legend><label><input type="radio" name="recovery-level" value="observed">Observed</label><label><input type="radio" name="recovery-level" value="supported">Supported</label><label><input type="radio" name="recovery-level" value="independent">Independent</label><label><input type="radio" name="recovery-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Fault/retest IDs</span><input class="write-line" type="text" name="recovery-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="recovery-next"></label></td></tr>
+          <tr><th scope="row" data-label="Competency">Handoff</th><td data-label="Demonstration">Give another student exact source, robot/configuration, controls, safety state, blockers, evidence locations, rollback, equipment, and ownership without exposing secrets.</td><td data-label="Level"><fieldset class="levels"><legend class="sr-only">Handoff level</legend><label><input type="radio" name="handoff-level" value="observed">Observed</label><label><input type="radio" name="handoff-level" value="supported">Supported</label><label><input type="radio" name="handoff-level" value="independent">Independent</label><label><input type="radio" name="handoff-level" value="can-coach">Can Coach</label></fieldset></td><td data-label="Evidence"><label><span class="field-label">Handoff/capstone IDs</span><input class="write-line" type="text" name="handoff-evidence"></label><label><span class="field-label">Next step</span><input class="write-line" type="text" name="handoff-next"></label></td></tr>
+        </tbody>
+        </table>
+      </form>
     </section>
   </main>
 
   <footer class="site-footer no-print">
-    <p>Observed: saw it. Supported: step-by-step help. Independent: completed and explained with light prompting. Can Coach: helped without taking over.</p>
+    <p>Advance a level only from the student's own observable work and exact evidence.</p>
   </footer>
 </body>
 </html>

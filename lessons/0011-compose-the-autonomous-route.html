@@ -11,7 +11,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 6, Meeting 11 / 2026-2027 season / FTC SDK v12.0</p>
     <h1>Compose the Autonomous Route</h1>
-    <p class="lede">Use current game constraints and the team's measured drive and turn actions to design a driving-only route, prove each segment first, and keep the exact Meeting 10 sequence ready as the lower-risk fallback.</p>
+    <p class="lede">Use current game constraints and the team's measured drive and turn actions to design a driving-only route, prove each segment first, and preserve the exact Meeting 10 sequence as the lower-risk fallback candidate until its required physical evidence passes.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -22,7 +22,7 @@
 
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
-    <a href="0010-encoders-turn-motion-into-data.html">Previous: Meeting 10: Encoders Turn Motion Into Data</a>
+    <a href="0010-from-motor-rotations-to-distance.html">Previous: Meeting 10: From Motor Rotations to Distance</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -31,15 +31,15 @@
     <a href="#test">Segment then route</a>
     <a href="#handoff">Meeting 12 handoff</a>
     <a href="#prep">Mentor preparation</a>
-    <a href="0012-state-without-freezing.html">Next: Meeting 12: State Without Freezing the Robot</a>
+    <a href="0012-add-and-tune-autonomous-game-actions.html">Next: Meeting 12: Add and Tune Autonomous Game Actions</a>
   </nav>
 
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
         <h2 id="outcome-title">What your team will produce</h2>
-        <div class="outcome-banner">A student-composed, driving-only Autonomous candidate that traces to current game and starting constraints, calls only measured Meeting 10 drive and turn methods, and has evidence for every segment before any complete-route trial. The exact Meeting 10 sequence remains unchanged, identified, and selectable as fallback.</div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m11-m01">Measure it M11-M01</a></p>
+        <div class="outcome-banner">A student-composed, driving-only Autonomous candidate that traces to current game and starting constraints, calls only Meeting 10 drive and turn methods with completed physical evidence, and has evidence for every segment before any complete-route Travel test. The exact Meeting 10 sequence remains unchanged and identified as the fallback candidate; it becomes selectable only when completed M10-M01 records support it.</div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m11-m01">Measure it M11-M01</a></p>
       </section>
 
       <section id="words" aria-labelledby="words-title">
@@ -51,41 +51,41 @@
           <dt>Frozen setup</dt><dd>The exact robot, code, configuration, field references, start pose, battery acceptance, surface, mechanism posture, and reset method held unchanged for comparable trials.</dd>
           <dt>Error</dt><dd>The measured difference between the intended and actual endpoint or heading, with named references and units.</dd>
           <dt>Acceptance criteria</dt><dd>The pass conditions the team approves before seeing complete-route results.</dd>
-          <dt>Fallback</dt><dd>The exact lower-risk Meeting 10 sequence, code identity, configuration, and evidence that remain unchanged and selectable.</dd>
+          <dt>Travel test</dt><dd>A powered route test in the game arena from a marked start along a marked route to a marked stop while everyone remains outside the exclusion area.</dd>
+          <dt>Fallback</dt><dd>The exact lower-risk Meeting 10 sequence and code identity preserved unchanged. It is selectable only after completed M10-M01 physical records support its configuration, actions, stop behavior, and repeatability.</dd>
         </dl>
       </section>
 
       <section id="safety" aria-labelledby="safety-title">
         <h2 id="safety-title">Before you touch the robot</h2>
         <ul class="checklist">
-          <li>Name the Driver Station operator, Stop owner, field/reset lead, observer/measurer, programmer, and recorder.</li>
+          <li>Name the Driver Station operator and an independent Stop owner, plus the field/reset lead, observer/measurer, programmer, and recorder. Never combine Driver Station operation and Stop ownership during a Travel test. The Stop owner may press Stop without permission.</li>
           <li>Press Stop, switch off the Hub, and disconnect the battery before robot or field contact.</li>
-          <li>Locate and independently verify the exact Meeting 10 fallback commit, file/class, Driver Station display name, configuration, route sequence, and evidence before editing.</li>
+          <li>Locate the exact Meeting 10 fallback-candidate commit, file/class, Driver Station display name, configuration, route sequence, and M10-M01 physical evidence before editing. Missing, pending, failed, or mismatched evidence blocks fallback selection and M11 powered route work.</li>
           <li>Create a separately named candidate. Never edit, rename, overwrite, retag, or repurpose the fallback.</li>
           <li>Keep mechanisms in their documented safe travel posture. This meeting adds no mechanism action.</li>
-          <li>Walk every proposed segment with power disconnected and inspect wheel, frame, bumper, battery, wire, field-element, and exclusion-zone clearance.</li>
+          <li>Work only in the game arena. With the Hub off and battery disconnected, mark the start, route, stop, and exclusion area; walk every proposed segment; inspect wheel, frame, bumper, battery, wire, and field-element clearance; and secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact before every powered Travel test. Keep everyone outside the exclusion area whenever the robot is live.</li>
         </ul>
-        <aside class="safety-callout">Unexpected direction, speed, route, target behavior, continued motion, timeout, field entry, interference, communication loss, looseness, battery movement, wire contact, binding, sound, heat, or odor means press Stop. Verify safe output and no motion, say <q>stopped</q>, switch off, and disconnect before entry or contact.</aside>
+        <aside class="safety-callout">Unexpected direction, speed, route, target behavior, continued motion, timeout, field entry, interference, communication loss, loss of control, looseness, battery movement, wire contact, binding, unsafe vibration, implausible telemetry, inability to command zero, sound, heat, or odor means press Stop. The independent Stop owner may press Stop without permission. Verify safe output and no motion, say <q>stopped</q>, switch off, and disconnect before entry or contact.</aside>
       </section>
 
       <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's 180-minute integration agenda</h2>
+        <h2 id="agenda-title">Today's plan</h2>
         <ol class="timed-agenda">
-          <li><time>0:00-0:20<br>20 min</time><div><strong>Source and fallback audit.</strong> Record current manual/update identity, starting constraints, Meeting 10 action evidence, and exact fallback identity.</div></li>
+          <li><time>0:00-0:20<br>20 min</time><div><strong>Source and fallback audit.</strong> Record current manual/update identity, starting constraints, Meeting 10 action evidence, and exact fallback-candidate identity and eligibility.</div></li>
           <li><time>0:20-0:45<br>25 min</time><div><strong>Choose the objective.</strong> Students compare driving-only candidates and approve one objective and acceptance criteria.</div></li>
           <li><time>0:45-1:15<br>30 min</time><div><strong>Compose and review.</strong> Write named segment cards, order the route, trace every start/stop condition, and inspect the candidate diff.</div></li>
           <li><time>1:15-1:25<br>10 min</time><div><strong>Break.</strong> Press Stop, switch off, disconnect, and preserve field marks.</div></li>
-          <li><time>1:25-2:10<br>45 min</time><div><strong>Test each segment.</strong> Restore each recorded segment fixture; measure result, error, time, stop, and repeatability before the next segment is eligible.</div></li>
-          <li><time>2:10-2:40<br>30 min</time><div><strong>Integrate the full route.</strong> Freeze the approved candidate and start, run the predeclared route trials, and retain every valid result.</div></li>
+          <li><time>1:25-2:10<br>45 min</time><div><strong>Segment Travel tests.</strong> Restore each recorded segment fixture; measure result, error, time, stop, and repeatability before the next segment is eligible.</div></li>
+          <li><time>2:10-2:40<br>30 min</time><div><strong>Full-route Travel tests.</strong> Freeze the approved candidate and start, run the predeclared route trials, and retain every valid result.</div></li>
           <li><time>2:40-2:50<br>10 min</time><div><strong>Troubleshoot one variable.</strong> Use row evidence to declare one next change or no justified change; do not silently retest a changed route.</div></li>
-          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Select the evidenced route or exact fallback and complete Meeting 12 inputs.</div></li>
+          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Select the evidenced route, select the exact fallback only if M10-M01 qualifies it, or record both blocked; then complete Meeting 12 inputs.</div></li>
         </ol>
-        <p><strong>Total: 20 + 25 + 30 + 10 + 45 + 30 + 10 + 10 = 180 minutes.</strong></p>
       </section>
 
       <section id="constraints" aria-labelledby="constraints-title">
         <h2 id="constraints-title">Start from current game constraints, not a borrowed route</h2>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m11-f01">Source M11-F01</a> Use the current English <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">2026-2027 BIOBUZZ Competition Manual</a>, latest Team Update, and relevant Q&amp;A. Read section 8 Game Overview, section 10.3 Setup, section 10.4 MATCH Periods, and the applicable section 11.3-11.4 Pre- and In-MATCH rules. These sources define constraints; this lesson does not declare any proposed route legal.</p>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m11-f01">Source M11-F01</a> Use the current English <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">FIRST 2026-2027 BIOBUZZ Competition Manual</a>, current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/tu-01">FIRST Team Update 01</a>, and the official <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/q-a-system">FIRST Team Q&amp;A system</a>. Read <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538713">section 8 Game Overview</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538729">section 10.3 Setup</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538730">section 10.4 MATCH Periods</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538738">section 11.3 Pre-MATCH</a>, and <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538739">section 11.4 In-MATCH</a>. Record later-update and applicable Q&amp;A status; these FIRST sources define constraints, while this lesson does not declare any proposed route legal.</p>
         <div class="handoff">
           <p><strong>Manual revision/access date:</strong> ______ <strong>Latest Team Update checked:</strong> ______ <strong>Q&amp;A status/questions checked:</strong> ______</p>
           <p><strong>Exact starting location, orientation, sizing, and setup constraints with section/rule IDs:</strong><br><br></p>
@@ -105,9 +105,10 @@
 
       <section id="design" aria-labelledby="design-title">
         <h2 id="design-title">Compose named, measured actions</h2>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m11-f02">Source M11-F02</a> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java"><code>RobotAutoDriveByEncoder_Linear</code></a> demonstrates repeated parameterized encoder-action calls. Use that high-level structure only. Team method behavior and every distance, angle, output, tolerance, timeout, conversion, and direction must come from the exact Meeting 10 evidence, not sample constants.</p>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m11-f02">Source M11-F02</a> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java"><code>RobotAutoDriveByEncoder_Linear</code></a> demonstrates repeated parameterized encoder-action calls. Use that high-level structure only. Team method behavior and every distance, angle, output, tolerance, timeout, conversion, and direction must come from completed Meeting 10 evidence, not sample constants.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a></p>
         <ol>
-          <li><strong>Audit the inputs:</strong> name the exact Meeting 10 drive and turn method revision, conversion record, configuration, test row IDs, supported range, known error, and escape conditions. A missing or failed input blocks that action.</li>
+          <li><strong>Audit the inputs:</strong> name the exact Meeting 10 drive and turn method revision, conversion record, configuration, physical Travel test row IDs, supported range, known error, and escape conditions. Missing, pending, failed, or mismatched M10-M01 evidence blocks that action and all M11 powered route tests.</li>
           <li><strong>Make one segment card per action:</strong> record a student-chosen name, physical intent, method call and measured parameters, start fixture, expected endpoint/heading, active guard, feedback/target condition, timeout or escape, human abort, explicit zero, and motor-mode cleanup.</li>
           <li><strong>Order only eligible cards:</strong> write the route as readable calls in execution order. A student who did not write it must be able to narrate the physical route from the calls alone.</li>
           <li><strong>Check transitions:</strong> the expected end of one segment must match the next segment's expected start. Mark clearance at each transition.</li>
@@ -128,7 +129,9 @@
           <caption>Frozen setup and predeclared acceptance record</caption>
           <tbody>
             <tr><th scope="row">Robot, candidate revision, exact configuration</th><td>________________</td></tr>
-            <tr><th scope="row">Surface/field revision and references</th><td>________________</td></tr>
+            <tr><th scope="row">Game arena, field revision, and references</th><td>________________</td></tr>
+            <tr><th scope="row">Marked start, marked route, marked stop, and exclusion area</th><td>________________</td></tr>
+            <tr><th scope="row">Robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact secured</th><td>________________</td></tr>
             <tr><th scope="row">Full-route start: frame point, heading reference, and placement method</th><td>________________</td></tr>
             <tr><th scope="row">Segment fixtures and reset method</th><td>________________</td></tr>
             <tr><th scope="row">Battery acceptance and mechanism-safe posture</th><td>________________</td></tr>
@@ -142,19 +145,22 @@
       </section>
 
       <section id="test" aria-labelledby="test-title">
-        <h2 id="test-title">Test one segment at a time, then the route</h2>
-        <h3>Use this complete run cycle for every segment and route trial</h3>
+        <h2 id="test-title">Travel test one segment at a time, then the route</h2>
+        <p>Every powered segment and complete-route run is a <strong>Travel test</strong>. Use only the game arena with a marked start, marked route, marked stop, and marked exclusion area. Before power, secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact. Before INIT, position the Driver Station operator and independent Stop owner with immediate Stop access, confirm the Stop owner may press Stop without permission, and move everyone outside the exclusion area. No M10-M01 evidence or incomplete securement means no Travel test.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m11-m01">Measure it M11-M01</a></p>
+        <h3>Use this complete Travel test cycle for every segment and route trial</h3>
         <ol>
-          <li>With Hub off and battery disconnected, restore the recorded fixture and inspect robot, field, route, battery, wires, and mechanism-safe posture.</li>
+          <li>With Hub off and battery disconnected, restore the recorded fixture in the game arena; verify the marked start, marked route, marked stop, exclusion area, field, and mechanism-safe posture; then secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact. Do not connect power until every item is secured.</li>
           <li>Connect the accepted battery, switch on, verify Hub and Driver Station status, deploy when required, and select the exact candidate identity.</li>
-          <li>Press INIT. Verify configuration identity, safe outputs, no motion, telemetry, measurement tools, roles, and all stop conditions.</li>
-          <li>The operator says <q>robot live</q>; the observer confirms the route clear; then the operator presses Start.</li>
-          <li>Observe active, feedback/target, timeout/escape, and abort conditions. Any unexpected behavior means Stop.</li>
+          <li>Position the Driver Station operator and independent Stop owner with immediate Stop access. Confirm the Stop owner may press Stop without permission. Move everyone outside the exclusion area before INIT.</li>
+          <li>Press INIT. Verify configuration identity, safe outputs, no motion, telemetry, measurement tools, marked Travel test boundaries, roles, and all stop conditions.</li>
+          <li>The Driver Station operator says <q>robot live</q>; the observer verifies everyone remains outside the exclusion area and confirms the marked route clear; then the operator presses Start.</li>
+          <li>Observe active, feedback/target, timeout/escape, and abort conditions. Unexpected direction, speed, route, target behavior, continued motion, timeout, field entry, interference, communication loss, loss of control, looseness, battery movement, wire contact, binding, unsafe vibration, implausible telemetry, inability to command zero, sound, heat, or odor means immediate Stop.</li>
           <li>Require explicit zero and documented mode cleanup on completion or abort. Press Stop, verify no motion and safe output, and say <q>stopped</q>.</li>
           <li>Switch off, verify Hub off, disconnect, then measure and record start identity, endpoint/heading, error with units, elapsed time, result, exit reason, stop proof, student, and checker.</li>
         </ol>
 
-        <h3>Gate every segment before integration</h3>
+        <h3>Gate every segment Travel test before integration</h3>
         <ol>
           <li>Test Segment 1 alone from its recorded fixture. Repeat to the predeclared segment criterion without changing code or setup.</li>
           <li>Only after Segment 1 passes, test Segment 2 alone from its own recorded fixture. Continue in route order.</li>
@@ -164,7 +170,7 @@
         </ol>
         <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m11-m01">Measure it M11-M01</a></p>
         <table class="record-table">
-          <caption>Segment-first test record: duplicate rows until every route segment meets its predeclared criterion</caption>
+          <caption>Segment-first Travel test record: duplicate rows until every route segment meets its predeclared criterion</caption>
           <thead><tr><th scope="col">Segment / trial</th><th scope="col">Fixture and version</th><th scope="col">Expected result</th><th scope="col">Actual result</th><th scope="col">Error with units</th><th scope="col">Time with units</th><th scope="col">Stop/result/repeatability</th></tr></thead>
           <tbody>
             <tr><td data-label="Segment / trial">______ / ______</td><td data-label="Fixture and version">________________</td><td data-label="Expected result">________________</td><td data-label="Actual result">________________</td><td data-label="Error">________________</td><td data-label="Time">________________</td><td data-label="Stop/result/repeatability">________________</td></tr>
@@ -174,10 +180,10 @@
           </tbody>
         </table>
 
-        <h3>Run the unchanged complete route</h3>
-        <p>Re-freeze the candidate and full-route start after all segments qualify. Run exactly the predeclared number of valid complete-route trials. Do not tune between rows, discard a valid failure, move the start, or change the denominator after seeing results.</p>
+        <h3>Run unchanged complete-route Travel tests</h3>
+        <p>Re-freeze the candidate and full-route marked start after all segment Travel tests qualify. Run exactly the predeclared number of valid complete-route Travel tests. Do not tune between rows, discard a valid failure, move the start, or change the denominator after seeing results.</p>
         <table class="record-table">
-          <caption>Complete-route evidence: add rows if the predeclared valid-trial count requires them</caption>
+          <caption>Complete-route Travel test evidence: add rows if the predeclared valid-trial count requires them</caption>
           <thead><tr><th scope="col">Route trial</th><th scope="col">Start and version</th><th scope="col">Segment outcomes</th><th scope="col">Final error with units</th><th scope="col">Total time with units</th><th scope="col">Pass/fail and stop proof</th></tr></thead>
           <tbody>
             <tr><td data-label="Route trial">1</td><td data-label="Start and version">________________</td><td data-label="Segment outcomes">________________</td><td data-label="Final error">________________</td><td data-label="Total time">________________</td><td data-label="Result and stop">________________</td></tr>
@@ -196,22 +202,24 @@
 
       <section id="fallback" aria-labelledby="fallback-title">
         <h2 id="fallback-title">Keep the Meeting 10 fallback exact and recoverable</h2>
-        <p>The fallback is the tested Meeting 10 sequence: 36 inches forward, 12 inches backward, and 90 degrees left using the exact measured methods and code identity supported by its records. Those distances and angle identify that fallback; they are not values for the student-designed route.</p>
+        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m10-d01">Team choice M10-D01</a> Meeting 10 defines the guided 36-inch-forward, 12-inch-backward, 90-degree-left sequence and its team-set tolerances and escape conditions. Preserve that exact sequence and code identity as the fallback candidate; those values do not become values for the student-designed route.</p>
+        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m10-m01">Measure it M10-M01</a> <strong>Status: pending delivery evidence.</strong> Do not call the Meeting 10 candidate tested, proven, available, or selectable until completed, checked M10-M01 physical records establish its exact configuration, each segment's Travel test, complete sequence, error, Stop/cleanup, and repeatability. Missing, pending, failed, or mismatched evidence blocks it as a fallback.</p>
         <div class="handoff">
           <p><strong>Fallback commit/tag:</strong> ______ <strong>File/class:</strong> ______ <strong>Driver Station display name:</strong> ______</p>
           <p><strong>Configuration and Meeting 10 evidence row IDs:</strong> ______</p>
           <p><strong>Recovery, build/deploy, select, and verification steps:</strong><br><br></p>
-          <p><strong>Independent student recovered and selected it:</strong> ______ <strong>Date/checker:</strong> ______</p>
+          <p><strong>M10-M01 evidence complete and checked:</strong> [ ] Yes [ ] No - fallback blocked <strong>Date/checker:</strong> ______</p>
+          <p><strong>If eligible, independent student recovered and selected it:</strong> ______ <strong>Date/checker:</strong> ______</p>
           <p><strong>Candidate diff leaves every fallback artifact unchanged:</strong> [ ] Yes [ ] No - candidate blocked</p>
         </div>
-        <p>If the student route is blocked, incomplete, unsafe, or does not meet its predeclared acceptance criteria, select the exact Meeting 10 fallback. Do not recreate it from memory or weaken criteria to promote the candidate.</p>
+        <p>If the student route is blocked, incomplete, unsafe, or does not meet its predeclared acceptance criteria, select the exact Meeting 10 fallback only if the M10-M01 gate above passes. If it does not, record that no autonomous fallback is eligible and keep both candidates disabled. Do not recreate a fallback from memory or weaken criteria to promote either candidate.</p>
       </section>
 
       <section id="unavailable" aria-labelledby="unavailable-title">
         <h2 id="unavailable-title">If powered testing is unavailable</h2>
         <div class="fallback-box">
           <ol>
-            <li>Keep the route candidate disabled and preserve the exact Meeting 10 fallback.</li>
+            <li>Keep the route candidate disabled and preserve the exact Meeting 10 fallback candidate without claiming physical eligibility.</li>
             <li>Complete the current-source constraint record and student objective decision, clearly marking unresolved rules questions.</li>
             <li>Compose named calls only from Meeting 10 evidence and trace every start, guard, stop, explicit zero, and cleanup path.</li>
             <li>Use a robot outline or inert chassis to create and repeat the start/segment fixtures and perform transition-clearance checks.</li>
@@ -222,9 +230,9 @@
 
       <section id="evidence" aria-labelledby="evidence-title">
         <h2 id="evidence-title">Show what you learned</h2>
-        <p><strong>Keep:</strong> current manual/update/Q&amp;A record; cited start and route constraints; compared objectives and approved driving-only decision; exact Meeting 10 action evidence; candidate identity and diff; named segment cards; frozen setup; unpowered reset/clearance checks; every segment row; qualifying segment row IDs; every complete-route row; predeclared acceptance decision; one-variable or no-change diagnosis; and exact fallback recovery proof.</p>
+        <p><strong>Keep:</strong> current FIRST Manual/Team Update/Q&amp;A record; cited start and route constraints; compared objectives and approved driving-only decision; M10-M01 status and exact Meeting 10 action evidence or blocker; candidate identity and diff; named segment cards; frozen setup; unpowered reset/clearance checks; every Travel test row; qualifying segment row IDs; every complete-route row; predeclared acceptance decision; one-variable or no-change diagnosis; and eligible fallback recovery proof or fallback blocker.</p>
         <h3>Each student explains</h3>
-        <p>Cite the constraints behind the objective, narrate the route from named calls, and state every segment's start, continue, stop, safe-output, and cleanup conditions. Use row IDs to show why segment-first evidence allowed integration, interpret error, time, result, and repeatability, explain the next one-variable decision, and independently recover the exact Meeting 10 fallback.</p>
+        <p>Cite the FIRST constraints behind the objective, narrate the route from named calls, and state every segment's start, continue, stop, safe-output, and cleanup conditions. Use row IDs to show why segment-first Travel test evidence allowed integration, interpret error, time, result, and repeatability, explain the next one-variable decision, and either independently recover the M10-M01-qualified Meeting 10 fallback or explain why it remains blocked.</p>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m11-f01">Source M11-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m11-f02">Source M11-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m11-m01">Measure it M11-M01</a></p>
       </section>
 
@@ -241,8 +249,8 @@
               <tr><td data-label="Question">Which row IDs qualify every segment, including error, time, result, and repeatability?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
               <tr><td data-label="Question">What complete-route rows and predeclared rule support accepted, not accepted, or incomplete?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
               <tr><td data-label="Question">What one variable is next, or why is no change justified?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">What exact Meeting 10 commit/tag, OpMode, configuration, sequence, evidence, and recovery steps identify the fallback?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">Which evidenced route or fallback remains selected while any changed candidate is pending?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
+              <tr><td data-label="Question">What exact Meeting 10 commit/tag, OpMode, configuration, sequence, M10-M01 status/evidence, and recovery steps identify the fallback candidate?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
+              <tr><td data-label="Question">Which evidenced route or M10-M01-qualified fallback remains selected, or are both blocked?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
               <tr><td data-label="Question">What single non-drive objective is proposed next, and what rule/source/hardware evidence is still needed?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
             </tbody>
           </table>
@@ -254,21 +262,21 @@
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
         <ul class="checklist">
-          <li>At delivery, open the current English Competition Manual, latest Team Update, and relevant Q&amp;A; record revision/access dates and prepare the exact applicable section/rule links.</li>
+          <li>At delivery, open the current English FIRST Competition Manual, latest FIRST Team Update, and official FIRST Team Q&amp;A system; record revision/access dates and prepare the exact applicable section/rule/question links.</li>
           <li>Audit Meeting 10's measured drive/turn methods, supported ranges, physical rows, frozen fixtures, known limits, and exact guided-sequence fallback identity.</li>
           <li>Prepare current field references and measurement tools, but do not choose the objective, route, parameters, tolerances, trial count, or acceptance rule for students.</li>
           <li>Supply no new power, time, distance, angle, encoder, geometry, tolerance, mechanism, or conversion value. Missing evidence blocks the action.</li>
           <li>Require segment evidence before integration and preserve every valid failure. Do not use full-route repetition to diagnose an unqualified segment.</li>
         </ul>
       </aside>
-      <aside class="mentor-note"><strong>Integration gate:</strong> current-source constraint record, approved driving-only objective, exact measured action evidence, named segment cards, every stop/safe-output/cleanup path, frozen setup, unpowered reset and clearance checks, candidate build/diff, exact fallback recovery, and assigned roles must all pass before powered testing.</aside>
+      <aside class="mentor-note"><strong>Integration gate:</strong> current-source constraint record, approved driving-only objective, completed M10-M01 physical action evidence, named segment cards, every stop/safe-output/cleanup path, frozen game-arena Travel test setup, marked start/route/stop and exclusion area, secured robot/battery/Hub/wires/attached pieces/mechanisms/test artifact, candidate build/diff, independent Driver Station and Stop roles with Stop authority without permission, and eligible fallback evidence or an explicit fallback blocker must all pass before powered testing.</aside>
     </section>
 
     <section id="resources" aria-labelledby="resources-title">
       <h2 id="resources-title">Resources</h2>
       <ul>
-        <li><span class="resource-label follow">Follow</span> Current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">2026-2027 BIOBUZZ Competition Manual</a>, latest Team Update, and relevant Q&amp;A for the exact objective, starting setup, AUTO period, and applicable Pre-/In-MATCH constraints.</li>
-        <li><span class="resource-label start-from">Start from</span> The team's exact Meeting 10 measured drive and turn methods and separately identified fallback. No vendor route or sample constant replaces team evidence.</li>
+        <li><span class="resource-label follow">Follow</span> Current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">FIRST 2026-2027 BIOBUZZ Competition Manual</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/tu-01">FIRST Team Update 01</a>, and official <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/q-a-system">FIRST Team Q&amp;A system</a> for the exact objective, starting setup, AUTO period, and applicable Pre-/In-MATCH constraints.</li>
+        <li><span class="resource-label start-from">Start from</span> The team's exact Meeting 10 drive and turn methods only after their M10-M01 physical evidence passes, and preserve the separately identified fallback candidate. No external route or sample constant replaces team evidence.</li>
         <li><span class="resource-label start-from">Structure only</span> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java"><code>RobotAutoDriveByEncoder_Linear</code></a> for repeated parameterized call structure.</li>
         <li><span class="resource-label follow">Follow</span> Pinned SDK 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a> Javadoc for the chosen API behavior.</li>
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
@@ -277,7 +285,7 @@
   </main>
 
   <footer class="site-footer">
-    <p><a href="0010-encoders-turn-motion-into-data.html">Previous: Meeting 10: Encoders Turn Motion Into Data</a> | <a href="index.html">Course index</a> | <a href="0012-state-without-freezing.html">Next: Meeting 12: State Without Freezing the Robot</a></p>
+    <p><a href="0010-from-motor-rotations-to-distance.html">Previous: Meeting 10: From Motor Rotations to Distance</a> | <a href="index.html">Course index</a> | <a href="0012-add-and-tune-autonomous-game-actions.html">Next: Meeting 12: Add and Tune Autonomous Game Actions</a></p>
   </footer>
 </body>
 </html>

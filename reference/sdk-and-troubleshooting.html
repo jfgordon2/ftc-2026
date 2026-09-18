@@ -23,6 +23,7 @@
   <nav class="site-nav" aria-label="Reference navigation">
     <a href="../lessons/index.html">Return to course index</a>
     <a href="#lookup">SDK lookup</a>
+    <a href="#velocity-pidf">Velocity and PIDF</a>
     <a href="#words">Words used here</a>
     <a href="#ladder">Troubleshooting ladder</a>
     <a href="#symptoms">Symptom table</a>
@@ -68,7 +69,21 @@
       </section>
     </div>
 
-    <aside class="safety-callout">Stop the robot before touching it. For powered tests, identify the Driver Station operator and emergency-stop owner and use the spoken states <strong>robot live</strong>, <strong>clear</strong>, and <strong>stopped</strong>.</aside>
+    <section id="velocity-pidf" aria-labelledby="velocity-pidf-title">
+      <h2 id="velocity-pidf-title">Pinned velocity and PIDF lookup</h2>
+      <p>Use this path only for an exact encoder-equipped motor exposed as <code>DcMotorEx</code>. API documentation establishes method behavior; the matching manufacturer source owns exact hardware facts; the team owns its test boundary and acceptance criteria; and only recorded trials establish a result on the installed robot.</p>
+      <ol>
+        <li><strong>Verify identity and scope.</strong> Record the exact robot and launcher assembly, motor, motor controller, active configuration, code identity, and SDK version. Confirm the object is a <code>DcMotorEx</code>. A same-brand or similar-looking assembly does not transfer coefficients.</li>
+        <li><strong>Verify velocity units and sign.</strong> Follow pinned RobotCore 12.0.0 <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#getVelocity--"><code>getVelocity()</code></a> and <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#setVelocity-double-"><code>setVelocity(double)</code></a>. Record target and measured velocity in the same documented unit. Wrong-sign, implausible, flat, or full-output behavior is a fault: press Stop, complete shutdown, preserve evidence, and inspect direction, encoder, wiring, configuration, mode, controller, and code instead of tuning around it.</li>
+        <li><strong>Check the run mode.</strong> Record <code>getMode()</code> and the exact velocity-control mode used by the code. Pass that same explicit mode to pinned <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#getPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-"><code>getPIDFCoefficients(mode)</code></a> and <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#setPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-com.qualcomm.robotcore.hardware.PIDFCoefficients-"><code>setPIDFCoefficients(mode, coefficients)</code></a>. A mode mismatch blocks comparison.</li>
+        <li><strong>Check controller scope.</strong> Treat coefficient support, units, scaling, persistence, and effective behavior as controller-, firmware-, SDK-, and run-mode-specific. Recheck after any of those changes. A successful method call does not prove that requested values took effect or are safe.</li>
+        <li><strong>Read before writing and read back after writing.</strong> Preserve the original controller, mode, full P/I/D/F tuple, code/configuration identity, and read time as rollback. After one authorized write, read the tuple back in the same mode and record requested versus returned values. A missing, inconsistent, or unreliable read-back blocks coefficient trials.</li>
+        <li><strong>Keep an unknown baseline observation-only.</strong> If exact original read-back and provenance cannot be established, do not write coefficients, borrow another assembly's tuple, or infer a baseline. Graph target and measured velocity, error, readiness, and physical outcome only, labeled as analysis rather than tuning evidence.</li>
+      </ol>
+      <aside class="mentor-note"><strong>Source ownership:</strong> pinned RobotCore 12.0.0 Javadocs own SDK signatures and stated API caveats. Current FTC Docs own the supported coefficient-access workflow. Exact manufacturer documentation owns the installed motor, controller, encoder, gearing, and assembly. BIOBUZZ owns the sequential F-then-P classroom procedure and safety gates. The team's exact trial records own target suitability, ready behavior, accepted coefficients, and rollback proof. Community control-loop material is explanation only, never coefficient or safety authority.</aside>
+    </section>
+
+    <aside class="safety-callout">For every powered test, use the game arena and the lesson's Supported or Travel test boundary. Secure the robot, battery, Hub, wires, attached pieces, mechanisms, support, and test artifact as applicable. Name a Driver Station operator and a separate Stop owner with immediate access and authority to press Stop without permission. State the prediction, setup, command, explicit zero or measured safe hold, Stop conditions, and evidence before power. Use <strong>robot live</strong>, <strong>clear</strong>, and <strong>stopped</strong>. Stop immediately for unexpected motion or output, loose hardware, unsafe vibration, implausible telemetry, loss of control, or inability to command zero. After completion or a stop trigger, press Stop, verify safe output and no motion, switch off the Hub, disconnect the battery, and only then touch, inspect, adjust, load, or reset the robot.</aside>
 
     <section id="symptoms" aria-labelledby="symptoms-title">
       <h2 id="symptoms-title">Symptom-to-evidence table</h2>
@@ -108,6 +123,11 @@
             <td data-label="Official source"><a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/org/firstinspires/ftc/robotcore/external/Telemetry.html">FTC SDK 12.0 Telemetry Javadoc</a></td>
           </tr>
           <tr>
+            <td data-label="Symptom">Wrong-sign, full-output, or implausible velocity</td>
+            <td data-label="First evidence">Exact robot/controller/configuration/code identity; selected and observed run mode; target and measured velocity with units; direction, encoder, wiring, requested/read-back tuple, Stop response, and explicit-zero result. Stop and shut down before inspection; do not tune around the fault.</td>
+            <td data-label="Official source"><a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html">FTC SDK 12.0.0 <code>DcMotorEx</code> Javadoc</a></td>
+          </tr>
+          <tr>
             <td data-label="Symptom">Gamepad issue</td>
             <td data-label="First evidence">Driver Station gamepad assignment plus telemetry for the exact button, trigger, or axis.</td>
             <td data-label="Official source"><a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#running-your-opmode-with-a-gamepad-connected">Running Your OpMode With a Gamepad Connected</a></td>
@@ -130,7 +150,9 @@
         <li>Official FIRST technical documentation for the FTC control system and supported procedures.</li>
         <li>Pinned FTC SDK <code>v12.0</code> source and <code>12.0.0</code> Javadocs for this course's exact code and API behavior.</li>
         <li>Current manufacturer documentation for the exact installed hardware.</li>
-        <li>Supplemental teaching material for explanation only.</li>
+        <li>BIOBUZZ/team decisions for local workflow, test boundaries, and predeclared acceptance criteria.</li>
+        <li>Exact team measurements and trial records for claims about the installed robot.</li>
+        <li>Supplemental teaching material for explanation only, never rules, coefficient authority, or physical proof.</li>
       </ol>
     </section>
   </main>

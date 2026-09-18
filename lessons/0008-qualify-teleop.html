@@ -22,7 +22,7 @@
 
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
-    <a href="0007-debugging-with-evidence.html">Previous: Meeting 7</a>
+    <a href="0007-integrate-and-debug-teleop.html">Previous: Meeting 7: Integrate and Debug TeleOp</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -34,7 +34,7 @@
     <a href="#fallback">Fallback</a>
     <a href="#handoff">Meeting 9 handoff</a>
     <a href="#prep">Mentor preparation</a>
-    <a href="0009-autonomous-is-a-sequence.html">Next: Meeting 9</a>
+    <a href="0009-autonomous-starts-with-one-action.html">Next: Meeting 9: Autonomous Starts With One Action</a>
   </nav>
 
   <main>
@@ -66,10 +66,10 @@
           <li>Name the Driver Station operator, Stop owner, driver, mechanism operator, observer, recorder, programmer, and reset/mechanic duties. One student may hold two nonconflicting duties, but Stop ownership remains explicit.</li>
           <li>Use the integrated Meeting 7 TeleOp, signed Meeting 4 control map, current configuration, installed-hardware record, fault log, and each action's acceptance evidence.</li>
           <li>Press Stop, switch off the Hub, disconnect the battery, and release stored energy before inspection, adjustment, reset, loading, or contact.</li>
-          <li>Freeze the bounded game-arena setup, accepted battery condition, load, gamepad assignments, control-map revision, routine revision, criteria, code identity, and configuration before Run 1.</li>
+          <li>Freeze the bounded game-arena setup, accepted battery condition, load, gamepad assignments, control-map revision, routine revision, criteria, code identity, and configuration before the first credited attempt.</li>
           <li>Do not begin powered qualification while any enabled behavior has an unresolved safety-critical defect.</li>
         </ul>
-        <aside class="safety-callout">The Stop owner ends the routine for unexpected motion, communication loss, wrong ownership, looseness, battery movement, wire contact, collision, binding, hard-stop contact, stall, heat, smell, unusual sound, field intrusion, or any failed safety criterion. Press Stop, switch off, disconnect, call <q>stopped</q>, and preserve the evidence. An aborted routine does not count.</aside>
+        <aside class="safety-callout"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m08-d02">Team choice M08-D02</a> <strong>Powered-work safety policy:</strong> the Stop owner ends the routine for unexpected motion, communication loss, wrong ownership, looseness, battery movement, wire contact, collision, binding, hard-stop contact, stall, heat, smell, unusual sound, field intrusion, or any failed safety criterion. Press Stop, switch off, disconnect, call <q>stopped</q>, and preserve the evidence. An aborted routine does not count, and no inspection, adjustment, reset, loading, or contact begins before that shutdown.</aside>
       </section>
 
       <section id="agenda" aria-labelledby="agenda-title">
@@ -92,7 +92,7 @@
           <li><strong>Check current game relevance.</strong> Confirm each retained required action against the current game overview, rules, Team Updates, and applicable Q&amp;A; vendor capability alone does not establish relevance or legality. <strong>Success:</strong> the record names the current source revision and any blocked interpretation. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m08-f04">Source M08-F04</a></li>
           <li><strong>Write observable criteria.</strong> For initialization, defaults, drive, each required action, simultaneous work, release, reverse/recovery, telemetry, and Stop, write the request, expected output or state, visible result, safe result, abort condition, and evidence field. <strong>Success:</strong> another pair can call Pass or Fail without asking what the criterion means.</li>
           <li><strong>Separate facts from physical proof.</strong> Motor and servo API documentation defines command behavior, but only testing this installed robot can qualify physical behavior. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m08-f03">Source M08-F03</a> <strong>Success:</strong> API facts cite the pinned class while physical criteria remain pending until observed.</li>
-          <li><strong>Freeze identity and setup.</strong> Record robot identity, active configuration, OpMode, code/recovery candidate identity, map and routine revisions, battery condition, arena setup, loads, and role plan. <strong>Success:</strong> Run 1 cannot begin while any identity is unknown or inconsistent.</li>
+          <li><strong>Freeze identity and setup.</strong> Record robot identity, active configuration, OpMode, code/recovery candidate identity, map and routine revisions, battery condition, arena setup, loads, and role plan. <strong>Success:</strong> the first credited attempt cannot begin while any identity is unknown or inconsistent.</li>
           <li><strong>Rehearse once without credit.</strong> Complete every item, then classify each observation as defect, feature request, or no issue. Correct only qualification defects through Meeting 7's evidence-first process; queue requests. <strong>Success:</strong> the full routine passes once and no unresolved enabled safety defect remains before the count begins.</li>
         </ol>
       </section>
@@ -126,7 +126,7 @@
             <ol>
               <li>Record the exact tested source/recovery candidate, active configuration, selected OpMode, robot, map revision, routine revision, setup, and evidence locations.</li>
               <li>Prepare separate defect and feature-request queues. A request cannot change the frozen routine during credited runs.</li>
-              <li>Prepare three run rows with every criterion, actual observation, student, checker, Stop/release observation, and reset confirmation.</li>
+              <li>Prepare the append-only attempt log and numbered continuation sheets. Every attempt needs its own chronological row with every criterion, actual observation, student, checker, Stop/release observation, reset trigger, and resulting streak.</li>
               <li>Prepare the final field for an exact existing commit/tag or other recovery identifier. Qualification records an identifier established through the team's version-control process; this lesson does not direct creation of one.</li>
             </ol>
             <p class="success-check">Success looks like: every run can be tied to one unchanged tested state and every observation has one destination.</p>
@@ -154,30 +154,30 @@
         </ol>
 
         <h3>Count rule</h3>
+        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m08-d03">Team choice M08-D03</a> <strong>Powered qualification and reset policy:</strong> qualification requires one frozen state to produce three complete passing attempts in adjacent chronological log rows with streak values 1, 2, and 3. Preserve every failure and abort. Any reset trigger invalidates the earlier streak; refreeze the state and let the next complete pass begin a new streak at 1.</p>
         <ol>
-          <li>Credit Run 1 only when the entire routine passes. Reset the robot and rotate roles only while it is stopped, switched off, and disconnected.</li>
-          <li>Repeat the same complete routine for Run 2, including identity, initialization, every required action, simultaneous work, release/recovery, Stop, inspection, and reset.</li>
-          <li>Repeat that unchanged complete routine for Run 3. Three partial routines, nonconsecutive passes, or action-by-action passes do not qualify TeleOp.</li>
-          <li>Any failed criterion, abort, code-related failure, safety violation, or change to code/recovery candidate, configuration, hardware, setup, scope, map, routine, criteria, or enabled behavior resets the consecutive count to zero. Diagnose, correct, refreeze, and restart at Run 1.</li>
+          <li>Record streak 1 only when the entire routine passes. Reset the robot and rotate roles only while it is stopped, switched off, and disconnected.</li>
+          <li>For streak 2, repeat the same complete routine, including identity, initialization, every required action, simultaneous work, release/recovery, Stop, inspection, and reset.</li>
+          <li>For streak 3, repeat that unchanged complete routine again. Three partial routines, nonconsecutive passes, or action-by-action passes do not qualify TeleOp.</li>
+          <li>Any failed criterion, abort, code-related failure, safety violation, or change to code/recovery candidate, configuration, hardware, setup, scope, map, routine, criteria, or enabled behavior resets the consecutive count to zero. Preserve the attempt row, diagnose, correct, refreeze, and let the next complete pass begin a new streak at 1.</li>
         </ol>
       </section>
 
       <section id="reclassify" aria-labelledby="reclassify-title">
         <h2 id="reclassify-title">Formally revise unsafe scope</h2>
-        <p>A failed required feature is a defect, not permission to lower the gate. Repair and retest it first. If evidence shows that it cannot be made safe for the current event, complete every step below.</p>
+        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m08-d04">Team choice M08-D04</a> <strong>Reclassification and nonwaivable policy:</strong> a failed required feature is a defect, not permission to lower the gate. Repair and retest it first. Safe initialization, drivetrain control, Stop, and every action that remains required are nonwaivable. If evidence shows that another required action cannot be made safe for the current event, complete every step below.</p>
         <ol>
           <li>Record the action/map-row ID, failed criterion, trial and fault-log evidence, attempted correction and retest, and why the feature cannot be made safe.</li>
           <li>Propose a new classification of <strong>optional</strong> or <strong>unavailable</strong>. Record the safety rationale, event-strategy cost, and affected operator plan; do not delete the original row.</li>
           <li>Obtain named mentor approval and named team approval with date, then issue a new Meeting 4 map revision.</li>
           <li>Disable the behavior in code, verify that no input can command it, remove it from the event plan and driver instructions, and list it explicitly as excluded on the qualification record.</li>
-          <li>Freeze the revised scope and repeat the complete qualification process from Run 1. No routine credited under the old scope carries forward.</li>
+          <li>Freeze the revised scope, reset the streak to zero, and repeat the complete qualification process. No routine credited under the old scope carries forward.</li>
         </ol>
         <aside class="safety-callout"><strong>Nonwaivable capabilities:</strong> safe initialization, drivetrain control, Stop, and every action still classified required must pass. They cannot be waived, substituted, or reclassified merely to claim qualification. Repair and retest them; otherwise TeleOp is not qualified.</aside>
       </section>
 
       <section id="record" aria-labelledby="record-title">
         <h2 id="record-title">Record the qualification evidence</h2>
-        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m08-m01">Measure it M08-M01</a> <strong>Status: pending delivery evidence.</strong> Complete the record from actual robot observations. No blank, planned test, vendor example, or code review counts as a physical pass.</p>
         <p><strong>Record identity:</strong> date: ______; robot/manufacturer/revision: ______; active configuration: ______; selected OpMode: ______; exact tested commit/tag or other recovery candidate ID: ______; Meeting 4 map revision: ______; routine revision: ______; current game-source revision/check date: ______; student recorder: ______; checker: ______.</p>
         <table class="record-table">
           <caption>Qualification scope: repeat the action row for every Meeting 4 map row</caption>
@@ -186,15 +186,18 @@
             <tr><td data-label="Action/scope">Map row: ______<br>Action: ______<br>Required / Optional / Unavailable<br>Installed: Yes / No / Unknown</td><td data-label="Acceptance">Request/input: ______<br>Expected state/output/result: ______<br>Simultaneous case: ______<br>Release: ______<br>Reverse/recovery: ______<br>Telemetry: ______<br>Abort signs: ______</td><td data-label="Disposition">Included and enabled / Approved exclusion / Blocked<br>Evidence or reclassification revision: ______</td></tr>
           </tbody>
         </table>
+        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m08-m01">Measure it M08-M01</a> <strong>Status: pending delivery evidence.</strong> Complete this chronological record from actual robot observations. Before each attempt, add the next row; never erase, renumber, replace, or overwrite a failed, aborted, or passing attempt. If the prepared rows are full, number a continuation sheet before starting another attempt. No blank, planned test, vendor example, or code review counts as a physical pass.</p>
         <table class="record-table">
-          <caption>Three consecutive complete routines</caption>
-          <thead><tr><th scope="col">Run</th><th scope="col">Complete gate result</th><th scope="col">Actual evidence and people</th></tr></thead>
+          <caption>Append-only chronological qualification attempt log</caption>
+          <thead><tr><th scope="col">Attempt identity</th><th scope="col">Complete gate result</th><th scope="col">Reset audit and streak</th><th scope="col">Evidence, frozen identity, and people</th></tr></thead>
           <tbody>
-            <tr><td data-label="Run">Run 1</td><td data-label="Result">Identity ____ Init/defaults ____ Drive ____ All required actions ____ Simultaneous ____ Release/recovery ____ Telemetry ____ Stop/inspection ____<br>Complete Pass / Fail</td><td data-label="Evidence">Observations/record IDs: ______<br>Code or safety failure: Yes / No<br>Student: ____ Checker: ____</td></tr>
-            <tr><td data-label="Run">Run 2</td><td data-label="Result">Same unchanged state: Yes / No<br>All complete criteria: Pass / Fail</td><td data-label="Evidence">Observations/record IDs: ______<br>Reset confirmed: ____ Student: ____ Checker: ____</td></tr>
-            <tr><td data-label="Run">Run 3</td><td data-label="Result">Same unchanged state: Yes / No<br>All complete criteria: Pass / Fail</td><td data-label="Evidence">Observations/record IDs: ______<br>Reset confirmed: ____ Student: ____ Checker: ____</td></tr>
+            <tr><td data-label="Attempt identity">Attempt ID: ____<br>Sequence number: ____<br>Start date/time: ____<br>Immediately previous attempt ID: ____</td><td data-label="Complete gate result">Pass / Fail / Abort<br>Failed or aborted criterion/reason: ____<br>Identity ____ Init/defaults ____ Drive ____ Required actions ____ Simultaneous ____ Release/recovery ____ Telemetry ____ Stop/inspection ____</td><td data-label="Reset audit and streak">Reset trigger since prior attempt: None / ____<br>Reset trigger caused by this attempt: None / ____<br>Normal powered-down start-state reset record: ____<br>Qualifying streak after this attempt: 0 / 1 / 2 / 3</td><td data-label="Evidence and people">Frozen candidate/configuration/map/routine/setup identity: ____<br>Observations, release/Stop, and defect record IDs: ____<br>Student: ____ Checker/signature: ____</td></tr>
+            <tr><td data-label="Attempt identity">Attempt ID: ____<br>Sequence number: ____<br>Start date/time: ____<br>Immediately previous attempt ID: ____</td><td data-label="Complete gate result">Pass / Fail / Abort<br>Failed or aborted criterion/reason: ____<br>Identity ____ Init/defaults ____ Drive ____ Required actions ____ Simultaneous ____ Release/recovery ____ Telemetry ____ Stop/inspection ____</td><td data-label="Reset audit and streak">Reset trigger since prior attempt: None / ____<br>Reset trigger caused by this attempt: None / ____<br>Normal powered-down start-state reset record: ____<br>Qualifying streak after this attempt: 0 / 1 / 2 / 3</td><td data-label="Evidence and people">Frozen candidate/configuration/map/routine/setup identity: ____<br>Observations, release/Stop, and defect record IDs: ____<br>Student: ____ Checker/signature: ____</td></tr>
+            <tr><td data-label="Attempt identity">Attempt ID: ____<br>Sequence number: ____<br>Start date/time: ____<br>Immediately previous attempt ID: ____</td><td data-label="Complete gate result">Pass / Fail / Abort<br>Failed or aborted criterion/reason: ____<br>Identity ____ Init/defaults ____ Drive ____ Required actions ____ Simultaneous ____ Release/recovery ____ Telemetry ____ Stop/inspection ____</td><td data-label="Reset audit and streak">Reset trigger since prior attempt: None / ____<br>Reset trigger caused by this attempt: None / ____<br>Normal powered-down start-state reset record: ____<br>Qualifying streak after this attempt: 0 / 1 / 2 / 3</td><td data-label="Evidence and people">Frozen candidate/configuration/map/routine/setup identity: ____<br>Observations, release/Stop, and defect record IDs: ____<br>Student: ____ Checker/signature: ____</td></tr>
+            <tr><td data-label="Attempt identity">Attempt ID: ____<br>Sequence number: ____<br>Start date/time: ____<br>Immediately previous attempt ID: ____</td><td data-label="Complete gate result">Pass / Fail / Abort<br>Failed or aborted criterion/reason: ____<br>Identity ____ Init/defaults ____ Drive ____ Required actions ____ Simultaneous ____ Release/recovery ____ Telemetry ____ Stop/inspection ____</td><td data-label="Reset audit and streak">Reset trigger since prior attempt: None / ____<br>Reset trigger caused by this attempt: None / ____<br>Normal powered-down start-state reset record: ____<br>Qualifying streak after this attempt: 0 / 1 / 2 / 3</td><td data-label="Evidence and people">Frozen candidate/configuration/map/routine/setup identity: ____<br>Observations, release/Stop, and defect record IDs: ____<br>Student: ____ Checker/signature: ____</td></tr>
           </tbody>
         </table>
+        <p><strong>How to update the streak:</strong> write 0 after any Fail or Abort. If a reset trigger occurred since the prior attempt, the previous streak is invalid; after the state is corrected and refrozen, write 1 only if this complete attempt passes. With no trigger and the same frozen identity, increase the prior streak by one after a Pass. Stop at 3. A normal powered-down restoration of the unchanged recorded start state is required between attempts but is not itself a reset trigger.</p>
 
         <h3>Defects, requests, and approved revisions</h3>
         <table class="record-table">
@@ -211,11 +214,11 @@
         <table class="record-table">
           <caption>Final qualification decision</caption>
           <tbody>
-            <tr><th scope="row">Three consecutive complete passing routines</th><td>Yes / No; run-sheet location: ______</td></tr>
-            <tr><th scope="row">Unresolved enabled safety-critical defect</th><td>None / TeleOp not qualified; evidence: ______</td></tr>
-            <tr><th scope="row">Qualification status and exact scope</th><td>QUALIFIED / NOT QUALIFIED; included rows: ______; approved exclusions: ______</td></tr>
-            <tr><th scope="row">Exact tested recovery identity</th><td>Existing commit/tag or other team-approved identifier: ______; repository/artifact location: ______; independently verified by/date: ______</td></tr>
-            <tr><th scope="row">Identity limitation</th><td>Identifier points to tested source: Yes / No; physical qualification evidence remains in run sheet: ______</td></tr>
+            <tr><th scope="row">Three consecutive complete passing attempts</th><td data-label="Consecutive passes">Yes / No; adjacent chronological attempt IDs: ____ (streak 1), ____ (streak 2), ____ (streak 3); no omitted row or reset trigger between them: Yes / No; log/continuation-sheet location: ______</td></tr>
+            <tr><th scope="row">Unresolved enabled safety-critical defect</th><td data-label="Safety defects">None / TeleOp not qualified; evidence: ______</td></tr>
+            <tr><th scope="row">Qualification status and exact scope</th><td data-label="Status and scope">QUALIFIED / NOT QUALIFIED; included rows: ______; approved exclusions: ______</td></tr>
+            <tr><th scope="row">Exact tested recovery identity</th><td data-label="Recovery identity">Existing commit/tag or other team-approved identifier: ______; repository/artifact location: ______; independently verified by/date: ______</td></tr>
+            <tr><th scope="row">Identity limitation</th><td data-label="Identity limitation">Identifier points to tested source: Yes / No; physical qualification evidence remains in attempt log: ______</td></tr>
           </tbody>
         </table>
       </section>
@@ -236,7 +239,7 @@
 
       <section id="evidence" aria-labelledby="evidence-title">
         <h2 id="evidence-title">Show what you learned</h2>
-        <p><strong>Keep:</strong> source and installed-capability audit, frozen qualification routine, setup and role record, all three run rows, release/Stop observations, defect and request queues, fault retests, approved map revisions and exclusions, final decision, and exact tested recovery identity.</p>
+        <p><strong>Keep:</strong> source and installed-capability audit, frozen qualification routine, setup and role record, every chronological attempt and continuation row, release/Stop observations, defect and request queues, fault retests, approved map revisions and exclusions, final decision, and exact tested recovery identity.</p>
         <h3>Each student explains</h3>
         <p>Without partner help, choose one required action and trace its map row through request, decision/state, commanded output, physical result, simultaneous case, release, recovery, telemetry, and Stop criterion. Then explain one event that resets the three-run count and why a commit or tag alone does not prove qualification.</p>
         <h3>Record each student's evidence</h3>
@@ -257,10 +260,10 @@
             <caption>Qualification handoff to Autonomous</caption>
             <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence or next owner</th></tr></thead>
             <tbody>
-              <tr><td data-label="Question">Did three consecutive complete routines pass?</td><td data-label="Answer">Yes / No; status: Qualified / Not qualified</td><td data-label="Evidence">Run sheet/checker: ______</td></tr>
+              <tr><td data-label="Question">Did three consecutive complete routines pass?</td><td data-label="Answer">Yes / No; status: Qualified / Not qualified</td><td data-label="Evidence">Attempt IDs/log/checker: ______</td></tr>
               <tr><td data-label="Question">What exact required parity scope passed?</td><td data-label="Answer">Included Meeting 4 row IDs: ______</td><td data-label="Evidence">Map/routine revisions: ______</td></tr>
               <tr><td data-label="Question">What was formally excluded?</td><td data-label="Answer">Optional/unavailable rows and rationale: ______</td><td data-label="Evidence">Approvals/disabled/event-plan record: ______</td></tr>
-              <tr><td data-label="Question">What exact identity can recover the tested source?</td><td data-label="Answer">Commit/tag/other recovery ID: ______</td><td data-label="Evidence">Independent lookup and run-sheet link: ______</td></tr>
+              <tr><td data-label="Question">What exact identity can recover the tested source?</td><td data-label="Answer">Commit/tag/other recovery ID: ______</td><td data-label="Evidence">Independent lookup and attempt-log link: ______</td></tr>
               <tr><td data-label="Question">Does any enabled safety-critical TeleOp defect remain?</td><td data-label="Answer">No / Yes, Autonomous blocked</td><td data-label="Evidence">Fault ID/owner/date: ______</td></tr>
               <tr><td data-label="Question">Which safe drive method and physical setup may Meeting 9 start from?</td><td data-label="Answer">Method/setup/configuration: ______</td><td data-label="Evidence">Qualification row: ______</td></tr>
               <tr><td data-label="Question">Which feature requests remain outside qualification?</td><td data-label="Answer">Request IDs: ______</td><td data-label="Evidence">Queue/owner: ______</td></tr>
@@ -279,11 +282,11 @@
           <li>Audit that every matching, installed, required capability appears in the routine. Do not replace the map with a generic seven-action checklist or vendor demonstration.</li>
           <li>Prepare a bounded game-arena setup, exact reset marks, accepted battery condition, legal test objects/loads, inspection tools, and one Stop owner position with clear sightlines.</li>
           <li>Review each criterion for observable Pass/Fail evidence. Reject invented tolerances, values, physical results, or classifications.</li>
-          <li>Prepare separate defect and request queues, a formal map-revision record, three complete run rows, and an identity lookup appropriate to the team's established version-control workflow.</li>
+          <li>Prepare separate defect and request queues, a formal map-revision record, the append-only attempt log with continuation sheets, and an identity lookup appropriate to the team's established version-control workflow.</li>
           <li>Do not direct recovery-point creation during this implementation task. Require students to record and independently verify the exact existing tested commit/tag or other approved recovery identifier supplied by the team's workflow.</li>
         </ul>
       </aside>
-      <aside class="mentor-note"><strong>Gate enforcement:</strong> a failed or changed routine resets the count. Safe initialization, drivetrain, Stop, and still-required actions are nonwaivable. A feature exclusion is valid only after evidence, optional/unavailable rationale, mentor and team approval, a revised map, code disablement, event-plan removal, explicit qualification exclusion, and a complete restart at Run 1.</aside>
+      <aside class="mentor-note"><strong>Gate enforcement:</strong> a failed or changed routine resets the streak to zero. Safe initialization, drivetrain, Stop, and still-required actions are nonwaivable. A feature exclusion is valid only after evidence, optional/unavailable rationale, mentor and team approval, a revised map, code disablement, event-plan removal, explicit qualification exclusion, and a complete restart with the next passing attempt recorded as streak 1.</aside>
     </section>
 
     <section id="resources" aria-labelledby="resources-title">
@@ -293,14 +296,14 @@
         <li><span class="resource-label follow">Follow</span> Current Competition Manual game overview and game rules, plus current Team Updates and applicable Q&amp;A, for game relevance and legality.</li>
         <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a>, <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html"><code>DcMotorEx</code></a>, <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/Servo.html"><code>Servo</code></a>, and <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/CRServo.html"><code>CRServo</code></a> only for documented API behavior, not physical qualification.</li>
         <li><span class="resource-label optional">Exact match only</span> REV <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-onbot-java-overview">Starter Bot TeleOp overview</a> or the verified goBILDA <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">example artifact</a> and <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">assembly guide</a>. Vendor examples identify candidate capability only.</li>
-        <li><span class="resource-label follow">Follow</span> GitHub Docs <a href="https://docs.github.com/en/get-started/using-git/about-git#basic-git-commands">Basic Git commands</a> and <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/viewing-your-repositorys-releases-and-tags">Viewing tags</a> to interpret recorded identities; the run sheet, not Git alone, proves qualification.</li>
+        <li><span class="resource-label follow">Follow</span> GitHub Docs <a href="https://docs.github.com/en/get-started/using-git/about-git#basic-git-commands">Basic Git commands</a> and <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/viewing-your-repositorys-releases-and-tags">Viewing tags</a> to interpret recorded identities; the attempt log, not Git alone, proves qualification.</li>
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p><a href="0007-debugging-with-evidence.html">Previous: Meeting 7</a> | <a href="index.html">Course index</a> | <a href="0009-autonomous-is-a-sequence.html">Next: Meeting 9</a></p>
+    <p><a href="0007-integrate-and-debug-teleop.html">Previous: Meeting 7: Integrate and Debug TeleOp</a> | <a href="index.html">Course index</a> | <a href="0009-autonomous-starts-with-one-action.html">Next: Meeting 9: Autonomous Starts With One Action</a></p>
   </footer>
 </body>
 </html>

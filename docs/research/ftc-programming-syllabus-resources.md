@@ -129,7 +129,7 @@ topic references only; the numbered table above controls meeting placement.
 - Pinned [`Gamepad`](https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/Gamepad.html) and [`DcMotor`](https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html) Javadocs let students trace field to method.
 - GitHub's official [About Git: Basic Git commands](https://docs.github.com/en/get-started/using-git/about-git#basic-git-commands) defines status, staging, commits, pull, and push. [Hello World: Make and commit changes](https://docs.github.com/en/get-started/start-your-journey/hello-world#step-3-make-and-commit-changes) explains commits as saved changes with messages.
 
-**BIOBUZZ recommendation:** Teach `git status`, Android Studio/GitHub Desktop diff, then one commit only after the raised-wheel test passes. The raised-wheel test and exact first-commit ritual are team safety/workflow decisions.
+**BIOBUZZ recommendation:** Teach `git status`, Android Studio/GitHub Desktop diff, then one commit only after the Supported test passes. The Supported test and exact first-commit ritual are team safety/workflow decisions.
 
 **Supplemental resource (non-authoritative)**
 

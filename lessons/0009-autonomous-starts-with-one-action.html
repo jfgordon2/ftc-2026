@@ -22,7 +22,7 @@
 
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
-    <a href="0008-reliable-teleop-checkpoint.html">Previous: Meeting 8: Reliable TeleOp Checkpoint</a>
+    <a href="0008-qualify-teleop.html">Previous: Meeting 8: Qualify TeleOp</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -31,7 +31,7 @@
     <a href="#test">Supported and travel tests</a>
     <a href="#handoff">Meeting 10 handoff</a>
     <a href="#prep">Mentor preparation</a>
-    <a href="0010-encoders-turn-motion-into-data.html">Next: Meeting 10: Encoders Turn Motion Into Data</a>
+    <a href="0010-from-motor-rotations-to-distance.html">Next: Meeting 10: From Motor Rotations to Distance</a>
   </nav>
 
   <main>
@@ -55,7 +55,7 @@
           <dt>Telemetry</dt><dd>Named Driver Station evidence showing the action, elapsed time, commanded output, active state, and exit reason.</dd>
           <dt>Motor run mode</dt><dd>A motor-controller setting that affects how the SDK uses a power command. This lesson reads the current mode; it does not choose or change one.</dd>
           <dt>Expected normal run mode</dt><dd>The exact mode recorded for one drivetrain motor in the Meeting 2 motor map and corroborated by the initialization path in the qualified team code. Each motor needs its own source; a blank or contradiction means unknown.</dd>
-          <dt>Observed run mode</dt><dd>The value returned by that motor's <code>getMode()</code> during the reviewed zero-output check. It must match the expected normal run mode before the one action can start.</dd>
+          <dt>Observed run mode</dt><dd>The value returned by that motor's <code>getMode()</code> during the reviewed zero-output check. It must match the expected normal run mode before the one action can start. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f04">Source M09-F04</a></span></dd>
           <dt>Supported test</dt><dd>A powered test in the arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
           <dt>Travel test</dt><dd>A powered test in the arena from a marked start along a marked route to a marked stop while everyone stays outside the exclusion area.</dd>
         </dl>
@@ -159,6 +159,7 @@ public class TeamOneActionAuto extends LinearOpMode {
           <article class="vendor-path">
             <h3>goBILDA caveat</h3>
             <p>The official goBILDA <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">supplied ZIP</a> contains <strong>no Autonomous file</strong>. Its TeleOp may identify matching, already-qualified drivetrain hardware facts, but it is not an Autonomous source. Do not invent a goBILDA Autonomous file or reuse vendor TeleOp powers as Autonomous values.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f05">Source M09-F05</a></p>
           </article>
           <article class="vendor-path">
             <h3>Blocks fallback</h3>
@@ -337,7 +338,7 @@ public class TeamOneActionAuto extends LinearOpMode {
   </main>
 
   <footer class="site-footer">
-    <p><a href="0008-reliable-teleop-checkpoint.html">Previous: Meeting 8: Reliable TeleOp Checkpoint</a> | <a href="index.html">Course index</a> | <a href="0010-encoders-turn-motion-into-data.html">Next: Meeting 10: Encoders Turn Motion Into Data</a></p>
+    <p><a href="0008-qualify-teleop.html">Previous: Meeting 8: Qualify TeleOp</a> | <a href="index.html">Course index</a> | <a href="0010-from-motor-rotations-to-distance.html">Next: Meeting 10: From Motor Rotations to Distance</a></p>
   </footer>
 </body>
 </html>

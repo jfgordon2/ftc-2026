@@ -43,6 +43,8 @@
         <dd>The step that prepares the selected OpMode before Start. Example: press INIT and confirm the status message before anyone presses Start.</dd>
         <dt>Encoder</dt>
         <dd>A sensor that reports rotation as counts, often called ticks. Example: compare drivetrain encoder counts before and after a measured roll.</dd>
+        <dt>StarterBot path</dt>
+        <dd>The REV, goBILDA, or unmatched team path selected only after the installed robot and exact revision are identified. Names, mechanisms, constants, and code from one path do not transfer to another.</dd>
       </dl>
     </section>
 
@@ -57,10 +59,24 @@
         <dd>Instructions that run repeatedly while an OpMode is active. Example: each loop reads the gamepad and updates motor power.</dd>
         <dt>Stop condition</dt>
         <dd>A check that ends an action instead of letting it run forever. Example: stop driving when the target is reached, time expires, or the OpMode is no longer active.</dd>
-        <dt>Threshold</dt>
-        <dd>A measured boundary used to make a decision. Example: feed a game element only when launcher speed is above the tested threshold.</dd>
-        <dt>State</dt>
-        <dd>The robot's current named step or condition. Example: a mechanism changes from <code>WAITING</code> to <code>FEEDING</code> without freezing drivetrain control.</dd>
+        <dt>Action map</dt>
+        <dd>The team's approved record connecting each required, optional, or unavailable game action to its operator, input behavior, feedback, safe release, recovery, conflicts, and telemetry.</dd>
+        <dt>Target velocity</dt>
+        <dd>The launcher speed the program requests, in the exact controller/API unit recorded for the setup.</dd>
+        <dt>Measured velocity</dt>
+        <dd>The launcher speed reported from encoder feedback at a named time, in the same recorded unit as the target.</dd>
+        <dt>Error</dt>
+        <dd>Target velocity minus measured velocity. Signed error keeps the above/below direction; absolute error keeps only the size of the difference.</dd>
+        <dt>F / feedforward</dt>
+        <dd>A controller setting that estimates the baseline output needed for the requested speed before feedback corrects the remaining error. Its exact scaling and behavior belong to the installed controller and selected run mode.</dd>
+        <dt>P / proportional</dt>
+        <dd>A controller setting for immediate correction based on current error. A larger current error requests a larger correction, but the exact scaling belongs to the controller implementation.</dd>
+        <dt>I / integral</dt>
+        <dd>A controller setting for correction based on error accumulated over time. Accumulation can continue while correction is limited, called windup; I remains unchanged in the core tuning lesson.</dd>
+        <dt>D / derivative</dt>
+        <dd>A controller setting for correction based on how quickly error changes. It may add damping and may react to measurement noise; D remains unchanged in the core tuning lesson.</dd>
+        <dt>Ready condition</dt>
+        <dd>The complete measured rule that must remain true before a guarded action may proceed, including the recorded velocity boundary, repeated-sample rule, sample interval, and minimum duration. Ready does not by itself mean safe or successful.</dd>
       </dl>
     </section>
 
@@ -75,6 +91,12 @@
         <dd>Run the same check again after one change. Example: repair a loose connector, then retest with the same battery and steps.</dd>
         <dt>Baseline</dt>
         <dd>A known-working result or version used for comparison. Example: compare a new TeleOp change with the version that passed three complete runs.</dd>
+        <dt>Supported test</dt>
+        <dd>A powered test in the game arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
+        <dt>Travel test</dt>
+        <dd>A powered test in the game arena that begins at a marked start, follows a marked route to a marked stop, and keeps everyone outside the exclusion area.</dd>
+        <dt>Claim ID</dt>
+        <dd>A compact identifier, such as <code>M13-F01</code>, that links a consequential fact, team choice, or measurement to its owner, evidence, scope, and recheck trigger.</dd>
       </dl>
     </section>
 
@@ -89,6 +111,8 @@
         <dd>A fixed name attached to one exact commit. Example: tag the tested event version <code>event-2026-10-24</code>.</dd>
         <dt>Clone</dt>
         <dd>A complete working copy of a repository made in a new folder. Example: clone the team repository on a backup laptop and build the event tag.</dd>
+        <dt>Rollback</dt>
+        <dd>The separately recorded known-good identity and supporting configuration, controller mode, values, hardware state, and evidence needed to reverse a change and prove the restored affected flow.</dd>
       </dl>
     </section>
 

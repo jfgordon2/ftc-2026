@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../assets/lesson.css">
   <style>
     .sheet { background: var(--paper-raised); border: 2px solid var(--ink); padding: 1rem; }
-    .meta { display: grid; gap: 0.75rem 1rem; grid-template-columns: 2fr 1fr 1fr; }
+    .meta { display: grid; gap: 0.75rem 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .field { break-inside: avoid; margin-bottom: 0.75rem; }
     .field-label { display: block; font-weight: 800; }
     .write-line { border-bottom: 1px solid var(--ink); display: block; min-height: 1.8rem; }
@@ -57,9 +57,17 @@
     </section>
     <form class="sheet" aria-label="Fault log">
       <div class="meta">
-        <label class="field"><span class="field-label">Who investigated this fault?</span><span class="write-line"></span></label>
-        <label class="field"><span class="field-label">When did we investigate it?</span><span class="write-line"></span></label>
-        <label class="field"><span class="field-label">Which commit or code version did we test?</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Fault ID</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Trial ID</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Applicable claim ID(s)</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Student / checker</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Date and time</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Exact code / recovery identity</span><span class="write-line"></span></label>
+      </div>
+
+      <div class="columns">
+        <label class="field"><span class="field-label">Exact robot: manufacturer, model/assembly, and revision</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Exact active configuration and selected OpMode</span><span class="write-line"></span></label>
       </div>
 
       <label class="field"><span class="field-label">What exact symptom did we observe? Quote the message and describe only what happened.</span><span class="write-box"></span></label>
@@ -67,17 +75,21 @@
 
       <div class="field">
         <span class="field-label">Where might the cause be? Choose one area before editing.</span>
-        <span class="layers"><span><span class="box"></span>Build</span><span><span class="box"></span>Configuration</span><span><span class="box"></span>Code</span><span><span class="box"></span>Electrical</span><span><span class="box"></span>Mechanical</span><span><span class="box"></span>Operator</span></span>
+        <span class="layers"><span><span class="box"></span>Build</span><span><span class="box"></span>Configuration</span><span><span class="box"></span>Wiring</span><span><span class="box"></span>Input</span><span><span class="box"></span>Code</span><span><span class="box"></span>Mechanical</span></span>
       </div>
 
       <div class="columns">
         <label class="field"><span class="field-label">What one possible cause is our hypothesis?</span><span class="write-box"></span></label>
-        <label class="field"><span class="field-label">What evidence did we collect? Include exact messages, file and line, telemetry, logs, measurements, or inspection.</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">Input telemetry: what exact input name, value, unit, and time did we record?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">Decision/state telemetry: what exact branch, guard, state, or exit reason did we record?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">Commanded output: what output name, requested value, unit, and time did telemetry report?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">Observed physical evidence: what movement, direction, sound, measurement, inspection, safe hold or zero, and Stop response did we observe?</span><span class="write-box"></span></label>
         <label class="field"><span class="field-label">What cause did the evidence confirm?</span><span class="write-box"></span></label>
         <label class="field"><span class="field-label">What one smallest fix did we make?</span><span class="write-box"></span></label>
       </div>
 
-      <label class="field"><span class="field-label">What happened when we repeated the same test after the fix? Record the actual result, not only pass or fail.</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">What happened when we repeated the same trial setup after the fix? Record the retest trial ID and actual result, not only pass or fail.</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">Affected safe-behavior retests: which affected initialization/default, action, release, guard, timeout/abort, explicit zero or safe hold, cleanup, and Stop behaviors did we repeat? Record trial IDs and actual results.</span><span class="write-box"></span></label>
       <label class="field"><span class="field-label">What should the team label, check, teach, or document to prevent this fault?</span><span class="write-box"></span></label>
     </form>
   </main>

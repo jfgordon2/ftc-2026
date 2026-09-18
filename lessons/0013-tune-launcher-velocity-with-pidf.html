@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student-first BIOBUZZ Meeting 13 lesson for understanding PIDF and tuning launcher velocity through bounded, sequential F and P comparisons.">
+  <title>Meeting 13: Tune Launcher Velocity With PIDF | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <style>
+    .plot-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .behavior-plot { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius); margin: 0; padding: 1rem; }
+    .behavior-plot svg { display: block; height: auto; width: 100%; }
+    .behavior-plot figcaption { margin-top: 0.75rem; }
+    .plot-target { fill: none; stroke: currentColor; stroke-dasharray: 8 5; stroke-width: 3; }
+    .plot-measured { fill: none; stroke: var(--blue-dark); stroke-width: 4; }
+    .plot-axis { stroke: currentColor; stroke-width: 2; }
+    .plot-marker { fill: var(--paper); stroke: currentColor; stroke-width: 3; }
+    .plot-label { fill: currentColor; font: 700 12px system-ui, sans-serif; }
+    @media (max-width: 720px) { .plot-grid { grid-template-columns: 1fr; } }
+    @media print { .plot-grid { grid-template-columns: 1fr 1fr; } .behavior-plot { break-inside: avoid; page-break-inside: avoid; } .plot-measured { stroke: #000; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 7, Meeting 13 / FTC SDK v12.0</p>
+    <h1>Tune Launcher Velocity With PIDF</h1>
+    <p class="lede">PIDF names four controller settings: feedforward (F), proportional (P), integral (I), and derivative (D). Learn how they relate to launcher speed, then compare bounded F changes followed by bounded P changes without hiding failures or losing the original settings.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>One setting at a time</li>
+      <li><strong>Team result</strong><br>Accepted or restored coefficients</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0012-add-and-tune-autonomous-game-actions.html">Previous: Meeting 12: Add and Tune Autonomous Game Actions</a>
+    <a href="#words">Words you need</a>
+    <a href="#diagrams">Behavior diagrams</a>
+    <a href="#criteria">Acceptance criteria</a>
+    <a href="#test">F then P trials</a>
+    <a href="#record">Evidence record</a>
+    <a href="#handoff">Meeting 14 handoff</a>
+    <a href="0014-reliability-and-failure-recovery.html">Next: Meeting 14: Reliability and Failure Recovery</a>
+  </nav>
+
+  <main>
+    <div class="student-path">
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need before using them</h2>
+        <dl class="words-list">
+          <dt>Target velocity</dt><dd>The launcher speed the program requests, in the exact controller/API unit recorded for this setup.</dd>
+          <dt>Measured velocity</dt><dd>The launcher speed reported from encoder feedback at a named time, in the same recorded unit as the target.</dd>
+          <dt>Error</dt><dd>Target velocity minus measured velocity. Signed error keeps above/below direction; absolute error keeps only the size of the difference.</dd>
+          <dt>Control loop</dt><dd>The controller's repeated compare-and-adjust process: read target and measured velocity, compute error, and adjust output.</dd>
+          <dt>PIDF coefficients</dt><dd>Four controller settings named P, I, D, and F. Their units, scaling, and exact behavior depend on the controller implementation and selected run mode.</dd>
+          <dt>F: feedforward</dt><dd>An estimate of the baseline output needed for the requested speed before feedback corrects the remaining error.</dd>
+          <dt>P: proportional</dt><dd>An immediate correction that changes with the current error: a larger current error requests a larger correction.</dd>
+          <dt>I: integral</dt><dd>A correction based on error accumulated over time. Accumulation may continue while correction is limited, which is called windup.</dd>
+          <dt>D: derivative</dt><dd>A correction based on how quickly error changes. It may add damping, but measurement noise may make it react rapidly.</dd>
+          <dt>Ready state</dt><dd>The recorded true/false result of the Meeting 12 ready condition; it does not mean safe or successful unless every declared criterion also passes.</dd>
+          <dt>Overshoot</dt><dd>How far measured velocity crosses beyond the target or ready band after starting or recovering.</dd>
+          <dt>Oscillation</dt><dd>Repeated movement above and below the target. One crossing is not sustained oscillation; small irregular changes may be measurement noise.</dd>
+          <dt>Recovery</dt><dd>How the launcher returns toward ready velocity after the same controlled launch/load removes energy.</dd>
+          <dt>Baseline trial</dt><dd>A trial run with a named starting configuration that later trial results are compared against.</dd>
+          <dt>Candidate</dt><dd>One proposed coefficient configuration being tested; it is not accepted merely because it ran.</dd>
+          <dt>Acceptance criteria</dt><dd>The pass, fail, and safety rules recorded before candidate results are visible.</dd>
+          <dt>Supported test</dt><dd>A powered test only in the game arena: the robot frame is secured on stable support; wheels and launcher hazards are safely clear as applicable; the battery, Hub, wires, attached pieces, mechanisms, and test artifact are secured; a marked exclusion area is clear; a Driver Station operator and independent Stop owner are named; and no one contacts the live robot or setup.</dd>
+          <dt>Rollback</dt><dd>The complete original read-back P, I, D, and F tuple, controller, run mode, and code identity kept so the team can restore the starting configuration.</dd>
+        </dl>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f01">Source M13-F01</a> The pinned API requires an explicit run mode when reading or writing PIDF coefficients and warns that controller implementations may differ. The letters above are a mental model, not universal coefficient units, equations, values, or guaranteed effects.</p>
+      </section>
+
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">What you will make the team able to do</h2>
+        <div class="outcome-banner">Explain four launcher velocity patterns, preserve three original-coefficient baseline trials, and use an immutable acceptance record to tune only F and then only P. Keep I and D unchanged. Finish with three equivalent final trials and either retain the supported configuration or restore the original read-back rollback values.</div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+      </section>
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Secure the exact system before any change</h2>
+        <ul class="checklist">
+          <li>Audit Meeting 12's exact assembly, guarded launcher action, active check, timeout, ready condition, abort, telemetry, explicit zero commands, and measured launcher/load record. A missing or failed item blocks tuning.</li>
+          <li>Record exact motor, controller, active configuration, code/version, controller run mode, launcher geometry, artifact/load, battery acceptance method, target, source, and original read-back P/I/D/F tuple.</li>
+          <li>Name the Driver Station operator and a separate Stop owner with immediate access. Name a launcher observer/loader and evidence recorder. No one loads, resets, adjusts, or enters the mechanism envelope while powered.</li>
+          <li>Inspect guards, fasteners, shafts, wheels, artifact path, electrical connections, wire restraint, supports, and exclusion zone with Stop pressed, Hub off, battery disconnected, and stored energy safe.</li>
+          <li>Use the same controlled load, setup, measurement method, and reset for equivalent trials. Never hand-feed, restrain, stall, touch, or approach a spinning launcher.</li>
+        </ul>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+        <h3>Game-arena Supported test contract</h3>
+        <p>Every powered baseline, F candidate, P-phase baseline, P candidate, final acceptance trial, and rollback check uses a <strong>Supported test</strong> before powered tuning may begin. With Stop pressed, the Hub off, and the battery disconnected, place the robot only in the game arena; secure its frame on stable support; keep wheels and every launcher pinch, spin, intake, feed, exit, and artifact-path hazard safely clear as applicable; and secure the support, accepted battery, Hub, wires, attached pieces, mechanisms, and test artifact. Mark and clear an exclusion area. Name the Driver Station operator and a different independent Stop owner with uninterrupted immediate Stop access and authority to press it without permission. A second student checks the complete setup, roles, test identity, stop triggers, and explicit-zero plan before power. While the robot is live, everyone remains outside the exclusion area and no one touches, loads, resets, adjusts, supports, or retrieves the robot, launcher, artifact, or test setup.</p>
+        <p>Full stop triggers are unexpected motion or output; wrong velocity sign or implausible data; support, frame, guard, containment, artifact, mechanism, attached-piece, battery, Hub, or wire movement; artifact jam or unsafe exit; person or object entering the exclusion area; loose hardware; communication loss; timeout or abort failure; abnormal sound or vibration; heat, smoke, or odor; or any lost role, control, clearance, or setup condition. For any trigger, the independent Stop owner presses Stop immediately. Require every named output at zero and all motion stopped, say <q>stopped</q>, switch off the Hub, disconnect the battery, preserve the trial as an abort, and permit contact only afterward.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d02">Team choice M13-D02</a></p>
+        <aside class="safety-callout">Press Stop for unexpected motion or output, wrong velocity sign, implausible data, failed guard or containment, artifact jam or unsafe exit, person or object entering the exclusion zone, loose hardware, cable or battery movement, communication loss, timeout failure, abnormal sound, vibration, heat, smoke, or odor. Verify every launcher, feeder, intake-assist, windmill, and drivetrain command is zero and motion has stopped; say <q>stopped</q>; switch off; disconnect; preserve the trial as an abort; then inspect. Never tune around a hardware, encoder, direction, mode, wiring, code, or safety fault.</aside>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Identify and secure the exact system.</strong> Audit Meeting 12, inspect the launcher, record identity and rollback, and assign roles.</div></li>
+          <li><time>0:15-0:40<br>25 min</time><div><strong>Build the PIDF mental model.</strong> Define target, measured velocity, error, F/P/I/D, and read all four behavior diagrams and symptom cautions.</div></li>
+          <li><time>0:40-1:00<br>20 min</time><div><strong>Trace the matching code.</strong> Locate target, mode-specific coefficient read/write, guarded action, ready condition, abort, and every explicit zero.</div></li>
+          <li><time>1:00-1:20<br>20 min</time><div><strong>Add or verify evidence telemetry.</strong> Display the full telemetry contract without changing coefficients.</div></li>
+          <li><time>1:20-1:40<br>20 min</time><div><strong>Establish the original baseline.</strong> Run three equivalent trials using the untouched original read-back tuple.</div></li>
+          <li><time>1:40-2:30<br>50 min</time><div><strong>Compare one variable at a time.</strong> Declare immutable criteria, compare F-only candidates, select or restore F, establish the P-phase baseline, swap pair duties, then compare P-only candidates.</div></li>
+          <li><time>2:30-2:50<br>20 min</time><div><strong>Validate the selected configuration.</strong> Run three unchanged final acceptance trials under the same controlled load.</div></li>
+          <li><time>2:50-3:00<br>10 min</time><div><strong>Retain or roll back and explain.</strong> Restore when criteria fail, verify every named zero and shutdown, and hand off exact evidence.</div></li>
+        </ol>
+      </section>
+
+      <section id="diagrams" aria-labelledby="diagrams-title">
+        <h2 id="diagrams-title">Read target-versus-time behavior</h2>
+        <p>The horizontal axis is time; the vertical axis is velocity. In every diagram the dashed horizontal line labeled <q>target</q> is the request and the solid line with circle markers labeled <q>measured</q> is encoder feedback. Shape, labels, dash pattern, and text identify behavior without relying on color.</p>
+        <div class="plot-grid">
+          <figure class="behavior-plot">
+            <svg viewBox="0 0 360 210" role="img" aria-labelledby="slow-title slow-desc">
+              <title id="slow-title">Slow approach to target</title><desc id="slow-desc">A solid measured-velocity line rises gradually from zero toward a dashed target line and reaches it late without crossing it.</desc>
+              <line class="plot-axis" x1="45" y1="170" x2="335" y2="170"/><line class="plot-axis" x1="45" y1="170" x2="45" y2="25"/>
+              <line class="plot-target" x1="45" y1="55" x2="335" y2="55"/><text class="plot-label" x="275" y="47">target (dashed)</text>
+              <path class="plot-measured" d="M45 170 C95 160 120 138 155 112 S230 72 330 58"/><circle class="plot-marker" cx="330" cy="58" r="5"/><text class="plot-label" x="185" y="115">measured (solid)</text>
+              <text class="plot-label" x="295" y="194">time</text><text class="plot-label" x="7" y="22">velocity</text>
+            </svg>
+            <figcaption><strong>Slow approach.</strong> Text alternative: measured velocity climbs gradually and reaches the target late, without overshoot. This may mean correction is weak; it is not proof that P is the cause.</figcaption>
+          </figure>
+          <figure class="behavior-plot">
+            <svg viewBox="0 0 360 210" role="img" aria-labelledby="offset-title offset-desc">
+              <title id="offset-title">Stable offset below target</title><desc id="offset-desc">A solid measured-velocity line rises and then stays flat below the dashed target line, leaving a labeled steady gap.</desc>
+              <line class="plot-axis" x1="45" y1="170" x2="335" y2="170"/><line class="plot-axis" x1="45" y1="170" x2="45" y2="25"/>
+              <line class="plot-target" x1="45" y1="55" x2="335" y2="55"/><text class="plot-label" x="275" y="47">target (dashed)</text>
+              <path class="plot-measured" d="M45 170 C90 145 112 100 165 88 L330 88"/><circle class="plot-marker" cx="330" cy="88" r="5"/><text class="plot-label" x="183" y="106">measured (solid)</text>
+              <line class="plot-axis" x1="255" y1="59" x2="255" y2="84"/><text class="plot-label" x="262" y="76">steady gap</text>
+              <text class="plot-label" x="295" y="194">time</text><text class="plot-label" x="7" y="22">velocity</text>
+            </svg>
+            <figcaption><strong>Stable offset.</strong> Text alternative: measured velocity settles to a flat value below target and leaves a steady error. Feedforward may be low; verify load and faults before changing F.</figcaption>
+          </figure>
+          <figure class="behavior-plot">
+            <svg viewBox="0 0 360 210" role="img" aria-labelledby="over-title over-desc">
+              <title id="over-title">One overshoot followed by recovery</title><desc id="over-desc">A solid measured-velocity line rises above the dashed target once, then curves back and settles on the target.</desc>
+              <line class="plot-axis" x1="45" y1="170" x2="335" y2="170"/><line class="plot-axis" x1="45" y1="170" x2="45" y2="25"/>
+              <line class="plot-target" x1="45" y1="75" x2="335" y2="75"/><text class="plot-label" x="275" y="67">target (dashed)</text>
+              <path class="plot-measured" d="M45 170 C95 155 112 42 175 45 C220 48 218 83 260 79 C285 76 305 75 330 75"/><circle class="plot-marker" cx="175" cy="45" r="5"/><circle class="plot-marker" cx="330" cy="75" r="5"/><text class="plot-label" x="135" y="30">one peak</text><text class="plot-label" x="220" y="104">recovery</text>
+              <text class="plot-label" x="295" y="194">time</text><text class="plot-label" x="7" y="22">velocity</text>
+            </svg>
+            <figcaption><strong>One overshoot and recovery.</strong> Text alternative: measured velocity crosses above target once, returns, and settles. This differs from repeated oscillation and may follow an aggressive correction.</figcaption>
+          </figure>
+          <figure class="behavior-plot">
+            <svg viewBox="0 0 360 210" role="img" aria-labelledby="osc-title osc-desc">
+              <title id="osc-title">Sustained oscillation around target</title><desc id="osc-desc">A solid measured-velocity line repeatedly crosses above and below the dashed target line with large peaks that do not settle.</desc>
+              <line class="plot-axis" x1="45" y1="170" x2="335" y2="170"/><line class="plot-axis" x1="45" y1="170" x2="45" y2="25"/>
+              <line class="plot-target" x1="45" y1="90" x2="335" y2="90"/><text class="plot-label" x="275" y="82">target (dashed)</text>
+              <path class="plot-measured" d="M45 170 C68 150 76 45 105 55 S135 130 165 122 S195 52 225 60 S255 125 285 118 S310 58 335 64"/>
+              <circle class="plot-marker" cx="105" cy="55" r="5"/><circle class="plot-marker" cx="165" cy="122" r="5"/><circle class="plot-marker" cx="225" cy="60" r="5"/><circle class="plot-marker" cx="285" cy="118" r="5"/>
+              <text class="plot-label" x="135" y="148">repeated crossings</text><text class="plot-label" x="295" y="194">time</text><text class="plot-label" x="7" y="22">velocity</text>
+            </svg>
+            <figcaption><strong>Sustained oscillation.</strong> Text alternative: measured velocity repeatedly crosses above and below target without settling. P may be aggressive or damping may be insufficient; the pattern is not a license to add D in this core lesson.</figcaption>
+          </figure>
+        </div>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f03">Source M13-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f04">Source M13-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a></p>
+
+        <h3>Use symptoms as questions, not diagnoses</h3>
+        <table class="record-table">
+          <caption>Heuristic symptom and fault guide - every interpretation is conditional</caption>
+          <thead><tr><th scope="col">What do we observe?</th><th scope="col">What may it mean?</th><th scope="col">What is the bounded core response?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Observation">Stable below target</td><td data-label="May mean">Baseline feedforward may be low.</td><td data-label="Bounded response">After fault checks, F may be increased slightly within the applicable bound.</td></tr>
+            <tr><td data-label="Observation">Stable above target</td><td data-label="May mean">Baseline feedforward may be high.</td><td data-label="Bounded response">After fault checks, F may be decreased slightly within the applicable bound.</td></tr>
+            <tr><td data-label="Observation">Slow approach without overshoot</td><td data-label="May mean">Feedback correction may be weak.</td><td data-label="Bounded response">After the F phase is selected/restored, P may be increased slightly.</td></tr>
+            <tr><td data-label="Observation">One overshoot, then settling</td><td data-label="May mean">The last correction may be aggressive.</td><td data-label="Bounded response">Undo or reduce the last P increase; compare with the P-phase baseline.</td></tr>
+            <tr><td data-label="Observation">Repeated rubber-banding around target</td><td data-label="May mean">P may be aggressive or damping may be insufficient.</td><td data-label="Bounded response">Reduce P. D remains unchanged in the core lesson.</td></tr>
+            <tr><td data-label="Observation">Noisy or rapidly jittery response</td><td data-label="May mean">D may be reacting to noise, or measurement/configuration may be faulty.</td><td data-label="Bounded response">Do not add D. Keep/restore matching-source D, inspect data quality, and repair faults.</td></tr>
+            <tr><td data-label="Observation">Error fades, then output remains high or overshoots</td><td data-label="May mean">I may be accumulating error and winding up.</td><td data-label="Bounded response">Keep/restore matching-source I; I tuning is outside the core lesson.</td></tr>
+            <tr><td data-label="Observation">Poor recovery after the same controlled launch</td><td data-label="May mean">Feedback correction may be weak, load may differ, or the launcher may have a physical fault.</td><td data-label="Bounded response">Verify equivalent load and selected F first; then P may be increased slightly.</td></tr>
+            <tr><td data-label="Observation">Small irregular movement near target</td><td data-label="May mean">Normal measurement noise may be present.</td><td data-label="Bounded response">Use the predeclared ready band and repeated trials; do not chase each sample.</td></tr>
+            <tr><td data-label="Observation">One target crossing</td><td data-label="May mean">A single overshoot may have occurred; it may not be sustained oscillation.</td><td data-label="Bounded response">Measure its size and settling against declared criteria.</td></tr>
+            <tr><td data-label="Observation">Full speed, wrong velocity sign, implausible/flat data, no response, changing mode, or inconsistent read-back</td><td data-label="May mean">A hardware, encoder, direction, mode, wiring, configuration, controller, or code fault may exist.</td><td data-label="Bounded response"><strong>Fault, not tuning:</strong> Stop, shut down, preserve evidence, repair, restore original coefficients, and rerun all gates.</td></tr>
+            <tr><td data-label="Observation">Jam, guard/containment problem, unsafe artifact exit, looseness, severe vibration, heat, smoke, or odor</td><td data-label="May mean">A mechanical, electrical, or safety fault may exist.</td><td data-label="Bounded response"><strong>Fault, not tuning:</strong> Stop and isolate immediately; do not resume until inspected and cleared.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="follow" aria-labelledby="follow-title">
+        <h2 id="follow-title">Trace only the matching controller and source</h2>
+        <ol>
+          <li><strong>Read before writing:</strong> identify the exact velocity-control run mode, call <code>getPIDFCoefficients(mode)</code>, and record the returned tuple before any setter call. Confirm the read mode is the same mode the launcher uses. <strong>Success:</strong> rollback includes controller, mode, tuple, code identity, and read time.</li>
+          <li><strong>Trace the guarded action:</strong> point to target, measured velocity, ready rule, active check, timeout, abort, load/feed action, and explicit shutdown for every touched output. <strong>Success:</strong> a coefficient change cannot bypass Meeting 12 guards.</li>
+          <li><strong>Trace one coefficient write:</strong> verify the same explicit mode and preserve P/I/D/F ordering. Display requested and read-back values after the write where the controller supports reliable read-back. <strong>Success:</strong> mismatch or unsupported behavior blocks trials.</li>
+          <li><strong>Keep scope narrow:</strong> F changes only during the F phase. After selecting/restoring F and creating a new P-phase baseline, P changes only during the P phase. I and D remain equal to the original matching-source values throughout.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f01">Source M13-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f02">Source M13-F02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+
+        <div class="vendor-paths">
+          <article class="vendor-path">
+            <h3>Exact matching goBILDA path only</h3>
+            <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f05">Source M13-F05</a> The verified 2026-2027 goBILDA StarterBot source tuple is P/I/D/F <code>(40, 0, 0, 12.5)</code>. Use it only when assembly, launcher, motor, controller, run mode, and source artifact match and read-back is reconciled. It remains the rollback tuple.</p>
+            <ul>
+              <li>F: baseline <code>12.5</code>; first comparison <code>12.0</code> or <code>13.0</code>; refinement step <code>0.5</code>; core boundary approximately <code>11.5-13.5</code>.</li>
+              <li>P: baseline <code>40</code>; first comparison <code>36</code> or <code>44</code>; refinement step <code>2</code>; core boundary approximately <code>32-48</code>.</li>
+              <li>I and D remain <code>0</code>. These are classroom experiment bounds for that exact source assembly, not universal safe, effective, or optimal ranges.</li>
+            </ul>
+          </article>
+          <article class="vendor-path">
+            <h3>REV or another verified assembly</h3>
+            <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f06">Source M13-F06</a> The reviewed REV Starter Bot material publishes no PIDF baseline. Read and record the exact controller/mode coefficients before changing anything. If a reliable exact read-back and provenance cannot be established, graph velocity and launch behavior only: this path is <strong>observation-only</strong>.</p>
+            <p>For any verified nonzero baseline, the first candidate may move approximately 5-10% from that baseline; refinement near the best observation may use approximately 2-5%. Restore the last stable value after substantial regression. Do not move beyond approximately 20% from the verified baseline without mentor review. Percentage guidance does not apply to a zero baseline, and it does not authorize changing I or D.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="telemetry" aria-labelledby="telemetry-title">
+        <h2 id="telemetry-title">Verify the evidence telemetry before candidates</h2>
+        <p>Each timestamped sample or trial summary must preserve the following, with units and unavailable fields explicitly marked. Telemetry is controller-reported evidence, not proof of physical safety or launch success.</p>
+        <ul class="checklist">
+          <li>Source/baseline identity, trial ID, elapsed time, controller, selected run mode, assembly/code/configuration, controlled load/reset, and coefficient phase.</li>
+          <li>Target velocity and measured velocity over time, signed error (<code>target - measured</code>), and absolute error, all in named units.</li>
+          <li>Requested and read-back P, I, D, and F coefficients, preserving controller-specific order and mode.</li>
+          <li>Time-to-ready, ready state, steady error/ready-band result, overshoot size, and oscillation count or sustained/not-sustained classification.</li>
+          <li>Pre-launch ready state; recovery time after the same controlled launch/load; launch outcome recorded separately from telemetry.</li>
+          <li>Battery voltage/condition when available, every timeout/abort/safety stop, reason, and explicit-zero/shutdown observation for every touched output.</li>
+        </ul>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a> <strong>Status: pending delivery evidence.</strong> Blank, missing, implausible, mode-mismatched, or non-equivalent evidence blocks coefficient comparison.</p>
+      </section>
+
+      <section id="criteria" aria-labelledby="criteria-title">
+        <h2 id="criteria-title">Declare immutable acceptance criteria before candidates</h2>
+        <p class="record-prompt">Complete this after the three original baseline trials and before displaying or testing any candidate result. Numerical limits must come from the matching source, event need, or measured baseline, never from this lesson. Student and coach sign in ink or lock a timestamped record. Once any candidate result is visible, do not erase, loosen, reinterpret, or replace these criteria to make it pass. If criteria are unsafe or unusable, stop this comparison and create a new identified experiment later; the old candidate does not retroactively pass.</p>
+        <table class="record-table">
+          <caption>Locked acceptance record</caption>
+          <thead><tr><th scope="col">Criterion declared before candidates</th><th scope="col">Exact limit, method, unit, and source</th><th scope="col">What automatically fails or aborts?</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Criterion">Maximum steady absolute error or exact ready band</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+            <tr><td data-label="Criterion">Maximum time-to-ready and required ready-state behavior</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+            <tr><td data-label="Criterion">Maximum overshoot and settling behavior</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+            <tr><td data-label="Criterion">No sustained oscillation; exact counting/classification method</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+            <tr><td data-label="Criterion">Maximum recovery time after the same controlled launch/load</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+            <tr><td data-label="Criterion">Repeatable launcher outcome across all three final trials</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+            <tr><td data-label="Criterion">Battery acceptance/equivalence and invalid-trial rule</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+            <tr><td data-label="Criterion">Every safety stop, timeout, abort, and explicit-zero requirement</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Original baseline trial IDs:</strong> ______ / ______ / ______ &nbsp; <strong>Criteria record ID and lock time:</strong> ______ &nbsp; <strong>Student approval:</strong> ______ &nbsp; <strong>Coach approval:</strong> ______</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Work in pairs and swap ownership</h2>
+        <p><strong>Code pair:</strong> the code driver points to or makes the single authorized coefficient edit; the code navigator reads the mode, original tuple, diff, bounds, and unchanged fields aloud. <strong>Test pair:</strong> the Driver Station operator follows the test card while the observer/recorder captures telemetry and physical outcome. <strong>Safety/build pair:</strong> the independent Stop owner guards Stop and the exclusion zone while the launcher observer verifies setup, load/reset, containment, and physical behavior. For two pairs, the mentor or an unoccupied student must remain the separate Stop owner; do not combine Stop ownership with Driver Station operation.</p>
+        <p>After F is selected or restored and the P-phase baseline is complete, swap code driver with navigator, test operator with observer/recorder, and launcher observer with Stop owner only after a stopped, Hub-off, battery-disconnected handoff. The new Stop owner repeats abort conditions before P candidates begin. Each student must explain one F comparison and one P comparison from records they helped create.</p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">Test in order: original baseline, F only, then P only</h2>
+        <ol>
+          <li><strong>Freeze rollback:</strong> with coefficients unchanged, record exact source, controller, mode, requested/read-back original P/I/D/F, code/configuration, and all Meeting 12 guards. Store a separately checked rollback copy. <strong>Block:</strong> if identity, read-back, mode, I/D, guard, or explicit-zero evidence is missing.</li>
+          <li><strong>Run three original baseline trials:</strong> use the untouched original tuple and equivalent setup/load. For each trial use Hub-off connection, Hub-on status, exact OpMode/configuration, INIT safe outputs, <q>robot live</q>/<q>clear</q>, guarded action, controlled launch, Stop, named explicit zeros/no motion, <q>stopped</q>, Hub off, and disconnect. Record every valid failure and abort; replace no row.</li>
+          <li><strong>Lock acceptance criteria:</strong> complete and sign the preceding record before any candidate result is visible. Criteria stay immutable for this experiment.</li>
+          <li><strong>Compare F-only candidates:</strong> change only F, then run at least three equivalent repeated trials for that exact F-only candidate before comparing or selecting it. Original P, I, and D remain unchanged. Compare each completed F candidate only with the three-trial original-coefficient F baseline. An aborted, invalid, changed, or incomplete candidate set cannot be selected; preserve its rows and either complete a fresh equivalent set or restore the last stable value. Stay within the exact matching goBILDA bounds or applicable verified relative guidance.</li>
+          <li><strong>Select or restore F:</strong> select the best supported F only if its at-least-three equivalent repeated trials support it; otherwise restore original F. Record requested/read-back selected or restored F. Do not describe the F result as universal or optimal.</li>
+          <li><strong>Establish the P-phase baseline:</strong> before changing P, run and record the launcher with <em>selected/restored F plus original P, original I, and original D</em>. This is a new named P-phase baseline, distinct from the original-coefficient F baseline. Then stop, disconnect, hand off records, and swap pair duties.</li>
+          <li><strong>Compare P-only candidates:</strong> change only P, then run at least three equivalent repeated trials for that exact P-only candidate before comparing or selecting it. Selected/restored F, original I, and original D remain fixed. Compare every completed P candidate only with the P-phase baseline, not with the original tuple. An aborted, invalid, changed, or incomplete candidate set cannot be selected; preserve its rows and either complete a fresh equivalent set or restore the last stable value. Do not add I or D to compensate for excessive P.</li>
+          <li><strong>Select the final candidate:</strong> choose supported P only if its at-least-three equivalent repeated trials support it; otherwise restore original P. Verify read-back P/F and unchanged original I/D. A final tuple with separately supported F and P changes is not a one-variable comparison against the original tuple.</li>
+          <li><strong>Run three unchanged final acceptance trials:</strong> freeze the final candidate and controlled load; run three equivalent trials without coefficient, code, setup, load, criteria, or method changes. The candidate passes only if all three satisfy every locked criterion and safety stop requirement.</li>
+          <li><strong>Retain or roll back:</strong> retain only the three-trial accepted tuple. On any failure, uncertainty, safety stop, read-back mismatch, or incomplete set, restore the complete original P/I/D/F rollback tuple and verify it in the exact mode. Finish by commanding and observing every named launcher, feeder, intake-assist, windmill, and drivetrain output at zero, Stop, Hub off, and battery disconnected.</li>
+        </ol>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d02">Team choice M13-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+      </section>
+
+      <section id="record" aria-labelledby="record-title">
+        <h2 id="record-title">Record every phase without overwriting</h2>
+        <p class="record-prompt">Use one row per trial and add copies as needed. Attach velocity-versus-time samples. Preserve failures, aborts, safety stops, and restored candidates. Every row includes setup/configuration/mode/code, units, method, date, student, checker, target and measured velocity-time data, signed/absolute error, P/I/D/F, time-to-ready, ready state, overshoot, oscillation, recovery, separate physical outcome, battery condition if available, shutdown, and trial disposition.</p>
+        <table class="record-table">
+          <caption>Sequential PIDF evidence summary</caption>
+          <thead><tr><th scope="col">Phase, trial IDs, and exact tuple</th><th scope="col">What stayed fixed and what one value changed?</th><th scope="col">Velocity/error/ready behavior</th><th scope="col">Recovery, physical outcome, battery, and safety/shutdown</th><th scope="col">Comparison and disposition</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Phase/trials/tuple"><strong>Original F baseline</strong><br>Trials: ___ / ___ / ___<br>P/I/D/F: __________</td><td data-label="Fixed/change">Original tuple; no coefficient changed<br>Mode/setup/load: ______</td><td data-label="Velocity/error/ready">Target/unit: ___<br>Data attachment: ___<br>Signed/absolute error, ready/time, overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes: ___<br>Battery: ___<br>Stops/zeros: ___</td><td data-label="Comparison/disposition">Baseline preserved: [ ]<br>Valid/failed/aborted rows: ______</td></tr>
+            <tr><td data-label="Phase/trials/tuple"><strong>One exact F-only candidate</strong><br>At least three equivalent trials: ___ / ___ / ___<br>Additional: ______<br>P/I/D/F: __________</td><td data-label="Fixed/change">Original P/I/D fixed<br>Only F changed from ___ to ___</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">Compared only with original F baseline<br>[ ] Complete/selectable [ ] Incomplete/not selectable<br>[ ] Select F [ ] Restore F</td></tr>
+            <tr><td data-label="Phase/trials/tuple"><strong>P-phase baseline</strong><br>Trials: __________<br>P/I/D/F: __________</td><td data-label="Fixed/change">Selected/restored F + original P/I/D; no value changed during baseline</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">New P-phase baseline ID: ______</td></tr>
+            <tr><td data-label="Phase/trials/tuple"><strong>One exact P-only candidate</strong><br>At least three equivalent trials: ___ / ___ / ___<br>Additional: ______<br>P/I/D/F: __________</td><td data-label="Fixed/change">Selected/restored F + original I/D fixed<br>Only P changed from ___ to ___</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">Compared only with P-phase baseline<br>[ ] Complete/selectable [ ] Incomplete/not selectable<br>[ ] Select P [ ] Restore P</td></tr>
+            <tr><td data-label="Phase/trials/tuple"><strong>Final acceptance</strong><br>Trials: ___ / ___ / ___<br>P/I/D/F: __________</td><td data-label="Fixed/change">Tuple, criteria, setup, load, code, mode, and method unchanged</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">[ ] All criteria pass: retain<br>[ ] Any fail/incomplete: rollback</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Original rollback controller/mode/P/I/D/F/code:</strong> ____________________. <strong>Final selected or restored values:</strong> ____________________. <strong>I unchanged proof:</strong> ______. <strong>D unchanged proof:</strong> ______. <strong>Rollback/read-back record:</strong> ______. <strong>Student/checker/date:</strong> ____________________.</p>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+      </section>
+
+      <section id="fallback" aria-labelledby="fallback-title">
+        <h2 id="fallback-title">If the launcher, read-back, or safe test setup is unavailable</h2>
+        <div class="fallback-box">
+          <ol>
+            <li>Remain observation-only. Do not write coefficients, borrow another controller's tuple, infer REV values, or use goBILDA bounds on a nonmatching assembly.</li>
+            <li>Use the four diagrams and a labeled captured dataset only when exact source, controller/mode, assembly, target, units, setup, and provenance are known. Mark it <strong>analysis practice - not current robot tuning evidence</strong>.</li>
+            <li>Calculate signed and absolute error, classify noise/crossing/oscillation, draft telemetry, and practice phase-baseline comparisons without claiming physical acceptance.</li>
+            <li>Audit the guarded action and explicit shutdown in a disabled code copy. Preserve original coefficients and assign an owner/date for safe physical baseline and read-back.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="extension" aria-labelledby="extension-title">
+        <h2 id="extension-title">Optional sensor extension outside today's core</h2>
+        <p>Only after the complete 180-minute PIDF lesson, accepted/rolled-back shutdown, and Meeting 14 handoff are finished may a later session inspect an exact installed sensor. That separate work must identify the exact model and manufacturer source, protect mounting and wiring, display raw readings with units and invalid states, and collect realistic observations before any threshold or automated behavior. Sensor work must not consume PIDF trial time or alter the controlled launcher comparison.</p>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Show what you learned</h2>
+        <p><strong>Keep:</strong> Meeting 12 launcher/guard audit; signed Supported test setup and role check; exact assembly/controller/mode/source; original read-back rollback tuple; full telemetry trace; three original baseline trials; locked criteria; at least three equivalent repeated trials for every F-only candidate; selected/restored F; distinct P-phase baseline; role-swap record; at least three equivalent repeated trials for every P-only candidate; unchanged I/D proof; three final acceptance trials; selected or restored result; all failures/aborts; named zero/shutdown proof; and Meeting 14 handoff.</p>
+        <h3>Each student explains</h3>
+        <p>Define target, measured velocity, signed error, F, P, I, and D; identify each of the four plots without using color; use <q>may</q> for one symptom; name one fault that must be repaired instead of tuned; distinguish the original F baseline from the P-phase baseline; show why only one coefficient changed in each phase; locate the immutable criteria; and explain the final retain-or-rollback decision from three trial IDs.</p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <h2 id="handoff-title">Prepare for Meeting 14</h2>
+        <div class="handoff">
+          <p class="record-prompt">Answer from checked records. Unknown, failed, or pending evidence remains a blocker.</p>
+          <table class="record-table">
+            <caption>Questions Meeting 14 needs answered</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is the proof or who owns the blocker?</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Question">What assembly, controller, mode, code/configuration, guarded action, target, and controlled load were used?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
+              <tr><td data-label="Question">What exact original read-back P/I/D/F tuple is the rollback?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
+              <tr><td data-label="Question">Which IDs are the three original baselines, selected/restored F, P-phase baseline, P candidates, and three final trials?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
+              <tr><td data-label="Question">What immutable criteria passed or failed, and what final tuple was retained or restored?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
+              <tr><td data-label="Question">Where is unchanged I/D proof and every named explicit-zero/shutdown observation?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
+              <tr><td data-label="Question">What fault, abort, residual risk, or incomplete evidence must Meeting 14 rehearse or keep blocked?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">Owner/date: ______</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section id="prep" aria-labelledby="prep-title">
+      <h2 id="prep-title">Mentor preparation</h2>
+      <aside class="mentor-note">
+        <ul class="checklist">
+          <li>Audit Meeting 12 physical evidence, guarded launcher action, exact zero commands, controller/mode, assembly identity, and every unresolved launcher safety issue.</li>
+          <li>Verify the coefficient-access page against RobotCore 12.0.0 Javadocs. Test read-back in the exact mode without changing coefficients; if identity or read-back is uncertain, predeclare observation-only work.</li>
+          <li>Prepare guarded code, immutable criteria sheet, append-only trial records, velocity-time capture, controlled loads/resets, accepted batteries, enclosure/exclusion zone, and original rollback copy.</li>
+          <li>For exact matching goBILDA only, verify the archive identity and tuple before permitting its bounded classroom options. Never transfer the tuple or bounds across assembly/controller/mode branches.</li>
+          <li>For REV, provide no invented baseline. Require exact read-back or observation-only work. Check every controller-specific assumption at delivery.</li>
+        </ul>
+      </aside>
+      <aside class="mentor-note"><strong>Controller caveat:</strong> coefficient units, scaling, internal algorithm, support, persistence, read-back, and effective behavior may differ by motor controller, firmware, SDK, run mode, and power cycle. Recheck after any such change. A successful setter call does not prove the requested coefficients took effect or are safe.</aside>
+    </section>
+
+    <section id="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources</h2>
+      <ul>
+        <li><span class="resource-label follow">Follow</span> RobotCore 12.0.0 <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#getPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-"><code>getPIDFCoefficients(mode)</code></a> and <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#setPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-com.qualcomm.robotcore.hardware.PIDFCoefficients-"><code>setPIDFCoefficients(mode, coefficients)</code></a> for pinned signatures and controller caveats. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f01">Source M13-F01</a></li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/shared/pidf_coefficients/pidf-coefficients.html">Changing PIDF Coefficients</a> for the access workflow, reconciled with the pinned API at delivery. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f02">Source M13-F02</a></li>
+        <li><span class="resource-label optional">Optional explanation</span> Game Manual 0 <a href="https://gm0.org/en/latest/docs/software/concepts/control-loops.html">Control Loops</a> and <a href="https://gm0.org/en/latest/docs/software/adv-control-system/sdk-motors.html">SDK Motors</a> for concepts and controller-unit cautions, not coefficient authority or guaranteed diagnosis. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f03">Source M13-F03</a></li>
+        <li><span class="resource-label optional">Optional explanation</span> <a href="https://www.ctrlaltftc.com/the-pid-controller">Ctrl Alt FTC PID Controller</a> for student-friendly P/I/D behavior, not FTC API or coefficient authority. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f04">Source M13-F04</a></li>
+        <li><span class="resource-label start-from">Start from</span> The verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">goBILDA example ZIP</a> only for the exact matching 2026-2027 StarterBot launcher and archive identity in the claim register. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f05">Source M13-F05</a></li>
+        <li><span class="resource-label optional">Optional explanation</span> REV <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-onbot-java-overview">Java overview</a> and <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-auto">Autonomous walkthrough</a> for the matching assembly; they publish no M13 PIDF baseline. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f06">Source M13-F06</a></li>
+        <li><span class="resource-label follow">Follow</span> Shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
+      </ul>
+      <p>No optional video is assigned: no direct URL, exact useful timestamp range, duration, lesson benefit, and hardware/version caveat were verified for this delivery.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="0012-add-and-tune-autonomous-game-actions.html">Previous: Meeting 12: Add and Tune Autonomous Game Actions</a> | <a href="index.html">Course index</a> | <a href="0014-reliability-and-failure-recovery.html">Next: Meeting 14: Reliability and Failure Recovery</a></p>
+  </footer>
+</body>
+</html>
