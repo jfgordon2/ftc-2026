@@ -59,6 +59,44 @@ main {
   min-width: 56rem;
 }
 
+.research-document table:has(> thead > tr > th:nth-child(8)) {
+  min-width: 108rem;
+  table-layout: fixed;
+  width: 108rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(1) {
+  width: 7rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(2) {
+  width: 22rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(3) {
+  width: 5rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(4) {
+  width: 10rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(5) {
+  width: 24rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(6) {
+  width: 15rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(7) {
+  width: 10rem;
+}
+
+.research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(8) {
+  width: 15rem;
+}
+
 .research-document:focus-visible {
   outline: 0.18rem solid var(--blue);
   outline-offset: -0.3rem;
@@ -705,6 +743,16 @@ tbody tr:nth-child(even) {
     overflow: visible;
     table-layout: auto;
     width: 100%;
+  }
+
+  .research-document table:has(> thead > tr > th:nth-child(8)) {
+    min-width: 0;
+    table-layout: auto;
+    width: 100%;
+  }
+
+  .research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td) {
+    width: auto;
   }
 
   .site-header {
