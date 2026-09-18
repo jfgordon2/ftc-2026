@@ -287,41 +287,6 @@ be presented as a passed physical result or completed student outcome.
 | M16-M01 | Record per-student evidence, recovered known-good hash, build/deploy result, assigned readiness-test or previously taught mystery-fault diagnosis result, role backups, archive identity, independent restore/open proof, and team coverage of both tracks. | M | M16 capstone/handoff record | **Status: pending delivery evidence.** Procedure: each student independently executes the common trace, harmless-change, prepare, unchanged-build, safe-deploy, and evidence workflow; completes one assigned readiness-test or previously taught mystery-fault diagnosis track without mentor keyboard or control takeover; restores or opens the known-good version; identifies backup coverage; and records setup, exact configuration, units where used, method, track, trial/result, date, student, and checker. Assign at least one student to each track and record the independent student and record ID proving each track in the final handoff. | M16; each student; exact robot/repository/archive; team coverage includes both tracks | Delivery reviewer: pending | Code, hardware, roster, track assignment, archive, or rubric changes |
 | M16-M02 | Record each student's trace, isolated harmless diff/build/removal proof, independent prepare/build/deploy/test-or-diagnose evidence, mentor-takeover status, exact recovered event tag and full hash, clean state, configuration, readiness or fault result, Stop/shutdown result where powered, practiced role backup, equipment identity/condition/location/custody, repository/release/archive credential owner and recovery owner without secrets, source/archive identity and independent open proof, every pending physical check with owner/date, and evidence-based keep/change/learn-next goals. | M | M16 capstone and final handoff record | **Status: pending delivery evidence.** Procedure: use one row per student and one indexed handoff; observe each student without keyboard takeover; reconcile tag/hash/configuration; save build/deploy/test-or-diagnose records; have a different student open one archived item; inspect actual equipment; verify access without recording secrets; mark unperformed physical checks pending; and record setup, exact configuration, units where used, method, trial/result, date, student, checker, owner, backup, and due date. | M16; each student; exact robot, repository, release, archive, accounts, equipment, and handoff | Delivery reviewer: pending | Code, tag, hardware, roster, account ownership, archive, equipment, or rubric changes |
 
-## Task 20 static verification record
-
-Every final lesson declares a 180-minute duration and has a `Today's plan`
-whose displayed minute blocks add to 180. These arithmetic checks validate the
-published schedule only; they do not claim that a delivered class followed the
-schedule.
-
-| Meeting | Displayed agenda arithmetic | Total |
-| --- | --- | --- |
-| 1 | 15 + 25 + 65 + 10 + 50 + 15 | 180 minutes |
-| 2 | 15 + 25 + 65 + 10 + 50 + 15 | 180 minutes |
-| 3 | 15 + 25 + 65 + 10 + 50 + 15 | 180 minutes |
-| 4 | 15 + 25 + 65 + 10 + 50 + 15 | 180 minutes |
-| 5 | 15 + 25 + 65 + 10 + 50 + 15 | 180 minutes |
-| 6 | 20 + 25 + 45 + 10 + 30 + 35 + 15 | 180 minutes |
-| 7 | 15 + 20 + 30 + 25 + 10 + 35 + 25 + 20 | 180 minutes |
-| 8 | 15 + 15 + 60 + 10 + 50 + 20 + 10 | 180 minutes |
-| 9 | 15 + 15 + 20 + 20 + 20 + 10 + 20 + 35 + 15 + 10 | 180 minutes |
-| 10 | 20 + 25 + 45 + 10 + 30 + 35 + 15 | 180 minutes |
-| 11 | 20 + 25 + 30 + 10 + 45 + 30 + 10 + 10 | 180 minutes |
-| 12 | 20 + 25 + 30 + 10 + 45 + 30 + 10 + 10 | 180 minutes |
-| 13 | 15 + 25 + 20 + 20 + 20 + 50 + 20 + 10 | 180 minutes |
-| 14 | 15 + 20 + 60 + 10 + 25 + 30 + 10 + 10 | 180 minutes |
-| 15 | 20 + 20 + 40 + 10 + 20 + 60 + 10 | 180 minutes |
-| 16 | 10 + 10 + 30 + 10 + 20 + 90 + 10 | 180 minutes |
-
-The following checks remain explicitly pending human validation:
-
-1. Browser rendering at representative desktop and mobile widths.
-2. Print preview and printed-page usability.
-3. Representative novice comprehension walkthrough.
-4. Supported and Travel tests on the selected robot.
-5. Launcher and PIDF trials on the exact installed assembly.
-6. Delivery-time Competition Manual, Team Update, Q&A, and mutable vendor-source check.
-
 ## Register maintenance rules
 
 1. Continue each meeting/class sequence from `01` without gaps; never reuse an

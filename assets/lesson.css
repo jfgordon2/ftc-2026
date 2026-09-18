@@ -51,8 +51,9 @@ main {
 }
 
 .research-document {
+  max-width: 114rem;
+  overflow: visible;
   overflow-wrap: anywhere;
-  overflow-x: auto;
 }
 
 .research-document table {
@@ -95,11 +96,6 @@ main {
 
 .research-document table:has(> thead > tr > th:nth-child(8)) :is(th, td):nth-child(8) {
   width: 15rem;
-}
-
-.research-document:focus-visible {
-  outline: 0.18rem solid var(--blue);
-  outline-offset: -0.3rem;
 }
 
 .site-header {
@@ -734,6 +730,7 @@ tbody tr:nth-child(even) {
   }
 
   .research-document {
+    max-width: none;
     overflow: visible;
   }
 
