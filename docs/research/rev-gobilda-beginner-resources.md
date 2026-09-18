@@ -1,10 +1,16 @@
+---
+title: REV and goBILDA Resources for a Beginner FTC Java Curriculum
+description: Vendor-scoped resources for the BIOBUZZ beginner FTC Java curriculum.
+permalink: /docs/research/rev-gobilda-beginner-resources.html
+---
+
 # REV and goBILDA Resources for a Beginner FTC Java Curriculum
 
 Research date: 2026-09-16
 
 ## Scope and source policy
 
-This note evaluates four user-provided, first-party vendor resources and directly linked first-party material for use in the 16-meeting BIOBUZZ Java curriculum. REV is authoritative for the named REV products and its own examples; goBILDA is authoritative for its StarterBot design and example. Neither vendor is the competition authority or the owner of the FTC SDK. Authority follows domain: current competition rules own legality, pinned SDK source/Javadocs own SDK behavior, and exact manufacturer documentation owns product specifications, wiring, and assembly. Record and resolve genuine overlaps before publishing a claim, consistent with the course's [source policy](../../RESOURCES.md#biobuzz-course-resources) and [supplemental-source rubric](ftc-programming-syllabus-resources.md#supplemental-source-quality-rubric).
+This note evaluates four user-provided, first-party vendor resources and directly linked first-party material for use in the 16-meeting BIOBUZZ Java curriculum. REV is authoritative for the named REV products and its own examples; goBILDA is authoritative for its StarterBot design and example. Neither vendor is the competition authority or the owner of the FTC SDK. Authority follows domain: current competition rules own legality, pinned SDK source/Javadocs own SDK behavior, and exact manufacturer documentation owns product specifications, wiring, and assembly. Record and resolve genuine overlaps before publishing a claim, consistent with the course's [source policy](../../RESOURCES.md#biobuzz-course-resources) and [supplemental-source rubric](ftc-programming-syllabus-resources.html#supplemental-source-quality-rubric).
 
 The REV pages are evergreen GitBook pages and can change in place. The two StarterBot resources explicitly target the 2026-2027 BIOBUZZ season. Page findings below use the 2026-09-16 research date; the mutable goBILDA ZIP was downloaded and verified separately on 2026-09-17.
 
@@ -175,7 +181,7 @@ Use it only when the team actually built this version or needs a clearly labeled
 
 ## Omissions in the existing curriculum
 
-The comparison was intentionally limited to [RESOURCES.md](../../RESOURCES.md), the existing [resource map](ftc-programming-syllabus-resources.md), and lesson resource sections.
+The comparison was intentionally limited to [RESOURCES.md](../../RESOURCES.md), the existing [resource map](ftc-programming-syllabus-resources.html), and lesson resource sections.
 
 - `RESOURCES.md` links only the top-level REV DUO documentation and already gives the correct general cautions about exact model/current software, Blocks-versus-Java syntax, and FIRST authority. It does not identify Hello Robot's complete Blocks/OnBot Java learning path, either 2026-2027 StarterBot resource, or the goBILDA code.
 - The resource map retains bounded Hello Robot timer and sensor references as topic notes. Timer material can supplement Meeting 9; sensor material is optional extension work and is not assigned to Meeting 13. The notes also record the parallel OnBot Java pathway and test-bed pedagogy without replacing Android Studio/SDK sources.

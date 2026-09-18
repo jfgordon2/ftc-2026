@@ -8,7 +8,7 @@ may explain but does not override an owning source. When domains overlap or two
 owning sources genuinely conflict, record the conflict and resolve it through
 the current FIRST or manufacturer channel before publishing the claim. The
 detailed selection notes and meeting mappings are in
-[Resource Map for the BIOBUZZ FTC Programming Syllabus](docs/research/ftc-programming-syllabus-resources.md).
+[Resource Map for the BIOBUZZ FTC Programming Syllabus](docs/research/ftc-programming-syllabus-resources.html).
 
 ## Knowledge
 

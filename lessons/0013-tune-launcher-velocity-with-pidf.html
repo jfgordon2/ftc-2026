@@ -69,13 +69,13 @@
           <dt>Supported test</dt><dd>A powered test only in the game arena: the robot frame is secured on stable support; wheels and launcher hazards are safely clear as applicable; the battery, Hub, wires, attached pieces, mechanisms, and test artifact are secured; a marked exclusion area is clear; a Driver Station operator and independent Stop owner are named; and no one contacts the live robot or setup.</dd>
           <dt>Rollback</dt><dd>The complete original read-back P, I, D, and F tuple, controller, run mode, and code identity kept so the team can restore the starting configuration.</dd>
         </dl>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f01">Source M13-F01</a> The pinned API requires an explicit run mode when reading or writing PIDF coefficients and warns that controller implementations may differ. The letters above are a mental model, not universal coefficient units, equations, values, or guaranteed effects.</p>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f01">Source M13-F01</a> The pinned API requires an explicit run mode when reading or writing PIDF coefficients and warns that controller implementations may differ. The letters above are a mental model, not universal coefficient units, equations, values, or guaranteed effects.</p>
       </section>
 
       <section id="outcome" aria-labelledby="outcome-title">
         <h2 id="outcome-title">What you will make the team able to do</h2>
         <div class="outcome-banner">Explain four launcher velocity patterns, preserve three original-coefficient baseline trials, and use an immutable acceptance record to tune only F and then only P. Keep I and D unchanged. Finish with three equivalent final trials and either retain the supported configuration or restore the original read-back rollback values.</div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
       </section>
 
       <section id="safety" aria-labelledby="safety-title">
@@ -87,11 +87,11 @@
           <li>Inspect guards, fasteners, shafts, wheels, artifact path, electrical connections, wire restraint, supports, and exclusion zone with Stop pressed, Hub off, battery disconnected, and stored energy safe.</li>
           <li>Use the same controlled load, setup, measurement method, and reset for equivalent trials. Never hand-feed, restrain, stall, touch, or approach a spinning launcher.</li>
         </ul>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
         <h3>Game-arena Supported test contract</h3>
         <p>Every powered baseline, F candidate, P-phase baseline, P candidate, final acceptance trial, and rollback check uses a <strong>Supported test</strong> before powered tuning may begin. With Stop pressed, the Hub off, and the battery disconnected, place the robot only in the game arena; secure its frame on stable support; keep wheels and every launcher pinch, spin, intake, feed, exit, and artifact-path hazard safely clear as applicable; and secure the support, accepted battery, Hub, wires, attached pieces, mechanisms, and test artifact. Mark and clear an exclusion area. Name the Driver Station operator and a different independent Stop owner with uninterrupted immediate Stop access and authority to press it without permission. A second student checks the complete setup, roles, test identity, stop triggers, and explicit-zero plan before power. While the robot is live, everyone remains outside the exclusion area and no one touches, loads, resets, adjusts, supports, or retrieves the robot, launcher, artifact, or test setup.</p>
         <p>Full stop triggers are unexpected motion or output; wrong velocity sign or implausible data; support, frame, guard, containment, artifact, mechanism, attached-piece, battery, Hub, or wire movement; artifact jam or unsafe exit; person or object entering the exclusion area; loose hardware; communication loss; timeout or abort failure; abnormal sound or vibration; heat, smoke, or odor; or any lost role, control, clearance, or setup condition. For any trigger, the independent Stop owner presses Stop immediately. Require every named output at zero and all motion stopped, say <q>stopped</q>, switch off the Hub, disconnect the battery, preserve the trial as an abort, and permit contact only afterward.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d02">Team choice M13-D02</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d02">Team choice M13-D02</a></p>
         <aside class="safety-callout">Press Stop for unexpected motion or output, wrong velocity sign, implausible data, failed guard or containment, artifact jam or unsafe exit, person or object entering the exclusion zone, loose hardware, cable or battery movement, communication loss, timeout failure, abnormal sound, vibration, heat, smoke, or odor. Verify every launcher, feeder, intake-assist, windmill, and drivetrain command is zero and motion has stopped; say <q>stopped</q>; switch off; disconnect; preserve the trial as an abort; then inspect. Never tune around a hardware, encoder, direction, mode, wiring, code, or safety fault.</aside>
       </section>
 
@@ -156,7 +156,7 @@
             <figcaption><strong>Sustained oscillation.</strong> Text alternative: measured velocity repeatedly crosses above and below target without settling. P may be aggressive or damping may be insufficient; the pattern is not a license to add D in this core lesson.</figcaption>
           </figure>
         </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f03">Source M13-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f04">Source M13-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f03">Source M13-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f04">Source M13-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a></p>
 
         <h3>Use symptoms as questions, not diagnoses</h3>
         <table class="record-table">
@@ -187,12 +187,12 @@
           <li><strong>Trace one coefficient write:</strong> verify the same explicit mode and preserve P/I/D/F ordering. Display requested and read-back values after the write where the controller supports reliable read-back. <strong>Success:</strong> mismatch or unsupported behavior blocks trials.</li>
           <li><strong>Keep scope narrow:</strong> F changes only during the F phase. After selecting/restoring F and creating a new P-phase baseline, P changes only during the P phase. I and D remain equal to the original matching-source values throughout.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f01">Source M13-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f02">Source M13-F02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f01">Source M13-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f02">Source M13-F02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
 
         <div class="vendor-paths">
           <article class="vendor-path">
             <h3>Exact matching goBILDA path only</h3>
-            <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f05">Source M13-F05</a> The verified 2026-2027 goBILDA StarterBot source tuple is P/I/D/F <code>(40, 0, 0, 12.5)</code>. Use it only when assembly, launcher, motor, controller, run mode, and source artifact match and read-back is reconciled. It remains the rollback tuple.</p>
+            <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f05">Source M13-F05</a> The verified 2026-2027 goBILDA StarterBot source tuple is P/I/D/F <code>(40, 0, 0, 12.5)</code>. Use it only when assembly, launcher, motor, controller, run mode, and source artifact match and read-back is reconciled. It remains the rollback tuple.</p>
             <ul>
               <li>F: baseline <code>12.5</code>; first comparison <code>12.0</code> or <code>13.0</code>; refinement step <code>0.5</code>; core boundary approximately <code>11.5-13.5</code>.</li>
               <li>P: baseline <code>40</code>; first comparison <code>36</code> or <code>44</code>; refinement step <code>2</code>; core boundary approximately <code>32-48</code>.</li>
@@ -201,7 +201,7 @@
           </article>
           <article class="vendor-path">
             <h3>REV or another verified assembly</h3>
-            <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f06">Source M13-F06</a> The reviewed REV Starter Bot material publishes no PIDF baseline. Read and record the exact controller/mode coefficients before changing anything. If a reliable exact read-back and provenance cannot be established, graph velocity and launch behavior only: this path is <strong>observation-only</strong>.</p>
+            <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f06">Source M13-F06</a> The reviewed REV Starter Bot material publishes no PIDF baseline. Read and record the exact controller/mode coefficients before changing anything. If a reliable exact read-back and provenance cannot be established, graph velocity and launch behavior only: this path is <strong>observation-only</strong>.</p>
             <p>For any verified nonzero baseline, the first candidate may move approximately 5-10% from that baseline; refinement near the best observation may use approximately 2-5%. Restore the last stable value after substantial regression. Do not move beyond approximately 20% from the verified baseline without mentor review. Percentage guidance does not apply to a zero baseline, and it does not authorize changing I or D.</p>
           </article>
         </div>
@@ -218,7 +218,7 @@
           <li>Pre-launch ready state; recovery time after the same controlled launch/load; launch outcome recorded separately from telemetry.</li>
           <li>Battery voltage/condition when available, every timeout/abort/safety stop, reason, and explicit-zero/shutdown observation for every touched output.</li>
         </ul>
-        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a> <strong>Status: pending delivery evidence.</strong> Blank, missing, implausible, mode-mismatched, or non-equivalent evidence blocks coefficient comparison.</p>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a> <strong>Status: pending delivery evidence.</strong> Blank, missing, implausible, mode-mismatched, or non-equivalent evidence blocks coefficient comparison.</p>
       </section>
 
       <section id="criteria" aria-labelledby="criteria-title">
@@ -239,7 +239,7 @@
           </tbody>
         </table>
         <p><strong>Original baseline trial IDs:</strong> ______ / ______ / ______ &nbsp; <strong>Criteria record ID and lock time:</strong> ______ &nbsp; <strong>Student approval:</strong> ______ &nbsp; <strong>Coach approval:</strong> ______</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
       </section>
 
       <section id="practice" aria-labelledby="practice-title">
@@ -262,7 +262,7 @@
           <li><strong>Run three unchanged final acceptance trials:</strong> freeze the final candidate and controlled load; run three equivalent trials without coefficient, code, setup, load, criteria, or method changes. The candidate passes only if all three satisfy every locked criterion and safety stop requirement.</li>
           <li><strong>Retain or roll back:</strong> retain only the three-trial accepted tuple. On any failure, uncertainty, safety stop, read-back mismatch, or incomplete set, restore the complete original P/I/D/F rollback tuple and verify it in the exact mode. Finish by commanding and observing every named launcher, feeder, intake-assist, windmill, and drivetrain output at zero, Stop, Hub off, and battery disconnected.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d01">Team choice M13-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m13-d02">Team choice M13-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d02">Team choice M13-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
       </section>
 
       <section id="record" aria-labelledby="record-title">
@@ -280,7 +280,7 @@
           </tbody>
         </table>
         <p><strong>Original rollback controller/mode/P/I/D/F/code:</strong> ____________________. <strong>Final selected or restored values:</strong> ____________________. <strong>I unchanged proof:</strong> ______. <strong>D unchanged proof:</strong> ______. <strong>Rollback/read-back record:</strong> ______. <strong>Student/checker/date:</strong> ____________________.</p>
-        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m13-m01">Measure it M13-M01</a></p>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
       </section>
 
       <section id="fallback" aria-labelledby="fallback-title">
@@ -344,12 +344,12 @@
     <section id="resources" aria-labelledby="resources-title">
       <h2 id="resources-title">Resources</h2>
       <ul>
-        <li><span class="resource-label follow">Follow</span> RobotCore 12.0.0 <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#getPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-"><code>getPIDFCoefficients(mode)</code></a> and <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#setPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-com.qualcomm.robotcore.hardware.PIDFCoefficients-"><code>setPIDFCoefficients(mode, coefficients)</code></a> for pinned signatures and controller caveats. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f01">Source M13-F01</a></li>
-        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/shared/pidf_coefficients/pidf-coefficients.html">Changing PIDF Coefficients</a> for the access workflow, reconciled with the pinned API at delivery. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f02">Source M13-F02</a></li>
-        <li><span class="resource-label optional">Optional explanation</span> Game Manual 0 <a href="https://gm0.org/en/latest/docs/software/concepts/control-loops.html">Control Loops</a> and <a href="https://gm0.org/en/latest/docs/software/adv-control-system/sdk-motors.html">SDK Motors</a> for concepts and controller-unit cautions, not coefficient authority or guaranteed diagnosis. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f03">Source M13-F03</a></li>
-        <li><span class="resource-label optional">Optional explanation</span> <a href="https://www.ctrlaltftc.com/the-pid-controller">Ctrl Alt FTC PID Controller</a> for student-friendly P/I/D behavior, not FTC API or coefficient authority. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f04">Source M13-F04</a></li>
-        <li><span class="resource-label start-from">Start from</span> The verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">goBILDA example ZIP</a> only for the exact matching 2026-2027 StarterBot launcher and archive identity in the claim register. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f05">Source M13-F05</a></li>
-        <li><span class="resource-label optional">Optional explanation</span> REV <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-onbot-java-overview">Java overview</a> and <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-auto">Autonomous walkthrough</a> for the matching assembly; they publish no M13 PIDF baseline. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m13-f06">Source M13-F06</a></li>
+        <li><span class="resource-label follow">Follow</span> RobotCore 12.0.0 <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#getPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-"><code>getPIDFCoefficients(mode)</code></a> and <a href="https://javadoc.io/static/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html#setPIDFCoefficients-com.qualcomm.robotcore.hardware.DcMotor.RunMode-com.qualcomm.robotcore.hardware.PIDFCoefficients-"><code>setPIDFCoefficients(mode, coefficients)</code></a> for pinned signatures and controller caveats. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f01">Source M13-F01</a></li>
+        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/shared/pidf_coefficients/pidf-coefficients.html">Changing PIDF Coefficients</a> for the access workflow, reconciled with the pinned API at delivery. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f02">Source M13-F02</a></li>
+        <li><span class="resource-label optional">Optional explanation</span> Game Manual 0 <a href="https://gm0.org/en/latest/docs/software/concepts/control-loops.html">Control Loops</a> and <a href="https://gm0.org/en/latest/docs/software/adv-control-system/sdk-motors.html">SDK Motors</a> for concepts and controller-unit cautions, not coefficient authority or guaranteed diagnosis. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f03">Source M13-F03</a></li>
+        <li><span class="resource-label optional">Optional explanation</span> <a href="https://www.ctrlaltftc.com/the-pid-controller">Ctrl Alt FTC PID Controller</a> for student-friendly P/I/D behavior, not FTC API or coefficient authority. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f04">Source M13-F04</a></li>
+        <li><span class="resource-label start-from">Start from</span> The verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">goBILDA example ZIP</a> only for the exact matching 2026-2027 StarterBot launcher and archive identity in the claim register. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f05">Source M13-F05</a></li>
+        <li><span class="resource-label optional">Optional explanation</span> REV <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-onbot-java-overview">Java overview</a> and <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-auto">Autonomous walkthrough</a> for the matching assembly; they publish no M13 PIDF baseline. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f06">Source M13-F06</a></li>
         <li><span class="resource-label follow">Follow</span> Shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
       <p>No optional video is assigned: no direct URL, exact useful timestamp range, duration, lesson benefit, and hardware/version caveat were verified for this delivery.</p>

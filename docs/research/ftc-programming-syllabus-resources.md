@@ -1,3 +1,9 @@
+---
+title: Resource Map for the BIOBUZZ FTC Programming Syllabus
+description: Maintained source map for the BIOBUZZ FTC programming curriculum.
+permalink: /docs/research/ftc-programming-syllabus-resources.html
+---
+
 # Resource Map for the BIOBUZZ FTC Programming Syllabus
 
 Research date: 2026-09-16

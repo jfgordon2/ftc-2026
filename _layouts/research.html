@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ page.description | default: page.title | escape }}">
+  <title>{{ page.title | escape }} | BIOBUZZ</title>
+  <link rel="stylesheet" href="{{ '/assets/lesson.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Curriculum research</p>
+  </header>
+
+  <nav class="site-nav" aria-label="Research navigation">
+    <a href="{{ '/lessons/index.html' | relative_url }}">Course index</a>
+    <a href="{{ '/reference/meeting-roadmap.html' | relative_url }}">Meeting roadmap</a>
+    <a href="{{ '/reference/words-we-use.html' | relative_url }}">Words we use</a>
+  </nav>
+
+  <main class="research-document" tabindex="0" aria-label="Research document; wide tables can be scrolled horizontally">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <p>BIOBUZZ curriculum research. Recheck mutable sources at delivery.</p>
+  </footer>
+</body>
+</html>

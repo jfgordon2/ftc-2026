@@ -40,7 +40,7 @@
         <h2 id="outcome-title">What you will make the robot do</h2>
         <div class="outcome-banner">The approved gamepad controls will send a forward request and a turn request to <code>drive(double forward, double turn)</code>. The method will calculate bounded left and right outputs, send them to the verified drivetrain motors, report concise telemetry, and command zero when no motion is requested or the OpMode stops.</div>
         <p>You will preserve the installed robot's verified names, types, and directions. The REV path stays linear. The goBILDA path stays iterative. Both paths express the same team intent without copying hardware assumptions between robots.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
       </section>
 
       <section id="words" aria-labelledby="words-title">
@@ -59,7 +59,7 @@
           <dt>Supported test</dt><dd>A powered test in the game arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
           <dt>Travel test</dt><dd>A powered test in the game arena that begins at a marked start, follows a marked route to a marked stop, and keeps everyone outside the exclusion area.</dd>
         </dl>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
         <p>Use <a href="../reference/words-we-use.html">Words we use</a> only if you want a reminder.</p>
       </section>
 
@@ -74,7 +74,7 @@
           <li>Complete every Supported test case, including zero and Stop, before moving the robot to a Travel test.</li>
         </ul>
         <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement or direction, loose hardware, unsafe vibration, implausible telemetry, loss of control or communication, inability to command zero, heat, smoke, odor, or unusual sound means press Stop. Verify motion has ended, say <q>stopped</q>, switch off the Hub, and disconnect the battery before anyone enters the exclusion area or touches the robot.</aside>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
       </section>
 
       <section id="agenda" aria-labelledby="agenda-title">
@@ -104,7 +104,7 @@
           <li><strong>Make zero explicit:</strong> call <code>drive(0.0, 0.0)</code> before motion is allowed and when the lifecycle ends. Neutral input must also calculate zero/zero. This makes the safe default reviewable in code and testable on the robot. <strong>Success:</strong> the diff shows every required zero call and fixed-input telemetry shows zero/zero for neutral.</li>
           <li><strong>Build and inspect:</strong> build <code>TeamCode</code> and compare the diff with the selected matching baseline. This catches Java errors and crossed vendor assumptions before robot power. <strong>Success:</strong> the build passes and reviewers find only approved controls, the team method, selected math/limiting, telemetry, and explicit zero behavior.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f01">Source M05-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f01">Source M05-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
 
         <h3>The shared method intent</h3>
         <p>This example shows normalization for a two-side arcade drivetrain. <code>leftDriveMotor</code> and <code>rightDriveMotor</code> are placeholders for verified team fields. <code>teamDriveLimit</code> has no published default: copy it from the signed team decision, copy that record's ID, confirm the API bounds, and set <code>teamDriveLimitVerified</code> only after both entries are checked. The method otherwise commands zero. A team that approves clipping writes and tests that policy instead, but still verifies the limit before scaling and applies final <code>Range.clip</code>.</p>
@@ -142,7 +142,7 @@ private void drive(double forward, double turn) {
     telemetry.addData("Drive request", "forward %.2f, turn %.2f", forward, turn);
     telemetry.addData("Drive output", "left %.2f, right %.2f", left, right);
 }</code></pre>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
 
         <h3>Keep the matching lifecycle</h3>
         <div class="vendor-paths">
@@ -165,7 +165,7 @@ private void drive(double forward, double turn) {
     drive(0.0, 0.0);
 }</code></pre>
             <p class="success-check">Success looks like: the team method is called from the active linear loop, zero is explicit before Start and after the loop, and every hardware assumption still traces to the verified REV robot.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f04">Source M05-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f04">Source M05-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
           </article>
           <article class="vendor-path">
             <h3>goBILDA path: retain iterative <code>OpMode</code>, <code>init()</code>, and <code>loop()</code></h3>
@@ -186,7 +186,7 @@ public void stop() {
     drive(0.0, 0.0);
 }</code></pre>
             <p class="success-check">Success looks like: <code>init()</code> establishes zero, <code>loop()</code> calls the team method, <code>stop()</code> commands zero, and every hardware assumption still traces to the verified goBILDA robot.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f05">Source M05-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f05">Source M05-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
           </article>
         </div>
         <p class="why-it-matters"><strong>Why this matters:</strong> a common method signature gives the team shared language for driving. Separate lifecycle paths keep each robot's verified initialization, names, directions, and controls from being replaced by assumptions from a different assembly.</p>
@@ -227,7 +227,7 @@ public void stop() {
             <p class="success-check">Success looks like: a different pair can reproduce every calculation and knows exactly what observation passes or blocks each case.</p>
           </article>
         </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
       </section>
 
       <section id="test" aria-labelledby="test-title">
@@ -252,7 +252,7 @@ public void stop() {
           <li><strong>Stop and make safe:</strong> press Stop at the planned boundary or immediately for any stop condition. Verify motion ends, say <q>stopped</q>, switch off the Hub, verify power is off, and disconnect before anyone enters or touches the robot. <strong>Success:</strong> Stop response and final robot position are recorded before the setup changes.</li>
           <li><strong>Handle a mismatch:</strong> preserve the failed trial, change one evidence-supported item while disconnected, and return to all affected Supported test cases before another Travel test. This keeps cause and effect visible. <strong>Success:</strong> the new trial has a new ID and does not overwrite the original observation.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
       </section>
 
       <section id="record" aria-labelledby="record-title">
@@ -269,7 +269,7 @@ public void stop() {
             <tr><th scope="row" data-label="Question">What verified team drive limit applies?</th><td data-label="Team answer">Limit from 0.0 through 1.0: __________ motor-command units<br>Bounds check passed: Yes / No</td><td data-label="Evidence">Signed decision-record ID: __________<br>Source trial/card: __________<br>Approved by/date: __________<br>Blocked owner/next check if absent or out of range: __________</td></tr>
           </tbody>
         </table>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
 
         <table class="record-table">
           <caption>M05-M01 drivetrain test evidence</caption>
@@ -285,7 +285,7 @@ public void stop() {
             <tr><th scope="row" data-label="Field">Blocker or change</th><td data-label="Evidence">Missing evidence or exact one-variable change: __________<br>Owner: __________<br>Next check/date: __________<br>Affected Supported test cases to repeat: __________</td></tr>
           </tbody>
         </table>
-        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
       </section>
 
       <section id="fallback" aria-labelledby="fallback-title">
@@ -301,7 +301,7 @@ public void stop() {
           </ol>
           <p class="success-check">Success looks like: every student can trace the complete call and math, pair telemetry agrees with written cases, vendor paths remain separate, and every physical claim remains visibly blocked.</p>
         </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
       </section>
 
       <section id="evidence" aria-labelledby="evidence-title">
@@ -316,7 +316,7 @@ public void stop() {
           <li>For physical safe-operation credit, the student must follow the matching test card, callouts, zero check, Stop procedure, and honest result recording.</li>
           <li>When the robot is unavailable, record code tracing and calculation only; keep supported motion, travel behavior, physical zero, and Stop response blocked.</li>
         </ul>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
       </section>
 
       <section id="handoff" aria-labelledby="handoff-title">
@@ -338,7 +338,7 @@ public void stop() {
             </tbody>
           </table>
           <p><strong>Meeting 6 may keep the tested drivetrain active only when its exact source and physical evidence remain valid. It may power a mechanism only after that lesson's separate exact-part, limit, support, role, and written-test gates pass.</strong></p>
-          <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+          <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
         </div>
       </section>
     </div>
@@ -356,7 +356,7 @@ public void stop() {
         </ul>
       </aside>
       <aside class="mentor-note"><strong>Migration gate:</strong> retaining the matching lifecycle is the lesson path. A lifecycle migration is separate engineering work and remains blocked unless the team writes the reason, maps old and new initialization/active/Stop behavior, defines acceptance tests, and deliberately retests every affected behavior.</aside>
-      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f04">Source M05-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m05-f05">Source M05-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m05-m01">Measure it M05-M01</a></p>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f04">Source M05-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f05">Source M05-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
     </section>
 
     <section id="resources" aria-labelledby="resources-title">

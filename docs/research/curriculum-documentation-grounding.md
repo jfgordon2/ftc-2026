@@ -1,3 +1,9 @@
+---
+title: BIOBUZZ Curriculum Claim Register
+description: Source, decision, and measurement claims for the BIOBUZZ FTC curriculum.
+permalink: /docs/research/curriculum-documentation-grounding.html
+---
+
 # BIOBUZZ Curriculum Claim Register
 
 Research date: 2026-09-17
@@ -49,7 +55,7 @@ be presented as a passed physical result or completed student outcome.
 
 ## Meeting 1: Robot Init
 
-<span id="m01-f01"></span><span id="m01-f02"></span><span id="m01-f03"></span><span id="m01-f04"></span><span id="m01-f05"></span><span id="m01-d01"></span><span id="m01-m01"></span>
+<span id="m01-f01"></span><span id="m01-f02"></span><span id="m01-f03"></span><span id="m01-f04"></span><span id="m01-f05"></span><span id="m01-f06"></span><span id="m01-f07"></span><span id="m01-d01"></span><span id="m01-m01"></span>
 
 | Claim ID | Claim | Class | Owner | Evidence | Scope | Checked | Recheck trigger |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -58,6 +64,8 @@ be presented as a passed physical result or completed student outcome.
 | M01-F03 | `LinearOpMode` lifecycle methods follow the pinned API. | F | API | [`LinearOpMode`](https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html) | M1; RobotCore 12.0.0 | Curriculum review 2026-09-17 | SDK version changes |
 | M01-F04 | REV's 2026-2027 example configuration names the six device types, ports, and configuration names shown for its Starter Bot; those assumptions apply only to a robot matching that table. | F | REV | [REV Starter Bot Configuration](https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto#configuration) and [Wiring Diagram](https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto#wiring-diagram) | M1; REV branch; exact named revision; 2026-2027 | Curriculum review 2026-09-17 | Vendor page/revision or installed hardware changes |
 | M01-F05 | goBILDA's resource page identifies the 2026-2027 StarterBot, while the verified Java artifact supplies the iterative lifecycle assumptions; neither applies to a different revision. | F | GB | [2026-2027 StarterBot Resource Guide](https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/) and [verified example ZIP](https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip), inspected 2026-09-17 with filename/checksum in Source IDs | M1; goBILDA branch; exact named revision and verified artifact; 2026-2027 | Curriculum review 2026-09-17 | ZIP, guide, revision, or installed hardware changes |
+| M01-F06 | The pinned FTC SDK v12.0 project wrapper requests Gradle 9.1.0; a project whose wrapper requests Gradle 6.6.1 is not using the pinned v12.0 wrapper. | F | SDK | [FTC SDK v12.0 `gradle-wrapper.properties`](https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/gradle/wrapper/gradle-wrapper.properties) | M1; project identity and first sync; SDK v12.0 | Curriculum review 2026-09-18 | SDK tag or wrapper changes |
+| M01-F07 | Gradle runtime compatibility depends on both Gradle and Java versions; Java 25 support for running Gradle begins with Gradle 9.1.0, so Gradle 6.6.1 cannot run on Java 25. | F | Gradle | [Gradle Java compatibility matrix](https://docs.gradle.org/current/userguide/compatibility.html#java_runtime) | M1; Gradle sync diagnosis only | Curriculum review 2026-09-18 | Gradle compatibility guidance changes |
 | M01-D01 | Use a prepared harmless telemetry change, explicit no-actuator safe-state ritual, pair roles, pre-INIT live/clear confirmation, a routine Driver Station operator, and a separate Stop owner with immediate Driver Station Stop access and authority to press it without permission. | D | BIOBUZZ | Rationale: expose the complete deployment lifecycle without introducing powered complexity and protect the initialization stage, when user code already executes; approved by the curriculum design. | M1; both branches; prepared telemetry-only OpMode | Curriculum review 2026-09-17 | Safety workflow, prepared OpMode, or course design changes |
 | M01-M01 | Record robot manufacturer/revision, installed devices, active configuration, exact names, deployment result, observed no-motion behavior while the prepared program containing no actuator commands runs, and observed Stop response. | M | M1 robot identity and deployment record | **Status: pending delivery evidence.** Procedure: inspect labels and the active configuration; record a trial ID and supported-test setup; verify the prepared source contains no hardware lookup or actuator commands; deploy it; position the routine operator and independent Stop owner; call live/clear before INIT; observe INIT and active telemetry and the robot for motion; press Stop; then record exact configuration, units where applicable, method, result, date, student/operator, observer, Stop owner, and checker. | M1; installed robot; prepared telemetry-only OpMode; no individual motor-response claim | Delivery reviewer: pending | Robot/configuration/source changes or repeated delivery |
 

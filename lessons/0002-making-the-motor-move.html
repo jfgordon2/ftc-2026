@@ -42,7 +42,7 @@
         <h2 id="outcome-title">What you will make the robot do</h2>
         <div class="outcome-banner">Every actual drivetrain motor will turn by itself in a Supported test, return to explicit zero, respond to Driver Station Stop, and gain its own checked row in the team's motor map.</div>
         <p>You will trace a Java <code>double</code>, assignment, method call, and <code>hardwareMap</code> lookup; repair the first compiler error; then complete a fresh task that decides whether Java or the prepared Blocks project is the competition path.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="words" aria-labelledby="words-title">
@@ -63,7 +63,7 @@
           <dt>Light prompting</dt><dd>The mentor may repeat the fresh task or ask what evidence the pair will check, but does not point to the line, dictate the edit, or repair the code.</dd>
           <dt>Blocks fallback</dt><dd>The mentor-prepared competition project for this exact installed robot, used if the observable Java readiness threshold is not met. It does not create a second set of hardware facts or acceptance tests.</dd>
         </dl>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a></p>
       </section>
 
       <section id="safety" aria-labelledby="safety-title">
@@ -77,7 +77,7 @@
           <li>Stop immediately for unexpected movement, a second motor moving, loose hardware, unsafe vibration, rubbing, wire movement, implausible telemetry, loss of communication or control, inability to command zero, heat, smoke, odor, or unusual sound.</li>
         </ul>
         <aside class="safety-callout"><strong>One motor, one trial.</strong> Never use floor travel here. After each trial, press Stop, switch off the Hub, disconnect the battery, and record the result before selecting another motor.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="agenda" aria-labelledby="agenda-title">
@@ -105,7 +105,7 @@
           <li><strong>Match Java side by side:</strong> keep the active Driver Station motor row visible beside the Java file. Copy the exact device name into <code>hardwareMap.get</code>, then have the student and checker compare both strings character by character. <strong>Success:</strong> Driver Station evidence and Java evidence record the same name, plus configuration, Hub/port, file, and line, before INIT.</li>
           <li><strong>Read the expected normal mode:</strong> after the prepared file maps and zeros every motor, read each displayed <code>motor.getMode()</code> result without changing it. Record the exact returned mode beside that motor's Driver Station name, configured type, Hub/port, and Java direction setting. <strong>Success:</strong> every motor row has one read-only expected normal mode, and any unexplained mismatch between motors blocks INIT.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f01">Source M02-F01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
         <h3>In Java: trace and build the prepared test</h3>
         <ol>
           <li><strong>Match identity:</strong> choose one row from the Meeting 1 handoff. Point to its physical location, labeled Hub/port, exact saved name, configured motor type, and exact-product source or blocker. <strong>Why:</strong> a correct Java statement can still select the wrong device. <strong>Success:</strong> the physical labels, active configuration, and handoff agree without guessing.</li>
@@ -155,7 +155,7 @@
     }
 }</code></pre>
         <p class="success-check">Before enabling the prepared file, count the name and direction entries against the motor map. The setup loop must map every actual drivetrain motor, command every one to zero, and display every <code>getMode()</code> result before <code>waitForStart()</code>. Compare the returned modes across all motor rows; an unexplained mismatch blocks INIT. During the bounded test only <code>selectedMotor</code> receives the approved test power. Normal completion and every exit through <code>finally</code> command all mapped motors to zero. Do not call <code>setMode()</code> or teach mode switching in Meeting 2.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a></p>
       </section>
 
       <section id="practice" aria-labelledby="practice-title">
@@ -196,7 +196,7 @@
             <p class="success-check">Success looks like: one and only one selected motor moves, it returns to zero, Stop ends the OpMode, and the complete trial is signed before selection changes.</p>
           </article>
         </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f06">Source M02-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f06">Source M02-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="test" aria-labelledby="test-title">
@@ -213,7 +213,7 @@
           <li><strong>Record before repeating:</strong> complete and sign every field in that motor's row. If any result is blocked or unexpected, name the owner and next check; do not retest or select another motor until the setup is safe. <strong>Why:</strong> each row must describe its own evidence. <strong>Success:</strong> completed rows equal the actual motor count, with one unique trial per motor.</li>
         </ol>
         <p class="success-check">The team passes this activity only when every actual drivetrain motor has its own completed one-at-a-time Supported test row. A result from one motor never proves another motor's lookup, direction, zero, or Stop response.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="record" aria-labelledby="record-title">
@@ -232,7 +232,7 @@
           </tbody>
         </table>
         <p class="example-answer"><strong>Example form, not a claimed result:</strong> identify one physical motor and exact configuration entry, copy its exact lookup, name the viewed wheel and direction, and record separate observations for explicit zero and Driver Station Stop. The signed test card holds that trial's reviewed values and provenance.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f06">Source M02-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f06">Source M02-F06</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="fallback" aria-labelledby="fallback-title">
@@ -247,7 +247,7 @@
           </ol>
           <p class="success-check">Success looks like: available source and build evidence is complete, every physical result remains visibly blocked, and no unavailable test is represented as passing.</p>
         </div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="gate" aria-labelledby="gate-title">
@@ -271,7 +271,7 @@
           <p><strong>Support plan:</strong> failed observable rows __________ &nbsp; next Java practice __________ &nbsp; mentor/support owner __________ &nbsp; date to recheck __________</p>
           <p><strong>Shared-path agreement:</strong> both paths use this same motor map, action map, test cards, measurements, safety gates, qualification routine, Autonomous route, reliability checks, event handoff, and physical acceptance tests. Neither path may claim an unperformed robot test.</p>
         </div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="evidence" aria-labelledby="evidence-title">
@@ -285,7 +285,7 @@
           <li>Record Observed, Supported, Independent, or Can Coach for each student. A pair gate result does not prove both students can explain the motor path.</li>
           <li>Record the next practice for any student who cannot yet locate, change, build, or explain the fresh task.</li>
         </ul>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
 
       <section id="handoff" aria-labelledby="handoff-title">
@@ -296,7 +296,7 @@
           <p><strong>Run-mode record retained for Meetings 9-10:</strong> every motor's expected normal mode recorded: Yes / Blocked; all-motor comparison: Match / Explained differences / Unexplained mismatch; explanation or blocker owner/next check: ____________________. Meeting 2 does not switch modes. Meetings 9-10 must review this baseline before teaching or applying mode changes.</p>
           <p><strong>Meeting 3 may use only a complete checked motor map and the recorded programming path. It may not copy one motor's direction or response into another row, treat a build as physical proof, or begin floor motion from an incomplete map.</strong></p>
         </div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
       </section>
     </div>
 
@@ -316,7 +316,7 @@
       </aside>
       <aside class="mentor-note"><strong>Powered-work gate:</strong> proceed only when the selected motor's physical identity, Hub/port, saved name, configured type, Java lookup, direction setting, and exact product status agree; all drivetrain outputs begin at zero; the clean file builds; the robot, battery, Hub, wires, pieces, mechanisms, and support are secure; every wheel is clear; trial values and roles are signed; and Stop is immediately accessible. Otherwise keep output disabled and use fallback work.</aside>
       <aside class="mentor-note"><strong>Claim boundary:</strong> FTC and Java sources establish configuration and API behavior. REV and goBILDA sources apply only to their exact named or installed products. Only the team's signed per-motor trials establish movement, direction, explicit-zero result, and Stop response on this robot.</aside>
-      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f06">Source M02-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m02-m01">Measure it M02-M01</a></p>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f01">Source M02-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f02">Source M02-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f05">Source M02-F05</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f06">Source M02-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m02-d01">Team choice M02-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m02-m01">Measure it M02-M01</a></p>
     </section>
 
     <section id="resources" aria-labelledby="resources-title">

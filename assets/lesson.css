@@ -50,6 +50,20 @@ main {
   padding-block: 2rem 4.5rem;
 }
 
+.research-document {
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+}
+
+.research-document table {
+  min-width: 56rem;
+}
+
+.research-document:focus-visible {
+  outline: 0.18rem solid var(--blue);
+  outline-offset: -0.3rem;
+}
+
 .site-header {
   padding-block: 3.5rem 1.5rem;
 }
@@ -679,6 +693,18 @@ tbody tr:nth-child(even) {
 
   main {
     padding-block: 0;
+  }
+
+  .research-document {
+    overflow: visible;
+  }
+
+  .research-document table {
+    display: table;
+    min-width: 0;
+    overflow: visible;
+    table-layout: auto;
+    width: 100%;
   }
 
   .site-header {

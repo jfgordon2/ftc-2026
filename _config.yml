@@ -1,0 +1,12 @@
+title: BIOBUZZ FTC Curriculum
+markdown: kramdown
+
+exclude:
+  - .superpowers
+  - scripts
+
+defaults:
+  - scope:
+      path: "docs/research"
+    values:
+      layout: research

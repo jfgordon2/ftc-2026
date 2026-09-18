@@ -40,7 +40,7 @@
         <h2 id="outcome-title">What you will make the robot do</h2>
         <div class="outcome-banner">From a repeatable marked start, the qualified drivetrain will perform one team-tested, low-speed drive action after Start and then explicitly command zero. It will stop when time expires, the OpMode is no longer active, or the Stop owner ends the attempt.</div>
         <p>This is the smallest Autonomous baseline, not a route. Preserve Meeting 8's qualified TeleOp recovery identity unchanged while you create a separate Autonomous OpMode.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
       <section id="words" aria-labelledby="words-title">
@@ -55,11 +55,11 @@
           <dt>Telemetry</dt><dd>Named Driver Station evidence showing the action, elapsed time, commanded output, active state, and exit reason.</dd>
           <dt>Motor run mode</dt><dd>A motor-controller setting that affects how the SDK uses a power command. This lesson reads the current mode; it does not choose or change one.</dd>
           <dt>Expected normal run mode</dt><dd>The exact mode recorded for one drivetrain motor in the Meeting 2 motor map and corroborated by the initialization path in the qualified team code. Each motor needs its own source; a blank or contradiction means unknown.</dd>
-          <dt>Observed run mode</dt><dd>The value returned by that motor's <code>getMode()</code> during the reviewed zero-output check. It must match the expected normal run mode before the one action can start. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f04">Source M09-F04</a></span></dd>
+          <dt>Observed run mode</dt><dd>The value returned by that motor's <code>getMode()</code> during the reviewed zero-output check. It must match the expected normal run mode before the one action can start. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f04">Source M09-F04</a></span></dd>
           <dt>Supported test</dt><dd>A powered test in the arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
           <dt>Travel test</dt><dd>A powered test in the arena from a marked start along a marked route to a marked stop while everyone stays outside the exclusion area.</dd>
         </dl>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a></p>
       </section>
 
       <section id="safety" aria-labelledby="safety-title">
@@ -72,7 +72,7 @@
           <li>Before each command, state the predicted direction, setup, command, stopping conditions, and evidence to record.</li>
         </ul>
         <aside class="safety-callout">Press Stop for unexpected direction or movement, loose hardware, unsafe vibration, implausible telemetry, loss of control, field entry, or inability to command zero. Verify no motion, say <q>stopped</q>, switch off the Hub, verify it is off, and disconnect the battery before anyone enters or touches the setup.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
       <section id="agenda" aria-labelledby="agenda-title">
@@ -104,7 +104,7 @@
           <li><strong>Continue only under both guards:</strong> update telemetry while <code>opModeIsActive()</code> is true <em>and</em> elapsed time remains below the team's bounded limit. <strong>Why:</strong> Stop is the escape and elapsed time is the normal bound. <strong>Success:</strong> making either guard false leaves the loop.</li>
           <li><strong>Command explicit zero:</strong> immediately after the loop, command zero to every drive motor and report the exit reason and zero command. <strong>Why:</strong> a false condition ends a loop but is not itself a motor command. <strong>Success:</strong> every normal, timeout, or active-false path reaches the visible zero statements.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a></p>
 
         <h3>The one-action Java shape</h3>
         <p>This is a structural sketch, not buildable code: the team must map its motors and implement <code>setDrivePower</code>. It intentionally omits reusable numbers. Replace each named placeholder only with the team's linked evidence; otherwise keep the OpMode disabled.</p>
@@ -147,24 +147,24 @@ public class TeamOneActionAuto extends LinearOpMode {
     }
 }</code></pre>
         <p class="why-it-matters"><strong>Read it aloud:</strong> zero first, retrieve each expected mode, read each observed mode, block on unknown or mismatch, wait for Start, check active, reset time, command one action, continue while active and before the bound, then command zero. This sketch's comparison helper stands for a team-owned per-motor check; it does not change any mode. Do not add a turn, mechanism, pause, or second drive action today.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
 
         <h3>Use the matching language and hardware path</h3>
         <div class="vendor-paths">
           <article class="vendor-path">
             <h3>Java path</h3>
             <p>Use the pinned SDK timed sample only for registration, lifecycle, elapsed-time guard, telemetry, sequence, and explicit-stop structure. Whether the installed robot is REV, goBILDA, or another verified drivetrain, carry forward only its qualified configuration names and directions. Team output and time remain pending measurements until the supported and travel evidence below passes.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a></p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a></p>
           </article>
           <article class="vendor-path">
             <h3>goBILDA caveat</h3>
             <p>The official goBILDA <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">supplied ZIP</a> contains <strong>no Autonomous file</strong>. Its TeleOp may identify matching, already-qualified drivetrain hardware facts, but it is not an Autonomous source. Do not invent a goBILDA Autonomous file or reuse vendor TeleOp powers as Autonomous values.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f05">Source M09-F05</a></p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f05">Source M09-F05</a></p>
           </article>
           <article class="vendor-path">
             <h3>Blocks fallback</h3>
             <p>If Meeting 2 selected the documented Blocks competition path, create the equivalent one-action sequence: initialize every drive output to zero; retrieve every expected normal mode from the Meeting 2 map and qualified Blocks project; display the equivalent current-mode readback for every motor; block Start for any unknown, conflict, or mismatch without changing a mode; then wait for Start, require the active check and bounded elapsed-time condition, show telemetry, and explicitly set every drive output to zero after every exit. Use the same supported test, travel test, Stop owner, evidence rows, and pass gates. Blocks changes the representation, not the safety or proof.</p>
-            <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+            <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
           </article>
         </div>
       </section>
@@ -204,7 +204,7 @@ public class TeamOneActionAuto extends LinearOpMode {
             <p class="success-check">Success looks like: the route has room for an early or late stop, and a different recorder could apply the same measurement method.</p>
           </article>
         </div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
       <section id="test" aria-labelledby="test-title">
@@ -237,7 +237,7 @@ public class TeamOneActionAuto extends LinearOpMode {
           <li>Restore the exact marked start while powered down and repeat until three valid trials use one unchanged code, configuration, robot, battery acceptance, surface, route, criterion, and measurement method. Keep valid failures. Any change invalidates comparison and restarts Trial 1.</li>
         </ol>
         <p class="success-check">One-action baseline gate: three valid trials remain inside the safety boundary, stop through a recorded guard or abort, reach explicit zero, and contain complete evidence. Passing this gate supports only this action and setup; it does not prove a route.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
       <section id="record" aria-labelledby="record-title">
@@ -263,7 +263,7 @@ public class TeamOneActionAuto extends LinearOpMode {
           </tbody>
         </table>
         <p><strong>Decision:</strong> [ ] one-action baseline supported [ ] blocked. Exact code/recovery identity ______; exact OpMode/configuration ______; evidence row IDs ______; known limit or blocker ______; owner/date ______.</p>
-        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
       <section id="fallback" aria-labelledby="fallback-title">
@@ -285,7 +285,7 @@ public class TeamOneActionAuto extends LinearOpMode {
         <p><strong>Keep:</strong> Meeting 8 qualification identity, matching hardware/configuration evidence, every motor's expected mode with Meeting 2 and qualified-code sources, observed <code>getMode()</code> telemetry, source and diff, one-action card, supported-test record, marked-route/reset record, all trial rows, exact baseline identity or blocker, and the Meeting 10 handoff.</p>
         <h3>Each student explains</h3>
         <p>For one motor, point from the Meeting 2 map and qualified code source to the expected normal run mode and observed <code>getMode()</code> telemetry. Explain why an unknown or mismatched mode keeps output zero without changing the mode. Then point to <code>@Autonomous</code>, <code>waitForStart()</code>, the active check, elapsed-time bound, telemetry, and explicit zero in Java or the equivalent Blocks sequence.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
       <section id="handoff" aria-labelledby="handoff-title">
@@ -320,7 +320,7 @@ public class TeamOneActionAuto extends LinearOpMode {
         </ul>
       </aside>
       <aside class="mentor-note"><strong>Enablement gate:</strong> exact qualified names and directions, one action only, every motor's expected mode with Meeting 2 and qualified-code sources, matching zero-output <code>getMode()</code> readbacks, no mode-changing call, evidenced low output and bounded time, active check, telemetry, explicit zero, successful Build/diff review, secured supported setup, assigned Stop owner, and complete predicted evidence must pass before Start. Supported-test success is required before travel.</aside>
-      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m09-m01">Measure it M09-M01</a></p>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
     </section>
 
     <section id="resources" aria-labelledby="resources-title">
@@ -333,7 +333,7 @@ public class TeamOneActionAuto extends LinearOpMode {
         <li><span class="resource-label optional">Hardware identity only</span> The matching goBILDA <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">supplied ZIP</a> is TeleOp-only and is not an Autonomous source.</li>
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
-      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m09-f03">Source M09-F03</a></p>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a></p>
     </section>
   </main>
 

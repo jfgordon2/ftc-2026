@@ -39,7 +39,7 @@
         <h2 id="outcome-title">What you will make the robot do</h2>
         <div class="outcome-banner">Your pair will change one telemetry message in the prepared program, deploy it to the identified Control Hub, see initialization and safe-output messages before Start, see your changed message during active execution, and use Stop to end the OpMode.</div>
         <p>You will also identify the installed robot's manufacturer and exact revision, select only its matching vendor path, and record the active hardware configuration and every actual drivetrain motor for Meeting 2. Today's prepared program contains no actuator commands, so no mechanism should move.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
       </section>
 
       <section id="words" aria-labelledby="words-title">
@@ -60,7 +60,7 @@
           <dt>Stop</dt><dd>The Driver Station control that ends the OpMode. The routine operator handles ordinary controls. A separately named Stop owner stays positioned with immediate access to Driver Station Stop and may press it without permission.</dd>
           <dt>Driver and navigator</dt><dd>The driver uses the keyboard or Driver Station. The navigator reads the step, checks the visible result, and records it. Swap when directed.</dd>
         </dl>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a></p>
         <p>Use <a href="../reference/words-we-use.html">Words we use</a> only if you want a reminder.</p>
       </section>
 
@@ -75,7 +75,7 @@
           <li>Before INIT, position both control roles, confirm Stop access, move everyone outside the marked exclusion area, have the operator say <q>robot live</q>, and have the observer check the arena and answer <q>clear</q>. INIT executes user code.</li>
         </ul>
         <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, looseness, unsafe vibration, implausible telemetry, loss of control or communication, inability to reach the declared safe output, heat, smoke, odor, or unusual sound means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before entry or contact.</aside>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a></p>
       </section>
 
       <section id="agenda" aria-labelledby="agenda-title">
@@ -94,19 +94,17 @@
         <h2 id="follow-title">Follow along: identify, trace, and deploy</h2>
         <p>The driver performs each action. The navigator reads the step, states why it matters, and checks the visible evidence. Swap driver and navigator before changing the message.</p>
         <ol>
-          <li><strong>Identify the installed robot:</strong> read the manufacturer label and use the build record or exact assembly documentation to record the revision. Choose REV or goBILDA only if the assembly matches that named 2026-2027 StarterBot; otherwise mark <strong>unmatched or unknown</strong>. This prevents vendor assumptions from crossing to a different robot. <strong>Success:</strong> the record names the evidence for the manufacturer/revision or names the blocker, its owner, and the next check.</li>
+          <li><strong>Identify the robot parts:</strong> read the manufacturer label on the motor and other parts. You should have either REV or goBILDA. This prevents vendor assumptions or uploading previous year's code to a different robot. <strong>Success:</strong> the record names the evidence for the manufacturer or names the blocker, its owner, and the next check.</li>
           <li><strong>Record the control-system identity:</strong> point to the Control Hub, Driver Station, and gamepad. On the Driver Station, copy the exact active configuration name and list each installed device name, configured type, Hub, and port. This connects the saved setup to physical hardware. <strong>Success:</strong> another student can trace each recorded device from the screen to its labeled connection or marks the mismatch blocked with an owner and next check.</li>
           <li><strong>Open the prepared source:</strong> in Android Studio open the repository root, then <code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode/BiobuzzTrainingOpMode.java</code>. This keeps team work out of the official <code>FtcRobotController</code> samples. <strong>Success:</strong> the project panel shows both modules and the file contains the three prepared telemetry messages.</li>
           <li><strong>Trace the lifecycle:</strong> mark entry into <code>runOpMode()</code>, initialization telemetry, <code>waitForStart()</code>, the <code>opModeIsActive()</code> loop, active telemetry, and the end reached after Stop. Box the declared <code>Output</code> value and confirm there are no hardware lookups or actuator calls. <strong>Success:</strong> your arrows predict what appears before Start, after Start, and after Stop.</li>
-          <li><strong>Make one harmless change:</strong> replace only <code>PAIR_NAME</code> with a short pair identifier. Do not change lifecycle lines or the <code>Output</code> message. This gives your pair a recognizable result without adding motion. <strong>Success:</strong> the diff shows one telemetry string changed.</li>
-          <li><strong>Build before robot power:</strong> build the <code>TeamCode</code> run configuration and read the Build output. This catches source errors before deployment. <strong>Success:</strong> Android Studio reports a successful build; otherwise record the first error and stop the deployment path.</li>
-          <li><strong>Prepare the connection:</strong> after the supported-test check passes, connect the charged battery while the Hub is off, switch on the Hub, confirm its status and the Driver Station connection, connect the laptop, and choose the identified Hub target. <strong>Success:</strong> Android Studio and the Driver Station identify the intended Control Hub.</li>
-          <li><strong>Deploy the app:</strong> run the <code>TeamCode</code> configuration. This installs the Robot Controller app containing the built team program, not one Java file by itself. <strong>Success:</strong> installation completes, Robot Controller reconnects, and the active hardware configuration still matches the identity record.</li>
+          <li><strong>Make one harmless change:</strong> replace <code>PAIR_NAME</code> with a short pair identifier. This gives your pair a recognizable result without adding motion. <strong>Success:</strong> the diff shows one telemetry string changed.</li>
+          <li><strong>Build and deploy to the robot:</strong> follow the steps outlined <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/tutorial_specific/android_studio/creating_op_modes/Creating-and-Running-an-Op-Mode-%28Android-Studio%29.html#building-and-installing-your-opmode">here</a> to build the <code>TeamCode</code> run configuration and read the Build output. This catches source errors before deployment. After the supported-test check passes, connect the charged battery while the Hub is off, switch on the Hub, confirm its status and the Driver Station connection, connect the laptop, and choose the identified Hub target.<strong>Success:</strong> Android Studio reports a successful build, connects to Control Hub, and installation completes.</li>
           <li><strong>Select and clear before INIT:</strong> choose <strong>BIOBUZZ Training</strong>. Position the routine operator and separate Stop owner so both have immediate Driver Station Stop access; the Stop owner may press it without permission. Move everyone outside the exclusion area, have the operator say <q>robot live</q>, and have the observer check the arena and answer <q>clear</q>. INIT executes user code, so this must happen first. <strong>Success:</strong> the arena is clear and Stop access is confirmed before INIT.</li>
           <li><strong>INIT, then Start:</strong> the routine operator presses INIT and checks <code>Initialized - waiting for Start</code> plus <code>Output: 0 - no actuator commands</code>. If both messages appear and nothing moves, the operator presses Start and watches for 3-5 seconds without anyone entering the exclusion area. <strong>Success:</strong> telemetry shows the pair identifier, retains the no-actuator declaration, and nothing moves.</li>
           <li><strong>Stop and make safe:</strong> the routine operator presses Stop at the planned boundary, or the Stop owner presses it immediately for any stop condition without asking permission. Verify telemetry updates end and no motion exists, say <q>stopped</q>, switch off the Hub, and disconnect the battery before contact. <strong>Success:</strong> the OpMode ends and the team records exactly what was observed, including any mismatch.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f03">Source M01-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f04">Source M01-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f05">Source M01-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f04">Source M01-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f05">Source M01-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
         <div class="why-it-matters"><strong>Why this matters:</strong> later motor work is safe and diagnosable only when the physical robot, active configuration, source, deployed app, selected OpMode, and observed lifecycle all refer to the intended system.</div>
       </section>
 
@@ -145,20 +143,20 @@
             <p class="success-check">Success looks like: one source change produces one recognizable telemetry change, or the record names the exact blocked step without claiming deployment.</p>
           </article>
         </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
 
         <h3>Choose the matching vendor path</h3>
         <p>Use a vendor path only after the exact installed assembly is identified. These sources help check identity and configuration; they do not replace the installed robot record.</p>
         <div class="vendor-paths">
           <article class="vendor-path">
-            <h3>REV 2026-2027 Starter Bot</h3>
-            <p>Compare the installed assembly with the <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto#configuration">REV configuration table</a> and <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto#wiring-diagram">wiring diagram</a>. Copy a name or port only when the exact revision and installed connection match; otherwise record the mismatch, owner, and next check.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f04">Source M01-F04</a></p>
+            <h3>REV Starter Bot</h3>
+            <p>Compare the installed assembly with the <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto#configuration">REV configuration table</a> and <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto#wiring-diagram">wiring diagram</a>. Copy a name or port only when the exact revision and installed connection match.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f04">Source M01-F04</a></p>
           </article>
           <article class="vendor-path">
-            <h3>goBILDA 2026-2027 StarterBot</h3>
-            <p>Compare the installed assembly with the <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">goBILDA resource guide</a>. The verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">Java artifact</a> may help identify its iterative program later, but does not establish identity for another revision. Record any identity blocker, its owner, and the next check.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f05">Source M01-F05</a></p>
+            <h3>goBILDA StarterBot</h3>
+            <p>Compare the installed assembly with the <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">goBILDA resource guide</a>. The verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">Java artifact</a> may help identify its iterative program later.</p>
+            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f05">Source M01-F05</a></p>
           </article>
         </div>
       </section>
@@ -175,25 +173,24 @@
           <li><strong>Stop condition:</strong> press Stop immediately for any unexpected movement, looseness, vibration, implausible telemetry, communication loss, inability to reach the declared safe output, heat, smoke, odor, or unusual sound. <strong>Success:</strong> the Stop owner can act without asking permission.</li>
           <li><strong>Evidence:</strong> record exact messages, times or sequence, deployment result, no-motion observation, Stop response, date, student, and checker. <strong>Success:</strong> the record states what happened rather than what should have happened.</li>
         </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
         <p class="success-check">The test passes only if the identified source builds and deploys, live/clear and Stop access precede INIT, the expected messages appear in lifecycle order, the source and telemetry state that there are no actuator commands, no hardware moves, and Stop ends the OpMode. This does not prove any drivetrain motor's configured type, direction, or physical zero response.</p>
       </section>
 
       <section id="record" aria-labelledby="record-title">
         <h2 id="record-title">Record the robot and result</h2>
-        <p class="record-prompt">Copy exact visible identities. Record unknown or blocked instead of guessing. This is the robot identity record that later meetings will update with physical evidence.</p>
         <table class="record-table">
-          <caption>Meeting 1 robot identity and deployment record</caption>
+          <caption>Robot identity and deployment record</caption>
           <thead><tr><th scope="col">Question</th><th scope="col">Exact answer or observed result</th><th scope="col">Evidence and checker</th></tr></thead>
           <tbody>
-            <tr><td data-label="Question">What manufacturer and exact robot revision are installed?</td><td data-label="Answer">Manufacturer: __________<br>Revision/assembly: __________</td><td data-label="Evidence">Label/build record/source: __________<br>Checked by/date: __________</td></tr>
-            <tr><td data-label="Question">Which vendor path matches?</td><td data-label="Answer">REV / goBILDA / unmatched / unknown<br>Reason or blocker: __________</td><td data-label="Evidence">Exact assembly source: __________<br>Blocker owner: __________<br>Next check/date: __________<br>Checked by/date: __________</td></tr>
-            <tr><td data-label="Question">Which Control Hub and Driver Station did we use?</td><td data-label="Answer">Hub identity: __________<br>Driver Station identity: __________</td><td data-label="Evidence">Visible screen/label: __________<br>Checked by/date: __________</td></tr>
-            <tr><td data-label="Question">What exact active configuration was selected?</td><td data-label="Answer">Configuration name: __________</td><td data-label="Evidence">Driver Station screen checked by/date: __________</td></tr>
-            <tr><td data-label="Question">What source and OpMode were deployed?</td><td data-label="Answer"><code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode/BiobuzzTrainingOpMode.java</code><br>Selected OpMode: __________</td><td data-label="Evidence">Build/install result: __________<br>Checked by/date: __________</td></tr>
-            <tr><td data-label="Question">What appeared after INIT and after Start?</td><td data-label="Answer">INIT/waiting: __________<br>Declared output: __________<br>Active pair message: __________</td><td data-label="Evidence">Observed by/date: __________</td></tr>
-            <tr><td data-label="Question">What happened while the no-actuator program ran and at Stop?</td><td data-label="Answer">Motion observed: Yes / No / Not tested<br>Updates ended after Stop: Yes / No / Not tested<br>Unexpected result: __________</td><td data-label="Evidence">Observed by/date: __________</td></tr>
-            <tr><td data-label="Question">Where did deployment stop if it did not complete?</td><td data-label="Answer">Worked / Blocked at: __________</td><td data-label="Evidence">Exact message or missing resource: __________<br>Owner/next date: __________</td></tr>
+            <tr><td data-label="Question">What manufacturer parts are installed?</td><td data-label="Answer">Manufacturer: __________</td><td data-label="Evidence">Label/build record/source: __________<br>Checked by: __________</td></tr>
+              <tr><td data-label="Question">Which vendor path matches?</td><td data-label="Answer">REV / goBILDA<br><br>Reason or blocker: __________</td><td data-label="Evidence">Checked by: __________</td></tr>
+            <tr><td data-label="Question">Which Control Hub and Driver Station did we use?</td><td data-label="Answer">Hub identity: __________<br>Driver Station identity: __________</td><td data-label="Evidence">Checked by: __________</td></tr>
+            <tr><td data-label="Question">What active configuration was selected?</td><td data-label="Answer">Configuration name: __________</td><td data-label="Evidence">Driver Station screen checked by: __________</td></tr>
+            <tr><td data-label="Question">What source and OpMode were deployed?</td><td data-label="Answer"><code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode/BiobuzzTrainingOpMode.java</code><br>Selected OpMode: __________</td><td data-label="Evidence">Build/install result: __________<br>Checked by: __________</td></tr>
+            <tr><td data-label="Question">What appeared after INIT and after Start?</td><td data-label="Answer">INIT/waiting: __________<br>Declared output: __________<br>Active pair message: __________</td><td data-label="Evidence">Observed by: __________</td></tr>
+            <tr><td data-label="Question">What happened while the no-actuator program ran and at Stop?</td><td data-label="Answer">Motion observed: Yes / No / Not tested<br>Updates ended after Stop: Yes / No / Not tested<br>Unexpected result: __________</td><td data-label="Evidence">Observed by: __________</td></tr>
+            <tr><td data-label="Question">Where did deployment stop if it did not complete?</td><td data-label="Answer">Worked / Blocked at: __________</td><td data-label="Evidence">Exact message or missing resource: __________<br>Owner: __________</td></tr>
           </tbody>
         </table>
         <p class="record-prompt">Copy one row for every device in the active configuration. Add rows or use another sheet when needed; do not omit a device because it is not part of the drivetrain.</p>
@@ -201,12 +198,12 @@
           <caption>Active-configuration device inventory</caption>
           <thead><tr><th scope="col">Exact saved device name</th><th scope="col">Configured type</th><th scope="col">Hub and port</th><th scope="col">Physical match or blocker, owner, and next check</th></tr></thead>
           <tbody>
-            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______ Next check/date: ______</td></tr>
-            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______ Next check/date: ______</td></tr>
-            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______ Next check/date: ______</td></tr>
-            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______ Next check/date: ______</td></tr>
-            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______ Next check/date: ______</td></tr>
-            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______ Next check/date: ______</td></tr>
+            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______</td></tr>
+            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______</td></tr>
+            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______</td></tr>
+            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______</td></tr>
+            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______</td></tr>
+            <tr><td data-label="Saved name">________________</td><td data-label="Configured type">________________</td><td data-label="Hub and port">________________</td><td data-label="Match or blocker">Status/reason: ______<br>Owner: ______</td></tr>
           </tbody>
         </table>
         <p class="record-prompt">Complete every field below for the delivery trial. If deployment is blocked, keep the result blocked and complete the fields that are actually known.</p>
@@ -218,28 +215,12 @@
             <tr><td data-label="Field">Supported-test setup</td><td data-label="Evidence">Game arena/location: __________<br>Support and wheel clearance: __________<br>Robot/Hub/battery/wires/pieces/mechanisms secured: __________<br>Routine operator: __________ Stop owner with immediate access: __________</td></tr>
             <tr><td data-label="Field">Exact active configuration</td><td data-label="Evidence">Configuration name: __________<br>Control Hub identity: __________<br>Selected OpMode/source identity: __________</td></tr>
             <tr><td data-label="Field">Method</td><td data-label="Evidence">No hardware lookup/actuator commands verified by: __________<br>Build/deployment method and result: __________<br>Live/clear and Stop access confirmed before INIT: __________<br>INIT, Start, observation, and Stop method: __________</td></tr>
-            <tr><td data-label="Field">Result</td><td data-label="Evidence">INIT telemetry: __________<br>Active telemetry: __________<br>Observation duration (seconds): __________<br>Motion observed: Yes / No / Not tested<br>Stop response: __________<br>Unexpected result/blocker: __________<br>Blocker owner: __________ Next check/date: __________</td></tr>
+            <tr><td data-label="Field">Result</td><td data-label="Evidence">INIT telemetry: __________<br>Active telemetry: __________<br>Motion observed: Yes / No / Not tested<br>Stop response: __________<br>Unexpected result/blocker: __________<br>Blocker owner: __________ Next check/date: __________</td></tr>
             <tr><td data-label="Field">Date and people</td><td data-label="Evidence">Date: __________<br>Student/routine operator: __________<br>Observer: __________<br>Stop owner: __________<br>Checker: __________</td></tr>
           </tbody>
         </table>
-        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+        <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
         <p class="example-answer">The label and build record identified the exact robot revision. The Driver Station showed the copied active configuration. After INIT we observed the waiting and declared-zero messages; after Start we observed our pair message. No hardware moved, and Stop ended updates. This result does not prove an individual motor response.</p>
-      </section>
-
-      <section id="fallback" aria-labelledby="fallback-title">
-        <h2 id="fallback-title">If deployment is unavailable</h2>
-        <div class="fallback-box">
-          <p>Mark deployment, live telemetry, physical no-motion observation, and Stop response <strong>blocked</strong>. A local build or paper trace does not prove that the app installed or the robot behaved as predicted.</p>
-          <ol>
-            <li>Identify manufacturer and revision from available labels, build records, and exact assembly documents. Mark the vendor path unknown when the evidence does not establish a match; name the blocker owner and next check.</li>
-            <li>Record the active configuration and device names only if the Driver Station screen is available. Otherwise use <strong>unverified from saved record</strong> and name who must check it and when.</li>
-            <li>Change only <code>PAIR_NAME</code>, inspect the diff, build locally, and save the exact result. Label this <strong>local build only - not deployed</strong>.</li>
-            <li>Trace printed source cards through initialization, wait, Start, active telemetry, declared output, and Stop. Practice <q>robot live</q>, <q>clear</q>, and <q>stopped</q> without representing the cards as robot evidence.</li>
-            <li>Complete every physical drivetrain row possible from labels without power. Mark configuration, model, deployment, no-motion, and Stop facts blocked wherever they were not directly checked, with an owner and next check for each blocker.</li>
-          </ol>
-          <p class="success-check">Success looks like: the local source and identity evidence are explicit, every unavailable physical or deployment result remains blocked, and each blocker has an owner and next check.</p>
-        </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
       </section>
 
       <section id="evidence" aria-labelledby="evidence-title">
@@ -253,15 +234,14 @@
           <li>Record Observed, Supported, Independent, or Can Coach for each student. Pair deployment does not prove both students can explain it.</li>
           <li>If deployment was unavailable, record identity, source tracing, and local build evidence only; keep deployment and robot behavior blocked.</li>
         </ul>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
       </section>
 
       <section id="handoff" aria-labelledby="handoff-title">
         <h2 id="handoff-title">Prepare for Meeting 2</h2>
         <p>Meeting 2 tests every actual drivetrain motor one at a time. It needs each motor's physical location, Hub and port, exact saved configuration name, and an honest blocker when the exact installed motor model or revision cannot yet be identified. Do not infer one motor from another or copy a vendor table without checking the installed robot.</p>
         <div class="handoff">
-          <p class="record-prompt">Count the actual drivetrain motors, then complete one row for every motor. Use extra copies of this table if the robot has more than six. Write <strong>blocked</strong>, the reason, owner, and next check instead of guessing.</p>
-          <p><strong>Actual drivetrain motor count:</strong> ______ &nbsp; <strong>Rows completed:</strong> ______ &nbsp; <strong>Count verified by:</strong> ______ &nbsp; <strong>Date:</strong> ______</p>
+          <p><strong>Actual drivetrain motor count:</strong> ______ &nbsp; <strong>Count verified by:</strong> ______ &nbsp; <strong>Date:</strong> ______</p>
           <table class="record-table">
             <caption>All-drivetrain-motors handoff for Meeting 2</caption>
             <thead><tr><th scope="col">Motor</th><th scope="col">Physical connection and saved identity</th><th scope="col">Exact model evidence or identification blocker</th></tr></thead>
@@ -275,8 +255,7 @@
             </tbody>
           </table>
           <p><strong>Deployment path:</strong> Worked / Blocked at: ____________________. <strong>Active configuration:</strong> ____________________. <strong>Blocker owner:</strong> ____________________. <strong>Next check/date:</strong> ____________________. <strong>Checked by/date:</strong> ____________________.</p>
-          <p><strong>Meeting 2 may begin powered work only after its own supported-test gate passes and the selected motor's physical location, Hub/port, exact saved name, and installed model status agree with this handoff. An unidentified model remains a blocker to model-specific values, even when location and configuration name are known.</strong></p>
-          <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+          <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
         </div>
       </section>
     </div>
@@ -285,23 +264,21 @@
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
         <ul class="checklist">
-          <li>Before students arrive, identify the installed robot manufacturer and exact assembly revision from labels, build records, and current exact-revision documentation. Prepare REV, goBILDA, or unmatched inventory materials accordingly; assign an owner and next check to every identity blocker.</li>
-          <li>Record the Control Hub identity, Driver Station identity, active configuration, and every configured device. Do not silently repair mismatches; record an owner and next check unless the mismatch creates a safety risk that must be resolved before class.</li>
+          <li>Before students arrive, identify one or two robots to use, or Control Hub test bench. Prepare REV, goBILDA, or unmatched inventory materials accordingly.</li>
           <li>Use the pinned <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/releases/tag/v12.0">FTC SDK v12.0 release</a>. Complete installation, first Gradle sync, app/version matching, Hub connection, and one proven deployment before class.</li>
-          <li>Prepare the game-arena supported test: stable support, all wheels clear, secured robot/Hub/battery/wires/pieces/mechanisms, marked exclusion area, and visible Driver Station.</li>
-          <li>Print identity records, source lifecycle cards, one test card per pair, skill trackers, and enough drivetrain handoff rows for every installed drivetrain motor.</li>
-          <li>Keep a recovery copy of the prepared source. If any readiness item fails, retain <code>@Disabled</code> and use the blocked-deployment activity.</li>
+          <li>Prepare the test area: marked exclusion area away from others such as the game arena.</li>
+          <li>Print identity records, source lifecycle cards, one test card per pair, skill trackers, and drivetrain handoff.</li>
         </ul>
       </aside>
-      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f04">Source M01-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f05">Source M01-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.md#m01-m01">Measure it M01-M01</a></p>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f01">Source M01-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f04">Source M01-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f05">Source M01-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
 
       <aside class="mentor-note">
         <strong>Prepare the exact telemetry-only starter.</strong>
         <ol>
           <li>Place it at <code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode/BiobuzzTrainingOpMode.java</code> with <code>@TeleOp(name="BIOBUZZ Training", group="Training")</code>.</li>
-          <li>Retain <code>@Disabled</code> during preparation. Confirm there are no hardware declarations, <code>hardwareMap</code> calls, actuator commands, gamepad reads, or robot-specific constants.</li>
-          <li>Build and deploy, position the routine operator and separate Stop owner, call live/clear and confirm Stop access before INIT, then personally prove lifecycle order, exact telemetry, no motion, and Stop in the supported test.</li>
-          <li>Remove only <code>@Disabled</code>, rebuild, redeploy, and repeat the complete pre-INIT live/clear through Stop proof immediately before student use. Preserve the proven recovery copy.</li>
+          <li>Retain <code>@Disabled</code> during preparation. We are purposely omitting hardware declarations, <code>hardwareMap</code> calls, actuator commands, gamepad reads, or robot-specific constants.</li>
+          <li>Build and deploy, then personally prove lifecycle order, exact telemetry, no motion, and Stop in the supported test.</li>
+          <li>Remove only <code>@Disabled</code>, rebuild, redeploy, and repeat before student use.</li>
         </ol>
       </aside>
 
@@ -330,9 +307,9 @@ public class BiobuzzTrainingOpMode extends LinearOpMode {
         }
     }
 }</code></pre>
-      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.md#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.md#m01-d01">Team choice M01-D01</a></p>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a></p>
 
-      <aside class="mentor-note"><strong>Student deployment gate:</strong> proceed only when exact robot identity and active configuration are recorded; the prepared source and recovery copy build; Hub/app versions and connection agree; supported-test setup and roles pass; the installed file has no actuator commands; and the mentor has just observed pre-INIT live/clear and Stop access, INIT, Start, both telemetry states, no motion, and Stop. Otherwise keep deployment blocked.</aside>
+      <aside class="mentor-note"><strong>Student deployment gate:</strong> proceed when exact robot identity and active configuration are recorded and the mentor has just observed success on the telemetry update.</aside>
     </section>
 
     <section id="resources" aria-labelledby="resources-title">

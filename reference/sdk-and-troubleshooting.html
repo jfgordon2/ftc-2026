@@ -42,6 +42,13 @@
       </dl>
     </section>
 
+    <section id="gradle-sync" aria-labelledby="gradle-sync-title">
+      <h2 id="gradle-sync-title">Gradle sync identity check</h2>
+      <p>Record the first sync error before changing settings. At the project root, inspect <code>gradle/wrapper/gradle-wrapper.properties</code> and run <code>gradlew.bat --version</code>. Record the project path, wrapper distribution, Gradle version, and JVM version.</p>
+      <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f06">Source M01-F06</a> The pinned FTC SDK <code>v12.0</code> wrapper requests <code>gradle-9.1.0-bin.zip</code>. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f07">Source M01-F07</a> Gradle 6.6.1 cannot run on Java 25. Seeing that pair means the opened project is stale or is not the approved <code>v12.0</code> root.</p>
+      <p><strong>Course recovery:</strong> do not edit the old wrapper in place. Clone or open a clean project at tag <code>v12.0</code>, verify its wrapper and <code>gradlew.bat --version</code> output, then copy only reviewed team-owned code into <code>TeamCode</code>. Do not replace the new project's root Gradle files, settings, or <code>FtcRobotController</code> with legacy files. Treat an intentionally maintained legacy project as a separate migration with its own documented Java, Gradle, Android plugin, and Android Studio requirements.</p>
+    </section>
+
     <div class="method-grid">
       <section id="lookup" aria-labelledby="lookup-title">
         <h2 id="lookup-title">Five-step SDK lookup</h2>
