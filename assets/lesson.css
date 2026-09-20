@@ -540,6 +540,40 @@ tbody tr:nth-child(even) {
   page-break-inside: avoid;
 }
 
+.print-tools {
+  align-items: center;
+  background: var(--blue-soft);
+  border: 1px solid var(--blue);
+  border-radius: var(--radius);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 0.9rem;
+  margin-block: 0 2rem;
+  padding: 0.8rem 1rem;
+}
+
+.print-tools p {
+  flex: 1 1 20rem;
+  margin: 0;
+}
+
+.print-tools button {
+  background: var(--paper);
+  border: 1px solid var(--blue-dark);
+  border-radius: var(--radius);
+  color: var(--blue-dark);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 750;
+  padding: 0.55rem 0.8rem;
+}
+
+.print-tools button:hover,
+.print-tools button:focus-visible {
+  background: var(--blue-dark);
+  color: #fff;
+}
+
 @media (max-width: 720px) {
   .meeting-meta,
   .station-grid,
@@ -923,5 +957,20 @@ tbody tr:nth-child(even) {
 
   .meeting-meta > * {
     border-color: #000;
+  }
+
+  body.print-worksheets > :not(.print-sheet, .print-sheet-ancestor),
+  body.print-worksheets .print-sheet-ancestor > :not(.print-sheet, .print-sheet-ancestor) {
+    display: none !important;
+  }
+
+  body.print-worksheets .print-sheet {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  body.print-worksheets .print-sheet-first {
+    break-before: auto;
+    page-break-before: auto;
   }
 }
