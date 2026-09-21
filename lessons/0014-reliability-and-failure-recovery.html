@@ -50,7 +50,7 @@
         <ol><li>Start with the saved working code, configuration, and test results for the event robot.</li><li>Choose a safe rehearsed fault from the detailed list. Never create damage, unplug a live motor, or force a jam.</li><li>Record the symptom and first useful message. Use the fault log to choose one check and one repair.</li><li>Restore the working setup and rerun the complete affected routine, including Stop.</li><li>Write a short troubleshooting card another student can follow and practice a backup operator.</li></ol>
         <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
         <p><strong>Build task:</strong> Use the repair block for demonstrated faults and spares. Retest any changed wiring, mechanism, or mount.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
         <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
@@ -104,7 +104,7 @@
           <dt>Affected flow</dt><dd>The complete operational sequence that could have changed because of the fault or repair, not only the step that failed.</dd>
           <dt>Recovery time</dt><dd>Elapsed time from recognizing the symptom until the restored affected flow passes.</dd>
           <dt>Residual risk</dt><dd>A known chance or consequence that remains after recovery and must be accepted, reduced, or kept blocked.</dd>
-          <dt>Rollback identity</dt><dd>The exact earlier code, configuration, controller mode, coefficients, hardware state, and evidence needed to reverse a change.</dd>
+          <dt>Rollback details</dt><dd>The exact earlier code, configuration, controller mode, coefficients, hardware state, and evidence needed to reverse a change.</dd>
           <dt>Known-good restoration</dt><dd>Returning every affected identity to its recorded accepted state and proving it with the complete affected-flow retest.</dd>
           <dt>Guard</dt><dd>A condition that permits an action to continue only while the action remains active, bounded, and safe.</dd>
         </dl>
@@ -134,7 +134,7 @@
         <div class="station-grid">
           <article class="station-card">
             <h3>Qualified TeleOp</h3>
-            <p>Record the exact robot, active configuration, OpMode, control-map revision, required scope, routine revision, code/recovery identity, and the three adjacent passing attempt IDs. Preserve every later fault against this identity.</p>
+            <p>Record the exact robot, active configuration, OpMode, control-map revision, required scope, routine revision, code/known-good version, and the three adjacent passing attempts. Preserve every later fault against this identity.</p>
             <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m08-d03">Team choice M08-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m08-m01">Measure it M08-M01</a></p>
           </article>
           <article class="station-card">
@@ -144,7 +144,7 @@
           </article>
           <article class="station-card">
             <h3>Launcher and PIDF</h3>
-            <p>Record exact launcher/controller/mode identity, target and ready condition, accepted coefficients read back from that mode, acceptance trial IDs, named zero outputs, and the exact pre-change controller read-back P/I/D/F tuple with its controller mode, code identity, and active configuration retained as rollback. Never substitute a vendor value for that read-back tuple. In particular, a REV path without reliable original read-back remains observation-only. A final configuration may contain separately supported F and P changes; do not describe it as one comparison with the pre-change read-back tuple.</p>
+            <p>Record exact launcher/controller/mode identity, target and ready condition, accepted coefficients read back from that mode, acceptance trials, named zero outputs, and the exact pre-change controller read-back P/I/D/F tuple with its controller mode, code identity, and active configuration retained as rollback. Never substitute a vendor value for that read-back tuple. In particular, a REV path without reliable original read-back remains observation-only. A final configuration may contain separately supported F and P changes; do not describe it as one comparison with the pre-change read-back tuple.</p>
             <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f01">Source M13-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
           </article>
         </div>
@@ -158,7 +158,7 @@
             <h3>1. Identity and rollback audit</h3>
             <ol>
               <li>Copy the TeleOp, Autonomous candidate/fallback, and launcher/PIDF fields from the upstream evidence named above.</li>
-              <li>Independently locate each exact code/recovery identity without changing the current working copy.</li>
+              <li>Independently locate each exact code/known-good version without changing the current working copy.</li>
               <li>List configuration, mode, coefficients, hardware posture, field setup, and test records that source identity alone cannot restore.</li>
               <li>Block any rollback with a missing artifact, unknown configuration, unread coefficient/mode, or unproved physical state.</li>
             </ol>
@@ -215,7 +215,7 @@
           <li><strong>Stop before diagnosis:</strong> press Stop, verify zero/safe hold and no motion, call <q>stopped</q>, switch off, disconnect, and preserve the setup. <strong>Success:</strong> nobody touches or changes the robot while it is live.</li>
           <li><strong>Test one hypothesis:</strong> classify the likely layer, write one cause that the evidence can support or reject, and perform the smallest safe check. Confirm the cause before repair. <strong>Success:</strong> the fault record connects observation to evidence rather than to a guess.</li>
           <li><strong>Repair one cause:</strong> change one code, configuration, connection, physical state, or operator step through its approved procedure. Record the exact before/after identity. <strong>Success:</strong> no hidden cleanup or second repair is bundled into the result.</li>
-          <li><strong>Restore known-good identity:</strong> independently verify the required code/recovery identity, active configuration, controls, hardware posture, Autonomous candidate/fallback, launcher controller mode, accepted PIDF readback, and exact pre-change controller read-back P/I/D/F tuple with its code/configuration identity where affected. <strong>Success:</strong> every relevant field matches the baseline record before motion.</li>
+          <li><strong>Restore known-good identity:</strong> independently verify the required code/known-good version, active configuration, controls, hardware posture, Autonomous candidate/fallback, launcher controller mode, accepted PIDF readback, and exact pre-change controller read-back P/I/D/F tuple with its code/configuration identity where affected. <strong>Success:</strong> every relevant field matches the baseline record before motion.</li>
           <li><strong>Repeat the original symptom check:</strong> recreate the same bounded setup and input. <strong>Success:</strong> the original symptom is absent for the predicted reason; otherwise preserve the failure and return to one new hypothesis.</li>
           <li><strong>Rerun the complete affected flow:</strong> repeat all affected startup, INIT/default, action, simultaneous-input, release, guard, explicit-zero/safe-hold, cleanup, Stop, reset, and rollback-selection steps. For launcher work include readiness, controlled action, recovery, named output zeros, controller mode and coefficient readback. <strong>Success:</strong> every required row passes on one restored identity.</li>
           <li><strong>Close or block:</strong> stop the recovery clock only after the complete retest. Record recovery time, actual result, residual risk, prevention, student, checker, and whether the event guide may include the steps. <strong>Success:</strong> unresolved or untested risk remains visibly blocked.</li>
@@ -228,11 +228,11 @@
         <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m02">Measure it M14-M02</a> <strong>Status: pending delivery evidence.</strong> Complete rows only from today's exact setup and trials. A prepared card, source page, earlier robot, code inspection, or restart is not a physical recovery result.</p>
         <table class="record-table">
           <caption>Baseline identity and repeated complete routines</caption>
-          <thead><tr><th scope="col">Flow</th><th scope="col">Exact known-good and rollback identity</th><th scope="col">Complete baseline attempts</th><th scope="col">Eligibility or blocker</th></tr></thead>
+          <thead><tr><th scope="col">Flow</th><th scope="col">Exact known-good and rollback details</th><th scope="col">Complete baseline attempts</th><th scope="col">Eligibility or blocker</th></tr></thead>
           <tbody>
-            <tr><td data-label="Flow">Qualified TeleOp</td><td data-label="Identity">Robot/config/OpMode/map/routine/code ID/M8 attempt IDs: __________________</td><td data-label="Attempts">Trial IDs/results/Stop proof: __________________</td><td data-label="Eligibility">Eligible / Blocked because: ______</td></tr>
-            <tr><td data-label="Flow">Guarded Autonomous</td><td data-label="Identity">Candidate/fallback/config/start/route/guard rows: __________________</td><td data-label="Attempts">Route IDs/results/cleanup proof: __________________</td><td data-label="Eligibility">Eligible / Blocked because: ______</td></tr>
-            <tr><td data-label="Flow">Launcher/PIDF</td><td data-label="Identity">Controller/mode/target/accepted tuple/exact pre-change controller read-back P/I/D/F tuple/code/configuration/test IDs: __________________</td><td data-label="Attempts">Readback/action/recovery/zero proof: __________________</td><td data-label="Eligibility">Eligible / Observation only / Blocked: ______</td></tr>
+            <tr><td data-label="Flow">Qualified TeleOp</td><td data-label="Identity">Robot/config/OpMode/map/routine/code/M8 attempts: __________________</td><td data-label="Attempts">Trials/results/Stop proof: __________________</td><td data-label="Eligibility">Eligible / Blocked because: ______</td></tr>
+            <tr><td data-label="Flow">Guarded Autonomous</td><td data-label="Identity">Candidate/fallback/config/start/route/guard rows: __________________</td><td data-label="Attempts">Routes/results/cleanup proof: __________________</td><td data-label="Eligibility">Eligible / Blocked because: ______</td></tr>
+            <tr><td data-label="Flow">Launcher/PIDF</td><td data-label="Identity">Controller/mode/target/accepted tuple/exact pre-change controller read-back P/I/D/F tuple/code/configuration/tests: __________________</td><td data-label="Attempts">Readback/action/recovery/zero proof: __________________</td><td data-label="Eligibility">Eligible / Observation only / Blocked: ______</td></tr>
           </tbody>
         </table>
 
@@ -240,8 +240,8 @@
           <caption>Failure ranking before repair</caption>
           <thead><tr><th scope="col">Case and exact symptom</th><th scope="col">Likelihood evidence</th><th scope="col">Consequence</th><th scope="col">Evidence strength</th><th scope="col">Priority and approval</th></tr></thead>
           <tbody>
-            <tr><td data-label="Case/symptom">Category/record ID/symptom: __________________</td><td data-label="Likelihood">History/trial/inspection and judgment: __________________</td><td data-label="Consequence">Safety/control/inspection/event effect: __________________</td><td data-label="Evidence strength">Direct/repeated/captured/uncertain because: __________________</td><td data-label="Priority">Rank/reason/mentor approval: __________________</td></tr>
-            <tr><td data-label="Case/symptom">Category/record ID/symptom: __________________</td><td data-label="Likelihood">History/trial/inspection and judgment: __________________</td><td data-label="Consequence">Safety/control/inspection/event effect: __________________</td><td data-label="Evidence strength">Direct/repeated/captured/uncertain because: __________________</td><td data-label="Priority">Rank/reason/mentor approval: __________________</td></tr>
+            <tr><td data-label="Case/symptom">Category/record/symptom: __________________</td><td data-label="Likelihood">History/trial/inspection and judgment: __________________</td><td data-label="Consequence">Safety/control/inspection/event effect: __________________</td><td data-label="Evidence strength">Direct/repeated/captured/uncertain because: __________________</td><td data-label="Priority">Rank/reason/mentor approval: __________________</td></tr>
+            <tr><td data-label="Case/symptom">Category/record/symptom: __________________</td><td data-label="Likelihood">History/trial/inspection and judgment: __________________</td><td data-label="Consequence">Safety/control/inspection/event effect: __________________</td><td data-label="Evidence strength">Direct/repeated/captured/uncertain because: __________________</td><td data-label="Priority">Rank/reason/mentor approval: __________________</td></tr>
           </tbody>
         </table>
 
@@ -249,8 +249,8 @@
           <caption>One-change recovery and complete affected-flow retest</caption>
           <thead><tr><th scope="col">Symptom, hypothesis, and evidence</th><th scope="col">Confirmed cause and one repair</th><th scope="col">Known-good restoration</th><th scope="col">Complete affected-flow result</th><th scope="col">Time, risk, and disposition</th></tr></thead>
           <tbody>
-            <tr><td data-label="Diagnosis">Fault ID/time/identity/symptom/hypothesis/first evidence: __________________</td><td data-label="Cause/repair">Confirmed cause/check/one before-after change: __________________</td><td data-label="Restoration">Code/config/hardware/mode/PIDF/rollback verification: __________________</td><td data-label="Retest">Original check + complete flow row IDs and actual results: __________________</td><td data-label="Disposition">Recovery time: ____<br>Residual risk: ____<br>Pass / Block / Escalate<br>Student/checker: ____</td></tr>
-            <tr><td data-label="Diagnosis">Fault ID/time/identity/symptom/hypothesis/first evidence: __________________</td><td data-label="Cause/repair">Confirmed cause/check/one before-after change: __________________</td><td data-label="Restoration">Code/config/hardware/mode/PIDF/rollback verification: __________________</td><td data-label="Retest">Original check + complete flow row IDs and actual results: __________________</td><td data-label="Disposition">Recovery time: ____<br>Residual risk: ____<br>Pass / Block / Escalate<br>Student/checker: ____</td></tr>
+            <tr><td data-label="Diagnosis">Fault/time/identity/symptom/hypothesis/first evidence: __________________</td><td data-label="Cause/repair">Confirmed cause/check/one before-after change: __________________</td><td data-label="Restoration">Code/config/hardware/mode/PIDF/rollback verification: __________________</td><td data-label="Retest">Original check + complete flow rows and actual results: __________________</td><td data-label="Disposition">Recovery time: ____<br>Residual risk: ____<br>Pass / Block / Escalate<br>Student/checker: ____</td></tr>
+            <tr><td data-label="Diagnosis">Fault/time/identity/symptom/hypothesis/first evidence: __________________</td><td data-label="Cause/repair">Confirmed cause/check/one before-after change: __________________</td><td data-label="Restoration">Code/config/hardware/mode/PIDF/rollback verification: __________________</td><td data-label="Retest">Original check + complete flow rows and actual results: __________________</td><td data-label="Disposition">Recovery time: ____<br>Residual risk: ____<br>Pass / Block / Escalate<br>Student/checker: ____</td></tr>
           </tbody>
         </table>
 
@@ -260,9 +260,9 @@
           <caption>Tested guide steps for Meeting 15</caption>
           <thead><tr><th scope="col">What students see</th><th scope="col">What evidence they preserve first</th><th scope="col">One tested action</th><th scope="col">Complete proof and expected recovery time</th><th scope="col">Stop, residual risk, or escalation</th></tr></thead>
           <tbody>
-            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow row IDs: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
-            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow row IDs: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
-            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow row IDs: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
+            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow rows: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
+            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow rows: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
+            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow rows: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
           </tbody>
         </table>
       </section>
@@ -301,7 +301,7 @@
         <div class="handoff">
           <table class="record-table">
             <caption>Reliability handoff to match simulation</caption>
-            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence or blocker owner/date</th></tr></thead>
+            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence or blocker/date</th></tr></thead>
             <tbody>
               <tr><td data-label="Question">What exact qualified TeleOp identity and M8 evidence remain eligible?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
               <tr><td data-label="Question">What exact Autonomous candidate and fallback, guards, route rows, and cleanup proof remain eligible?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>

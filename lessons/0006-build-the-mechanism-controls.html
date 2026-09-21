@@ -48,7 +48,7 @@
         <ol><li>Choose one installed mechanism on the selected robot. Use its documented parts and measured limits.</li><li>Try held-input logic in the telemetry-only example: collect alone requests COLLECT; reverse alone requests REVERSE; neither or both requests STOP.</li><li>Connect that decision to the prepared, verified output method. Test one mechanism at a time before combining controls.</li><li>For a positional servo, use the retained-state example below. Test press, hold, release, recovery, and both buttons together.</li><li>Record the control, expected result, observed result, and next fix. Repeat for intake, feeder, and launcher as they become ready.</li></ol>
         <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
         <p><strong>Build task:</strong> Assemble the intake and launcher/feed mounts. With power disconnected, check alignment, clearances, and the pollen path.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
         <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
@@ -112,7 +112,7 @@
         <ol>
           <li><strong>Choose one matching path:</strong> select the reviewed practice program, a matching 2026-2027 vendor assembly, or the team-adapted BIOBUZZ program. Record actual parts and configuration. An unidentified component stays disabled; a known custom assembly may use its component documents and measured values. <strong>Success:</strong> only one path is executable.</li>
           <li><strong>Filter the action map:</strong> copy only actions marked required and installed. Preserve the approved gamepad, proportional/held/one-press classification, release, reverse/recovery, conflict, feedback, and telemetry decisions. <strong>Success:</strong> every code method points to one approved row.</li>
-          <li><strong>Gate each value:</strong> identify every power, position, velocity threshold, and physical limit. Record the matching source candidate and M06 installed test status. <strong>Success:</strong> completed values have source and measurement IDs; pending values are blank in the executable declaration and their feature is disabled.</li>
+          <li><strong>Gate each value:</strong> identify every power, position, velocity threshold, and physical limit. Record the matching source candidate and M06 installed test status. <strong>Success:</strong> completed values have source and measurements; pending values are blank in the executable declaration and their feature is disabled.</li>
           <li><strong>Write safe outputs first:</strong> list explicit zero or the verified safe hold for every actuator touched by each action. Use the same list for initialization, no request, blocked conflicts, and Stop. <strong>Success:</strong> no output depends on a prior loop value or on the OpMode ending silently.</li>
         </ol>
         <table class="record-table">
@@ -277,7 +277,7 @@ gobildaWindmill.setPower(gobildaWindmillCommand);
             <h3>3. Test and evidence</h3>
             <ol>
               <li>Write one bounded supported-test card per mechanism, beginning without a game artifact or mechanism load.</li>
-              <li>Name setup, exact configuration, units, method, trial ID, command, observer, Stop owner, abort signs, and pass criteria.</li>
+              <li>Name setup, exact configuration, units, method, trial, command, observer, Stop owner, abort signs, and pass criteria.</li>
               <li>Include initialization, no request, each request, simultaneous conflict, release, reverse/recovery, and Stop.</li>
               <li>Record student, checker, date, actual result, and highest passed scope. A failed case disables that action.</li>
             </ol>
@@ -307,10 +307,10 @@ gobildaWindmill.setPower(gobildaWindmillCommand);
           <caption>M06-M01 mechanism command and behavior record</caption>
           <thead><tr><th scope="col">Command/value and provenance</th><th scope="col">Trial and predicted behavior</th><th scope="col">Actual result and evidence</th><th scope="col">Decision</th></tr></thead>
           <tbody>
-            <tr><td data-label="Command">Initialization/no request: ____<br>Source/revision: ____<br>Physical limit/hold evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
-            <tr><td data-label="Command">Required action: ____<br>Source/revision: ____<br>Physical limit evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
-            <tr><td data-label="Command">Release/reverse/recovery: ____<br>Source/revision: ____<br>Physical evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
-            <tr><td data-label="Command">Conflict/Stop: ____<br>Source/revision: ____<br>Physical evidence: ____</td><td data-label="Trial">Trial ID/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Student/checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+            <tr><td data-label="Command">Initialization/no request: ____<br>Source/revision: ____<br>Physical limit/hold evidence: ____</td><td data-label="Trial">Trial/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+            <tr><td data-label="Command">Required action: ____<br>Source/revision: ____<br>Physical limit evidence: ____</td><td data-label="Trial">Trial/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+            <tr><td data-label="Command">Release/reverse/recovery: ____<br>Source/revision: ____<br>Physical evidence: ____</td><td data-label="Trial">Trial/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
+            <tr><td data-label="Command">Conflict/Stop: ____<br>Source/revision: ____<br>Physical evidence: ____</td><td data-label="Trial">Trial/config/units/method: ____<br>Prediction: ____</td><td data-label="Result">Observed output/behavior: ____<br>Checker/date: ____</td><td data-label="Decision">Pass / Fail / Pending<br>Enabled? ____</td></tr>
           </tbody>
         </table>
         <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m06-m01">Measure it M06-M01</a></p>
@@ -352,14 +352,14 @@ gobildaWindmill.setPower(gobildaWindmillCommand);
         <div class="handoff">
           <table class="record-table">
             <caption>Mechanism candidate handoff</caption>
-            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence, blocker, or owner</th></tr></thead>
+            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence or blocker</th></tr></thead>
             <tbody>
               <tr><td data-label="Question">Which vendor, assembly revision, configuration, code version, and source artifact match?</td><td data-label="Answer">________________</td><td data-label="Evidence">Identity/source/checksum: ______</td></tr>
               <tr><td data-label="Question">Which required actions and exact outputs are enabled or disabled?</td><td data-label="Answer">Enabled: ____<br>Disabled: ____</td><td data-label="Evidence">Approved rows/diff: ______</td></tr>
               <tr><td data-label="Question">Which input pattern, conflict, safe release, and reverse/recovery belongs to each enabled action?</td><td data-label="Answer">________________</td><td data-label="Evidence">Control map/test: ______</td></tr>
               <tr><td data-label="Question">What source and M06 trial support every retained power, position, threshold, hold, and limit?</td><td data-label="Answer">________________</td><td data-label="Evidence">M06-M01 rows: ______</td></tr>
-              <tr><td data-label="Question">Did initialization, neutral, requests, conflict, release, recovery, and Stop pass?</td><td data-label="Answer">________________</td><td data-label="Evidence">Cards/trial IDs: ______</td></tr>
-              <tr><td data-label="Question">What remains pending, failed, unmatched, or unsafe to integrate?</td><td data-label="Answer">________________</td><td data-label="Evidence">Owner/next check/date: ______</td></tr>
+              <tr><td data-label="Question">Did initialization, neutral, requests, conflict, release, recovery, and Stop pass?</td><td data-label="Answer">________________</td><td data-label="Evidence">Cards/trials: ______</td></tr>
+              <tr><td data-label="Question">What remains pending, failed, unmatched, or unsafe to integrate?</td><td data-label="Answer">________________</td><td data-label="Evidence">Next check/date: ______</td></tr>
               <tr><td data-label="Question">Where are the known-good drivetrain candidate and separate mechanism candidate?</td><td data-label="Answer">________________</td><td data-label="Evidence">Versions/builds: ______</td></tr>
             </tbody>
           </table>

@@ -48,7 +48,7 @@
         <ol><li>Use a robot with qualified drive controls. Choose a clear start and route with the mentor.</li><li>Trace the prepared action: start, apply the tested command, check time and Stop, then command zero.</li><li>After INIT, compare motor-mode telemetry with the selected robot’s records. Start only when the checks pass.</li><li>Test on support first, then run from the marked start. Measure the travel and repeat from the same place.</li><li>Keep the simplest working action. Explain why a time limit does not guarantee an exact distance.</li></ol>
         <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
         <p><strong>Build task:</strong> Make repeatable start marks and check the competition robot’s wheel and cable clearance. Transfer code only after rechecking the new robot.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
         <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
@@ -87,7 +87,7 @@
       <section id="scope" aria-labelledby="scope-title">
         <h2 id="scope-title">What you will make the robot do</h2>
         <div class="outcome-banner">From a repeatable marked start, the qualified drivetrain will perform one team-tested, low-speed drive action after Start and then explicitly command zero. It will stop when time expires, the OpMode is no longer active, or the Stop owner ends the attempt.</div>
-        <p>This is the smallest Autonomous baseline, not a route. Preserve Meeting 8's qualified TeleOp recovery identity unchanged while you create a separate Autonomous OpMode.</p>
+        <p>This is the smallest Autonomous baseline, not a route. Preserve Meeting 8's qualified TeleOp known-good version unchanged while you create a separate Autonomous OpMode.</p>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
@@ -266,7 +266,7 @@ public class TeamOneActionAuto extends LinearOpMode {
           <caption>Pre-action normal run mode gate: copy one row for every drivetrain motor</caption>
           <thead><tr><th scope="col">Mapped motor</th><th scope="col">Expected normal mode and Meeting 2 source</th><th scope="col">Qualified team code source</th><th scope="col">Observed zero-output mode</th><th scope="col">Gate result</th></tr></thead>
           <tbody>
-            <tr><td data-label="Mapped motor">Name/location/Hub port: __________________</td><td data-label="Expected mode and map source">Expected: ______<br>Meeting 2 map row/revision: ______</td><td data-label="Qualified code source">Version/file/line or initialization path: __________________</td><td data-label="Observed mode"><code>getMode()</code>: ______<br>Telemetry/run ID: ______</td><td data-label="Gate result">[ ] Match [ ] Blocked<br>Reason/owner/next check: ______</td></tr>
+            <tr><td data-label="Mapped motor">Name/location/Hub port: __________________</td><td data-label="Expected mode and map source">Expected: ______<br>Meeting 2 map row/revision: ______</td><td data-label="Qualified code source">Version/file/line or initialization path: __________________</td><td data-label="Observed mode"><code>getMode()</code>: ______<br>Telemetry/run: ______</td><td data-label="Gate result">[ ] Match [ ] Blocked<br>Reason/Next check: ______</td></tr>
           </tbody>
         </table>
         <p><strong>Mode gate:</strong> actual drivetrain motor count ______; completed matching rows ______. These counts must agree before the one action starts. This record reads modes only; it does not authorize a mode change.</p>
@@ -281,7 +281,7 @@ public class TeamOneActionAuto extends LinearOpMode {
             <tr><td data-label="Test">Travel Trial 3</td><td data-label="Setup and values">Same frozen setup: Yes / No</td><td data-label="Observed result">Elapsed: ____ Travel: ____ Units: ____</td><td data-label="Exit and zero">__________________</td><td data-label="Validity">Valid / Invalid because: ______</td></tr>
           </tbody>
         </table>
-        <p><strong>Decision:</strong> [ ] one-action baseline supported [ ] blocked. Exact code/recovery identity ______; exact OpMode/configuration ______; evidence row IDs ______; known limit or blocker ______; owner/date ______.</p>
+        <p><strong>Decision:</strong> [ ] one-action baseline supported [ ] blocked. Exact code/known-good version ______; exact OpMode/configuration ______; evidence rows ______; known limit or blocker ______; date ______.</p>
         <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
       </section>
 
@@ -316,12 +316,12 @@ public class TeamOneActionAuto extends LinearOpMode {
             <caption>Questions Meeting 10 needs answered</caption>
             <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is the proof or who owns the blocker?</th></tr></thead>
             <tbody>
-              <tr><td data-label="Question">What code identity, OpMode, configuration, action card, output, and time identify the one-action baseline?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
-              <tr><td data-label="Question">Did active-false escape, elapsed-time bound, telemetry, explicit zero, and Stop pass in the supported test?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
-              <tr><td data-label="Question">For every drive motor, what expected normal run mode, Meeting 2 map row, qualified code source, and observed <code>getMode()</code> value matched before action?</td><td data-label="Verified answer">Motor/expected/observed: __________________</td><td data-label="Proof or owner">Map row/code file-line/telemetry: __________________</td></tr>
-              <tr><td data-label="Question">What marked start, route, reset, measurement references, units, and three travel rows must remain unchanged?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
-              <tr><td data-label="Question">What exact installed motor, encoder, gearbox, wheel, configured motor type, and Hub port are on each side?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">________________</td></tr>
-              <tr><td data-label="Question">What safety, source, hardware, or physical-test blocker remains?</td><td data-label="Verified answer">________________</td><td data-label="Proof or owner">Owner/date: ______</td></tr>
+              <tr><td data-label="Question">What code identity, OpMode, configuration, action card, output, and time identify the one-action baseline?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">Did active-false escape, elapsed-time bound, telemetry, explicit zero, and Stop pass in the supported test?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">For every drive motor, what expected normal run mode, Meeting 2 map row, qualified code source, and observed <code>getMode()</code> value matched before action?</td><td data-label="Verified answer">Motor/expected/observed: __________________</td><td data-label="Proof">Map row/code file-line/telemetry: __________________</td></tr>
+              <tr><td data-label="Question">What marked start, route, reset, measurement references, units, and three travel rows must remain unchanged?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">What exact installed motor, encoder, gearbox, wheel, configured motor type, and Hub port are on each side?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">What safety, source, hardware, or physical-test blocker remains?</td><td data-label="Verified answer">________________</td><td data-label="Proof">date: ______</td></tr>
             </tbody>
           </table>
         </div>
@@ -334,7 +334,7 @@ public class TeamOneActionAuto extends LinearOpMode {
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
         <ul class="checklist">
-          <li>Audit Meeting 8's qualification record, exact recovery identity, active configuration, safe drive method, enabled defects, and language-path decision. For every drive motor, reconcile the Meeting 2 expected normal run mode with the qualified code file/line or initialization path. A missing map field, unknown value, or conflict blocks the action.</li>
+          <li>Audit Meeting 8's qualification record, exact known-good version, active configuration, safe drive method, enabled defects, and language-path decision. For every drive motor, reconcile the Meeting 2 expected normal run mode with the qualified code file/line or initialization path. A missing map field, unknown value, or conflict blocks the action.</li>
           <li>Prepare a disabled TeamCode copy of pinned SDK v12.0 <code>RobotAutoDriveByTime_Linear</code>. For the Blocks fallback, prepare the equivalent disabled one-action project before delivery.</li>
           <li>Prepare stable support inside the arena, a marked travel route and safety boundary, exclusion markings, measuring tools, action cards, and evidence rows. Supply no invented output or time.</li>
           <li>Recheck mutable FTC and vendor sources before delivery. State visibly that the goBILDA supplied ZIP has no Autonomous file.</li>

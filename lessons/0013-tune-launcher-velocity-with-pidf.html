@@ -58,7 +58,7 @@
         <ol><li>Read the original PIDF values from the actual controller and save them with its mode and robot configuration.</li><li>Graph target and measured velocity for three baseline trials. Describe slow response, overshoot, or repeated swings.</li><li>Choose a pass rule before tuning. Compare one small F change at a time using the approved procedure.</li><li>Keep or restore F, then compare P changes. Leave I and D unchanged; stop and restore settings if behavior becomes unsafe.</li><li>Run three final trials. Keep the new settings only if the evidence supports them; otherwise restore the original values.</li></ol>
         <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
         <p><strong>Build task:</strong> Inspect launcher alignment and prepare feeder spares. Do not change hardware during a coefficient comparison; a mechanical change starts a new baseline.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
         <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
@@ -252,9 +252,9 @@
         </ol>
         <h3>Use the same process for real trials</h3>
         <ol>
-          <li><strong>Prepare without tuning:</strong> display trial ID, elapsed seconds, target speed, measured speed, ready state, and feed state together. Use the same velocity units for target and measurement. The prepared telemetry must label values from the same sample with one timestamp. Keep the original coefficients unchanged.</li>
+          <li><strong>Prepare without tuning:</strong> display trial, elapsed seconds, target speed, measured speed, ready state, and feed state together. Use the same velocity units for target and measurement. The prepared telemetry must label values from the same sample with one timestamp. Keep the original coefficients unchanged.</li>
           <li><strong>Check capture before the baseline:</strong> verify that the recording is legible and shows changing telemetry timestamps. Choose and record which displayed samples you will transcribe and the intended spacing. The mentor checks that the displayed update rate and recording can resolve the ready, overshoot, and recovery criteria. If they cannot, improve capture before tuning or do observation-only work.</li>
-          <li><strong>Record one trial:</strong> start recording outside the exclusion area before INIT, follow the full powered-test procedure, then Stop, switch off, and disconnect before reviewing or resetting. Name the recording with the robot, trial ID, coefficient phase, and date.</li>
+          <li><strong>Record one trial:</strong> start recording outside the exclusion area before INIT, follow the full powered-test procedure, then Stop, switch off, and disconnect before reviewing or resetting. Name the recording with the robot, trial, coefficient phase, and date.</li>
           <li><strong>Transcribe after shutdown:</strong> pause the recording at distinct telemetry updates. Copy timestamp, target, measured speed, ready state, and feed state into the table below. Do not count repeated video frames showing the same timestamp as new samples. Mark missing or unreadable data; do not invent intermediate values.</li>
           <li><strong>Plot and label:</strong> choose axes that include all captured values. Keep the same axes for trials being compared. Plot target and measured speed, and mark the observed feed time. Add robot, trial, coefficient tuple, units, and any missing intervals to the graph.</li>
           <li><strong>Use the result carefully:</strong> compare the graph with the recorded ready state and physical outcome. A sampled peak can miss a higher peak between updates; missing data cannot establish a pass. Keep all three baseline graphs separate. Lock the <a href="#criteria">acceptance criteria</a> before candidate results, then follow the <a href="#test">F-then-P sequence</a>.</li>
@@ -262,7 +262,9 @@
         <table class="record-table">
           <caption>One row per distinct telemetry sample; add rows as needed</caption>
           <thead><tr><th scope="col">Trial / time (s)</th><th scope="col">Target / measured / unit</th><th scope="col">Ready / feed state</th><th scope="col">Recording location or missing data</th></tr></thead>
-          <tbody><tr><td data-label="Trial/time">________</td><td data-label="Speed/unit">________</td><td data-label="States">________</td><td data-label="Source">________</td></tr></tbody>
+          <tbody>
+            <tr><td data-label="Trial/time">________</td><td data-label="Speed/unit">________</td><td data-label="States">________</td><td data-label="Source">________</td></tr>
+          </tbody>
         </table>
         <p><strong>Finished result:</strong> a labeled graph whose points can be traced back to recorded readings, plus an explanation of what the graph can and cannot show. The fictional exercise may be completed before power; actual baseline graphs require actual trials.</p>
       </section>
@@ -271,7 +273,7 @@
         <h2 id="telemetry-title">Verify the evidence telemetry before candidates</h2>
         <p>Each timestamped sample or trial summary must preserve the following, with units and unavailable fields explicitly marked. Telemetry is controller-reported evidence, not proof of physical safety or launch success.</p>
         <ul class="checklist">
-          <li>Source/baseline identity, trial ID, elapsed time, controller, selected run mode, assembly/code/configuration, controlled load/reset, and coefficient phase.</li>
+          <li>Source/baseline identity, trial, elapsed time, controller, selected run mode, assembly/code/configuration, controlled load/reset, and coefficient phase.</li>
           <li>Target velocity and measured velocity over time, signed error (<code>target - measured</code>), and absolute error, all in named units.</li>
           <li>Requested and read-back P, I, D, and F coefficients, preserving controller-specific order and mode.</li>
           <li>Time-to-ready, ready state, steady error/ready-band result, overshoot size, and oscillation count or sustained/not-sustained classification.</li>
@@ -298,7 +300,7 @@
             <tr><td data-label="Criterion">Every safety stop, timeout, abort, and explicit-zero requirement</td><td data-label="Limit/method/source">________________</td><td data-label="Fail/abort">________________</td></tr>
           </tbody>
         </table>
-        <p><strong>Original baseline trial IDs:</strong> ______ / ______ / ______ &nbsp; <strong>Criteria record ID and lock time:</strong> ______ &nbsp; <strong>Student approval:</strong> ______ &nbsp; <strong>Coach approval:</strong> ______</p>
+        <p><strong>Original baseline trials:</strong> ______ / ______ / ______ &nbsp; <strong>Criteria record and lock time:</strong> ______ &nbsp; <strong>Student approval:</strong> ______ &nbsp; <strong>Coach approval:</strong> ______</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
       </section>
 
@@ -331,11 +333,11 @@
         <p class="record-prompt">Use one row per trial and add copies as needed. Attach velocity-versus-time samples. Preserve failures, aborts, safety stops, and restored candidates. Every row includes setup/configuration/mode/code, units, method, date, student, checker, target and measured velocity-time data, signed/absolute error, P/I/D/F, time-to-ready, ready state, overshoot, oscillation, recovery, separate physical outcome, battery condition if available, shutdown, and trial disposition.</p>
         <table class="record-table">
           <caption>Sequential PIDF evidence summary</caption>
-          <thead><tr><th scope="col">Phase, trial IDs, and exact tuple</th><th scope="col">What stayed fixed and what one value changed?</th><th scope="col">Velocity/error/ready behavior</th><th scope="col">Recovery, physical outcome, battery, and safety/shutdown</th><th scope="col">Comparison and disposition</th></tr></thead>
+          <thead><tr><th scope="col">Phase, trials, and exact tuple</th><th scope="col">What stayed fixed and what one value changed?</th><th scope="col">Velocity/error/ready behavior</th><th scope="col">Recovery, physical outcome, battery, and safety/shutdown</th><th scope="col">Comparison and disposition</th></tr></thead>
           <tbody>
             <tr><td data-label="Phase/trials/tuple"><strong>Original F baseline</strong><br>Trials: ___ / ___ / ___<br>P/I/D/F: __________</td><td data-label="Fixed/change">Original tuple; no coefficient changed<br>Mode/setup/load: ______</td><td data-label="Velocity/error/ready">Target/unit: ___<br>Data attachment: ___<br>Signed/absolute error, ready/time, overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes: ___<br>Battery: ___<br>Stops/zeros: ___</td><td data-label="Comparison/disposition">Baseline preserved: [ ]<br>Valid/failed/aborted rows: ______</td></tr>
             <tr><td data-label="Phase/trials/tuple"><strong>One exact F-only candidate</strong><br>At least three equivalent trials: ___ / ___ / ___<br>Additional: ______<br>P/I/D/F: __________</td><td data-label="Fixed/change">Original P/I/D fixed<br>Only F changed from ___ to ___</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">Compared only with original F baseline<br>[ ] Complete/selectable [ ] Incomplete/not selectable<br>[ ] Select F [ ] Restore F</td></tr>
-            <tr><td data-label="Phase/trials/tuple"><strong>P-phase baseline</strong><br>Trials: __________<br>P/I/D/F: __________</td><td data-label="Fixed/change">Selected/restored F + original P/I/D; no value changed during baseline</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">New P-phase baseline ID: ______</td></tr>
+            <tr><td data-label="Phase/trials/tuple"><strong>P-phase baseline</strong><br>Trials: __________<br>P/I/D/F: __________</td><td data-label="Fixed/change">Selected/restored F + original P/I/D; no value changed during baseline</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">New P-phase baseline: ______</td></tr>
             <tr><td data-label="Phase/trials/tuple"><strong>One exact P-only candidate</strong><br>At least three equivalent trials: ___ / ___ / ___<br>Additional: ______<br>P/I/D/F: __________</td><td data-label="Fixed/change">Selected/restored F + original I/D fixed<br>Only P changed from ___ to ___</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">Compared only with P-phase baseline<br>[ ] Complete/selectable [ ] Incomplete/not selectable<br>[ ] Select P [ ] Restore P</td></tr>
             <tr><td data-label="Phase/trials/tuple"><strong>Final acceptance</strong><br>Trials: ___ / ___ / ___<br>P/I/D/F: __________</td><td data-label="Fixed/change">Tuple, criteria, setup, load, code, mode, and method unchanged</td><td data-label="Velocity/error/ready">Target/unit/data/error/ready/time/overshoot/oscillation: ______</td><td data-label="Recovery/outcome/safety">Recovery/outcomes/battery/stops/zeros: ______</td><td data-label="Comparison/disposition">[ ] All criteria pass: retain<br>[ ] Any fail/incomplete: rollback</td></tr>
           </tbody>
@@ -365,7 +367,7 @@
         <h2 id="evidence-title">Show what you learned</h2>
         <p><strong>Keep:</strong> Meeting 12 launcher/guard audit; signed Supported test setup and role check; exact assembly/controller/mode/source; original read-back rollback tuple; full telemetry trace; three original baseline trials; locked criteria; at least three equivalent repeated trials for every F-only candidate; selected/restored F; distinct P-phase baseline; role-swap record; at least three equivalent repeated trials for every P-only candidate; unchanged I/D proof; three final acceptance trials; selected or restored result; all failures/aborts; named zero/shutdown proof; and Meeting 14 handoff.</p>
         <h3>Each student explains</h3>
-        <p>Define target, measured velocity, signed error, F, P, I, and D; identify each of the four plots without using color; use <q>may</q> for one symptom; name one fault that must be repaired instead of tuned; distinguish the original F baseline from the P-phase baseline; show why only one coefficient changed in each phase; locate the immutable criteria; and explain the final retain-or-rollback decision from three trial IDs.</p>
+        <p>Define target, measured velocity, signed error, F, P, I, and D; identify each of the four plots without using color; use <q>may</q> for one symptom; name one fault that must be repaired instead of tuned; distinguish the original F baseline from the P-phase baseline; show why only one coefficient changed in each phase; locate the immutable criteria; and explain the final retain-or-rollback decision from three trials.</p>
       </section>
 
       <section id="handoff" aria-labelledby="handoff-title">
@@ -376,12 +378,12 @@
             <caption>Questions Meeting 14 needs answered</caption>
             <thead><tr><th scope="col">Question</th><th scope="col">What exact answer did we verify?</th><th scope="col">Where is the proof or who owns the blocker?</th></tr></thead>
             <tbody>
-              <tr><td data-label="Question">What assembly, controller, mode, code/configuration, guarded action, target, and controlled load were used?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
-              <tr><td data-label="Question">What exact original read-back P/I/D/F tuple is the rollback?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
-              <tr><td data-label="Question">Which IDs are the three original baselines, selected/restored F, P-phase baseline, P candidates, and three final trials?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
-              <tr><td data-label="Question">What immutable criteria passed or failed, and what final tuple was retained or restored?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
-              <tr><td data-label="Question">Where is unchanged I/D proof and every named explicit-zero/shutdown observation?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">________________</td></tr>
-              <tr><td data-label="Question">What fault, abort, residual risk, or incomplete evidence must Meeting 14 rehearse or keep blocked?</td><td data-label="Verified answer">________________</td><td data-label="Proof/owner">Owner/date: ______</td></tr>
+              <tr><td data-label="Question">What assembly, controller, mode, code/configuration, guarded action, target, and controlled load were used?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">What exact original read-back P/I/D/F tuple is the rollback?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">Which records are the three original baselines, selected/restored F, P-phase baseline, P candidates, and three final trials?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">What immutable criteria passed or failed, and what final tuple was retained or restored?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">Where is unchanged I/D proof and every named explicit-zero/shutdown observation?</td><td data-label="Verified answer">________________</td><td data-label="Proof">________________</td></tr>
+              <tr><td data-label="Question">What fault, abort, residual risk, or incomplete evidence must Meeting 14 rehearse or keep blocked?</td><td data-label="Verified answer">________________</td><td data-label="Proof">date: ______</td></tr>
             </tbody>
           </table>
         </div>

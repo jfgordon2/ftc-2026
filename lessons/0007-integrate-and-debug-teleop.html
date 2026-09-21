@@ -49,7 +49,7 @@
         <ol><li>Run the complete telemetry-only example below. Drive requests must keep updating while you press and release the intake buttons.</li><li>Open the tested drive and mechanism code for the same robot. List which method writes each output.</li><li>Combine the two using the existing lifecycle. Keep each output’s stop command and write it in only one place per loop.</li><li>Test driving alone, the mechanism alone, both together, release, and Stop. Use supported tests before travel.</li><li>For one fault, write what happened, suggest one cause, check telemetry, change one thing, and repeat the same test.</li></ol>
         <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
         <p><strong>Build task:</strong> Finish mounting and guarding the launcher. Check feeder alignment and cable clearance before the next powered test.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
         <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
@@ -111,7 +111,7 @@
       <section id="integrate" aria-labelledby="integrate-title">
         <h2 id="integrate-title">Integrate without erasing what already passed</h2>
         <ol>
-          <li><strong>Lock both inputs:</strong> record the exact drivetrain and mechanism versions, active configuration, matching vendor path and lifecycle, tested actions, safe outputs, test IDs, and open blockers. <strong>Success:</strong> each executable behavior points to upstream evidence; incomplete behavior is disabled.</li>
+          <li><strong>Lock both inputs:</strong> record the exact drivetrain and mechanism versions, active configuration, matching vendor path and lifecycle, tested actions, safe outputs, tests, and open blockers. <strong>Success:</strong> each executable behavior points to upstream evidence; incomplete behavior is disabled.</li>
           <li><strong>Map shared resources:</strong> compare gamepad fields, hardware fields, helper names, constants, lifecycle methods, telemetry captions, and output writes. Mark collisions before copying code. <strong>Success:</strong> the map says which path owns each input, decision, state, and output.</li>
           <li><strong>Preserve one matching lifecycle:</strong> add the team-owned drive and mechanism calls to the installed robot's existing REV linear or goBILDA iterative path. Do not combine lifecycles or copy the unmatched vendor branch. <strong>Success:</strong> initialization, active loop, no-request behavior, and explicit shutdown remain traceable.</li>
           <li><strong>Merge one path at a time:</strong> start from a recoverable copy, add the reviewed mechanism call path to the tested drivetrain candidate, build, and inspect the complete diff before adding anything else. <strong>Success:</strong> the diff contains only the intended integration and diagnostic telemetry.</li>
@@ -255,12 +255,12 @@ public class BiobuzzControlPractice extends LinearOpMode {
           <caption>M07-M01 evidence-first fault record</caption>
           <thead><tr><th scope="col">Required field</th><th scope="col">Exact record</th></tr></thead>
           <tbody>
-            <tr><th scope="row" data-label="Field">Trial identity and setup</th><td data-label="Record">Fault/trial ID: __________<br>Code version and diff: __________<br>Robot/revision: __________<br>Active configuration and OpMode: __________<br>Supported-test fixture/load: __________<br>Units/method: __________<br>Date/student/checker: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Trial identity and setup</th><td data-label="Record">Fault/trial: __________<br>Code version and diff: __________<br>Robot/revision: __________<br>Active configuration and OpMode: __________<br>Supported-test fixture/load: __________<br>Units/method: __________<br>Date/student/checker: __________</td></tr>
             <tr><th scope="row" data-label="Field">Observe</th><td data-label="Record">Starting state and exact reproduction: __________<br>Expected result: __________<br>Exact symptom/message/file/line: __________<br>Abort signs and safe boundary: __________</td></tr>
             <tr><th scope="row" data-label="Field">Hypothesize</th><td data-label="Record">Layer: Build / Configuration / Wiring / Input / Code / Mechanical<br>One hypothesis: __________<br>Predicted evidence: __________<br>Result that would reject it: __________</td></tr>
             <tr><th scope="row" data-label="Field">Instrument</th><td data-label="Record">Input telemetry and units: __________<br>Decision or state telemetry: __________<br>Commanded-output telemetry and units: __________<br>Observed output/motion/log evidence: __________</td></tr>
             <tr><th scope="row" data-label="Field">Test and one change</th><td data-label="Record">Smallest safe check and actual result: __________<br>Hypothesis supported / rejected / still open because: __________<br>Exactly one change, or no change: __________<br>Reviewed diff/configuration/physical record: __________</td></tr>
-            <tr><th scope="row" data-label="Field">Conclude and retest</th><td data-label="Record">Confirmed cause, or still open: __________<br>Same original setup and steps used: Yes / No<br>Actual repeated result: __________<br>Affected neutral/release/recovery/Stop results: __________<br>Closed / Open; owner and next check: __________</td></tr>
+            <tr><th scope="row" data-label="Field">Conclude and retest</th><td data-label="Record">Confirmed cause, or still open: __________<br>Same original setup and steps used: Yes / No<br>Actual repeated result: __________<br>Affected neutral/release/recovery/Stop results: __________<br>Closed / Open; next check: __________</td></tr>
           </tbody>
         </table>
         <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m07-m01">Measure it M07-M01</a></p>
@@ -317,19 +317,19 @@ public class BiobuzzControlPractice extends LinearOpMode {
         <h2 id="handoff-title">Prepare for Meeting 8</h2>
         <p>Meeting 8 may qualify only the exact integrated candidate and scope proved here. A telemetry-only trace, closed simulated fault, or passing build does not prove physical TeleOp coexistence.</p>
         <div class="handoff">
-          <p class="record-prompt">Answer from the reviewed diff, test records, and fault records. Write <strong>blocked</strong> with an owner and next check when evidence is absent.</p>
+          <p class="record-prompt">Answer from the reviewed diff, test records, and fault records. Write <strong>blocked</strong> with the reason and next check when evidence is absent.</p>
           <table class="record-table">
             <caption>Integrated TeleOp handoff</caption>
-            <thead><tr><th scope="col">Question</th><th scope="col">Exact answer or observed result</th><th scope="col">Evidence, blocker, or owner</th></tr></thead>
+            <thead><tr><th scope="col">Question</th><th scope="col">Exact answer or observed result</th><th scope="col">Evidence or blocker</th></tr></thead>
             <tbody>
-              <tr><th scope="row" data-label="Question">Which drivetrain and mechanism candidates were consumed?</th><td data-label="Answer">Drive version: __________<br>Mechanism version: __________</td><td data-label="Evidence">Handoffs/test IDs: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which drivetrain and mechanism candidates were consumed?</th><td data-label="Answer">Drive version: __________<br>Mechanism version: __________</td><td data-label="Evidence">Handoffs/tests: __________</td></tr>
               <tr><th scope="row" data-label="Question">Which exact integrated candidate, matching lifecycle, OpMode, and active configuration should Meeting 8 use?</th><td data-label="Answer">________________</td><td data-label="Evidence">Build/diff/config check: __________</td></tr>
               <tr><th scope="row" data-label="Question">Which required installed actions and outputs remain enabled or disabled?</th><td data-label="Answer">Enabled: __________<br>Disabled: __________</td><td data-label="Evidence">M05/M06/M07 records: __________</td></tr>
               <tr><th scope="row" data-label="Question">Did neutral, each path alone, simultaneous input, release, recovery, and Stop physically pass?</th><td data-label="Answer">Pass / Fail / Blocked by case: __________</td><td data-label="Evidence">M07 trials: __________</td></tr>
               <tr><th scope="row" data-label="Question">What input, decision/state, command, and observed-output telemetry must remain for qualification?</th><td data-label="Answer">________________</td><td data-label="Evidence">Trace/captions: __________</td></tr>
-              <tr><th scope="row" data-label="Question">Which actual faults were closed by an identical retest?</th><td data-label="Answer">________________</td><td data-label="Evidence">Fault IDs: __________</td></tr>
-              <tr><th scope="row" data-label="Question">Which fault, safety issue, or physical check remains open?</th><td data-label="Answer">________________</td><td data-label="Evidence">Owner/next check/date: __________</td></tr>
-              <tr><th scope="row" data-label="Question">What is the exact rollback identity if qualification finds a regression?</th><td data-label="Answer">________________</td><td data-label="Evidence">Verified location: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which actual faults were closed by an identical retest?</th><td data-label="Answer">________________</td><td data-label="Evidence">Faults: __________</td></tr>
+              <tr><th scope="row" data-label="Question">Which fault, safety issue, or physical check remains open?</th><td data-label="Answer">________________</td><td data-label="Evidence">Next check/date: __________</td></tr>
+              <tr><th scope="row" data-label="Question">What is the exact rollback details if qualification finds a regression?</th><td data-label="Answer">________________</td><td data-label="Evidence">Verified location: __________</td></tr>
             </tbody>
           </table>
           <p><strong>An unresolved enabled safety fault blocks powered Meeting 8 qualification. Keep the integrated candidate recoverable, but do not call it qualified or known-good until Meeting 8's complete repeated gate passes.</strong></p>

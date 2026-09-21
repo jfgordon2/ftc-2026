@@ -750,6 +750,20 @@ tbody tr:nth-child(even) {
   size: letter;
 }
 
+.worksheet-answer-space {
+  display: none;
+  height: 0.225in;
+  width: 100%;
+}
+
+body.print-worksheets .worksheet-answer-space {
+  display: block;
+}
+
+body.print-worksheets .worksheet-answer-space + br {
+  display: none;
+}
+
 @media print {
   :root {
     --paper: #fff;

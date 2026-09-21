@@ -80,6 +80,44 @@
 
   sheets[0].classList.add("print-sheet-first");
 
+  let worksheetAnswerSpaces = [];
+  const prepareWorksheetSpaces = () => {
+    if (worksheetAnswerSpaces.length) return;
+    new Set(sheets).forEach((sheet) => {
+      const walker = document.createTreeWalker(sheet, NodeFilter.SHOW_TEXT);
+      const blanks = [];
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        if (!node.parentElement?.closest("code, pre, script, style") && /_{4,}/.test(node.nodeValue)) {
+          blanks.push(node);
+        }
+      }
+      blanks.forEach((node) => {
+        const fragment = document.createDocumentFragment();
+        node.nodeValue.split(/(_{4,})/).forEach((part) => {
+          if (/^_{4,}$/.test(part)) {
+            const space = document.createElement("span");
+            space.className = "worksheet-answer-space";
+            space.dataset.placeholder = part;
+            space.setAttribute("aria-hidden", "true");
+            worksheetAnswerSpaces.push(space);
+            fragment.append(space);
+          } else {
+            fragment.append(part);
+          }
+        });
+        node.replaceWith(fragment);
+      });
+    });
+  };
+
+  const restoreWorksheetSpaces = () => {
+    worksheetAnswerSpaces.forEach((space) => {
+      space.replaceWith(document.createTextNode(space.dataset.placeholder || "________"));
+    });
+    worksheetAnswerSpaces = [];
+  };
+
   sheets.forEach((sheet) => {
     let ancestor = sheet.parentElement;
     while (ancestor) {
@@ -98,9 +136,11 @@
 
   const button = tools.querySelector("button");
   button.addEventListener("click", () => {
+    prepareWorksheetSpaces();
     document.body.classList.add("print-worksheets");
 
     const restore = () => {
+      restoreWorksheetSpaces();
       document.body.classList.remove("print-worksheets");
       window.removeEventListener("afterprint", restore);
     };

@@ -50,7 +50,7 @@
         <ol><li>Use the current game manual to list legal collection and scoring actions. Read the specific rules linked below.</li><li>Mark launching required. Mark an unfinished intake, feeder, or launcher “required — not ready” and give its build task an owner.</li><li>Sketch the pollen path from the floor through intake and feeder to launcher. Compare what the practice robots already teach us.</li><li>For each required action, choose hold, press-once, or variable input. Decide what release, reverse, conflicting buttons, and Stop should do.</li><li>Act out the controls with one and then two gamepads. Record the simpler workable arrangement and review it together.</li></ol>
         <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
         <p><strong>Build task:</strong> Make a chassis and mechanism sketch. Choose parts, mounting locations, tool needs, and one next build task per pair.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
         <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
@@ -203,7 +203,7 @@
       <section id="record" aria-labelledby="record-title">
         <h2 id="record-title">Build the control-design record</h2>
         <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m04-m01">Measure it M04-M01</a> <strong>Status: pending delivery evidence.</strong> Complete one row for every inventory action, including optional and unavailable actions. Duplicate the row on the team worksheet as needed.</p>
-        <p><strong>Record identity:</strong> trial/record ID: __________; date: __________; manual revision and access date: __________; Team Update/Q&amp;A checked: __________; robot manufacturer/revision: __________; active configuration: __________; matching source artifact and Meeting 3 record: __________; student recorder: __________; checker: __________.</p>
+        <p><strong>Record identity:</strong> trial details: __________; date: __________; manual revision and access date: __________; Team Update/Q&amp;A checked: __________; robot manufacturer/revision: __________; active configuration: __________; matching source artifact and Meeting 3 record: __________; student recorder: __________; checker: __________.</p>
         <table class="record-table">
           <caption>Repeat this complete control-map record for every action</caption>
           <tbody>
@@ -276,7 +276,7 @@
         <h2 id="reclassification-title">How Meeting 8 may reclassify an action</h2>
         <p>The signed map is an implementation contract, not permission to keep an unsafe feature enabled. If Meeting 8 evidence shows a required feature cannot be made safe, use every step below.</p>
         <ol>
-          <li>Record the failed criterion, trial IDs, defect evidence, affected action, and why repair/retest did not make it safe.</li>
+          <li>Record the failed criterion, trials, defect evidence, affected action, and why repair/retest did not make it safe.</li>
           <li>Propose <strong>optional</strong> or <strong>unavailable</strong>; record the strategy cost and rationale. Do not silently delete the row.</li>
           <li>Obtain named mentor and team approval with date and new map revision.</li>
           <li>Disable the behavior in code, remove it from the event plan, and identify it as excluded on the qualification record.</li>
@@ -291,18 +291,18 @@
           <p class="record-prompt">Meeting 5 consumes the approved drivetrain design. Meeting 6 consumes only required mechanism actions with verified sources or pending measurement gates. Meetings 7 and 8 consume the conflicts, telemetry, release, recovery, and acceptance contract.</p>
           <table class="record-table">
             <caption>Action-map implementation handoff</caption>
-            <thead><tr><th scope="col">Contract item</th><th scope="col">Verified answer or pending blocker</th><th scope="col">Evidence and owner</th></tr></thead>
+            <thead><tr><th scope="col">Contract item</th><th scope="col">Verified answer or pending blocker</th><th scope="col">Evidence</th></tr></thead>
             <tbody>
               <tr><td data-label="Item">Map identity and status</td><td data-label="Answer">Revision: ____ Approved / Provisional: ____ Date: ____</td><td data-label="Evidence">Signed record: ____</td></tr>
               <tr><td data-label="Item">Current season source</td><td data-label="Answer">Manual revision/access date: ____ Team Update/Q&amp;A status: ____</td><td data-label="Evidence">Checked by: ____</td></tr>
               <tr><td data-label="Item">Robot and matching path</td><td data-label="Answer">Manufacturer/revision/configuration: ____ Matching source: ____</td><td data-label="Evidence">Meeting 3 record: ____</td></tr>
-              <tr><td data-label="Item">Required drivetrain design for Meeting 5</td><td data-label="Answer">Behavior, assignment, feedback, safe release, conflicts, telemetry: ____</td><td data-label="Evidence">Action row: ____ Owner: ____</td></tr>
-              <tr><td data-label="Item">Required mechanism actions for Meeting 6</td><td data-label="Answer">List exact action-row IDs: ____</td><td data-label="Evidence">Sources/measurement blockers: ____ Owner: ____</td></tr>
+              <tr><td data-label="Item">Required drivetrain design for Meeting 5</td><td data-label="Answer">Behavior, assignment, feedback, safe release, conflicts, telemetry: ____</td><td data-label="Evidence">Action row: ____</td></tr>
+              <tr><td data-label="Item">Required mechanism actions for Meeting 6</td><td data-label="Answer">List exact action rows: ____</td><td data-label="Evidence">Sources/measurement blockers: ____</td></tr>
               <tr><td data-label="Item">Optional and unavailable actions</td><td data-label="Answer">List and rationale: ____</td><td data-label="Evidence">Rows/approvers: ____</td></tr>
               <tr><td data-label="Item">Operator and gamepad decision</td><td data-label="Answer">One / Two; role split: ____</td><td data-label="Evidence">Rehearsal/rationale: ____</td></tr>
-              <tr><td data-label="Item">Conflicts and recovery</td><td data-label="Answer">Mutual exclusions, priorities, and recovery requests: ____</td><td data-label="Evidence">Rows: ____ Owner: ____</td></tr>
+              <tr><td data-label="Item">Conflicts and recovery</td><td data-label="Answer">Mutual exclusions, priorities, and recovery requests: ____</td><td data-label="Evidence">Rows: ____</td></tr>
               <tr><td data-label="Item">Meeting 7 telemetry contract</td><td data-label="Answer">Required input, decision/state, output, and fault fields: ____</td><td data-label="Evidence">Rows: ____</td></tr>
-              <tr><td data-label="Item">Meeting 8 acceptance and reclassification</td><td data-label="Answer">Qualification evidence: ____ Reclassification form location: ____</td><td data-label="Evidence">Review owner: ____</td></tr>
+              <tr><td data-label="Item">Meeting 8 acceptance and reclassification</td><td data-label="Answer">Qualification evidence: ____ Reclassification form location: ____</td><td data-label="Evidence">Review</td></tr>
             </tbody>
           </table>
           <p><strong>Handoff rule:</strong> implementation may begin only from an approved row. A provisional or blocked row stays disabled until its named evidence and approval are complete.</p>
