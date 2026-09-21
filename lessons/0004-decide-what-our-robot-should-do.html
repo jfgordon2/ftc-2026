@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Phase 2, Meeting 4 / 2026-2027 season / FTC SDK v12.0</p>
     <h1>Decide What Our Robot Should Do</h1>
-    <p class="lede">Read the current game, inspect the installed robot and matching StarterBot trace, then approve an action inventory and control map before anyone writes controls.</p>
+    <p class="lede">Choose how our BIOBUZZ robot will collect, feed, and launch pollen, then design its controls.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0003-compare-starterbot-programs.html">Previous: Meeting 3: Compare the StarterBot Programs</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -40,7 +41,50 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will decide</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Choose how our BIOBUZZ robot will collect, feed, and launch pollen, then design its controls.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>A control map connects a robot action to a button or stick. “Required” is our plan; “ready” means we have built and tested it.</p>
+        <ol><li>Use the current game manual to list legal collection and scoring actions. Read the specific rules linked below.</li><li>Mark launching required. Mark an unfinished intake, feeder, or launcher “required — not ready” and give its build task an owner.</li><li>Sketch the pollen path from the floor through intake and feeder to launcher. Compare what the practice robots already teach us.</li><li>For each required action, choose hold, press-once, or variable input. Decide what release, reverse, conflicting buttons, and Stop should do.</li><li>Act out the controls with one and then two gamepads. Record the simpler workable arrangement and review it together.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Make a chassis and mechanism sketch. Choose parts, mounting locations, tool needs, and one next build task per pair.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Do not deploy, run, or change robot code today. Park the gamepads while the team is designing controls.</li>
+          <li>Press Stop, switch off the Hub, and disconnect the battery before inspecting installed mechanisms.</li>
+          <li>Move a mechanism by hand only when its exact documentation and the mentor say that manual movement is safe. Otherwise inspect without moving it.</li>
+          <li>Record unknown mechanism identity, travel, safe state, or capability as <strong>pending</strong>. Do not turn a vendor example into evidence about a different robot.</li>
+          <li>Reject any proposed action that lacks a safe release and Stop behavior. Do not invent a power, position, timing, dimension, limit, or button assignment to fill a blank.</li>
+        </ul>
+        <aside class="safety-callout">Stop the inspection for loose hardware, stored energy, unsupported parts, pinches, sharp edges, damaged wiring, or unexpected motion. Make the robot safe before continuing. No physical result is passed in this lesson.</aside>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Read the game actions.</strong> Use the current-source inventory in <a href="#follow">Game first, controls second</a>. Record rules and identify our required launcher work.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Work one control example.</strong> Trace the <a href="#worked-example">completed intake-control example</a> from action to buttons, conflicts, and checks.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Draft the control map.</strong> Use the <a href="#practice">three workstreams</a> and <a href="#record">control-design record</a>. Decide behavior before assigning inputs; swap speaker and recorder halfway.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Make a chassis and mechanism sketch. Choose parts, mounting locations, tool needs, and one next build task per pair.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Rehearse and review.</strong> Use <a href="#test">Review the map before approval</a> to rehearse one- and two-gamepad operation without power. Resolve conflicts or record blockers.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save the plan.</strong> Complete the <a href="#handoff">Meetings 5–8 handoff</a>: save the action map, gamepad decision, sketch, and next build tasks. No code change is required.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will decide</h2>
         <div class="outcome-banner">The team will approve one complete list of TELEOP actions. Every action will be classified <strong>required</strong>, <strong>optional</strong>, or <strong>unavailable</strong>, then receive a control design or an explicit reason that no control will be implemented.</div>
         <p>This meeting produces a design contract, not robot code. Meetings 5-8 may implement and qualify only what this record approves. The matching vendor program is evidence about available mechanisms and existing controls; it does not decide the team's strategy or button map.</p>
         <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m04-d01">Team choice M04-D01</a> The team classifies actions and chooses one or two gamepads from workload, conflicts, safe release, recovery, feedback, and diagnosis evidence rather than convention.</p>
@@ -63,32 +107,8 @@
         </dl>
       </section>
 
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Do not deploy, run, or change robot code today. Park the gamepads while the team is designing controls.</li>
-          <li>Press Stop, switch off the Hub, and disconnect the battery before inspecting installed mechanisms.</li>
-          <li>Move a mechanism by hand only when its exact documentation and the mentor say that manual movement is safe. Otherwise inspect without moving it.</li>
-          <li>Record unknown mechanism identity, travel, safe state, or capability as <strong>pending</strong>. Do not turn a vendor example into evidence about a different robot.</li>
-          <li>Reject any proposed action that lacks a safe release and Stop behavior. Do not invent a power, position, timing, dimension, limit, or button assignment to fill a blank.</li>
-        </ul>
-        <aside class="safety-callout">Stop the inspection for loose hardware, stored energy, unsupported parts, pinches, sharp edges, damaged wiring, or unexpected motion. Make the robot safe before continuing. No physical result is passed in this lesson.</aside>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Retrieve the evidence.</strong> Confirm the current manual revision, matching StarterBot path, Meeting 3 trace, installed robot identity, roles, and unresolved blockers.</div></li>
-          <li><time>0:15-0:40<br>25 min</time><div><strong>Read the game before choosing controls.</strong> Trace TELEOP objectives, scoring criteria, and rules into action statements without naming inputs.</div></li>
-          <li><time>0:40-1:45<br>65 min</time><div><strong>Inventory and classify in pairs.</strong> Rotate through game evidence, installed capability, and operator-workload workstreams; classify every action and challenge unsupported claims.</div></li>
-          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Keep the Hub off, battery disconnected, mechanisms at rest, and gamepads parked.</div></li>
-          <li><time>1:55-2:45<br>50 min</time><div><strong>Build and review the control map.</strong> Complete every field, expose conflicts, choose one or two gamepads from evidence, and resolve or block every open item.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Approve, explain, and hand off.</strong> Each student defends one action; the team signs the implementation contract or marks it provisional with named blockers.</div></li>
-        </ol>
-      </section>
-
       <section id="follow" aria-labelledby="follow-title">
-        <h2 id="follow-title">Follow along: game first, controls second</h2>
+        <h2 id="follow-title">Follow along: game first, controls second</h2><p><strong>Our launcher is required.</strong> Use a separate readiness field: installed and tested, installed but not tested, or required — not yet built. An unfinished launcher stays on the build plan with an owner and next task. Reclassification below applies to other optional strategy choices; it cannot remove the launcher to claim BIOBUZZ readiness. Practice-only qualification is labeled for the old robot.</p>
         <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m04-f01">Source M04-F01</a> Use the current English Competition Manual and current updates, not a StarterBot summary. For this 2026-2027 BIOBUZZ inventory, read <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538713">section 8, Game Overview</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538726">section 10, Game Details</a>, and the exact sections and rules named below. Record the manual revision and access date on the action map.</p>
         <ol>
           <li><strong>Separate periods.</strong> Section 10.4 says AUTO has no DRIVER input and TELEOP is remotely operated by DRIVERS. Build today's control map for TELEOP. Preserve AUTO actions as later Meeting 9-12 work, not hidden driver controls. <strong>Evidence:</strong> every candidate action is marked TELEOP or deferred AUTO.</li>
@@ -117,6 +137,30 @@
             <tr><td data-label="Action">Other legal TELEOP action: __________</td><td data-label="Manual">Exact section/rule: __________</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <section id="worked-example" aria-labelledby="worked-example-title">
+        <h2 id="worked-example-title">Worked example: collect pollen</h2>
+        <p>This is a paper design example, not our approved control map or a claim that hardware has passed. It follows the collection row in the <a href="#follow">game-action inventory</a>. Recheck that row’s current rules before approving our version.</p>
+        <table class="course-map">
+          <caption>From a game action to a proposed control</caption>
+          <thead><tr><th scope="col">Decision</th><th scope="col">Example answer</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Decision">Action and reason</td><td data-label="Example answer">Collect allowed pollen from the floor so it can reach our required launcher. Use the collection row’s sections 10.1 and 10.5.3 and rules G407–G409 for the rule check; this example does not approve every possible collection situation.</td></tr>
+            <tr><td data-label="Decision">Hardware and readiness</td><td data-label="Example answer">Assume a motor-driven intake is planned but not yet installed. Classification: required. Readiness: not built; output disabled. Builder’s next task: complete the intake using the separate build instructions.</td></tr>
+            <tr><td data-label="Decision">Operator and behavior</td><td data-label="Example answer">The mechanism operator requests intake while the driver steers. Choose held input: collect only while the operator holds a button.</td></tr>
+            <tr><td data-label="Decision">Proposed assignment</td><td data-label="Example answer">Gamepad 2 right bumper requests collect; left bumper requests reverse. These are example team choices, not vendor defaults or required assignments.</td></tr>
+            <tr><td data-label="Decision">Release, recovery, and conflict</td><td data-label="Example answer">Neither button: command zero. Right alone: approved collect command. Left alone: approved reverse command. Both: command zero. Reverse is enabled only after the installed mechanism’s reverse test passes; Stop never depends on reverse working.</td></tr>
+            <tr><td data-label="Decision">Feedback and test</td><td data-label="Example answer">Display STOP, COLLECT, or REVERSE and the commanded output. Test neither, right, left, both, release, and Stop on the installed robot. Record which behavior actually occurred.</td></tr>
+            <tr><td data-label="Decision">Approval and remaining work</td><td data-label="Example answer">Not approved for powered use. Rehearse workload, build and inspect the intake, determine its safe settings, and complete physical tests before enabling it. This paper exercise supplies no motor power or completed measurement.</td></tr>
+          </tbody>
+        </table>
+        <ol>
+          <li>One partner acts as the operator; the other reads each of the six test cases and asks what should happen.</li>
+          <li>Explain why both buttons select STOP and why releasing the button must write zero.</li>
+          <li>Use the <a href="#record">blank control-design record</a> for one actual team action. Change the example choices wherever our robot or workload needs something different.</li>
+        </ol>
+        <p><strong>Finished result:</strong> you can trace action → operator → input → decision → output → test, and distinguish a proposed control from a tested mechanism.</p>
       </section>
 
       <section id="practice" aria-labelledby="practice-title">
@@ -264,8 +308,10 @@
           <p><strong>Handoff rule:</strong> implementation may begin only from an approved row. A provisional or blocked row stays disabled until its named evidence and approval are complete.</p>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -289,6 +335,7 @@
         <li><span class="resource-label optional">Scope boundary</span> Matching REV or goBILDA code may show existing actions and controls. It does not own game rules, team classifications, operator workload, gamepad count, or the team's final map.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

@@ -22,7 +22,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 6, Meeting 12 / 2026-2027 season / FTC SDK v12.0</p>
     <h1>Add and Tune Autonomous Game Actions</h1>
-    <p class="lede">Measure the matching launcher, add one guarded non-drive action to the student route, and compare one variable at a time without weakening the driving fallback.</p>
+    <p class="lede">Add one launcher-and-feed action to autonomous, with a speed check and time limit.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -34,6 +34,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0011-compose-the-autonomous-route.html">Previous: Meeting 11: Compose the Autonomous Route</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -49,7 +50,60 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What your team will produce</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Add one launcher-and-feed action to autonomous, with a speed check and time limit.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>Target speed is requested speed; measured speed comes from the encoder. The feeder waits until the speed stays ready.</p>
+        <ol><li>Use the actual launcher’s configuration and measured settings. Preserve the tested driving-only routine.</li><li>With power disconnected, measure launcher gap and game-piece size. Review the prepared method that starts the launcher, waits for steady speed, feeds once, and stops.</li><li>Check speed readings, timeouts, Stop, and every zero-output command without a game piece in a supported test.</li><li>In the marked launch area, compare either target speed or physical gap. Keep all other conditions fixed and record every attempt.</li><li>Keep the better tested setting or restore the baseline. A completed feed command is not proof that the game piece scored.</li></ol>
+        <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Check launcher gap, mounting, feeder alignment, and service access. Finish build work before starting a fixed-condition experiment.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the Driver Station operator and a separate Stop owner with immediate Stop access and authority to press Stop without permission. Also name the launcher observer, reset lead, measurement lead, programmer, navigator, and recorder.</li>
+          <li>Use only the vendor path matching the exact installed assembly and reviewed source revision. Same-brand or similar-looking parts do not establish a match.</li>
+          <li>Press Stop, verify no motion, switch off the Hub, disconnect the battery, and safely release or support stored energy before contact, measurement, loading, adjustment, or reset.</li>
+          <li>Secure the robot, battery, Hub, wires, attached pieces, mechanisms, test artifact, supports, and any approved containment or backstop before power.</li>
+          <li>Record the selected Meeting 11 route candidate, eligible Meeting 10 fallback, exact configuration, launcher code identity, tested outputs, timeout, ready condition, and every explicit zero before enabling the candidate.</li>
+          <li>Use only current legal game artifacts and current rules for a strategy claim. Vendor code does not prove that a launch is legal or useful.</li>
+        </ul>
+        <aside class="safety-callout">Unexpected direction, speed, feed, repeated feed, artifact path, continued motion, missed timeout, false ready state, implausible telemetry, field entry, loss of communication or control, looseness, battery or wire movement, binding, unsafe vibration, unusual sound, heat, odor, damaged artifact, failed zero, or any person entering the exclusion area means immediate Driver Station Stop. Verify safe output and no motion, say <q>stopped</q>, switch off the Hub, disconnect the battery, preserve the evidence, and only then inspect or reset.</aside>
+
+        <h3>Supported test contract</h3>
+        <p>A <strong>Supported test</strong> occurs only in the game arena with the robot frame secured on stable support and every travel-contact component clear of the support, floor, people, wires, and loose objects. Use no artifact during output-sign, velocity-readback, ready-condition, abort, timeout, and named-zero checks. With everything secured and the exclusion area clear, connect the accepted battery, switch on the Hub, verify Hub and Driver Station status, deploy if required, select the exact reviewed candidate, position the Driver Station operator and Stop owner, and move everyone outside the exclusion area. Press INIT; verify exact configuration/code identity, zero for every touched output, no motion, telemetry, roles, and stop conditions. Call <q>robot live</q> and <q>clear</q> before Start. On completion or abort require every named zero, press Stop, verify safe output and no motion, say <q>stopped</q>, switch off, disconnect, and only then approach, inspect, or reset.</p>
+
+        <h3>Travel test contract</h3>
+        <p>A <strong>Travel test</strong> is required for any integrated route or artifact launch. It occurs only in the game arena with a marked start, intended robot route, intended artifact path, stop boundary, and exclusion area. Secure every item named above; connect the accepted battery, switch on the Hub, verify Hub and Driver Station status, deploy if required, select the exact reviewed candidate, position the Driver Station operator and Stop owner, and move everyone outside the exclusion area. Press INIT; verify exact configuration/code identity, every named zero, no motion, telemetry, containment/backstop, roles, stop conditions, and the clear route. Call <q>robot live</q> and <q>clear</q> before Start. On completion or abort, require every named zero, press Stop, verify safe output and no motion, say <q>stopped</q>, switch off, disconnect, and only then enter, measure, load, or reset.</p>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f06">Source M12-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check launcher readiness.</strong> Review <a href="#safety">both test contracts</a> and the exact launcher, selected route, and fallback records.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Measure and calculate.</strong> Use <a href="#calculate">the launcher calculation record</a> to identify units and measure gap and game-piece size before changing code.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Prepare the guarded action.</strong> Trace <a href="#paths">the applicable source</a> and <a href="#method">the guarded method</a>. Build the prepared adaptation and select one experiment from <a href="#experiment">the experiment procedure</a>.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Check launcher gap, mounting, feeder alignment, and service access. Finish build work before starting a fixed-condition experiment.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Test gates, then one variable.</strong> Follow <a href="#experiment">the two test gates and comparison sets</a>. Prove readiness/timeout/zero without a game piece before any controlled launch.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save launcher results.</strong> Complete the <a href="#handoff">Meeting 13 handoff</a> with settings, observations, failed or incomplete trials, and the tested fallback.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What your team will produce</h2>
         <div class="outcome-banner">One guarded launcher-and-feed method for the exact matching assembly, added to a separate Autonomous candidate. The method checks that the OpMode is active, stops at a timeout, requires multiple distinct interval-spaced samples and a minimum elapsed duration for a sustained measured ready condition, supports immediate abort, reports a distinct result, and explicitly commands every touched output to zero on every exit.</div>
         <p>Keep the selected Meeting 11 driving-only route and its eligible Meeting 10 fallback exact and recoverable. A launcher candidate is not allowed to replace either artifact, and it remains disabled when matching identity, upstream route evidence, or required physical evidence is absent.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
@@ -72,40 +126,6 @@
           <dt>One-variable set</dt><dd>A baseline and comparison trials in which exactly one experimental variable changes while code identity, setup, artifact, battery criterion, feed behavior, and every other declared condition stay fixed.</dd>
         </dl>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f03">Source M12-F03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-      </section>
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the Driver Station operator and a separate Stop owner with immediate Stop access and authority to press Stop without permission. Also name the launcher observer, reset lead, measurement lead, programmer, navigator, and recorder.</li>
-          <li>Use only the vendor path matching the exact installed assembly and reviewed source revision. Same-brand or similar-looking parts do not establish a match.</li>
-          <li>Press Stop, verify no motion, switch off the Hub, disconnect the battery, and safely release or support stored energy before contact, measurement, loading, adjustment, or reset.</li>
-          <li>Secure the robot, battery, Hub, wires, attached pieces, mechanisms, test artifact, supports, and any approved containment or backstop before power.</li>
-          <li>Record the selected Meeting 11 route candidate, eligible Meeting 10 fallback, exact configuration, launcher code identity, tested outputs, timeout, ready condition, and every explicit zero before enabling the candidate.</li>
-          <li>Use only current legal game artifacts and current rules for a strategy claim. Vendor code does not prove that a launch is legal or useful.</li>
-        </ul>
-        <aside class="safety-callout">Unexpected direction, speed, feed, repeated feed, artifact path, continued motion, missed timeout, false ready state, implausible telemetry, field entry, loss of communication or control, looseness, battery or wire movement, binding, unsafe vibration, unusual sound, heat, odor, damaged artifact, failed zero, or any person entering the exclusion area means immediate Driver Station Stop. Verify safe output and no motion, say <q>stopped</q>, switch off the Hub, disconnect the battery, preserve the evidence, and only then inspect or reset.</aside>
-
-        <h3>Supported test contract</h3>
-        <p>A <strong>Supported test</strong> occurs only in the game arena with the robot frame secured on stable support and every travel-contact component clear of the support, floor, people, wires, and loose objects. Use no artifact during output-sign, velocity-readback, ready-condition, abort, timeout, and named-zero checks. With everything secured and the exclusion area clear, connect the accepted battery, switch on the Hub, verify Hub and Driver Station status, deploy if required, select the exact reviewed candidate, position the Driver Station operator and Stop owner, and move everyone outside the exclusion area. Press INIT; verify exact configuration/code identity, zero for every touched output, no motion, telemetry, roles, and stop conditions. Call <q>robot live</q> and <q>clear</q> before Start. On completion or abort require every named zero, press Stop, verify safe output and no motion, say <q>stopped</q>, switch off, disconnect, and only then approach, inspect, or reset.</p>
-
-        <h3>Travel test contract</h3>
-        <p>A <strong>Travel test</strong> is required for any integrated route or artifact launch. It occurs only in the game arena with a marked start, intended robot route, intended artifact path, stop boundary, and exclusion area. Secure every item named above; connect the accepted battery, switch on the Hub, verify Hub and Driver Station status, deploy if required, select the exact reviewed candidate, position the Driver Station operator and Stop owner, and move everyone outside the exclusion area. Press INIT; verify exact configuration/code identity, every named zero, no motion, telemetry, containment/backstop, roles, stop conditions, and the clear route. Call <q>robot live</q> and <q>clear</q> before Start. On completion or abort, require every named zero, press Stop, verify safe output and no motion, say <q>stopped</q>, switch off, disconnect, and only then enter, measure, load, or reset.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f06">Source M12-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:20<br>20 min</time><div><strong>Audit identity and handoff.</strong> Verify the route, fallback, matching launcher source, exact assembly, current rules, roles, and blockers.</div></li>
-          <li><time>0:20-0:45<br>25 min</time><div><strong>Learn and calculate.</strong> Define each quantity, then prepare the encoder-to-RPM, surface-speed, gap, and compression records.</div></li>
-          <li><time>0:45-1:15<br>30 min</time><div><strong>Trace the matching path.</strong> Mark branch-scoped values, touched outputs, readiness logic, and missing explicit shutdown.</div></li>
-          <li><time>1:15-1:25<br>10 min</time><div><strong>Break.</strong> Stop, verify no motion, switch off, disconnect, and preserve the setup.</div></li>
-          <li><time>1:25-2:10<br>45 min</time><div><strong>Build and check the guarded method.</strong> Pair-program; swap driver and navigator halfway; inspect every exit and named zero.</div></li>
-          <li><time>2:10-2:40<br>30 min</time><div><strong>Run one-variable tests.</strong> Complete the Supported test gate, then run eligible Travel test rows without changing two variables.</div></li>
-          <li><time>2:40-2:50<br>10 min</time><div><strong>Decide from evidence.</strong> Keep the baseline, select a bounded candidate, or block the action while preserving every valid row.</div></li>
-          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Each student traces one action and records Meeting 13 inputs or blockers.</div></li>
-        </ol>
       </section>
 
       <form class="m12-evidence-form" aria-label="Meeting 12 launcher action and measurement evidence">
@@ -393,7 +413,7 @@ void zeroEveryTouchedGoBILDAOutput() {
           <p>Do not claim a launcher measurement, safe output, ready threshold, passing action, accepted target, accepted gap, or integrated Autonomous result.</p>
           <ol>
             <li>Keep the launcher candidate disabled. Preserve the exact selected Meeting 11 driving route and the separately eligible Meeting 10 fallback without modification.</li>
-            <li>If assembly identity is unknown or does not exactly match, compare REV and goBILDA sources on paper only. Mark both executable branches blocked and create an owner/date for exact-part identification.</li>
+            <li>If assembly identity is unknown, keep outputs disabled until the parts are identified. For a known custom or last-season assembly, prepare a team-adapted action using its exact motor/controller documents, measured settings, and every required guard and shutdown below. Keep the two new-season vendor values as reading references; do not copy them into a different assembly.</li>
             <li>Complete the calculations symbolically. Captured or vendor example values must be labeled <strong>source example - not current BIOBUZZ measurement</strong>.</li>
             <li>Trace the matching guarded method with cards for active, timeout, ready/not ready, feed, Stop/abort, telemetry, and every named zero. Use a disabled telemetry-only copy if code access exists.</li>
             <li>If the Meeting 2 Blocks competition fallback is active, build the equivalent one-action sequence only when Blocks can express the same matching-source values, measured readiness, active/timeout/abort gates, telemetry, and named zeros. Otherwise retain the driving-only fallback and mark launcher integration blocked.</li>
@@ -432,8 +452,10 @@ void zeroEveryTouchedGoBILDAOutput() {
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f04">Source M12-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
       </section>
       </form>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -462,6 +484,7 @@ void zeroEveryTouchedGoBILDAOutput() {
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

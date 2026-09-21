@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 8, Meeting 15 / FTC SDK v12.0</p>
     <h1>Match Simulation and Event Readiness</h1>
-    <p class="lede">Practice the complete event workflow without mid-run help, recover from recorded evidence, and protect the exact robot state that is ready for final release work.</p>
+    <p class="lede">Practice a full match workflow on the BIOBUZZ robot and prepare the event kit.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0014-reliability-and-failure-recovery.html">Previous: Meeting 14: Reliability and Failure Recovery</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#currency">Current sources</a>
@@ -41,37 +42,19 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the team able to do</h2>
-        <div class="outcome-banner">Run the exact event robot through setup, INIT, Autonomous, transition, TeleOp, Stop, powered-down reset, role handoff, and evidence-based recovery. Complete at least three full simulations before the team may freeze one exact event candidate. Record a primary and practiced backup for every responsibility and every event-critical artifact.</div>
-        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m15-d01">Team choice M15-D01</a> BIOBUZZ uses at least three full simulations, no mid-run coaching, written freeze criteria, and a team-approved event tag name. These are team reliability decisions, not FIRST rules.</p>
-        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m15-m01">Measure it M15-M01</a> <strong>Status: pending delivery evidence.</strong> The lesson prepares the record; only completed simulations on the identified robot can supply the result.</p>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Practice a full match workflow on the BIOBUZZ robot and prepare the event kit.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>A simulation includes the handoffs and reset, not just the robot moving.</p>
+        <ol><li>Check the current official match procedures and inspection checklist. Use the actual competition robot and launcher.</li><li>Assign drivers, operator, Stop owner, observer, reset duties, and backups. Walk through the routine without power.</li><li>Run setup, INIT, autonomous, transition, TeleOp, Stop, and reset. Use official timing and game constraints.</li><li>Complete at least three full simulations. Record failures and retest the complete routine after a correction.</li><li>Save the exact event version, pack the recovery kit, and make sure each critical role has a practiced backup.</li></ol>
+        <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Use inspection and recovery blocks to fix event blockers. Pack batteries, cables, tools, and labeled spares.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
-      <section id="words" aria-labelledby="words-title">
-        <h2 id="words-title">Words you need today</h2>
-        <dl class="words-list">
-          <dt>Match simulation</dt><dd>One uninterrupted practice of the complete current workflow from setup through powered-down reset and handoff.</dd>
-          <dt>INIT</dt><dd>The Driver Station action that prepares the selected program before Start. Student code may already be running, so safe outputs must be checked.</dd>
-          <dt>Autonomous</dt><dd>The match period when the selected Autonomous program controls the robot without gamepad driving.</dd>
-          <dt>Transition</dt><dd>The current official change from Autonomous to the driver-controlled period, including every required Driver Station and drive-team action.</dd>
-          <dt>TeleOp</dt><dd>The team's driver-controlled program and period.</dd>
-          <dt>Mid-run coaching</dt><dd>A prompt about setup, controls, strategy, code, or recovery after a simulation begins. A safety Stop call is never coaching.</dd>
-          <dt>Event blocker</dt><dd>A safety, legality, inspection, setup, control, required-behavior, recovery, or identity failure that prevents event release.</dd>
-          <dt>Late feature</dt><dd>A new improvement that is not needed to correct an event blocker. It is recorded and deferred during freeze work.</dd>
-          <dt>Event candidate</dt><dd>One exact combination of source, deployed app, robot configuration, OpModes, hardware, controls, and test records proposed for event use.</dd>
-          <dt>Freeze</dt><dd>The team decision to stop adding features and protect the exact passing event candidate.</dd>
-          <dt>Rollback</dt><dd>A separately named, known-good identity the team can restore if the event candidate cannot be used.</dd>
-        </dl>
-      </section>
-
-      <section id="currency" aria-labelledby="currency-title">
-        <h2 id="currency-title">Check what is current before practice</h2>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m15-f01">Source M15-F01</a> FIRST controls drive-team constraints, setup, match periods and transitions, and in-match operation. Do not copy those details from memory or from this lesson.</p>
-        <p><strong>Curriculum check on September 17, 2026:</strong> FIRST listed the <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">2026-2027 BIOBUZZ Competition Manual</a> as version <strong>TU01</strong>, updated September 17, 2026, and the latest <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/tu-01">Team Update</a> as <strong>TU01</strong>, updated September 17, 2026. The manual said the <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/q-a-system">Team Q&amp;A</a> opens September 28, 2026, so no current Q&amp;A answer existed to apply on the curriculum check date.</p>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m15-f02">Source M15-F02</a> FTC Docs describes the current Driver Station Practice Timer, automatic Autonomous-to-TeleOp loading, and Self-Inspect. These moving pages, resource indexes, installed apps, device operating systems, and Hub firmware must be checked together at delivery and before freeze.</p>
-        <p><strong>Inspection check on September 17, 2026:</strong> live <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/event">2026-2027 Event Resources</a> marked the <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/event/inspection-check">Inspection Checklist</a> <strong>Coming Soon</strong>, updated July 31, 2026. It listed the Inspection Quick Reference as version <strong>v26-27.1</strong>, updated September 14, 2026. Self-Inspect is a control-system snapshot, not a complete inspection or proof of legality.</p>
-        <aside class="mentor-note"><strong>Mutable delivery-time checks:</strong> on the meeting date and again at the event, record the live manual version/date, latest Team Update version/date, Q&amp;A open/closed status and applicable answers, inspection checklist version/date or unavailable status, FIRST Team Resources access time, local event bulletin/instructions, installed Driver Station and Robot Controller app versions, device OS and Hub firmware context, compatibility result and source, access/check date, checker, and any conflict owner. Later official material replaces this dated curriculum snapshot.</aside>
-      </section>
 
       <section id="safety" aria-labelledby="safety-title">
         <h2 id="safety-title">Before you touch the robot</h2>
@@ -106,6 +89,41 @@
           <li><time>1:50-2:50<br>60 min</time><div><strong>Full simulations and recovery.</strong> Run at least three complete simulations, preserve every attempt, rotate roles, and fully retest any event-blocking fix.</div></li>
           <li><time>2:50-3:00<br>10 min</time><div><strong>Freeze or block.</strong> Record the exact candidate, team-approved tag name, rollback, backups, and Meeting 16 handoff.</div></li>
         </ol>
+      </section>
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the team able to do</h2>
+        <div class="outcome-banner">Run the exact event robot through setup, INIT, Autonomous, transition, TeleOp, Stop, powered-down reset, role handoff, and evidence-based recovery. Complete at least three full simulations before the team may freeze one exact event candidate. Record a primary and practiced backup for every responsibility and every event-critical artifact.</div>
+        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m15-d01">Team choice M15-D01</a> BIOBUZZ uses at least three full simulations, no mid-run coaching, written freeze criteria, and a team-approved event tag name. These are team reliability decisions, not FIRST rules.</p>
+        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m15-m01">Measure it M15-M01</a> <strong>Status: pending delivery evidence.</strong> The lesson prepares the record; only completed simulations on the identified robot can supply the result.</p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Match simulation</dt><dd>One uninterrupted practice of the complete current workflow from setup through powered-down reset and handoff.</dd>
+          <dt>INIT</dt><dd>The Driver Station action that prepares the selected program before Start. Student code may already be running, so safe outputs must be checked.</dd>
+          <dt>Autonomous</dt><dd>The match period when the selected Autonomous program controls the robot without gamepad driving.</dd>
+          <dt>Transition</dt><dd>The current official change from Autonomous to the driver-controlled period, including every required Driver Station and drive-team action.</dd>
+          <dt>TeleOp</dt><dd>The team's driver-controlled program and period.</dd>
+          <dt>Mid-run coaching</dt><dd>A prompt about setup, controls, strategy, code, or recovery after a simulation begins. A safety Stop call is never coaching.</dd>
+          <dt>Event blocker</dt><dd>A safety, legality, inspection, setup, control, required-behavior, recovery, or identity failure that prevents event release.</dd>
+          <dt>Late feature</dt><dd>A new improvement that is not needed to correct an event blocker. It is recorded and deferred during freeze work.</dd>
+          <dt>Event candidate</dt><dd>One exact combination of source, deployed app, robot configuration, OpModes, hardware, controls, and test records proposed for event use.</dd>
+          <dt>Freeze</dt><dd>The team decision to stop adding features and protect the exact passing event candidate.</dd>
+          <dt>Rollback</dt><dd>A separately named, known-good identity the team can restore if the event candidate cannot be used.</dd>
+        </dl>
+      </section>
+
+      <section id="currency" aria-labelledby="currency-title">
+        <h2 id="currency-title">Check what is current before practice</h2>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m15-f01">Source M15-F01</a> FIRST controls drive-team constraints, setup, match periods and transitions, and in-match operation. Do not copy those details from memory or from this lesson.</p>
+        <p><strong>Curriculum check on September 17, 2026:</strong> FIRST listed the <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">2026-2027 BIOBUZZ Competition Manual</a> as version <strong>TU01</strong>, updated September 17, 2026, and the latest <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/tu-01">Team Update</a> as <strong>TU01</strong>, updated September 17, 2026. The manual said the <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/q-a-system">Team Q&amp;A</a> opens September 28, 2026, so no current Q&amp;A answer existed to apply on the curriculum check date.</p>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m15-f02">Source M15-F02</a> FTC Docs describes the current Driver Station Practice Timer, automatic Autonomous-to-TeleOp loading, and Self-Inspect. These moving pages, resource indexes, installed apps, device operating systems, and Hub firmware must be checked together at delivery and before freeze.</p>
+        <p><strong>Inspection check on September 17, 2026:</strong> live <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/event">2026-2027 Event Resources</a> marked the <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/event/inspection-check">Inspection Checklist</a> <strong>Coming Soon</strong>, updated July 31, 2026. It listed the Inspection Quick Reference as version <strong>v26-27.1</strong>, updated September 14, 2026. Self-Inspect is a control-system snapshot, not a complete inspection or proof of legality.</p>
+        <aside class="mentor-note"><strong>Mutable delivery-time checks:</strong> on the meeting date and again at the event, record the live manual version/date, latest Team Update version/date, Q&amp;A open/closed status and applicable answers, inspection checklist version/date or unavailable status, FIRST Team Resources access time, local event bulletin/instructions, installed Driver Station and Robot Controller app versions, device OS and Hub firmware context, compatibility result and source, access/check date, checker, and any conflict owner. Later official material replaces this dated curriculum snapshot.</aside>
       </section>
 
       <section id="follow" aria-labelledby="follow-title">
@@ -245,8 +263,10 @@
           </table>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -271,6 +291,7 @@
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

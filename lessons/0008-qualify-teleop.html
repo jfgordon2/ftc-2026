@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Phase 2, Meeting 8 / FTC SDK v12.0</p>
     <h1>Qualify TeleOp</h1>
-    <p class="lede">Prove that the installed robot performs every still-required TeleOp action safely and repeatedly, then record the exact tested recovery identity.</p>
+    <p class="lede">Run the same complete TeleOp routine three times successfully.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0007-integrate-and-debug-teleop.html">Previous: Meeting 7: Integrate and Debug TeleOp</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -41,7 +42,52 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will prove</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Run the same complete TeleOp routine three times successfully.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>A repeatable test uses the same setup. A passing practice routine applies to that practice robot only.</p>
+        <ol><li>Choose the robot and list every required action in its routine. Label practice results separately from BIOBUZZ qualification.</li><li>Rehearse driving, collection, feeding, launching, release, recovery, and Stop wherever these are installed and safe.</li><li>Check the robot, battery, gamepads, start position, and safe test area. Keep the setup and code unchanged during the three-run set.</li><li>Run and record every attempt. After a fix, repeat affected checks and start a fresh three-run set.</li><li>Save the working source and configuration. If the BIOBUZZ launcher is unfinished, keep its readiness open and continue practice on the old robot.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Complete the competition robot’s mounting, wiring labels, and inspection. Schedule remaining launcher work instead of removing it from the plan.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the Driver Station operator, Stop owner, driver, mechanism operator, observer, recorder, programmer, and reset/mechanic duties. One student may hold two nonconflicting duties, but Stop ownership remains explicit.</li>
+          <li>Use the integrated Meeting 7 TeleOp, signed Meeting 4 control map, current configuration, installed-hardware record, fault log, and each action's acceptance evidence.</li>
+          <li>Press Stop, switch off the Hub, disconnect the battery, and release stored energy before inspection, adjustment, reset, loading, or contact.</li>
+          <li>Freeze the bounded game-arena setup, accepted battery condition, load, gamepad assignments, control-map revision, routine revision, criteria, code identity, and configuration before the first credited attempt.</li>
+          <li>Do not begin powered qualification while any enabled behavior has an unresolved safety-critical defect.</li>
+        </ul>
+        <aside class="safety-callout"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m08-d02">Team choice M08-D02</a> <strong>Powered-work safety policy:</strong> the Stop owner ends the routine for unexpected motion, communication loss, wrong ownership, looseness, battery movement, wire contact, collision, binding, hard-stop contact, stall, heat, smell, unusual sound, field intrusion, or any failed safety criterion. Press Stop, switch off, disconnect, call <q>stopped</q>, and preserve the evidence. An aborted routine does not count, and no inspection, adjustment, reset, loading, or contact begins before that shutdown.</aside>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check qualification scope.</strong> Review <a href="#safety">readiness</a> and the robot’s required actions. Distinguish practice qualification from BIOBUZZ event readiness.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Walk through the routine.</strong> Use <a href="#follow">Turn the control map into a gate</a> and <a href="#test">One complete routine</a>. Explain what passes and what resets the three-run count.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Prepare and rehearse.</strong> Complete <a href="#practice">Scope, Robot/Routine, and Record readiness</a>. Rehearse without power. No new feature or arbitrary code edit is required.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Complete the competition robot’s mounting, wiring labels, and inspection. Schedule remaining launcher work instead of removing it from the plan.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Run the qualification set.</strong> Follow <a href="#test">Three consecutive complete routines</a> and <a href="#record">record every attempt</a>. A correction requires affected retests and a fresh qualifying set.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Record qualified or blocked.</strong> Complete the <a href="#handoff">Meeting 9 handoff</a>. Save the exact working version and remaining work; do not remove the required launcher to claim readiness.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will prove</h2>
         <div class="outcome-banner">The team will run one unchanged, complete qualification routine three consecutive times. Each run must pass safe initialization, safe defaults, drivetrain, every installed action still classified required, simultaneous operator work, release, reverse or recovery, telemetry, and Stop without a code-related failure or safety violation.</div>
         <p>Qualification proves only the exact robot, configuration, code identity, control-map revision, setup, and required scope recorded today. One successful action, a vendor demonstration, or three partial runs do not qualify TeleOp.</p>
         <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m08-d01">Team choice M08-D01</a> Required parity means that every capability in the matching StarterBot path which Meeting 4 classified required and verified as installed appears in the routine and passes. Optional or genuinely unavailable actions do not count against parity, but a required action may not disappear silently.</p>
@@ -61,31 +107,6 @@
         </dl>
       </section>
 
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the Driver Station operator, Stop owner, driver, mechanism operator, observer, recorder, programmer, and reset/mechanic duties. One student may hold two nonconflicting duties, but Stop ownership remains explicit.</li>
-          <li>Use the integrated Meeting 7 TeleOp, signed Meeting 4 control map, current configuration, installed-hardware record, fault log, and each action's acceptance evidence.</li>
-          <li>Press Stop, switch off the Hub, disconnect the battery, and release stored energy before inspection, adjustment, reset, loading, or contact.</li>
-          <li>Freeze the bounded game-arena setup, accepted battery condition, load, gamepad assignments, control-map revision, routine revision, criteria, code identity, and configuration before the first credited attempt.</li>
-          <li>Do not begin powered qualification while any enabled behavior has an unresolved safety-critical defect.</li>
-        </ul>
-        <aside class="safety-callout"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m08-d02">Team choice M08-D02</a> <strong>Powered-work safety policy:</strong> the Stop owner ends the routine for unexpected motion, communication loss, wrong ownership, looseness, battery movement, wire contact, collision, binding, hard-stop contact, stall, heat, smell, unusual sound, field intrusion, or any failed safety criterion. Press Stop, switch off, disconnect, call <q>stopped</q>, and preserve the evidence. An aborted routine does not count, and no inspection, adjustment, reset, loading, or contact begins before that shutdown.</aside>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Kickoff and priorities.</strong> Retrieve the integrated TeleOp, approved map, installed scope, defects, roles, and Stop conditions.</div></li>
-          <li><time>0:15-0:30<br>15 min</time><div><strong>Read the qualification contract.</strong> Trace required parity, nonwaivable capabilities, evidence fields, and the count-reset rule.</div></li>
-          <li><time>0:30-1:30<br>60 min</time><div><strong>Rotate through three workstreams.</strong> Audit scope and identity, rehearse controls and simultaneous work, and prepare the robot, arena, and record.</div></li>
-          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Leave the robot stopped, switched off, disconnected, and secured.</div></li>
-          <li><time>1:40-2:30<br>50 min</time><div><strong>Complete integrated qualification work.</strong> Rehearse the whole routine, resolve blocking defects, and freeze one exact candidate state.</div></li>
-          <li><time>2:30-2:50<br>20 min</time><div><strong>Repeatability test and documentation.</strong> Credit only three consecutive complete passing routines and record actual evidence.</div></li>
-          <li><time>2:50-3:00<br>10 min</time><div><strong>Exit check and handoff.</strong> Record the qualification decision, exact recovery identity, exclusions, open work, and Meeting 9 gate.</div></li>
-        </ol>
-      </section>
-
       <section id="follow" aria-labelledby="follow-title">
         <h2 id="follow-title">Follow along: turn the control map into a gate</h2>
         <ol>
@@ -100,7 +121,7 @@
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Prepare qualification with your partner</h2>
-        <p><strong>Three pairs:</strong> rotate every 20 minutes through all three workstreams. <strong>Two pairs:</strong> one pair combines Scope and Record while the other combines Robot and Routine; switch after 30 minutes. Swap reader/recorder and driver/navigator responsibilities at the rotation.</p>
+        <p><strong>Three pairs:</strong> spend 15 minutes at each of the three workstreams (45 minutes total). <strong>Two pairs:</strong> one pair handles Scope and the other Robot/Routine for 15 minutes, swap for 15 minutes, then complete Record readiness together for 15 minutes. Swap reader/recorder and driver/navigator responsibilities at the rotation.</p>
         <div class="station-grid">
           <article class="station-card">
             <h3>1. Scope and source audit</h3>
@@ -165,7 +186,7 @@
       </section>
 
       <section id="reclassify" aria-labelledby="reclassify-title">
-        <h2 id="reclassify-title">Formally revise unsafe scope</h2>
+        <h2 id="reclassify-title">Formally revise unsafe scope</h2><p><strong>Our launcher is required.</strong> Use a separate readiness field: installed and tested, installed but not tested, or required — not yet built. An unfinished launcher stays on the build plan with an owner and next task. Reclassification below applies to other optional strategy choices; it cannot remove the launcher to claim BIOBUZZ readiness. Practice-only qualification is labeled for the old robot.</p>
         <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m08-d04">Team choice M08-D04</a> <strong>Reclassification and nonwaivable policy:</strong> a failed required feature is a defect, not permission to lower the gate. Repair and retest it first. Safe initialization, drivetrain control, Stop, and every action that remains required are nonwaivable. If evidence shows that another required action cannot be made safe for the current event, complete every step below.</p>
         <ol>
           <li>Record the action/map-row ID, failed criterion, trial and fault-log evidence, attempted correction and retest, and why the feature cannot be made safe.</li>
@@ -273,8 +294,10 @@
           <p><strong>Handoff gate:</strong> Meeting 9 receives qualified hardware setup only when the final record says QUALIFIED and no enabled safety-critical TeleOp defect remains. Otherwise it receives blockers and owners, not an assumed baseline.</p>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -301,6 +324,7 @@
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

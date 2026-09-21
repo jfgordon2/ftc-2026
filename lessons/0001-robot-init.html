@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 1, Meeting 1 / FTC SDK v12.0</p>
     <h1>Robot Init</h1>
-    <p class="lede">Identify the robot and active configuration, trace one prepared program from initialization through Stop, and deploy one harmless telemetry change.</p>
+    <p class="lede">Change a message in the robot program and see it on the Driver Station.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -23,6 +23,7 @@
 
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -37,7 +38,52 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the robot do</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Change a message in the robot program and see it on the Driver Station.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>Telemetry means messages from the program. An OpMode is the program you select on the Driver Station.</p>
+        <ol><li>Choose one practice robot. Write down its name, season, active configuration, and the source file you will use.</li><li>Open the prepared telemetry-only program. Find the message that appears before Start and the message that repeats after Start.</li><li>Change PAIR_NAME to your pair’s name. Build, connect to the correct Hub, and deploy.</li><li>Follow the safety checklist. Press INIT, check the waiting message, press Start, then press Stop.</li><li>Swap roles. Each person explains which line changed and shows the message it produced.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Label the two practice robots, photograph their wiring, and save a copy of each program and configuration.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Use a <strong>supported test</strong> in the game arena: secure the robot frame on stable support and keep every wheel clear of the support, floor, people, wires, and loose objects.</li>
+          <li>Name one routine Driver Station operator and a separate Stop owner. The operator handles ordinary controls. Position the Stop owner with immediate access to Driver Station Stop; the Stop owner may press it without permission.</li>
+          <li>With the Hub off and battery disconnected, secure the robot, battery, Hub, wires, attached pieces, and mechanisms. A second student checks the setup.</li>
+          <li>Inspect the prepared source and successful build evidence to confirm it has telemetry but no hardware lookup or actuator command.</li>
+          <li>Write the prediction: INIT shows the waiting and safe-output messages, Start shows the pair message, nothing moves, and Stop ends updates.</li>
+          <li>Before INIT, position both control roles, confirm Stop access, move everyone outside the marked exclusion area, have the operator say <q>robot live</q>, and have the observer check the arena and answer <q>clear</q>. INIT executes user code.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, looseness, unsafe vibration, implausible telemetry, loss of control or communication, inability to reach the declared safe output, heat, smoke, odor, or unusual sound means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before entry or contact.</aside>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Meet the system.</strong> Assign pair roles and Stop ownership, establish the supported test in the game arena, and predict today's visible result.</div></li>
+          <li><time>0:15-0:40<br>25 min</time><div><strong>Identify the robot.</strong> Record manufacturer, exact revision, matching or blocked vendor path, Control Hub, Driver Station, active configuration, and installed devices.</div></li>
+          <li><time>0:40-1:45<br>65 min</time><div><strong>Trace, change, and deploy.</strong> Follow initialization, Start, active execution, telemetry, declared safe output, and Stop; each pair deploys one harmless message change.</div></li>
+          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, say <q>stopped</q>, switch off the Hub, disconnect the battery, and park the Driver Station.</div></li>
+          <li><time>1:55-2:45<br>50 min</time><div><strong>Build the robot identity record.</strong> Reconcile the active configuration with physical labels and enter every actual drivetrain motor for Meeting 2.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Explain and hand off.</strong> Each student traces the lifecycle; the team marks deployment evidence, unknown motor models, and blocked work honestly.</div></li>
+        </ol>
+      </section>
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the robot do</h2>
         <div class="outcome-banner">Your pair will change one telemetry message in the prepared program, deploy it to the identified Control Hub, see initialization and safe-output messages before Start, see your changed message during active execution, and use Stop to end the OpMode.</div>
         <p>You will also identify the installed robot's manufacturer and exact revision, select only its matching vendor path, and record the active hardware configuration and every actual drivetrain motor for Meeting 2. Today's prepared program contains no actuator commands, so no mechanism should move.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
@@ -65,37 +111,11 @@
         <p>Use <a href="../reference/words-we-use.html">Words we use</a> only if you want a reminder.</p>
       </section>
 
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Use a <strong>supported test</strong> in the game arena: secure the robot frame on stable support and keep every wheel clear of the support, floor, people, wires, and loose objects.</li>
-          <li>Name one routine Driver Station operator and a separate Stop owner. The operator handles ordinary controls. Position the Stop owner with immediate access to Driver Station Stop; the Stop owner may press it without permission.</li>
-          <li>With the Hub off and battery disconnected, secure the robot, battery, Hub, wires, attached pieces, and mechanisms. A second student checks the setup.</li>
-          <li>Inspect the prepared source and successful build evidence to confirm it has telemetry but no hardware lookup or actuator command.</li>
-          <li>Write the prediction: INIT shows the waiting and safe-output messages, Start shows the pair message, nothing moves, and Stop ends updates.</li>
-          <li>Before INIT, position both control roles, confirm Stop access, move everyone outside the marked exclusion area, have the operator say <q>robot live</q>, and have the observer check the arena and answer <q>clear</q>. INIT executes user code.</li>
-        </ul>
-        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, looseness, unsafe vibration, implausible telemetry, loss of control or communication, inability to reach the declared safe output, heat, smoke, odor, or unusual sound means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before entry or contact.</aside>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f02">Source M01-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m01-f03">Source M01-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m01-d01">Team choice M01-D01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Meet the system.</strong> Assign pair roles and Stop ownership, establish the supported test in the game arena, and predict today's visible result.</div></li>
-          <li><time>0:15-0:40<br>25 min</time><div><strong>Identify the robot.</strong> Record manufacturer, exact revision, matching or blocked vendor path, Control Hub, Driver Station, active configuration, and installed devices.</div></li>
-          <li><time>0:40-1:45<br>65 min</time><div><strong>Trace, change, and deploy.</strong> Follow initialization, Start, active execution, telemetry, declared safe output, and Stop; each pair deploys one harmless message change.</div></li>
-          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, say <q>stopped</q>, switch off the Hub, disconnect the battery, and park the Driver Station.</div></li>
-          <li><time>1:55-2:45<br>50 min</time><div><strong>Build the robot identity record.</strong> Reconcile the active configuration with physical labels and enter every actual drivetrain motor for Meeting 2.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Explain and hand off.</strong> Each student traces the lifecycle; the team marks deployment evidence, unknown motor models, and blocked work honestly.</div></li>
-        </ol>
-      </section>
-
       <section id="follow" aria-labelledby="follow-title">
         <h2 id="follow-title">Follow along: identify, trace, and deploy</h2>
         <p>The driver performs each action. The navigator reads the step, states why it matters, and checks the visible evidence. Swap driver and navigator before changing the message.</p>
         <ol>
-          <li><strong>Identify the robot parts:</strong> read the manufacturer label on the motor and other parts. You should have either REV or goBILDA. This prevents vendor assumptions or uploading previous year's code to a different robot. <strong>Success:</strong> the record names the evidence for the manufacturer or names the blocker, its owner, and the next check.</li>
+          <li><strong>Identify the robot parts:</strong> read the manufacturer label on the motor and other parts. These practice robots are last season's REV and goBILDA StarterBots. Record the season and any modifications as well as the brand. Use each robot's own saved program and configuration. <strong>Success:</strong> the record names the evidence for the manufacturer or names the blocker, its owner, and the next check.</li>
           <li><strong>Record the control-system identity:</strong> point to the Control Hub, Driver Station, and gamepad. On the Driver Station, copy the exact active configuration name and list each installed device name, configured type, Hub, and port. This connects the saved setup to physical hardware. <strong>Success:</strong> another student can trace each recorded device from the screen to its labeled connection or marks the mismatch blocked with an owner and next check.</li>
           <li><strong>Open the prepared source:</strong> in Android Studio open the repository root, then <code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode/BiobuzzTrainingOpMode.java</code>. This keeps team work out of the official <code>FtcRobotController</code> samples. <strong>Success:</strong> the project panel shows both modules and the file contains the three prepared telemetry messages.</li>
           <li><strong>Trace the lifecycle:</strong> mark entry into <code>runOpMode()</code>, initialization telemetry, <code>waitForStart()</code>, the <code>opModeIsActive()</code> loop, active telemetry, and the end reached after Stop. Box the declared <code>Output</code> value and confirm there are no hardware lookups or actuator calls. <strong>Success:</strong> your arrows predict what appears before Start, after Start, and after Stop.</li>
@@ -117,7 +137,7 @@
             <h3>1. Robot identity</h3>
             <ol>
               <li>Photograph or sketch the manufacturer label and revision evidence.</li>
-              <li>Mark REV, goBILDA, unmatched, or unknown; write why. For any mismatch or unknown, name its owner and next check.</li>
+              <li>Mark REV practice robot, goBILDA practice robot, or team-built BIOBUZZ robot; record season, modifications, and source match. For any mismatch or unknown, name its owner and next check.</li>
               <li>Copy the active configuration name exactly.</li>
               <li>Trace each saved device name and Hub/port to its physical label; record discrepancies instead of correcting them silently.</li>
             </ol>
@@ -259,13 +279,15 @@
           <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m01-m01">Measure it M01-M01</a></p>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
         <ul class="checklist">
-          <li>Before students arrive, identify one or two robots to use, or Control Hub test bench. Prepare REV, goBILDA, or unmatched inventory materials accordingly.</li>
+          <li>Prepare the assembled last-season REV and goBILDA practice robots with separate source backups, configurations, and inventory sheets. Select one supervised powered station.</li>
           <li>Use the pinned <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/releases/tag/v12.0">FTC SDK v12.0 release</a>. Complete installation, first Gradle sync, app/version matching, Hub connection, and one proven deployment before class.</li>
           <li>Prepare the test area: marked exclusion area away from others such as the game arena.</li>
           <li>Print identity records, source lifecycle cards, one test card per pair, skill trackers, and drivetrain handoff.</li>
@@ -278,8 +300,8 @@
         <ol>
           <li>Place it at <code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode/BiobuzzTrainingOpMode.java</code> with <code>@TeleOp(name="BIOBUZZ Training", group="Training")</code>.</li>
           <li>Retain <code>@Disabled</code> during preparation. We are purposely omitting hardware declarations, <code>hardwareMap</code> calls, actuator commands, gamepad reads, or robot-specific constants.</li>
-          <li>Build and deploy, then personally prove lifecycle order, exact telemetry, no motion, and Stop in the supported test.</li>
-          <li>Remove only <code>@Disabled</code>, rebuild, redeploy, and repeat before student use.</li>
+          <li>Build the disabled copy first. Review it to confirm there are no hardware commands; it will not appear in the selectable OpMode list while disabled.</li>
+          <li>Remove only <code>@Disabled</code>, rebuild, and deploy. In the supported test, prove lifecycle order, exact telemetry, no motion, and Stop before student use.</li>
         </ol>
       </aside>
 
@@ -325,6 +347,7 @@ public class BiobuzzTrainingOpMode extends LinearOpMode {
         <li><span class="resource-label follow">Follow</span> Use the shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/skill-tracker.html">skill tracker</a>, and <a href="../reference/sdk-and-troubleshooting.html">software lookup and troubleshooting guide</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

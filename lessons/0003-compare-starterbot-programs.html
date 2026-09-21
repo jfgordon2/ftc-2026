@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 2, Meeting 3 / FTC SDK v12.0</p>
     <h1>Compare the StarterBot Programs</h1>
-    <p class="lede">Trace two complete TeleOp programs, identify which one matches the installed robot, change one telemetry label in that checked-in program, and commit it only after a controlled test passes.</p>
+    <p class="lede">Compare the two practice programs, change one message, and save the tested version.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0002-making-the-motor-move.html">Previous: Meeting 2: Making the Motor Move</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -39,8 +40,52 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the robot do</h2>
-        <div class="outcome-banner">Your team will prove which 2026-2027 StarterBot is installed, compare both vendor TeleOps, and run only the checked-in program for that exact robot. The unmatched program remains reading comparison only and is never installed or run.</div>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Compare the two practice programs, change one message, and save the tested version.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>A method is a named set of instructions. A Git commit saves a version you can find again.</p>
+        <ol><li>Open the saved programs for our last-season REV and goBILDA robots. Label which source belongs to which robot.</li><li>In each program, find setup, repeated gamepad reading, motor output, and Stop. Describe one similarity and one difference.</li><li>Read the BIOBUZZ vendor examples as design ideas. Do not assume their controls or parts match our practice robots.</li><li>Change one telemetry label in the selected practice program. Build and test on its own robot, starting on support.</li><li>Review the diff with your partner, commit the tested change, and record the robot and configuration.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Keep at least one practice robot usable. List parts that could be reused and parts the BIOBUZZ build will need.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the routine Driver Station operator, observer, recorder, and a separate Stop owner. The Stop owner keeps immediate access to Stop and may press it without permission.</li>
+          <li>Press Stop, switch off the Control Hub, and disconnect the battery before touching wheels, mechanisms, wiring, supports, or game pieces.</li>
+          <li>Remove game pieces. Inspect and secure the robot, battery, Hub, wires, wheels, drivetrain, intake, launcher or flywheel, feeder or windmill, and pollen poker or corner-intake servos that exist on the matching assembly.</li>
+          <li>Match each practice robot to its own saved last-season program, configuration, motor map, and modifications. Keep the BIOBUZZ vendor examples below reading-only unless the installed robot actually matches that new-season assembly.</li>
+          <li>For the first powered run, place the robot on stable support in the game arena. Prove every drive wheel is clear and every mechanism has unobstructed travel. Mark an exclusion area and keep everyone outside it before INIT.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Supported test before Travel test.</strong> The matching program must pass the Supported test cases, neutral-output check, and Stop check before the robot moves to the marked start. Unexpected motion, support movement, interference, loose hardware, wire movement, heat, smoke, odor, unusual sound, implausible telemetry, or lost control means immediate Stop, Hub off, battery disconnected, and no contact until the Stop owner says <q>stopped</q>.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m03-m01">Measure it M03-M01</a></p>
+      </section>
+
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today's plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Identify the robot and retrieve prior evidence.</strong> Assign roles; check the exact assembly, complete motor map, language decision, and unresolved blockers from Meeting 2.</div></li>
+          <li><time>0:15-0:40<br>25 min</time><div><strong>Compare the two programs.</strong> Trace lifecycle, drive input, subsystem methods, and mechanisms side by side.</div></li>
+          <li><time>0:40-1:45<br>65 min</time><div><strong>Pair challenge and rotating stations.</strong> Complete the lifecycle trace, control comparison, source record, matching-path decision, and one telemetry-label edit.</div></li>
+          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, switch off the Hub, disconnect the battery, and park the Driver Station.</div></li>
+          <li><time>1:55-2:45<br>50 min</time><div><strong>Test only the matching program.</strong> Pass the Supported test before any authorized Travel test, then inspect the tested diff.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Create the tested commit and hand off.</strong> Students commit only the bounded change, record its hash, and explain one program path individually.</div></li>
+        </ol>
+      </section>
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the robot do</h2>
+        <div class="outcome-banner">Compare our two last-season practice robots and their saved programs. Run only the program prepared for the robot at the test station. The 2026-2027 BIOBUZZ vendor examples below are a separate reading comparison until a new build matches their hardware.</div>
         <p>Before testing, students will change one team-specific telemetry label in the matching program. After the Supported test and any authorized Travel test pass, students will inspect only that diff and create the course's first tested robot-code commit.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m03-m01">Measure it M03-M01</a></p>
       </section>
@@ -62,34 +107,9 @@
         <p>Use <a href="../reference/words-we-use.html">Words we use</a> only if you want a reminder.</p>
       </section>
 
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the routine Driver Station operator, observer, recorder, and a separate Stop owner. The Stop owner keeps immediate access to Stop and may press it without permission.</li>
-          <li>Press Stop, switch off the Control Hub, and disconnect the battery before touching wheels, mechanisms, wiring, supports, or game pieces.</li>
-          <li>Remove game pieces. Inspect and secure the robot, battery, Hub, wires, wheels, drivetrain, intake, launcher or flywheel, feeder or windmill, and pollen poker or corner-intake servos that exist on the matching assembly.</li>
-          <li>Compare the installed manufacturer, exact 2026-2027 assembly, saved configuration, motor map, directions, and checked-in source identity. If the evidence does not establish one exact match, do not enable either vendor program.</li>
-          <li>For the first powered run, place the robot on stable support in the game arena. Prove every drive wheel is clear and every mechanism has unobstructed travel. Mark an exclusion area and keep everyone outside it before INIT.</li>
-        </ul>
-        <aside class="safety-callout"><strong>Supported test before Travel test.</strong> The matching program must pass the Supported test cases, neutral-output check, and Stop check before the robot moves to the marked start. Unexpected motion, support movement, interference, loose hardware, wire movement, heat, smoke, odor, unusual sound, implausible telemetry, or lost control means immediate Stop, Hub off, battery disconnected, and no contact until the Stop owner says <q>stopped</q>.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m03-d01">Team choice M03-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m03-m01">Measure it M03-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Identify the robot and retrieve prior evidence.</strong> Assign roles; check the exact assembly, complete motor map, language decision, and unresolved blockers from Meeting 2.</div></li>
-          <li><time>0:15-0:40<br>25 min</time><div><strong>Compare the two programs.</strong> Trace lifecycle, drive input, subsystem methods, and mechanisms side by side.</div></li>
-          <li><time>0:40-1:45<br>65 min</time><div><strong>Pair challenge and rotating stations.</strong> Complete the lifecycle trace, control comparison, source record, matching-path decision, and one telemetry-label edit.</div></li>
-          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, switch off the Hub, disconnect the battery, and park the Driver Station.</div></li>
-          <li><time>1:55-2:45<br>50 min</time><div><strong>Test only the matching program.</strong> Pass the Supported test before any authorized Travel test, then inspect the tested diff.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Create the tested commit and hand off.</strong> Students commit only the bounded change, record its hash, and explain one program path individually.</div></li>
-        </ol>
-      </section>
-
       <section id="compare" aria-labelledby="compare-title">
         <h2 id="compare-title">Follow along: trace both programs side by side</h2>
-        <p>Reading both programs teaches comparison. It does not authorize both programs to control the robot. Point to each item in the identified source before filling the table.</p>
+        <p>First trace the saved programs that belong to our two last-season practice robots. For each, find setup, repeated input reading, drive output, mechanism output, and Stop. Do not assume their lifecycles or button assignments match the examples below. The 2026-2027 examples are a separate design comparison for our BIOBUZZ build; they are not the programs to install on the practice robots.</p>
         <div class="vendor-paths">
           <article class="vendor-path">
             <h3>REV 2026-2027 Starter Bot TeleOp</h3>
@@ -136,13 +156,13 @@
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Try it with your partner</h2>
-        <p><strong>Three pairs:</strong> rotate every 20 minutes, then use five minutes to reconcile records. <strong>Two pairs:</strong> complete Source and Lifecycle for 30 minutes, swap, then complete Match and Change for 35 minutes. Swap driver and navigator before any edit.</p>
+        <p><strong>Three pairs:</strong> rotate every 20 minutes, then use five minutes to reconcile records. <strong>Two pairs:</strong> spend 15 minutes at Source or Lifecycle, swap for 15 minutes, then spend 35 minutes on Match and Change together (65 minutes total). Swap driver and navigator before any edit.</p>
         <div class="station-grid">
           <article class="station-card">
             <h3>1. Source and assembly</h3>
             <ol>
               <li>Record the installed manufacturer, exact assembly revision, visible identifiers, saved configuration, and Meeting 2 motor-map evidence.</li>
-              <li>For REV, record the complete Java overview URL and delivery access date. For goBILDA, record ZIP filename, inspected file, delivery checksum, and download date.</li>
+              <li>For each practice robot, record the saved source file, commit or archive identity, robot season/revision, and matching configuration. Separately record the URL/date or ZIP identity of each BIOBUZZ reading example.</li>
               <li>Compare the physical mechanisms and configuration names with the matching source. Record every contradiction as a blocker with an owner and next check.</li>
               <li>Mark one source <strong>matching run candidate</strong> only if all identity evidence agrees. Mark the other <strong>reading comparison only - do not install or run</strong>.</li>
             </ol>
@@ -299,14 +319,16 @@
           </table>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
         <ul class="checklist">
           <li>Recheck the mutable REV Java page or download and the goBILDA ZIP at delivery. Preserve the exact reviewed REV URL/access date or goBILDA filename, contained filename, download date, and SHA-256. Compare changed artifacts before use.</li>
-          <li>Audit Meeting 2's complete motor map and Java/Blocks decision. Independently prove the installed robot's exact manufacturer and 2026-2027 assembly revision; similar parts or brand alone do not establish a match.</li>
+          <li>Audit Meeting 2's complete motor map and Java/Blocks decision. Identify both last-season practice robots and prepare their saved, reviewed programs. Record season and modifications; do not relabel them as 2026-2027 assemblies.</li>
           <li>Check in only the exact matching program/project intended for execution. Keep the unmatched source available for reading without making it an enabled robot OpMode.</li>
           <li>Prepare the matching program with vendor behavior intact and a clean starting tree. Do not pre-apply the student telemetry-label change.</li>
           <li>For an active Blocks branch, prepare and check in equivalent matching behavior before the meeting. Ensure the project exposes one telemetry label and can produce an inspectable saved-file diff.</li>
@@ -327,6 +349,7 @@
         <li><span class="resource-label follow">Follow</span> Use the shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

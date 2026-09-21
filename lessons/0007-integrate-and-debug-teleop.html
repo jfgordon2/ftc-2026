@@ -13,7 +13,7 @@
     <p>BIOBUZZ / Week 4, Meeting 7 / FTC SDK v12.0</p>
     <h1>Integrate and Debug TeleOp</h1>
     <p><strong>Integrated</strong> means the separately tested drivetrain and mechanism code paths are combined in one reviewed version. <strong>Coexist</strong> means those paths work alone and together without stealing inputs, retaining stale commands, or defeating safe release and Stop. A <strong>candidate</strong> is the exact reviewed code version ready for the next recorded test; it is not yet qualified or known-good.</p>
-    <p class="lede">Combine the tested drivetrain and enabled mechanism controls, prove that they coexist, and use evidence to isolate one cause before changing one thing.</p>
+    <p class="lede">Drive and operate a mechanism together, then find and fix one problem.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -25,6 +25,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0006-build-the-mechanism-controls.html">Previous: Meeting 6: Build the Mechanism Controls</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -39,7 +40,54 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the robot do</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Drive and operate a mechanism together, then find and fix one problem.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>Debugging is testing an explanation. Input tells you what was requested; telemetry shows what the code decided.</p>
+        <ol><li>Run the complete telemetry-only example below. Drive requests must keep updating while you press and release the intake buttons.</li><li>Open the tested drive and mechanism code for the same robot. List which method writes each output.</li><li>Combine the two using the existing lifecycle. Keep each output’s stop command and write it in only one place per loop.</li><li>Test driving alone, the mechanism alone, both together, release, and Stop. Use supported tests before travel.</li><li>For one fault, write what happened, suggest one cause, check telemetry, change one thing, and repeat the same test.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Finish mounting and guarding the launcher. Check feeder alignment and cable clearance before the next powered test.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you integrate or test</h2>
+        <ul class="checklist">
+          <li>Work only in the game arena. Start with a <strong>Supported test</strong>: secure the robot on stable support with every wheel clear of the support, floor, people, wires, and loose objects.</li>
+          <li>Name the Driver Station operator, mechanism operator when separate, observer, recorder, and independent Stop owner. The Stop owner has immediate access and does not wait for permission.</li>
+          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before inspection, code deployment, configuration work, physical contact, or reset.</li>
+          <li>Preserve the Meeting 5 drivetrain limit and the Meeting 6 enabled-feature scope, safe releases, measured holds, conflict rules, and tested load stage. Do not invent or widen a value during integration.</li>
+          <li>Write the exact case, expected telemetry and behavior, abort signs, and safe outputs before power. Run one bounded case at a time.</li>
+          <li>Use only a mentor-prepared, known-safe simulated fault in a disposable copy. Never unplug live wiring, partly seat a connector, loosen a structure, bypass an interlock, reverse polarity, create a bind or stall, or manufacture unsafe motion.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, lost control, missing zero or safe hold, collision, binding, stall, looseness, heat, odor, unusual sound, implausible telemetry, communication loss, or field entry means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before contact. Preserve the symptom; do not try another input.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m07-d02">Team choice M07-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m07-m01">Measure it M07-M01</a></p>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check both tested inputs.</strong> Use <a href="#integrate">Integrate without erasing what already passed</a> to identify the drive and mechanism versions, shared inputs, and output owners.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Run the decision example.</strong> Trace the complete <a href="#integrate">telemetry-only control program</a>. Predict intake requests while drive values keep updating.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Integrate and prepare diagnosis.</strong> Complete <a href="#practice">the three integration workstreams</a>. Build the combined candidate and use <a href="#debug">the debugging loop</a> to prepare one testable fault hypothesis.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Finish mounting and guarding the launcher. Check feeder alignment and cable clearance before the next powered test.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Test coexistence and diagnose.</strong> Run <a href="#test">the integrated control tests</a>. For a safe fault, capture telemetry, make one justified correction, and repeat the original case.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save the integrated candidate.</strong> Complete the <a href="#handoff">Meeting 8 handoff</a> with passing cases, fault evidence, and remaining blockers.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the robot do</h2>
         <div class="outcome-banner">The integrated TeleOp candidate will preserve the tested drivetrain and every enabled Meeting 6 mechanism action while controls are used alone and together. The team will test neutral, drivetrain, mechanism, simultaneous input, release, reverse or recovery, and Stop, then close any fault only from an evidence trail and the repeated original test.</div>
         <p>Integration does not authorize a new action, value, hardware name, vendor assumption, or wider physical range. Begin with the recoverable drivetrain candidate and the separate mechanism candidate. Keep every pending, failed, unmatched, optional, or unavailable feature disabled.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m07-m01">Measure it M07-M01</a></p>
@@ -60,34 +108,6 @@
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m07-d03">Team choice M07-D03</a></p>
       </section>
 
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you integrate or test</h2>
-        <ul class="checklist">
-          <li>Work only in the game arena. Start with a <strong>Supported test</strong>: secure the robot on stable support with every wheel clear of the support, floor, people, wires, and loose objects.</li>
-          <li>Name the Driver Station operator, mechanism operator when separate, observer, recorder, and independent Stop owner. The Stop owner has immediate access and does not wait for permission.</li>
-          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before inspection, code deployment, configuration work, physical contact, or reset.</li>
-          <li>Preserve the Meeting 5 drivetrain limit and the Meeting 6 enabled-feature scope, safe releases, measured holds, conflict rules, and tested load stage. Do not invent or widen a value during integration.</li>
-          <li>Write the exact case, expected telemetry and behavior, abort signs, and safe outputs before power. Run one bounded case at a time.</li>
-          <li>Use only a mentor-prepared, known-safe simulated fault in a disposable copy. Never unplug live wiring, partly seat a connector, loosen a structure, bypass an interlock, reverse polarity, create a bind or stall, or manufacture unsafe motion.</li>
-        </ul>
-        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, lost control, missing zero or safe hold, collision, binding, stall, looseness, heat, odor, unusual sound, implausible telemetry, communication loss, or field entry means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before contact. Preserve the symptom; do not try another input.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m07-d02">Team choice M07-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m07-m01">Measure it M07-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Audit both handoffs.</strong> Confirm identities, enabled scope, separate known-good copies, roles, test boundaries, and blockers.</div></li>
-          <li><time>0:15-0:35<br>20 min</time><div><strong>Rehearse the evidence loop.</strong> Follow the official ladder and practice observe, hypothesize, instrument, test, and conclude without editing first.</div></li>
-          <li><time>0:35-1:05<br>30 min</time><div><strong>Integrate in pairs.</strong> Trace calls, merge one reviewed path at a time, preserve lifecycle and safe outputs, build, and inspect the diff.</div></li>
-          <li><time>1:05-1:30<br>25 min</time><div><strong>Run telemetry-only coexistence cases.</strong> Predict and trace neutral, separate, simultaneous, release, recovery, and simulated Stop inputs.</div></li>
-          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, switch off the Hub, disconnect the battery, and preserve the candidate and records.</div></li>
-          <li><time>1:40-2:15<br>35 min</time><div><strong>Run the Supported integration test.</strong> Test the reviewed candidate on the secured robot and record every coexistence result.</div></li>
-          <li><time>2:15-2:40<br>25 min</time><div><strong>Diagnose one safe fault.</strong> Capture the symptom, instrument one hypothesis, make one justified change, and repeat the original test.</div></li>
-          <li><time>2:40-3:00<br>20 min</time><div><strong>Reconcile and hand off.</strong> Record M07 evidence, open faults, integrated scope, individual explanations, and the exact Meeting 8 candidate.</div></li>
-        </ol>
-      </section>
-
       <section id="integrate" aria-labelledby="integrate-title">
         <h2 id="integrate-title">Integrate without erasing what already passed</h2>
         <ol>
@@ -98,28 +118,49 @@
           <li><strong>Command every output once per loop:</strong> calculate drivetrain and mechanism commands from fresh inputs and decisions, then make final writes. No inactive branch inherits a prior moving output. <strong>Success:</strong> neutral, release, blocked conflict, and recovery select explicit zero or a verified safe hold.</li>
           <li><strong>Trace the interaction:</strong> add concise input, decision or state, and commanded-output telemetry for both paths. Use distinct captions and include any interlock or conflict result. <strong>Success:</strong> a reader can distinguish operator request, code choice, and command without guessing from motion.</li>
         </ol>
-        <p><strong>Non-compilable pseudocode:</strong> this shape-only snippet intentionally uses undefined placeholders, including <code>turnInput</code>, <code>recoveryInput</code>, <code>interlockClear</code>, <code>DriveDecision</code>, <code>MechanismState</code>, <code>decideDrive</code>, and <code>decideMechanism</code>. Do not paste or deploy it; substitute only the team's approved names and already-tested values.</p>
-        <pre><code>// NON-COMPILABLE PSEUDOCODE: undefined placeholders show structure only.
-double driveInput = gamepad1.left_stick_y;
-boolean mechanismInput = gamepad2.right_bumper;
+        <p><strong>Complete practice program:</strong> copy <a href="../examples/BiobuzzControlPractice.java">BiobuzzControlPractice.java</a> into the prepared SDK project’s <code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode</code> folder. Build and select <code>BIOBUZZ Control Practice</code>. It reads gamepad 1 and displays decisions; it has no hardware lookup or actuator commands.</p>
+        <p><strong>Try one change:</strong> replace only <code>right_bumper</code> in the collect request with <code>a</code>. Predict which button requests COLLECT, then check it on the Driver Station. Both requests together must still show STOP. Restore the original button before saving the exercise.</p>
+        <pre><code>package org.firstinspires.ftc.teamcode;
 
-DriveDecision driveDecision = decideDrive(driveInput, turnInput);
-MechanismState mechanismState = decideMechanism(
-        mechanismInput, recoveryInput, interlockClear);
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-double leftCommand = driveDecision.leftCommand;
-double rightCommand = driveDecision.rightCommand;
-double mechanismCommand = mechanismState.command; // zero or verified safe hold by default
+/** Decision practice only: no hardware lookup or actuator commands. */
+@TeleOp(name = &quot;BIOBUZZ Control Practice&quot;, group = &quot;Training&quot;)
+public class BiobuzzControlPractice extends LinearOpMode {
+    @Override
+    public void runOpMode() {
+        telemetry.addData(&quot;Status&quot;, &quot;Telemetry only - no motor commands&quot;);
+        telemetry.update();
+        waitForStart();
+        while (opModeIsActive()) {
+            double forward = -gamepad1.left_stick_y;
+            double turn = gamepad1.right_stick_x;
+            double left = forward + turn;
+            double right = forward - turn;
+            double scale = Math.max(1.0, Math.max(Math.abs(left), Math.abs(right)));
+            left = left / scale;
+            right = right / scale;
 
-telemetry.addData("Drive input", driveInput);
-telemetry.addData("Drive decision", driveDecision.name);
-telemetry.addData("Drive commands", "%.2f / %.2f", leftCommand, rightCommand);
-telemetry.addData("Mechanism input", mechanismInput);
-telemetry.addData("Mechanism state", mechanismState.name);
-telemetry.addData("Mechanism command", mechanismCommand);
-telemetry.update();
+            boolean collect = gamepad1.right_bumper;
+            boolean reverse = gamepad1.left_bumper;
+            String intakeRequest = &quot;STOP&quot;;
+            if (collect &amp;&amp; !reverse) {
+                intakeRequest = &quot;COLLECT&quot;;
+            } else if (reverse &amp;&amp; !collect) {
+                intakeRequest = &quot;REVERSE&quot;;
+            }
 
-// Write each final command through the exact mapped output once.</code></pre>
+            telemetry.addData(&quot;Drive requests&quot;, &quot;left %.2f, right %.2f&quot;, left, right);
+            telemetry.addData(&quot;Intake request&quot;, intakeRequest);
+            telemetry.addData(&quot;Output&quot;, &quot;No hardware commands&quot;);
+            telemetry.update();
+            idle();
+        }
+    }
+}
+</code></pre>
+        <p>For the robot integration, keep the tested drive and mechanism output methods from Meetings 5-6. Use their approved gamepad assignments and limits; the practice program’s full-range arithmetic is not a robot power limit. Add one method call at a time, build, and test. No new decision classes are needed.</p>
         <p class="why-it-matters"><strong>Why this matters:</strong> separate code can pass alone but fail after sharing inputs, names, state, loop time, or defaults. A visible ownership map and fresh final commands expose those interactions without weakening the earlier safety contract.</p>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m07-f02">Source M07-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m07-d03">Team choice M07-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m07-m01">Measure it M07-M01</a></p>
       </section>
@@ -155,7 +196,7 @@ telemetry.update();
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Integrate with your partner</h2>
-        <p><strong>Three pairs:</strong> begin at Interface Audit, Telemetry Trace, and Test/Fault Record; rotate every 20 minutes, then reconcile one candidate. <strong>Two pairs:</strong> begin at Interface Audit and Telemetry Trace, swap stations after 20 minutes, then jointly complete Test/Fault Record. Within every pair, the <strong>code driver</strong> controls the keyboard and makes only the agreed change; the <strong>code navigator</strong> reads the requirement, traces both paths, checks each edit against the evidence and safety boundary, and records questions and results. Swap code driver and code navigator after the first reviewed path or after 15 minutes, whichever comes first, so every student serves in both roles at least once. Pair copies keep all hardware writes disabled until the shared diff passes review.</p>
+        <p><strong>Three pairs:</strong> begin at Interface Audit, Telemetry Trace, and Test/Fault Record; spend 15 minutes at each station, including recording your handoff before rotating (45 minutes total). <strong>Two pairs:</strong> spend 15 minutes at Interface Audit or Telemetry Trace, swap for 15 minutes, then jointly complete Test/Fault Record for the final 15 minutes. Within every pair, the <strong>code driver</strong> controls the keyboard and makes only the agreed change; the <strong>code navigator</strong> reads the requirement, traces both paths, checks each edit against the evidence and safety boundary, and records questions and results. Swap code driver and code navigator after the first reviewed path or after 15 minutes, whichever comes first, so every student serves in both roles at least once. Pair copies keep all hardware writes disabled until the shared diff passes review.</p>
         <div class="station-grid">
           <article class="station-card">
             <h3>1. Interface audit</h3>
@@ -295,8 +336,10 @@ telemetry.update();
         </div>
         <p class="claim-labels"><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m07-m01">Measure it M07-M01</a></p>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -324,6 +367,7 @@ telemetry.update();
       </ul>
       <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m07-f01">Source M07-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m07-f02">Source M07-F02</a></p>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

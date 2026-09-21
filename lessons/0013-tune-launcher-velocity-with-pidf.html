@@ -25,7 +25,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 7, Meeting 13 / FTC SDK v12.0</p>
     <h1>Tune Launcher Velocity With PIDF</h1>
-    <p class="lede">PIDF names four controller settings: feedforward (F), proportional (P), integral (I), and derivative (D). Learn how they relate to launcher speed, then compare bounded F changes followed by bounded P changes without hiding failures or losing the original settings.</p>
+    <p class="lede">Compare launcher speed graphs and tune F, then P, one change at a time.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -48,6 +48,62 @@
 
   <main>
     <div class="student-path">
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Compare launcher speed graphs and tune F, then P, one change at a time.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>F supplies a starting estimate of motor effort. P corrects speed error. Changing both at once hides which change helped.</p>
+        <ol><li>Read the original PIDF values from the actual controller and save them with its mode and robot configuration.</li><li>Graph target and measured velocity for three baseline trials. Describe slow response, overshoot, or repeated swings.</li><li>Choose a pass rule before tuning. Compare one small F change at a time using the approved procedure.</li><li>Keep or restore F, then compare P changes. Leave I and D unchanged; stop and restore settings if behavior becomes unsafe.</li><li>Run three final trials. Keep the new settings only if the evidence supports them; otherwise restore the original values.</li></ol>
+        <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Inspect launcher alignment and prepare feeder spares. Do not change hardware during a coefficient comparison; a mechanical change starts a new baseline.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Secure the exact system before any change</h2>
+        <ul class="checklist">
+          <li>Audit Meeting 12's exact assembly, guarded launcher action, active check, timeout, ready condition, abort, telemetry, explicit zero commands, and measured launcher/load record. A missing or failed item blocks tuning.</li>
+          <li>Record exact motor, controller, active configuration, code/version, controller run mode, launcher geometry, artifact/load, battery acceptance method, target, source, and original read-back P/I/D/F tuple.</li>
+          <li>Name the Driver Station operator and a separate Stop owner with immediate access. Name a launcher observer/loader and evidence recorder. No one loads, resets, adjusts, or enters the mechanism envelope while powered.</li>
+          <li>Inspect guards, fasteners, shafts, wheels, artifact path, electrical connections, wire restraint, supports, and exclusion zone with Stop pressed, Hub off, battery disconnected, and stored energy safe.</li>
+          <li>Use the same controlled load, setup, measurement method, and reset for equivalent trials. Never hand-feed, restrain, stall, touch, or approach a spinning launcher.</li>
+        </ul>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
+        <h3>Game-arena Supported test contract</h3>
+        <p>Every powered baseline, F candidate, P-phase baseline, P candidate, final acceptance trial, and rollback check uses a <strong>Supported test</strong> before powered tuning may begin. With Stop pressed, the Hub off, and the battery disconnected, place the robot only in the game arena; secure its frame on stable support; keep wheels and every launcher pinch, spin, intake, feed, exit, and artifact-path hazard safely clear as applicable; and secure the support, accepted battery, Hub, wires, attached pieces, mechanisms, and test artifact. Mark and clear an exclusion area. Name the Driver Station operator and a different independent Stop owner with uninterrupted immediate Stop access and authority to press it without permission. A second student checks the complete setup, roles, test identity, stop triggers, and explicit-zero plan before power. While the robot is live, everyone remains outside the exclusion area and no one touches, loads, resets, adjusts, supports, or retrieves the robot, launcher, artifact, or test setup.</p>
+        <p>Full stop triggers are unexpected motion or output; wrong velocity sign or implausible data; support, frame, guard, containment, artifact, mechanism, attached-piece, battery, Hub, or wire movement; artifact jam or unsafe exit; person or object entering the exclusion area; loose hardware; communication loss; timeout or abort failure; abnormal sound or vibration; heat, smoke, or odor; or any lost role, control, clearance, or setup condition. For any trigger, the independent Stop owner presses Stop immediately. Require every named output at zero and all motion stopped, say <q>stopped</q>, switch off the Hub, disconnect the battery, preserve the trial as an abort, and permit contact only afterward.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d02">Team choice M13-D02</a></p>
+        <aside class="safety-callout">Press Stop for unexpected motion or output, wrong velocity sign, implausible data, failed guard or containment, artifact jam or unsafe exit, person or object entering the exclusion zone, loose hardware, cable or battery movement, communication loss, timeout failure, abnormal sound, vibration, heat, smoke, or odor. Verify every launcher, feeder, intake-assist, windmill, and drivetrain command is zero and motion has stopped; say <q>stopped</q>; switch off; disconnect; preserve the trial as an abort; then inspect. Never tune around a hardware, encoder, direction, mode, wiring, code, or safety fault.</aside>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check the original settings.</strong> Use <a href="#safety">the launcher safety checks</a> and <a href="#follow">the controller/source trace</a>. Record the original tuple without changing coefficients.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Read and plot an example.</strong> Use <a href="#diagrams">the four velocity patterns</a> and <a href="#graph">the worked graph exercise</a>. Label time, speed, target, and overshoot.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Prepare capture without tuning.</strong> Follow <a href="#graph">capture and plotting steps</a> and <a href="#telemetry">the required telemetry</a>. Review or build telemetry-only changes; keep P/I/D/F unchanged. Draft <a href="#criteria">acceptance criteria</a>.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Inspect launcher alignment and prepare feeder spares. Do not change hardware during a coefficient comparison; a mechanical change starts a new baseline.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Baseline first; tune only when ready.</strong> Follow <a href="#test">the ordered experiment</a>: collect three original baselines and graph them, lock criteria, then begin F-only comparisons if time permits. P follows a completed F decision and P-phase baseline.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save the completed phase.</strong> Use <a href="#record">the phase records</a> and <a href="#handoff">Meeting 14 handoff</a>. Record the next unfinished trial set; restore the original tuple if final acceptance is incomplete.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed. Most tuning work may need another supervised lab: finish each baseline, F, P, and final three-trial set in order. A new hardware setup needs a new baseline. No coefficient change belongs in the earlier preparation block.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the team able to do</h2>
+        <div class="outcome-banner">Explain four launcher velocity patterns, preserve three original-coefficient baseline trials, and use a fixed acceptance record to tune only F and then only P. Keep I and D unchanged. Finish with three equivalent final trials and either retain the supported configuration or restore the original read-back rollback values.</div>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
+      </section>
       <section id="words" aria-labelledby="words-title">
         <h2 id="words-title">Words you need before using them</h2>
         <dl class="words-list">
@@ -71,43 +127,6 @@
           <dt>Rollback</dt><dd>The complete original read-back P, I, D, and F tuple, controller, run mode, and code identity kept so the team can restore the starting configuration.</dd>
         </dl>
         <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f01">Source M13-F01</a> The pinned API requires an explicit run mode when reading or writing PIDF coefficients and warns that controller implementations may differ. The letters above are a mental model, not universal coefficient units, equations, values, or guaranteed effects.</p>
-      </section>
-
-      <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the team able to do</h2>
-        <div class="outcome-banner">Explain four launcher velocity patterns, preserve three original-coefficient baseline trials, and use an immutable acceptance record to tune only F and then only P. Keep I and D unchanged. Finish with three equivalent final trials and either retain the supported configuration or restore the original read-back rollback values.</div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
-      </section>
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Secure the exact system before any change</h2>
-        <ul class="checklist">
-          <li>Audit Meeting 12's exact assembly, guarded launcher action, active check, timeout, ready condition, abort, telemetry, explicit zero commands, and measured launcher/load record. A missing or failed item blocks tuning.</li>
-          <li>Record exact motor, controller, active configuration, code/version, controller run mode, launcher geometry, artifact/load, battery acceptance method, target, source, and original read-back P/I/D/F tuple.</li>
-          <li>Name the Driver Station operator and a separate Stop owner with immediate access. Name a launcher observer/loader and evidence recorder. No one loads, resets, adjusts, or enters the mechanism envelope while powered.</li>
-          <li>Inspect guards, fasteners, shafts, wheels, artifact path, electrical connections, wire restraint, supports, and exclusion zone with Stop pressed, Hub off, battery disconnected, and stored energy safe.</li>
-          <li>Use the same controlled load, setup, measurement method, and reset for equivalent trials. Never hand-feed, restrain, stall, touch, or approach a spinning launcher.</li>
-        </ul>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
-        <h3>Game-arena Supported test contract</h3>
-        <p>Every powered baseline, F candidate, P-phase baseline, P candidate, final acceptance trial, and rollback check uses a <strong>Supported test</strong> before powered tuning may begin. With Stop pressed, the Hub off, and the battery disconnected, place the robot only in the game arena; secure its frame on stable support; keep wheels and every launcher pinch, spin, intake, feed, exit, and artifact-path hazard safely clear as applicable; and secure the support, accepted battery, Hub, wires, attached pieces, mechanisms, and test artifact. Mark and clear an exclusion area. Name the Driver Station operator and a different independent Stop owner with uninterrupted immediate Stop access and authority to press it without permission. A second student checks the complete setup, roles, test identity, stop triggers, and explicit-zero plan before power. While the robot is live, everyone remains outside the exclusion area and no one touches, loads, resets, adjusts, supports, or retrieves the robot, launcher, artifact, or test setup.</p>
-        <p>Full stop triggers are unexpected motion or output; wrong velocity sign or implausible data; support, frame, guard, containment, artifact, mechanism, attached-piece, battery, Hub, or wire movement; artifact jam or unsafe exit; person or object entering the exclusion area; loose hardware; communication loss; timeout or abort failure; abnormal sound or vibration; heat, smoke, or odor; or any lost role, control, clearance, or setup condition. For any trigger, the independent Stop owner presses Stop immediately. Require every named output at zero and all motion stopped, say <q>stopped</q>, switch off the Hub, disconnect the battery, preserve the trial as an abort, and permit contact only afterward.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d02">Team choice M13-D02</a></p>
-        <aside class="safety-callout">Press Stop for unexpected motion or output, wrong velocity sign, implausible data, failed guard or containment, artifact jam or unsafe exit, person or object entering the exclusion zone, loose hardware, cable or battery movement, communication loss, timeout failure, abnormal sound, vibration, heat, smoke, or odor. Verify every launcher, feeder, intake-assist, windmill, and drivetrain command is zero and motion has stopped; say <q>stopped</q>; switch off; disconnect; preserve the trial as an abort; then inspect. Never tune around a hardware, encoder, direction, mode, wiring, code, or safety fault.</aside>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Identify and secure the exact system.</strong> Audit Meeting 12, inspect the launcher, record identity and rollback, and assign roles.</div></li>
-          <li><time>0:15-0:40<br>25 min</time><div><strong>Build the PIDF mental model.</strong> Define target, measured velocity, error, F/P/I/D, and read all four behavior diagrams and symptom cautions.</div></li>
-          <li><time>0:40-1:00<br>20 min</time><div><strong>Trace the matching code.</strong> Locate target, mode-specific coefficient read/write, guarded action, ready condition, abort, and every explicit zero.</div></li>
-          <li><time>1:00-1:20<br>20 min</time><div><strong>Add or verify evidence telemetry.</strong> Display the full telemetry contract without changing coefficients.</div></li>
-          <li><time>1:20-1:40<br>20 min</time><div><strong>Establish the original baseline.</strong> Run three equivalent trials using the untouched original read-back tuple.</div></li>
-          <li><time>1:40-2:30<br>50 min</time><div><strong>Compare one variable at a time.</strong> Declare immutable criteria, compare F-only candidates, select or restore F, establish the P-phase baseline, swap pair duties, then compare P-only candidates.</div></li>
-          <li><time>2:30-2:50<br>20 min</time><div><strong>Validate the selected configuration.</strong> Run three unchanged final acceptance trials under the same controlled load.</div></li>
-          <li><time>2:50-3:00<br>10 min</time><div><strong>Retain or roll back and explain.</strong> Restore when criteria fail, verify every named zero and shutdown, and hand off exact evidence.</div></li>
-        </ol>
       </section>
 
       <section id="diagrams" aria-labelledby="diagrams-title">
@@ -208,6 +227,46 @@
         </div>
       </section>
 
+      <section id="graph" aria-labelledby="graph-title">
+        <h2 id="graph-title">Capture readings and draw a speed graph</h2>
+        <p><strong>Materials:</strong> graph paper, pencil, the prepared timestamped telemetry, a stationary camera that can read the Driver Station display, and the trial record. The mentor sets up and verifies the recording before the test. Students read the recording after shutdown; nobody handles recording equipment inside the live exclusion area.</p>
+        <h3>Practice with these invented readings</h3>
+        <p>These numbers teach plotting only. They are not a launcher target, sample-rate requirement, tuning result, or setting to send to a robot.</p>
+        <table class="course-map">
+          <caption>Fictional trial: target and measured speed share the same units</caption>
+          <thead><tr><th scope="col">Time (seconds)</th><th scope="col">Target (ticks/second)</th><th scope="col">Measured (ticks/second)</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Time">0.0</td><td data-label="Target">1000</td><td data-label="Measured">0</td></tr>
+            <tr><td data-label="Time">0.1</td><td data-label="Target">1000</td><td data-label="Measured">300</td></tr>
+            <tr><td data-label="Time">0.2</td><td data-label="Target">1000</td><td data-label="Measured">700</td></tr>
+            <tr><td data-label="Time">0.3</td><td data-label="Target">1000</td><td data-label="Measured">1100</td></tr>
+            <tr><td data-label="Time">0.4</td><td data-label="Target">1000</td><td data-label="Measured">1030</td></tr>
+            <tr><td data-label="Time">0.5</td><td data-label="Target">1000</td><td data-label="Measured">1000</td></tr>
+          </tbody>
+        </table>
+        <ol>
+          <li>Label the horizontal axis time in seconds and the vertical axis speed in ticks/second. For this exercise, use 0–0.5 seconds and 0–1200 ticks/second with evenly spaced marks.</li>
+          <li>Draw a dashed target line at 1000. Plot each measured point and connect adjacent points with straight lines. Keep the actual points visible; the connecting lines do not add measurements.</li>
+          <li>Circle the highest recorded point. Its overshoot is 1100 − 1000 = 100 ticks/second. At 0.2 seconds, target minus measured speed is 1000 − 700 = 300 ticks/second.</li>
+          <li>Compare with the <a href="#diagrams">behavior diagrams</a>. These samples show one overshoot followed by a return toward target. They do not prove a particular PIDF fault or sustained stability after the final point.</li>
+        </ol>
+        <h3>Use the same process for real trials</h3>
+        <ol>
+          <li><strong>Prepare without tuning:</strong> display trial ID, elapsed seconds, target speed, measured speed, ready state, and feed state together. Use the same velocity units for target and measurement. The prepared telemetry must label values from the same sample with one timestamp. Keep the original coefficients unchanged.</li>
+          <li><strong>Check capture before the baseline:</strong> verify that the recording is legible and shows changing telemetry timestamps. Choose and record which displayed samples you will transcribe and the intended spacing. The mentor checks that the displayed update rate and recording can resolve the ready, overshoot, and recovery criteria. If they cannot, improve capture before tuning or do observation-only work.</li>
+          <li><strong>Record one trial:</strong> start recording outside the exclusion area before INIT, follow the full powered-test procedure, then Stop, switch off, and disconnect before reviewing or resetting. Name the recording with the robot, trial ID, coefficient phase, and date.</li>
+          <li><strong>Transcribe after shutdown:</strong> pause the recording at distinct telemetry updates. Copy timestamp, target, measured speed, ready state, and feed state into the table below. Do not count repeated video frames showing the same timestamp as new samples. Mark missing or unreadable data; do not invent intermediate values.</li>
+          <li><strong>Plot and label:</strong> choose axes that include all captured values. Keep the same axes for trials being compared. Plot target and measured speed, and mark the observed feed time. Add robot, trial, coefficient tuple, units, and any missing intervals to the graph.</li>
+          <li><strong>Use the result carefully:</strong> compare the graph with the recorded ready state and physical outcome. A sampled peak can miss a higher peak between updates; missing data cannot establish a pass. Keep all three baseline graphs separate. Lock the <a href="#criteria">acceptance criteria</a> before candidate results, then follow the <a href="#test">F-then-P sequence</a>.</li>
+        </ol>
+        <table class="record-table">
+          <caption>One row per distinct telemetry sample; add rows as needed</caption>
+          <thead><tr><th scope="col">Trial / time (s)</th><th scope="col">Target / measured / unit</th><th scope="col">Ready / feed state</th><th scope="col">Recording location or missing data</th></tr></thead>
+          <tbody><tr><td data-label="Trial/time">________</td><td data-label="Speed/unit">________</td><td data-label="States">________</td><td data-label="Source">________</td></tr></tbody>
+        </table>
+        <p><strong>Finished result:</strong> a labeled graph whose points can be traced back to recorded readings, plus an explanation of what the graph can and cannot show. The fictional exercise may be completed before power; actual baseline graphs require actual trials.</p>
+      </section>
+
       <section id="telemetry" aria-labelledby="telemetry-title">
         <h2 id="telemetry-title">Verify the evidence telemetry before candidates</h2>
         <p>Each timestamped sample or trial summary must preserve the following, with units and unavailable fields explicitly marked. Telemetry is controller-reported evidence, not proof of physical safety or launch success.</p>
@@ -223,7 +282,7 @@
       </section>
 
       <section id="criteria" aria-labelledby="criteria-title">
-        <h2 id="criteria-title">Declare immutable acceptance criteria before candidates</h2>
+        <h2 id="criteria-title">Declare fixed acceptance criteria before candidates</h2>
         <p class="record-prompt">Complete this after the three original baseline trials and before displaying or testing any candidate result. Numerical limits must come from the matching source, event need, or measured baseline, never from this lesson. Student and coach sign in ink or lock a timestamped record. Once any candidate result is visible, do not erase, loosen, reinterpret, or replace these criteria to make it pass. If criteria are unsafe or unusable, stop this comparison and create a new identified experiment later; the old candidate does not retroactively pass.</p>
         <table class="record-table">
           <caption>Locked acceptance record</caption>
@@ -245,6 +304,7 @@
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Work in pairs and swap ownership</h2>
+        <p><strong>Before powered testing:</strong> during the 45-minute preparation block, spend 15 minutes plotting the fictional readings, 15 minutes checking the capture/telemetry setup, and 15 minutes drafting criteria and trial records. Swap the doer and checker at each task. Do not edit coefficients in this block. Use the roles below during all powered trials, including the baseline. The code pair makes no coefficient edit until the original baseline trials are complete and candidate testing is authorized.</p>
         <p><strong>Code pair:</strong> the code driver points to or makes the single authorized coefficient edit; the code navigator reads the mode, original tuple, diff, bounds, and unchanged fields aloud. <strong>Test pair:</strong> the Driver Station operator follows the test card while the observer/recorder captures telemetry and physical outcome. <strong>Safety/build pair:</strong> the independent Stop owner guards Stop and the exclusion zone while the launcher observer verifies setup, load/reset, containment, and physical behavior. For two pairs, the mentor or an unoccupied student must remain the separate Stop owner; do not combine Stop ownership with Driver Station operation.</p>
         <p>After F is selected or restored and the P-phase baseline is complete, swap code driver with navigator, test operator with observer/recorder, and launcher observer with Stop owner only after a stopped, Hub-off, battery-disconnected handoff. The new Stop owner repeats abort conditions before P candidates begin. Each student must explain one F comparison and one P comparison from records they helped create.</p>
       </section>
@@ -253,7 +313,7 @@
         <h2 id="test-title">Test in order: original baseline, F only, then P only</h2>
         <ol>
           <li><strong>Freeze rollback:</strong> with coefficients unchanged, record exact source, controller, mode, requested/read-back original P/I/D/F, code/configuration, and all Meeting 12 guards. Store a separately checked rollback copy. <strong>Block:</strong> if identity, read-back, mode, I/D, guard, or explicit-zero evidence is missing.</li>
-          <li><strong>Run three original baseline trials:</strong> use the untouched original tuple and equivalent setup/load. For each trial use Hub-off connection, Hub-on status, exact OpMode/configuration, INIT safe outputs, <q>robot live</q>/<q>clear</q>, guarded action, controlled launch, Stop, named explicit zeros/no motion, <q>stopped</q>, Hub off, and disconnect. Record every valid failure and abort; replace no row.</li>
+          <li><strong>Run three original baseline trials:</strong> use the untouched original tuple and equivalent setup/load. For each trial use Hub-off connection, Hub-on status, exact OpMode/configuration, INIT safe outputs, <q>robot live</q>/<q>clear</q>, guarded action, controlled launch, Stop, named explicit zeros/no motion, <q>stopped</q>, Hub off, and disconnect. Record every valid failure and abort; replace no row. After shutdown, use the <a href="#graph">capture-and-plot workflow</a> to preserve a graph for each trial.</li>
           <li><strong>Lock acceptance criteria:</strong> complete and sign the preceding record before any candidate result is visible. Criteria stay immutable for this experiment.</li>
           <li><strong>Compare F-only candidates:</strong> change only F, then run at least three equivalent repeated trials for that exact F-only candidate before comparing or selecting it. Original P, I, and D remain unchanged. Compare each completed F candidate only with the three-trial original-coefficient F baseline. An aborted, invalid, changed, or incomplete candidate set cannot be selected; preserve its rows and either complete a fresh equivalent set or restore the last stable value. Stay within the exact matching goBILDA bounds or applicable verified relative guidance.</li>
           <li><strong>Select or restore F:</strong> select the best supported F only if its at-least-three equivalent repeated trials support it; otherwise restore original F. Record requested/read-back selected or restored F. Do not describe the F result as universal or optimal.</li>
@@ -326,15 +386,17 @@
           </table>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
         <ul class="checklist">
           <li>Audit Meeting 12 physical evidence, guarded launcher action, exact zero commands, controller/mode, assembly identity, and every unresolved launcher safety issue.</li>
           <li>Verify the coefficient-access page against RobotCore 12.0.0 Javadocs. Test read-back in the exact mode without changing coefficients; if identity or read-back is uncertain, predeclare observation-only work.</li>
-          <li>Prepare guarded code, immutable criteria sheet, append-only trial records, velocity-time capture, controlled loads/resets, accepted batteries, enclosure/exclusion zone, and original rollback copy.</li>
+          <li>Prepare guarded code, criteria sheet, append-only trial records, graph paper, a stationary camera, and legible timestamped Driver Station telemetry for the capture-and-plot activity. Verify that telemetry updates and the recording resolve the proposed timing criteria before allowing tuning; otherwise use observation-only work. Prepare controlled loads/resets, accepted batteries, enclosure/exclusion zone, and the original rollback copy.</li>
           <li>For exact matching goBILDA only, verify the archive identity and tuple before permitting its bounded classroom options. Never transfer the tuple or bounds across assembly/controller/mode branches.</li>
           <li>For REV, provide no invented baseline. Require exact read-back or observation-only work. Check every controller-specific assumption at delivery.</li>
         </ul>
@@ -355,6 +417,7 @@
       </ul>
       <p>No optional video is assigned: no direct URL, exact useful timestamp range, duration, lesson benefit, and hardware/version caveat were verified for this delivery.</p>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

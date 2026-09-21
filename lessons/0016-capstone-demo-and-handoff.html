@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 8, Meeting 16 / FTC SDK v12.0</p>
     <h1>Capstone Demo and Handoff</h1>
-    <p class="lede">Each student will explain, change, restore, prepare, build, deploy, complete one readiness-test or rehearsed mystery-fault diagnosis track, and preserve its evidence without the mentor taking the keyboard.</p>
+    <p class="lede">Show that you can prepare, build, deploy, test, and explain the robot program.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -25,6 +25,7 @@
     <a href="index.html">Course index</a>
     <a href="0015-match-simulation-and-event-readiness.html">Previous: Meeting 15: Match Simulation and Event Readiness</a>
     <a href="#words">Words you need</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#safety">Safety</a>
     <a href="#agenda">Today's plan</a>
@@ -36,41 +37,20 @@
 
   <main>
     <div class="student-path">
-      <section id="words" aria-labelledby="words-title">
-        <h2 id="words-title">Words you need today</h2>
-        <dl class="words-list">
-          <dt>Input</dt><dd>A gamepad value, sensor value, saved state, or other value that begins a code path.</dd>
-          <dt>Autonomous request</dt><dd>A planned robot action started by the Autonomous program rather than a driver's live control.</dd>
-          <dt>Method</dt><dd>A named group of instructions that receives a request and performs one understandable job.</dd>
-          <dt>Guard</dt><dd>A condition that permits, limits, redirects, or stops an action before an output is commanded.</dd>
-          <dt>Output</dt><dd>The final command sent to a motor, servo, telemetry display, or other device.</dd>
-          <dt>Telemetry</dt><dd>Values and messages the program sends to the Driver Station so students can compare requests, decisions, and commands.</dd>
-          <dt>Stop</dt><dd>The Driver Station action that ends the running OpMode. Today's proof includes the expected zero-output or measured safe-hold result.</dd>
-          <dt>Full hash</dt><dd>The complete Git commit identifier recorded for the exact tested files.</dd>
-          <dt>Event tag</dt><dd>The protected Git name recorded for the event version. It must resolve to the approved full hash.</dd>
-          <dt>Clean location</dt><dd>A new empty directory or prepared spare laptop location outside every existing working copy.</dd>
-          <dt>Clean clone</dt><dd>A new repository copy created in a clean location from the team's recorded repository address.</dd>
-          <dt>Harmless change</dt><dd>One isolated telemetry-text edit that cannot command or alter robot motion.</dd>
-          <dt>Supported test</dt><dd>A powered test in the game arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
-          <dt>Readiness test</dt><dd>The team's previously passed, bounded Supported test used to confirm the restored event version without adding behavior.</dd>
-          <dt>Mystery fault</dt><dd>One harmless problem taught and safely rehearsed earlier, presented without revealing its cause.</dd>
-          <dt>Evidence</dt><dd>A saved command result, build result, test row, fault row, log, telemetry record, or direct observation tied to a student and exact identity.</dd>
-          <dt>Archive</dt><dd>The indexed set of exact source, configuration, test, recovery, role, and equipment records another student can open.</dd>
-          <dt>Credential owner</dt><dd>The named person responsible for account access and recovery. Records name the owner and access check, never a password, token, recovery code, or secret.</dd>
-          <dt>Pending physical check</dt><dd>A robot or equipment result that has not been performed and must remain marked incomplete with an owner and date.</dd>
-          <dt>Backup role</dt><dd>A second responsibility a student has actually practiced, not only one assigned on paper.</dd>
-        </dl>
+      <section id="outcome" aria-labelledby="outcome-title">
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Show that you can prepare, build, deploy, test, and explain the robot program.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>Independent means you perform and explain the steps yourself; your partner still serves as a safety checker.</p>
+        <ol><li>Open the assigned working version and verify the robot, configuration, and OpMode.</li><li>In a practice copy, make the harmless change, build it, explain it, then restore the unchanged event version.</li><li>At your robot appointment, independently build and deploy the approved unchanged program.</li><li>Complete your assigned readiness test or rehearsed mystery-fault diagnosis. Follow the full safety and shutdown sequence.</li><li>Record what you did, hand off the equipment and recovery instructions, and name any unfinished checks.</li></ol>
+        <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Complete the equipment handoff and record unfinished work. No new mechanism is needed for today’s demonstration.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
-      <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will prove today</h2>
-        <div class="outcome-banner">Every student traces one gamepad input or Autonomous request through method, guard, output, telemetry, and Stop; makes one isolated harmless change; then independently prepares, builds, deploys, completes one assigned readiness-test OR previously taught mystery-fault diagnosis track, and preserves its evidence. The team assigns at least one student to each track so both appear in the final handoff. The mentor never uses the keyboard or controls to complete student work. The team also restores the protected event version in a clean location, verifies its exact full hash and event tag, and hands every critical item and responsibility to a primary and practiced backup.</div>
-        <div class="claim-labels" aria-label="Claims supporting today's outcome">
-          <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m16-d01">Team choice M16-D01</a>
-          <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m16-m01">Measure it M16-M01</a>
-        </div>
-        <p><strong>M16-M01 status:</strong> pending delivery evidence. No individual skill, physical readiness result, restored identity, or archive access passes until students perform it and a checker records it.</p>
-      </section>
 
       <section id="safety" aria-labelledby="safety-title">
         <h2 id="safety-title">Before any powered work</h2>
@@ -100,6 +80,44 @@
           <li><time>1:20-2:50<br>90 min</time><div><strong>Three individual capstone appointments.</strong> Each pair receives one 30-minute robot workflow appointment in which each partner completes the assigned readiness or diagnosis track; during the other appointments pairs complete evidence/archive work in parallel.</div></li>
           <li><time>2:50-3:00<br>10 min</time><div><strong>Handoff.</strong> Record equipment, access owners, pending physical checks, practiced backups, and next goals.</div></li>
         </ol>
+      </section>
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will prove today</h2>
+        <div class="outcome-banner">Every student traces one gamepad input or Autonomous request through method, guard, output, telemetry, and Stop; makes one isolated harmless change; then independently prepares, builds, deploys, completes one assigned readiness-test OR previously taught mystery-fault diagnosis track, and preserves its evidence. The team assigns at least one student to each track so both appear in the final handoff. The mentor never uses the keyboard or controls to complete student work. The team also restores the protected event version in a clean location, verifies its exact full hash and event tag, and hands every critical item and responsibility to a primary and practiced backup.</div>
+        <div class="claim-labels" aria-label="Claims supporting today's outcome">
+          <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m16-d01">Team choice M16-D01</a>
+          <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m16-m01">Measure it M16-M01</a>
+        </div>
+        <p><strong>M16-M01 status:</strong> pending delivery evidence. No individual skill, physical readiness result, restored identity, or archive access passes until students perform it and a checker records it.</p>
+      </section>
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Input</dt><dd>A gamepad value, sensor value, saved state, or other value that begins a code path.</dd>
+          <dt>Autonomous request</dt><dd>A planned robot action started by the Autonomous program rather than a driver's live control.</dd>
+          <dt>Method</dt><dd>A named group of instructions that receives a request and performs one understandable job.</dd>
+          <dt>Guard</dt><dd>A condition that permits, limits, redirects, or stops an action before an output is commanded.</dd>
+          <dt>Output</dt><dd>The final command sent to a motor, servo, telemetry display, or other device.</dd>
+          <dt>Telemetry</dt><dd>Values and messages the program sends to the Driver Station so students can compare requests, decisions, and commands.</dd>
+          <dt>Stop</dt><dd>The Driver Station action that ends the running OpMode. Today's proof includes the expected zero-output or measured safe-hold result.</dd>
+          <dt>Full hash</dt><dd>The complete Git commit identifier recorded for the exact tested files.</dd>
+          <dt>Event tag</dt><dd>The protected Git name recorded for the event version. It must resolve to the approved full hash.</dd>
+          <dt>Clean location</dt><dd>A new empty directory or prepared spare laptop location outside every existing working copy.</dd>
+          <dt>Clean clone</dt><dd>A new repository copy created in a clean location from the team's recorded repository address.</dd>
+          <dt>Harmless change</dt><dd>One isolated telemetry-text edit that cannot command or alter robot motion.</dd>
+          <dt>Supported test</dt><dd>A powered test in the game arena with the robot frame secure on stable support and every wheel clear of the support, floor, people, wires, and loose objects.</dd>
+          <dt>Readiness test</dt><dd>The team's previously passed, bounded Supported test used to confirm the restored event version without adding behavior.</dd>
+          <dt>Mystery fault</dt><dd>One harmless problem taught and safely rehearsed earlier, presented without revealing its cause.</dd>
+          <dt>Evidence</dt><dd>A saved command result, build result, test row, fault row, log, telemetry record, or direct observation tied to a student and exact identity.</dd>
+          <dt>Archive</dt><dd>The indexed set of exact source, configuration, test, recovery, role, and equipment records another student can open.</dd>
+          <dt>Credential owner</dt><dd>The named person responsible for account access and recovery. Records name the owner and access check, never a password, token, recovery code, or secret.</dd>
+          <dt>Pending physical check</dt><dd>A robot or equipment result that has not been performed and must remain marked incomplete with an owner and date.</dd>
+          <dt>Backup role</dt><dd>A second responsibility a student has actually practiced, not only one assigned on paper.</dd>
+        </dl>
       </section>
 
       <section id="practice" aria-labelledby="practice-title">
@@ -234,8 +252,10 @@
           <p><strong>Acceptance:</strong> [ ] exact tag/full hash reconciled [ ] clean restore and build recorded [ ] every student has one complete assigned-track proof or an explicit follow-up [ ] at least one student independently completed readiness [ ] at least one student independently completed diagnosis [ ] archive item opened by a different student [ ] no critical role has one owner [ ] equipment and access ownership recorded without secrets [ ] pending physical checks and next goals assigned [ ] protected event source unchanged.</p>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -262,6 +282,7 @@
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/android-studio-setup-and-deploy.html">Android Studio setup and deploy guide</a>, <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/sdk-and-troubleshooting.html">troubleshooting ladder</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

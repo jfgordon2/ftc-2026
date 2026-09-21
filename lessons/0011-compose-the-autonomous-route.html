@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 6, Meeting 11 / 2026-2027 season / FTC SDK v12.0</p>
     <h1>Compose the Autonomous Route</h1>
-    <p class="lede">Use current game constraints and the team's measured drive and turn actions to design a driving-only route, prove each segment first, and preserve the exact Meeting 10 sequence as the lower-risk fallback candidate until its required physical evidence passes.</p>
+    <p class="lede">Join tested drive actions into a small BIOBUZZ autonomous route.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0010-from-motor-rotations-to-distance.html">Previous: Meeting 10: From Motor Rotations to Distance</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -38,7 +39,53 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What your team will produce</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Join tested drive actions into a small BIOBUZZ autonomous route.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>A segment is one movement. Its endpoint must match where the next movement expects to start.</p>
+        <ol><li>Read the current starting and autonomous rules. Consider a simple LEAVE objective before a longer route.</li><li>Draw a start, turns, endpoint, and clearances. Choose only distances and turns the selected robot has already demonstrated.</li><li>Write the method calls in route order. After each call, stop the route unless its result is REACHED.</li><li>Test each segment, then the complete route. Confirm a simulated timeout prevents the next segment from starting.</li><li>Repeat with the same start and code. Save the working route and the simpler tested fallback.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Mark the launch test area and inspect robot clearance along the route. Keep intake or launcher build work separate from a fixed route-test set.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the Driver Station operator and an independent Stop owner, plus the field/reset lead, observer/measurer, programmer, and recorder. Never combine Driver Station operation and Stop ownership during a Travel test. The Stop owner may press Stop without permission.</li>
+          <li>Press Stop, switch off the Hub, and disconnect the battery before robot or field contact.</li>
+          <li>Locate the exact Meeting 10 fallback-candidate commit, file/class, Driver Station display name, configuration, route sequence, and M10-M01 physical evidence before editing. Missing, pending, failed, or mismatched evidence blocks fallback selection and M11 powered route work.</li>
+          <li>Create a separately named candidate. Never edit, rename, overwrite, retag, or repurpose the fallback.</li>
+          <li>Keep mechanisms in their documented safe travel posture. This meeting adds no mechanism action.</li>
+          <li>Work only in the game arena. With the Hub off and battery disconnected, mark the start, route, stop, and exclusion area; walk every proposed segment; inspect wheel, frame, bumper, battery, wire, and field-element clearance; and secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact before every powered Travel test. Keep everyone outside the exclusion area whenever the robot is live.</li>
+        </ul>
+        <aside class="safety-callout">Unexpected direction, speed, route, target behavior, continued motion, timeout, field entry, interference, communication loss, loss of control, looseness, battery movement, wire contact, binding, unsafe vibration, implausible telemetry, inability to command zero, sound, heat, or odor means press Stop. The independent Stop owner may press Stop without permission. Verify safe output and no motion, say <q>stopped</q>, switch off, and disconnect before entry or contact.</aside>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check route prerequisites.</strong> Review <a href="#constraints">current game constraints</a> and the completed Meeting 10 action records. Confirm the fallback identity.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Choose a small objective.</strong> Use <a href="#constraints">Students choose the objective</a> to compare driving-only options and choose the smallest useful route.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Compose and inspect.</strong> Use <a href="#design">named, measured actions</a>, <a href="#route-results">failure-result checks</a>, and <a href="#practice">the frozen setup record</a>. Draw the route, build the calls, and check the start of each segment.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Mark the launch test area and inspect robot clearance along the route. Keep intake or launcher build work separate from a fixed route-test set.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Test segments before the route.</strong> Follow <a href="#test">segment and complete-route testing</a>. Check timeout handling before travel and preserve every valid result.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save route or fallback.</strong> Complete the <a href="#handoff">Meeting 12 handoff</a> with the supported route, exact fallback, measurements, and unresolved work.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What your team will produce</h2>
         <div class="outcome-banner">A student-composed, driving-only Autonomous candidate that traces to current game and starting constraints, calls only Meeting 10 drive and turn methods with completed physical evidence, and has evidence for every segment before any complete-route Travel test. The exact Meeting 10 sequence remains unchanged and identified as the fallback candidate; it becomes selectable only when completed M10-M01 records support it.</div>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a></p>
       </section>
@@ -55,33 +102,6 @@
           <dt>Travel test</dt><dd>A powered route test in the game arena from a marked start along a marked route to a marked stop while everyone remains outside the exclusion area.</dd>
           <dt>Fallback</dt><dd>The exact lower-risk Meeting 10 sequence and code identity preserved unchanged. It is selectable only after completed M10-M01 physical records support its configuration, actions, stop behavior, and repeatability.</dd>
         </dl>
-      </section>
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the Driver Station operator and an independent Stop owner, plus the field/reset lead, observer/measurer, programmer, and recorder. Never combine Driver Station operation and Stop ownership during a Travel test. The Stop owner may press Stop without permission.</li>
-          <li>Press Stop, switch off the Hub, and disconnect the battery before robot or field contact.</li>
-          <li>Locate the exact Meeting 10 fallback-candidate commit, file/class, Driver Station display name, configuration, route sequence, and M10-M01 physical evidence before editing. Missing, pending, failed, or mismatched evidence blocks fallback selection and M11 powered route work.</li>
-          <li>Create a separately named candidate. Never edit, rename, overwrite, retag, or repurpose the fallback.</li>
-          <li>Keep mechanisms in their documented safe travel posture. This meeting adds no mechanism action.</li>
-          <li>Work only in the game arena. With the Hub off and battery disconnected, mark the start, route, stop, and exclusion area; walk every proposed segment; inspect wheel, frame, bumper, battery, wire, and field-element clearance; and secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact before every powered Travel test. Keep everyone outside the exclusion area whenever the robot is live.</li>
-        </ul>
-        <aside class="safety-callout">Unexpected direction, speed, route, target behavior, continued motion, timeout, field entry, interference, communication loss, loss of control, looseness, battery movement, wire contact, binding, unsafe vibration, implausible telemetry, inability to command zero, sound, heat, or odor means press Stop. The independent Stop owner may press Stop without permission. Verify safe output and no motion, say <q>stopped</q>, switch off, and disconnect before entry or contact.</aside>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:20<br>20 min</time><div><strong>Source and fallback audit.</strong> Record current manual/update identity, starting constraints, Meeting 10 action evidence, and exact fallback-candidate identity and eligibility.</div></li>
-          <li><time>0:20-0:45<br>25 min</time><div><strong>Choose the objective.</strong> Students compare driving-only candidates and approve one objective and acceptance criteria.</div></li>
-          <li><time>0:45-1:15<br>30 min</time><div><strong>Compose and review.</strong> Write named segment cards, order the route, trace every start/stop condition, and inspect the candidate diff.</div></li>
-          <li><time>1:15-1:25<br>10 min</time><div><strong>Break.</strong> Press Stop, switch off, disconnect, and preserve field marks.</div></li>
-          <li><time>1:25-2:10<br>45 min</time><div><strong>Segment Travel tests.</strong> Restore each recorded segment fixture; measure result, error, time, stop, and repeatability before the next segment is eligible.</div></li>
-          <li><time>2:10-2:40<br>30 min</time><div><strong>Full-route Travel tests.</strong> Freeze the approved candidate and start, run the predeclared route trials, and retain every valid result.</div></li>
-          <li><time>2:40-2:50<br>10 min</time><div><strong>Troubleshoot one variable.</strong> Use row evidence to declare one next change or no justified change; do not silently retest a changed route.</div></li>
-          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Select the evidenced route, select the exact fallback only if M10-M01 qualifies it, or record both blocked; then complete Meeting 12 inputs.</div></li>
-        </ol>
       </section>
 
       <section id="constraints" aria-labelledby="constraints-title">
@@ -112,6 +132,7 @@
           <li><strong>Audit the inputs:</strong> name the exact Meeting 10 drive and turn method revision, conversion record, configuration, physical Travel test row IDs, supported range, known error, and escape conditions. Missing, pending, failed, or mismatched M10-M01 evidence blocks that action and all M11 powered route tests.</li>
           <li><strong>Make one segment card per action:</strong> record a student-chosen name, physical intent, method call and measured parameters, start fixture, expected endpoint/heading, active guard, feedback/target condition, timeout or escape, human abort, explicit zero, and motor-mode cleanup.</li>
           <li><strong>Order only eligible cards:</strong> write the route as readable calls in execution order. A student who did not write it must be able to narrate the physical route from the calls alone.</li>
+          <li><strong>Stop on a failed action:</strong> check every returned <code>MoveResult</code>. Continue only for <code>REACHED</code>; otherwise end the route and keep all outputs stopped.</li>
           <li><strong>Check transitions:</strong> the expected end of one segment must match the next segment's expected start. Mark clearance at each transition.</li>
           <li><strong>Build and inspect:</strong> verify the candidate has a distinct file/class/display name and that the diff changes no Meeting 10 fallback file, identity, configuration record, or evidence.</li>
         </ol>
@@ -121,6 +142,20 @@
           <p><strong>For each segment, where are its Meeting 10 method revision and physical row IDs?</strong><br><br></p>
           <p><strong>Every segment start / continue guard / feedback or target / timeout or escape / abort / explicit zero / cleanup:</strong><br><br></p>
         </div>
+      </section>
+
+      <section id="route-results" aria-labelledby="route-results-title">
+        <h2 id="route-results-title">A failed movement ends the route</h2>
+        <p>Inside your prepared <code>runOpMode()</code>, after Start, use this pattern with your measured route values. <code>return</code> ends the method. Each movement method has already stopped its motors before returning a result.</p>
+        <pre><code>MoveResult first = driveDistance(firstDistance, testedPower, firstTimeout);
+if (first != MoveResult.REACHED) return;
+
+MoveResult turn = turnLeftDegrees(turnAngle, testedPower, turnTimeout);
+if (turn != MoveResult.REACHED) return;
+
+MoveResult last = driveDistance(lastDistance, testedPower, lastTimeout);
+if (last != MoveResult.REACHED) return;</code></pre>
+        <p><strong>Check before travel:</strong> in a simulated or supported test, make the first action time out. Confirm the second action never starts. Repeat for a blocked setup and Stop. Do not stall a motor to cause a timeout.</p>
       </section>
 
       <section id="practice" aria-labelledby="practice-title">
@@ -257,8 +292,10 @@
           </table>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -283,6 +320,7 @@
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

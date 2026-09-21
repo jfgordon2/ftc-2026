@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Practice Robots and BIOBUZZ Build | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Practice and build plan</p>
+    <h1>Learn on our robots. Build for BIOBUZZ.</h1>
+    <p class="lede">Start with last season’s assembled REV and goBILDA StarterBots. Use them to learn while we build a competition robot with a launcher.</p>
+  </header>
+  <nav class="site-nav" aria-label="Reference navigation"><a href="../lessons/index.html">Course index</a><a href="#build">Build milestones</a><a href="#transfer">Moving to a different robot</a></nav>
+  <main>
+    <section id="practice" aria-labelledby="practice-title">
+      <h2 id="practice-title">Which robot are we using today?</h2>
+      <p>Give the robots clear names: <strong>REV practice</strong>, <strong>goBILDA practice</strong>, and <strong>BIOBUZZ build</strong>. Write the robot name, configuration, and source version on every test record. Record modifications to either practice robot.</p>
+      <p>Use each practice robot’s saved 2025-2026 program and configuration after the mentor checks them. Back them up before changing software or hardware. Check the selected SDK and Driver Station/Robot Controller versions before deploying. New-season vendor code does not become compatible just because the brand matches.</p>
+      <p>The lessons’ 2026-2027 REV and goBILDA examples are reading references. Run one only on its matching assembly. For a modified practice robot or our own BIOBUZZ design, use a <strong>team-adapted program</strong>: map the actual parts, use their documentation, and test the changed behavior. An exact StarterBot match is not required to learn or build a custom robot.</p>
+      <p><strong>One coach, one powered station:</strong> one pair operates with an independent Stop owner while other pairs code, record results, or work on disconnected hardware. Rotate roles. Do not run both practice robots at once without separate qualified supervision.</p>
+    </section>
+    <section id="build" aria-labelledby="build-title">
+      <h2 id="build-title">Build a little each meeting</h2>
+      <p>Meetings 4-13 reserve <strong>35 minutes inside the three-hour meeting</strong> for build work. Choose one achievable task, assign a builder and checker, and leave the robot in a documented state. If a milestone takes longer, carry it forward and keep learning on a practice robot. Finish safety checks and testing before treating any new part as ready.</p>
+      <table class="course-map">
+        <caption>Build targets, not automatic deadlines</caption>
+        <thead><tr><th scope="col">Meetings</th><th scope="col">Build work</th><th scope="col">Ready when</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Meetings">1-3: Practice</td><td data-label="Build work">Label each old robot and its ports; back up programs and configurations; inspect fasteners, wiring, battery retention, wheels, and existing mechanisms.</td><td data-label="Ready when">Both practice robots have their own checked records and a safe program to use.</td></tr>
+          <tr><td data-label="Meetings">4: Choose</td><td data-label="Build work">Sketch the BIOBUZZ robot. Include the required launcher, intake, feeder, battery, Hub, and service access. Choose what to reuse and what to build.</td><td data-label="Ready when">The team can explain one pollen path from floor to launcher and has a parts/task list.</td></tr>
+          <tr><td data-label="Meetings">5-6: Assemble</td><td data-label="Build work">Assemble or adapt the chassis and intake. Secure electronics; route and label cables. Build the launcher/feed assembly using exact-part instructions and mentor tool supervision.</td><td data-label="Ready when">The chassis is secure, cables clear moving parts, and hand inspection finds no binding or interference.</td></tr>
+          <tr><td data-label="Meetings">7-8: Integrate</td><td data-label="Build work">Finish launcher mounting, guarding, feeder alignment, and game-piece retention. Check the complete pollen path with power disconnected. Schedule supported tests before live collection or launch tests.</td><td data-label="Ready when">Drive, intake, feeder, launcher, release, and Stop pass on the BIOBUZZ build. A practice-robot pass does not qualify the new robot.</td></tr>
+          <tr><td data-label="Meetings">9-11: Measure</td><td data-label="Build work">Measure wheels/gearing, make repeatable start marks, inspect cable travel, and finish the launch test area. Test intake access near walls and corners in separate supervised trials.</td><td data-label="Ready when">The selected robot repeats its start and movement tests; collection observations identify any needed mechanical change.</td></tr>
+          <tr><td data-label="Meetings">12-13: Improve</td><td data-label="Build work">Measure launcher gap and alignment. Change only one mechanical or software variable per experiment. Prepare spares and an easy way to inspect or service the feeder.</td><td data-label="Ready when">The launcher repeatedly feeds and launches under recorded conditions, with a tested stop and recovery procedure.</td></tr>
+          <tr><td data-label="Meetings">14-16: Prepare for the event</td><td data-label="Build work">Repair demonstrated faults, inspect the robot, and pack labeled spares. Use the existing repair blocks; avoid new mechanisms during final qualification.</td><td data-label="Ready when">The event robot passes the full routine and students can restore and operate it.</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Launcher commitment:</strong> launching stays required in the BIOBUZZ plan. If it is unfinished, record “required — not ready,” keep its outputs disabled, and schedule the remaining work. Do not drop it from the plan to claim readiness. A separately tested driving-only autonomous routine remains a useful fallback.</p>
+      <p><strong>Keep practice available:</strong> do not dismantle both old robots at once. Agree which robot stays usable before transferring parts. After mechanical changes, revise the robot record and repeat affected tests before using previous settings.</p>
+    </section>
+    <section id="transfer" aria-labelledby="transfer-title">
+      <h2 id="transfer-title">Moving code to another robot</h2>
+      <ol>
+        <li>Save the working source and configuration for the original robot.</li>
+        <li>On the new robot, repeat the identity and motor checks from Meetings 1-2. Check every name, port, direction, and motor type.</li>
+        <li>Review each copied method. Replace robot-specific gearing, dimensions, limits, positions, and launcher settings using the new robot’s parts and measurements.</li>
+        <li>Test zero output, one actuator at a time, release, conflicts, and Stop on support before travel or launching.</li>
+        <li>Repeat the relevant TeleOp and autonomous tests. Label results with the new robot and configuration; do not copy old passing results.</li>
+      </ol>
+      <p>Meetings 9-11 may continue on a qualified practice robot if the new build needs more time. Before event qualification, repeat these checks and the required routines on the BIOBUZZ robot. Meetings 12-13 use the actual launcher being studied; their results apply only to that assembly.</p>
+    </section>
+    <section id="game" aria-labelledby="game-title">
+      <h2 id="game-title">Connect practice to this game</h2>
+      <p>Use Meeting 4’s current-rule checklist to choose legal collection, garden, hive, flower, and parking activities. Start autonomous planning with a small useful objective, such as LEAVE, before adding launcher actions. Check the current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game">FIRST manual and updates</a>; old scoring rules and old game pieces do not establish BIOBUZZ performance.</p>
+    </section>
+  </main>
+</body>
+</html>

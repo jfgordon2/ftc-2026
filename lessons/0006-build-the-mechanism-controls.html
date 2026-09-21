@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 3, Meeting 6 / FTC SDK v12.0</p>
     <h1>Build the Mechanism Controls</h1>
-    <p class="lede">Turn only the approved Meeting 4 actions into readable controls, then prove every request, release, recovery, conflict, and Stop command on the matching robot path.</p>
+    <p class="lede">Make each mechanism respond predictably to a button, release, reverse, and Stop.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0005-build-and-structure-our-teleop.html">Previous: Meeting 5: Build and Structure Our TeleOp</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -38,7 +39,54 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the robot do</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Make each mechanism respond predictably to a button, release, reverse, and Stop.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2><p><a href="0007-integrate-and-debug-teleop.html#integrate">Open the complete telemetry-only control example</a> to practice the decisions without commanding motors.</p>
+        <p>A boolean is true or false. A field can remember a servo position between loops; a local default inside the loop cannot.</p>
+        <ol><li>Choose one installed mechanism on the selected robot. Use its documented parts and measured limits.</li><li>Try held-input logic in the telemetry-only example: collect alone requests COLLECT; reverse alone requests REVERSE; neither or both requests STOP.</li><li>Connect that decision to the prepared, verified output method. Test one mechanism at a time before combining controls.</li><li>For a positional servo, use the retained-state example below. Test press, hold, release, recovery, and both buttons together.</li><li>Record the control, expected result, observed result, and next fix. Repeat for intake, feeder, and launcher as they become ready.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Assemble the intake and launcher/feed mounts. With power disconnected, check alignment, clearances, and the pollen path.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Use a <strong>supported test</strong> in the game arena: secure the frame on stable support and keep every wheel clear of the support, floor, people, wires, and loose objects.</li>
+          <li>Name the routine Driver Station operator and a separate Stop owner with immediate Stop access and authority to press it without permission.</li>
+          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before touching, loading, measuring, clearing, or changing a mechanism.</li>
+          <li>Secure the robot, battery, Hub, wires, attached pieces, mechanism, and test artifact. Mark the exclusion area and keep everyone outside it while live.</li>
+          <li>Match the installed robot and revision to REV, goBILDA, or unmatched. Use the current Competition Manual for legal actuator/control-system choices; vendor code does not establish legality.</li>
+          <li>Write the prediction, one bounded command, safe release, Stop condition, and evidence before power. Change one test variable at a time.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, loose hardware, unsafe vibration, collision, pinch risk, binding, stall, unusual sound, heat, odor, implausible telemetry, loss of control, or inability to command zero/safe hold means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before entry or contact. Never power through a jam.</aside>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m06-f04">Source M06-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m06-m01">Measure it M06-M01</a></p>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Select one ready mechanism.</strong> Check <a href="#contract">the approved action map</a> and <a href="#safety">safety</a>. Keep untested outputs disabled.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Trace the input patterns.</strong> Use <a href="#patterns">held, proportional, and one-press patterns</a>; predict request, conflict, release, and retained-state behavior.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Implement one mechanism.</strong> Use <a href="#practice">Contract, Control Logic, and Test/Evidence</a> and the applicable <a href="#vendors">robot-specific example</a>. Prepare telemetry-only cases before enabling outputs.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Assemble the intake and launcher/feed mounts. With power disconnected, check alignment, clearances, and the pollen path.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Run the mechanism cases.</strong> Follow <a href="#test">Test one bounded mechanism at a time</a>. Check neutral, request, conflict, release, recovery, and Stop; complete <a href="#record">the result record</a>.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save enabled controls.</strong> Complete the <a href="#handoff">Meeting 7 handoff</a>. List the tested controls and the mechanisms still awaiting build or testing.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the robot do</h2>
         <div class="outcome-banner">The matching team TeleOp will control every installed action classified <strong>required</strong> on the approved Meeting 4 map and no optional, unavailable, or unapproved action. Each enabled action will use its approved input pattern, reject its recorded conflict, provide required reverse or recovery, report useful telemetry, and return every touched output to explicit zero or its verified safe hold when the request is absent and when Stop occurs.</div>
         <p>A source value is only a candidate for the exact named vendor assembly. A physical power, position, velocity threshold, or limit becomes a retained team value only after its exact source and installed-robot test are recorded. An unperformed measurement remains <strong>pending</strong> and its output remains disabled.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m06-m01">Measure it M06-M01</a></p>
@@ -59,37 +107,10 @@
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m06-f01">Source M06-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m06-m01">Measure it M06-M01</a></p>
       </section>
 
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Use a <strong>supported test</strong> in the game arena: secure the frame on stable support and keep every wheel clear of the support, floor, people, wires, and loose objects.</li>
-          <li>Name the routine Driver Station operator and a separate Stop owner with immediate Stop access and authority to press it without permission.</li>
-          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before touching, loading, measuring, clearing, or changing a mechanism.</li>
-          <li>Secure the robot, battery, Hub, wires, attached pieces, mechanism, and test artifact. Mark the exclusion area and keep everyone outside it while live.</li>
-          <li>Match the installed robot and revision to REV, goBILDA, or unmatched. Use the current Competition Manual for legal actuator/control-system choices; vendor code does not establish legality.</li>
-          <li>Write the prediction, one bounded command, safe release, Stop condition, and evidence before power. Change one test variable at a time.</li>
-        </ul>
-        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement, loose hardware, unsafe vibration, collision, pinch risk, binding, stall, unusual sound, heat, odor, implausible telemetry, loss of control, or inability to command zero/safe hold means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect the battery before entry or contact. Never power through a jam.</aside>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m06-f04">Source M06-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m06-d01">Team choice M06-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m06-m01">Measure it M06-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:20<br>20 min</time><div><strong>Audit the contract.</strong> Select the matching vendor path and mark required, installed, sourced, measured, pending, and disabled actions.</div></li>
-          <li><time>0:20-0:45<br>25 min</time><div><strong>Trace three input patterns.</strong> Rehearse proportional, held, and one-press behavior, including mutual exclusion, release, recovery, and telemetry.</div></li>
-          <li><time>0:45-1:30<br>45 min</time><div><strong>Build in pairs.</strong> Add named commands and one-write-per-output logic in telemetry-only copies; inspect and compare each diff.</div></li>
-          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, switch off the Hub, disconnect the battery, and leave mechanisms unloaded.</div></li>
-          <li><time>1:40-2:10<br>30 min</time><div><strong>Integrate the matching path.</strong> Apply only reviewed required actions, add explicit initialization/release/Stop commands, build, and inspect the diff.</div></li>
-          <li><time>2:10-2:45<br>35 min</time><div><strong>Run bounded supported tests.</strong> Prove neutral, each request, conflict, release, reverse/recovery, and Stop one mechanism at a time.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Explain and hand off.</strong> Record M06 evidence, enabled-feature scope, blockers, individual traces, and the exact Meeting 7 candidate.</div></li>
-        </ol>
-      </section>
-
       <section id="contract" aria-labelledby="contract-title">
         <h2 id="contract-title">Start from the approved action map</h2>
         <ol>
-          <li><strong>Choose one matching path:</strong> prove the exact installed assembly is REV or goBILDA from the robot identity/build record. If neither match is proved, use the unmatched fallback. <strong>Success:</strong> only one path is executable.</li>
+          <li><strong>Choose one matching path:</strong> select the reviewed practice program, a matching 2026-2027 vendor assembly, or the team-adapted BIOBUZZ program. Record actual parts and configuration. An unidentified component stays disabled; a known custom assembly may use its component documents and measured values. <strong>Success:</strong> only one path is executable.</li>
           <li><strong>Filter the action map:</strong> copy only actions marked required and installed. Preserve the approved gamepad, proportional/held/one-press classification, release, reverse/recovery, conflict, feedback, and telemetry decisions. <strong>Success:</strong> every code method points to one approved row.</li>
           <li><strong>Gate each value:</strong> identify every power, position, velocity threshold, and physical limit. Record the matching source candidate and M06 installed test status. <strong>Success:</strong> completed values have source and measurement IDs; pending values are blank in the executable declaration and their feature is disabled.</li>
           <li><strong>Write safe outputs first:</strong> list explicit zero or the verified safe hold for every actuator touched by each action. Use the same list for initialization, no request, blocked conflicts, and Stop. <strong>Success:</strong> no output depends on a prior loop value or on the OpMode ending silently.</li>
@@ -144,11 +165,16 @@ telemetry.addData("Command", command);
 
       <section id="vendors" aria-labelledby="vendors-title">
         <h2 id="vendors-title">Build only the matching vendor path</h2>
-        <p>Use one branch as executable team work. The other is a reading comparison. Do not transfer names, controls, directions, powers, positions, thresholds, limits, or lifecycle assumptions between branches.</p>
+        <p>The two examples below apply only to the named new-season assemblies. For the old practice robots or a custom build, adapt the same input patterns in the prepared program using that robot’s own parts, values, and tests. Do not transfer names, controls, directions, powers, positions, thresholds, limits, or lifecycle assumptions between branches.</p>
         <div class="vendor-paths">
           <article class="vendor-path">
             <h3>REV path: exact 2026-2027 REV Starter Bot only</h3>
             <p>The verified REV material names intake forward/reverse, pollen-poker positions, manual flywheel forward/reverse recovery, velocity-gated feed, and manual feeder recovery. Implement only rows that Meeting 4 marked required and the installed robot actually has. Copy candidate values only from the current exact REV page, record its access date, and retain them only after M06 physical evidence.</p>
+            <p><strong>One-press setup:</strong> declare these fields inside the OpMode class, outside every method. A field remembers its value between loop calls.</p>
+            <pre><code>private double revPokerHold;
+private boolean revPokerActionWasPressed = false;
+private boolean revPokerRecoveryWasPressed = false;</code></pre>
+            <p>In <code>init()</code> or before <code>waitForStart()</code>, after verifying the two positions, set <code>revPokerHold = REV_POKER_SAFE_HOLD;</code> and reset both previous-button fields to <code>false</code>. The code below runs inside the active loop. Test press, hold, release, press again, recovery, and both buttons together.</p>
             <pre><code>// Values below are declarations in the team file, populated only from the
 // signed REV source + M06 record. No number comes from this lesson.
 double revIntakeCommand = 0.0;
@@ -159,16 +185,23 @@ if (revIntakeRequested &amp;&amp; !revIntakeRecoveryRequested) {
 }
 revIntake.setPower(revIntakeCommand); // one write; release/conflict is zero
 
-// This declaration exists only after the exact hold passes M06 measurement.
-double revPokerHold = REV_POKER_SAFE_HOLD;
-if (revPokerActionPressed &amp;&amp; !revPokerActionWasPressed) {
-    revPokerHold = REV_POKER_ACTION_HOLD;
-} else if (revPokerRecoveryPressed &amp;&amp; !revPokerRecoveryWasPressed) {
+// Inside the active loop; both booleans come from the approved controls.
+boolean actionEdge = revPokerActionPressed &amp;&amp; !revPokerActionWasPressed;
+boolean recoveryEdge = revPokerRecoveryPressed &amp;&amp; !revPokerRecoveryWasPressed;
+if (revPokerActionPressed &amp;&amp; revPokerRecoveryPressed) {
+    revPokerHold = REV_POKER_SAFE_HOLD; // conflict: choose the safe position
+} else if (recoveryEdge) {
     revPokerHold = REV_POKER_SAFE_HOLD;
+} else if (actionEdge) {
+    revPokerHold = REV_POKER_ACTION_HOLD;
 }
-revPollenPoker.setPosition(revPokerHold); // explicit verified retained hold
+revPollenPoker.setPosition(revPokerHold);
+revPokerActionWasPressed = revPokerActionPressed;
+revPokerRecoveryWasPressed = revPokerRecoveryPressed;
 
-// In a finally/shutdown path reached after the active loop:
+</code></pre>
+            <p><strong>Shutdown only:</strong> put these commands in the <code>finally</code> block after the active loop, not inside the loop.</p>
+            <pre><code>// In a finally/shutdown path reached after the active loop:
 revIntake.setPower(0.0);
 revFlywheel.setVelocity(0.0);
 revFeeder.setPower(0.0);
@@ -218,7 +251,7 @@ gobildaWindmill.setPower(gobildaWindmillCommand);
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Build with your partner</h2>
-        <p><strong>Three pairs:</strong> begin at Contract, Control Logic, and Test/Evidence, then rotate every 15 minutes. <strong>Two pairs:</strong> begin at Contract and Control Logic, swap after 20 minutes, then reconcile one test/evidence record together. Use telemetry-only pair copies; only the reviewed matching implementation reaches the shared candidate.</p>
+        <p><strong>Three pairs:</strong> begin at Contract, Control Logic, and Test/Evidence, then rotate every 15 minutes. <strong>Two pairs:</strong> begin at Contract and Control Logic for 15 minutes, swap for 15 minutes, then complete Test/Evidence together for 15 minutes. Use telemetry-only pair copies; only the reviewed matching implementation reaches the shared candidate.</p>
         <div class="station-grid">
           <article class="station-card">
             <h3>1. Contract and values</h3>
@@ -233,7 +266,7 @@ gobildaWindmill.setPower(gobildaWindmillCommand);
           <article class="station-card">
             <h3>2. Control logic</h3>
             <ol>
-              <li>Initialize each command to explicit zero or verified safe hold every loop.</li>
+              <li>Start held motor commands at zero each loop. Initialize retained servo state once before the loop, then keep its verified position until a new button press changes it.</li>
               <li>Apply the proportional, held, or one-press pattern named by its approved row.</li>
               <li>Make conflicting requests select the documented safe command; add required reverse/recovery without bypassing limits.</li>
               <li>Write each output once and display input, decision/state, measured condition, and final command.</li>
@@ -333,8 +366,10 @@ gobildaWindmill.setPower(gobildaWindmillCommand);
           <p><strong>Meeting 7 may integrate only actions listed enabled here. It must preserve each explicit zero/safe hold and Stop path while adding diagnostic telemetry.</strong></p>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -362,6 +397,7 @@ gobildaWindmill.setPower(gobildaWindmillCommand);
         <li><span class="resource-label follow">Follow</span> Shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/skill-tracker.html">skill tracker</a>, and <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

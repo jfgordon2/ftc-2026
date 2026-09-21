@@ -1,4 +1,48 @@
 (() => {
+  // Navigation links still work when their targets are in collapsed details.
+  const revealTarget = () => {
+    let id;
+    try {
+      id = decodeURIComponent(window.location.hash.slice(1));
+    } catch {
+      return;
+    }
+    const target = document.getElementById(id);
+    if (!target) return;
+    let ancestor = target.parentElement;
+    while (ancestor) {
+      if (ancestor.tagName === "DETAILS") ancestor.open = true;
+      ancestor = ancestor.parentElement;
+    }
+    target.scrollIntoView();
+  };
+  window.addEventListener("hashchange", revealTarget);
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest?.("a[href]");
+    if (link && link.origin === window.location.origin
+        && link.pathname === window.location.pathname
+        && link.search === window.location.search
+        && link.hash === window.location.hash) {
+      revealTarget();
+    }
+  });
+  revealTarget();
+
+  // Include collapsed worksheets in print, then restore the reader's view.
+  let closedBeforePrint = [];
+  let printing = false;
+  window.addEventListener("beforeprint", () => {
+    if (printing) return;
+    printing = true;
+    closedBeforePrint = [...document.querySelectorAll("details:not([open])")];
+    closedBeforePrint.forEach((details) => { details.open = true; });
+  });
+  window.addEventListener("afterprint", () => {
+    closedBeforePrint.forEach((details) => { details.open = false; });
+    closedBeforePrint = [];
+    printing = false;
+  });
+
   const tables = [...document.querySelectorAll("table.record-table")];
 
   if (!tables.length) {
@@ -65,5 +109,5 @@
     window.print();
   });
 
-  document.querySelector("main")?.prepend(tools);
+  (document.querySelector("#prep") || document.querySelector("main"))?.prepend(tools);
 })();

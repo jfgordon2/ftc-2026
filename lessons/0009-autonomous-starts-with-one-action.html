@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 5, Meeting 9 / FTC SDK v12.0</p>
     <h1>Autonomous Starts With One Action</h1>
-    <p class="lede">Register one Autonomous OpMode, run one low-speed drive action only while its guards are true, and prove that every exit commands zero.</p>
+    <p class="lede">Make the robot perform one short drive action without a driver.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0008-qualify-teleop.html">Previous: Meeting 8: Qualify TeleOp</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -38,7 +39,53 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the robot do</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Make the robot perform one short drive action without a driver.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>Autonomous runs without driver commands. A timeout ends an action that has taken too long.</p>
+        <ol><li>Use a robot with qualified drive controls. Choose a clear start and route with the mentor.</li><li>Trace the prepared action: start, apply the tested command, check time and Stop, then command zero.</li><li>After INIT, compare motor-mode telemetry with the selected robot’s records. Start only when the checks pass.</li><li>Test on support first, then run from the marked start. Measure the travel and repeat from the same place.</li><li>Keep the simplest working action. Explain why a time limit does not guarantee an exact distance.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Make repeatable start marks and check the competition robot’s wheel and cable clearance. Transfer code only after rechecking the new robot.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Confirm Meeting 8 qualified safe initialization, drivetrain control, and Stop with no unresolved enabled safety-critical defect. If not, Autonomous physical testing is blocked.</li>
+          <li>Name one Driver Station operator and Stop owner. Also name the observer, field reset lead, programmer, and recorder.</li>
+          <li>Press Stop, switch off the Hub, and disconnect the battery before touching the robot, support, wheels, wires, battery, field marks, or test artifact.</li>
+          <li>Secure the frame, battery, Hub, wires, attached pieces, and mechanisms. Establish the arena exclusion area and keep everyone outside it while the robot is live.</li>
+          <li>Before each command, state the predicted direction, setup, command, stopping conditions, and evidence to record.</li>
+        </ul>
+        <aside class="safety-callout">Press Stop for unexpected direction or movement, loose hardware, unsafe vibration, implausible telemetry, loss of control, field entry, or inability to command zero. Verify no motion, say <q>stopped</q>, switch off the Hub, verify it is off, and disconnect the battery before anyone enters or touches the setup.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check the selected robot.</strong> Review <a href="#safety">safety</a> and the qualified drive code, motor records, and test route.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Trace one guarded action.</strong> Use <a href="#follow">the one-action Java shape</a>. Point to Start, active check, time limit, explicit zero, and cleanup.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Prepare one action and its tests.</strong> Complete <a href="#practice">Source/Code, Supported Test, and Travel/Evidence</a>. Build only after the selected robot’s names and approved values are checked.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Make repeatable start marks and check the competition robot’s wheel and cable clearance. Transfer code only after rechecking the new robot.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Test and measure one action.</strong> Follow <a href="#test">supported testing, then travel</a>. Record repeated runs from the same start without treating elapsed time as exact distance.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save the baseline.</strong> Complete the <a href="#handoff">Meeting 10 handoff</a> with motor-mode rechecks, observed travel, and the tested action version.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the robot do</h2>
         <div class="outcome-banner">From a repeatable marked start, the qualified drivetrain will perform one team-tested, low-speed drive action after Start and then explicitly command zero. It will stop when time expires, the OpMode is no longer active, or the Stop owner ends the attempt.</div>
         <p>This is the smallest Autonomous baseline, not a route. Preserve Meeting 8's qualified TeleOp recovery identity unchanged while you create a separate Autonomous OpMode.</p>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
@@ -61,35 +108,6 @@
           <dt>Travel test</dt><dd>A powered test in the arena from a marked start along a marked route to a marked stop while everyone stays outside the exclusion area.</dd>
         </dl>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m02-f03">Source M02-F03</a></p>
-      </section>
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Confirm Meeting 8 qualified safe initialization, drivetrain control, and Stop with no unresolved enabled safety-critical defect. If not, Autonomous physical testing is blocked.</li>
-          <li>Name one Driver Station operator and Stop owner. Also name the observer, field reset lead, programmer, and recorder.</li>
-          <li>Press Stop, switch off the Hub, and disconnect the battery before touching the robot, support, wheels, wires, battery, field marks, or test artifact.</li>
-          <li>Secure the frame, battery, Hub, wires, attached pieces, and mechanisms. Establish the arena exclusion area and keep everyone outside it while the robot is live.</li>
-          <li>Before each command, state the predicted direction, setup, command, stopping conditions, and evidence to record.</li>
-        </ul>
-        <aside class="safety-callout">Press Stop for unexpected direction or movement, loose hardware, unsafe vibration, implausible telemetry, loss of control, field entry, or inability to command zero. Verify no motion, say <q>stopped</q>, switch off the Hub, verify it is off, and disconnect the battery before anyone enters or touches the setup.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m09-d01">Team choice M09-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m09-m01">Measure it M09-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Check the handoff.</strong> Confirm the qualified drivetrain, recovery identity, exact configuration, roles, arena, and blockers.</div></li>
-          <li><time>0:15-0:30<br>15 min</time><div><strong>Trace one action.</strong> Connect registration, Start, active-and-time guards, telemetry, and explicit zero.</div></li>
-          <li><time>0:30-0:50<br>20 min</time><div><strong>Station 1.</strong> Begin the source-and-code trace, supported-test setup, or travel-and-evidence design.</div></li>
-          <li><time>0:50-1:10<br>20 min</time><div><strong>Station 2.</strong> Rotate and swap code driver and navigator.</div></li>
-          <li><time>1:10-1:30<br>20 min</time><div><strong>Station 3.</strong> Rotate, finish all records, and reconcile one test identity.</div></li>
-          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Leave the robot stopped, Hub off, battery disconnected, and field marks undisturbed.</div></li>
-          <li><time>1:40-2:00<br>20 min</time><div><strong>Build and supported test.</strong> Review, deploy, and prove direction, bounded exit, telemetry, and explicit zero with wheels clear.</div></li>
-          <li><time>2:00-2:35<br>35 min</time><div><strong>Travel test.</strong> Complete three controlled trials from the same marked start without changing the frozen setup.</div></li>
-          <li><time>2:35-2:50<br>15 min</time><div><strong>Evaluate and preserve.</strong> Check the evidence gate and identify the exact one-action baseline or the blocker.</div></li>
-          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Complete individual evidence and Meeting 10 inputs.</div></li>
-        </ol>
       </section>
 
       <section id="follow" aria-labelledby="follow-title">
@@ -172,7 +190,7 @@ public class TeamOneActionAuto extends LinearOpMode {
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Try it with your partner</h2>
-        <p><strong>Three pairs:</strong> one pair begins at each station and rotates every 20 minutes. <strong>Two pairs:</strong> begin at Code Trace and Test Design, swap after 20 minutes, then complete Evidence Design together. Swap code driver and navigator at every rotation. No powered motion occurs during stations.</p>
+        <p><strong>Three pairs:</strong> one pair begins at each station and rotates every 15 minutes (45 minutes total). <strong>Two pairs:</strong> spend 15 minutes at Code Trace or Test Design, swap for 15 minutes, then complete Evidence Design together for the final 15 minutes. Swap code driver and navigator at every rotation. No powered motion occurs during stations.</p>
         <div class="station-grid">
           <article class="station-card">
             <h3>1. Source and code trace</h3>
@@ -308,8 +326,10 @@ public class TeamOneActionAuto extends LinearOpMode {
           </table>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -336,6 +356,7 @@ public class TeamOneActionAuto extends LinearOpMode {
       </ul>
       <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f01">Source M09-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f02">Source M09-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a></p>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

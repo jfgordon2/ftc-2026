@@ -4,12 +4,34 @@
 
 - Four to six students in grades 9-12 with mixed programming experience
 - One active programming coach
-- One laptop per pair and one robot
+- One laptop per pair; assembled last-season REV and goBILDA practice robots
+- A required launcher on the BIOBUZZ competition robot
+- One powered station at a time with the active coach
 - Two three-hour meetings each week for eight weeks
 - Students rotate through programming and normal build, test, drive, strategy,
   and documentation work
 - FTC SDK v12.0 and Java are the starting path, with the Meeting 2 Blocks
   fallback retained
+
+## Practice robots and build progression
+
+Use `reference/practice-and-build.html` for the two-robot plan and transfer
+checklist. Preserve each old robot's source and configuration before any SDK or
+hardware change. A practice pass belongs to that robot, not to the new build.
+Use the robot's saved source or exact-season manufacturer documents for practice;
+the 2026-2027 examples remain comparisons unless the installed assembly matches.
+A custom BIOBUZZ build uses the team-adapted path with exact component documents.
+Launcher controls, autonomous feeding, and bounded velocity tuning stay in scope.
+
+## Agenda alignment
+
+Meetings 4-13 use lesson-specific agenda links. Keep station rotations within
+their listed blocks. Build work uses separate team instructions and retains its
+35-minute slot. Measurement comes before distance-code constants; original
+launcher baselines come before coefficient edits. Meeting 4 includes a completed
+paper control example, and Meeting 13 includes a graph-paper capture/plot activity.
+When updating an agenda, check its activity, prerequisites, output, and time
+against the linked section rather than checking the 180-minute total alone.
 
 ## Before Delivery
 

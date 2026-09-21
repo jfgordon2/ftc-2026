@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 3, Meeting 5 / FTC SDK v12.0</p>
     <h1>Build and Structure Our TeleOp</h1>
-    <p class="lede">Turn the approved forward-and-turn control into one team-owned drive action, then prove its signs, limits, zero output, and travel behavior.</p>
+    <p class="lede">Put driving into one readable method and test forward, turn, and stop.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0004-decide-what-our-robot-should-do.html">Previous: Meeting 4: Decide What Our Robot Should Do</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -38,7 +39,54 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the robot do</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Put driving into one readable method and test forward, turn, and stop.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2><p><a href="0007-integrate-and-debug-teleop.html#integrate">Open the complete telemetry-only control example</a> to practice the decisions without commanding motors.</p>
+        <p>A parameter is an input to a method. Normalizing divides both wheel requests by the same number so neither exceeds the range.</p>
+        <ol><li>Start from a checked program for the selected robot. Keep its real motor names, directions, and lifecycle.</li><li>Run the telemetry-only control example. Use forward = 0.5 and turn = 0.25 on paper: left is 0.75 and right is 0.25. These are arithmetic examples, not test powers.</li><li>Find the method call and its two inputs. Move the verified drive calculation into drive(forward, turn).</li><li>Use the robot’s approved power limit. Test neutral, forward, reverse, and turn on support before a short travel test.</li><li>Swap roles. Explain how one stick value reaches each motor, and save the working version.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Assemble or adapt the BIOBUZZ chassis. Secure the Hub and battery, label ports, and route wires away from wheels.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Bring Meeting 2's complete motor map and Meeting 4's approved action/control map. Do not guess a name, type, direction, gamepad field, steering rule, or drive limit.</li>
+          <li>Name the routine Driver Station operator and a separate Stop owner. Give the Stop owner immediate access to Driver Station Stop and authority to press it without permission.</li>
+          <li>With the Hub off and battery disconnected, secure the robot frame, stable support, battery, Hub, wires, attached pieces, and mechanisms. Confirm every wheel is clear.</li>
+          <li>Write expected left and right output signs for neutral, forward, reverse, left turn, and right turn before enabling output.</li>
+          <li>Build and inspect the diff before power. The diff must preserve the verified hardware setup and matching lifecycle.</li>
+          <li>Complete every Supported test case, including zero and Stop, before moving the robot to a Travel test.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement or direction, loose hardware, unsafe vibration, implausible telemetry, loss of control or communication, inability to command zero, heat, smoke, odor, or unusual sound means press Stop. Verify motion has ended, say <q>stopped</q>, switch off the Hub, and disconnect the battery before anyone enters the exclusion area or touches the robot.</aside>
+        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check the drive records.</strong> Review <a href="#safety">safety</a> and the selected robot’s motor and control maps. Identify its actual lifecycle.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Trace a drive method.</strong> Follow <a href="#follow">Build one named drive action</a>. Calculate neutral, forward, turn, and combined requests before touching hardware.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Write and review the method.</strong> Complete <a href="#practice">Trace, Method, and Predict</a> within 45 minutes. Build the pair copy and explain the inputs, limit, and zero commands.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Assemble or adapt the BIOBUZZ chassis. Secure the Hub and battery, label ports, and route wires away from wheels.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Test supported, then travel.</strong> Follow <a href="#test">the two test gates</a>. Pass supported tests before a bounded travel test; record the actual result.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save the drive handoff.</strong> Complete the <a href="#handoff">Meeting 6 handoff</a> with tested code, robot configuration, limits, and open issues.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the robot do</h2>
         <div class="outcome-banner">The approved gamepad controls will send a forward request and a turn request to <code>drive(double forward, double turn)</code>. The method will calculate bounded left and right outputs, send them to the verified drivetrain motors, report concise telemetry, and command zero when no motion is requested or the OpMode stops.</div>
         <p>You will preserve the installed robot's verified names, types, and directions. The REV path stays linear. The goBILDA path stays iterative. Both paths express the same team intent without copying hardware assumptions between robots.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
@@ -62,32 +110,6 @@
         </dl>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f03">Source M05-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
         <p>Use <a href="../reference/words-we-use.html">Words we use</a> only if you want a reminder.</p>
-      </section>
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Bring Meeting 2's complete motor map and Meeting 4's approved action/control map. Do not guess a name, type, direction, gamepad field, steering rule, or drive limit.</li>
-          <li>Name the routine Driver Station operator and a separate Stop owner. Give the Stop owner immediate access to Driver Station Stop and authority to press it without permission.</li>
-          <li>With the Hub off and battery disconnected, secure the robot frame, stable support, battery, Hub, wires, attached pieces, and mechanisms. Confirm every wheel is clear.</li>
-          <li>Write expected left and right output signs for neutral, forward, reverse, left turn, and right turn before enabling output.</li>
-          <li>Build and inspect the diff before power. The diff must preserve the verified hardware setup and matching lifecycle.</li>
-          <li>Complete every Supported test case, including zero and Stop, before moving the robot to a Travel test.</li>
-        </ul>
-        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected movement or direction, loose hardware, unsafe vibration, implausible telemetry, loss of control or communication, inability to command zero, heat, smoke, odor, or unusual sound means press Stop. Verify motion has ended, say <q>stopped</q>, switch off the Hub, and disconnect the battery before anyone enters the exclusion area or touches the robot.</aside>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f02">Source M05-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Check the contracts.</strong> Confirm the matching vendor path, motor map, approved controls, roles, and written output-sign predictions.</div></li>
-          <li><time>0:15-0:40<br>25 min</time><div><strong>Trace the drive action.</strong> Connect the call site, parameters, steering math, limiting choice, motor output, zero command, and telemetry.</div></li>
-          <li><time>0:40-1:45<br>65 min</time><div><strong>Build in pairs.</strong> Keep the matching lifecycle, implement the shared method intent, build, inspect the diff, and compare pair evidence.</div></li>
-          <li><time>1:45-1:55<br>10 min</time><div><strong>Break.</strong> Press Stop, verify zero and no motion, say <q>stopped</q>, switch off the Hub, disconnect the battery, and park the gamepad.</div></li>
-          <li><time>1:55-2:45<br>50 min</time><div><strong>Prove supported motion, then travel.</strong> Test one named case at a time, preserve observations, and move to the marked route only after every supported gate passes.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Explain and hand off.</strong> Each student traces one request to output; the team records evidence, blockers, and Meeting 6 inputs.</div></li>
-        </ol>
       </section>
 
       <section id="follow" aria-labelledby="follow-title">
@@ -149,28 +171,30 @@ private void drive(double forward, double turn) {
         <div class="vendor-paths">
           <article class="vendor-path">
             <h3>REV path: retain <code>LinearOpMode</code> and <code>runOpMode()</code></h3>
-            <p>Begin with the checked-in program for the verified REV 2026-2027 Starter Bot. Preserve its verified hardware fields, configuration names, types, and directions. Do not import names or constants from goBILDA.</p>
+            <p>Use this lifecycle only if the checked-in program for the selected REV practice or BIOBUZZ robot extends LinearOpMode. Preserve its verified hardware fields, configuration names, types, and directions. Do not import names or constants from goBILDA.</p>
             <pre><code>public void runOpMode() {
     // Map only the verified REV hardware here.
     drive(0.0, 0.0);
     telemetry.update();
 
-    waitForStart();
-    while (opModeIsActive()) {
-        double forwardRequest = /* approved REV-path gamepad expression */;
-        double turnRequest = /* approved REV-path gamepad expression */;
-        drive(forwardRequest, turnRequest);
-        telemetry.update();
+    try {
+        waitForStart();
+        while (opModeIsActive()) {
+            double forwardRequest = /* approved robot gamepad expression */;
+            double turnRequest = /* approved robot gamepad expression */;
+            drive(forwardRequest, turnRequest);
+            telemetry.update();
+        }
+    } finally {
+        drive(0.0, 0.0);
     }
-
-    drive(0.0, 0.0);
 }</code></pre>
             <p class="success-check">Success looks like: the team method is called from the active linear loop, zero is explicit before Start and after the loop, and every hardware assumption still traces to the verified REV robot.</p>
             <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f04">Source M05-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a></p>
           </article>
           <article class="vendor-path">
             <h3>goBILDA path: retain iterative <code>OpMode</code>, <code>init()</code>, and <code>loop()</code></h3>
-            <p>Begin with the checked-in program for the verified goBILDA 2026-2027 StarterBot. Preserve its verified hardware fields, configuration names, types, and directions. Do not import names or constants from REV.</p>
+            <p>Use this lifecycle only if the checked-in program for the selected goBILDA practice or BIOBUZZ robot extends OpMode. Preserve its verified hardware fields, configuration names, types, and directions. Do not import names or constants from REV.</p>
             <pre><code>public void init() {
     // Map only the verified goBILDA hardware here.
     drive(0.0, 0.0);
@@ -195,7 +219,7 @@ public void stop() {
 
       <section id="practice" aria-labelledby="practice-title">
         <h2 id="practice-title">Try it with your partner</h2>
-        <p><strong>Three pairs:</strong> begin at one station each and rotate within the 65-minute block. <strong>Two pairs:</strong> begin at Trace and Method, swap after 25 minutes, then compare both sets of written tests and diffs. Keep robot power off. Swap driver and navigator before keyboard work.</p>
+        <p><strong>Three pairs:</strong> spend 15 minutes at each of the three stations (45 minutes total). <strong>Two pairs:</strong> begin at Trace and Method, swap after 15 minutes, then spend the final 15 minutes on Predict the Tests together. Keep robot power off. Swap driver and navigator before keyboard work.</p>
         <div class="station-grid">
           <article class="station-card">
             <h3>1. Trace the contracts</h3>
@@ -342,8 +366,10 @@ public void stop() {
           <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -371,6 +397,7 @@ public void stop() {
         <li><span class="resource-label follow">Follow</span> Use the shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/skill-tracker.html">skill tracker</a>, and <a href="../reference/sdk-and-troubleshooting.html">troubleshooting guide</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

@@ -552,6 +552,36 @@ tbody tr:nth-child(even) {
   padding: 0.8rem 1rem;
 }
 
+.lesson-details {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-block: 2rem;
+  padding: 1rem;
+}
+
+.lesson-details > summary {
+  color: var(--blue-dark);
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.lesson-details > summary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 0.3rem;
+}
+
+#start-here > ol > li {
+  margin-block: 0.8rem;
+  max-width: 75ch;
+}
+
+.robot-context {
+  background: var(--blue-soft);
+  margin-block: 1rem;
+  padding: 1rem;
+}
+
 .print-tools p {
   flex: 1 1 20rem;
   margin: 0;

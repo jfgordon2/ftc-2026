@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 5, Meeting 10 / FTC SDK v12.0</p>
     <h1>From Motor Rotations to Distance</h1>
-    <p class="lede">Measure one visible wheel revolution, build every conversion from named evidence, then test forward, backward, and left-turn actions one at a time.</p>
+    <p class="lede">Use wheel measurements and encoders to drive a chosen distance.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0009-autonomous-starts-with-one-action.html">Previous: Meeting 9: Autonomous Starts With One Action</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -39,7 +40,54 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What you will make the robot do</h2>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Use wheel measurements and encoders to drive a chosen distance.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>An encoder counts rotation. Distance estimates can be wrong when wheels slip, so measure actual travel.</p>
+        <ol><li>Identify the exact motor, gearing, wheel diameter, and encoder units. Measure the selected robot; do not reuse the other robot’s numbers.</li><li>Work through circumference, counts per wheel turn, and counts per distance with your partner.</li><li>Trace the prepared movement method. It sets targets, checks time and Stop, stops every motor, restores modes, and returns a result.</li><li>Test forward, backward, and turning separately with the listed distances and angle. Measure errors and repeat before combining them.</li><li>Check the returned MoveResult. Only REACHED allows another action; any other result ends the route.</li></ol>
+        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Measure the BIOBUZZ drivetrain and record changes to wheels, gearing, and track width. Repeat affected tests after mechanical work.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
+      </section>
+
+
+      <section id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Before you touch the robot</h2>
+        <ul class="checklist">
+          <li>Name the Driver Station operator, separate Stop owner, observer, measurement lead, reset lead, programmer, recorder, and checker.</li>
+          <li>Use a <strong>supported test</strong> in the game arena for the visible-revolution and sign checks: secure the frame on stable support with every wheel clear of support, floor, people, wires, and loose objects.</li>
+          <li>Use a <strong>Travel test</strong> in the game arena for each segment: mark the start, intended route, stop boundary, exclusion area, observer position, and powered-off reset path.</li>
+          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before marking, measuring, touching, or adjusting any wheel, drivetrain part, wire, support, or field reference.</li>
+          <li>Secure the robot, battery, Hub, wires, and attached pieces. Inspect wheel retention, tire seating, axle freedom, gearing, encoder connections, and clearance before every powered set.</li>
+          <li>Before power, write the expected wheel, count sign, bounded command source, stop conditions, and evidence. Do not invent a power, timeout, tolerance, ratio, or count.</li>
+        </ul>
+        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected direction, speed, path, count sign, implausible telemetry, missed boundary, continued motion, slip, collision risk, looseness, unsafe vibration, wire contact, binding, unusual sound, heat, odor, communication loss, or inability to command zero means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect before entry or contact.</aside>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
+      </section>
+      <section id="agenda" aria-labelledby="agenda-title">
+        <h2 id="agenda-title">Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Check measurement prerequisites.</strong> Review <a href="#safety">safety</a> and the exact motor, encoder, gearing, and wheel documents. Keep power disconnected for measurements.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Measure the selected drivetrain.</strong> Complete <a href="#measure">Measure before writing distance code</a>. Record wheel size, gearing, and track width for the robot that will run today’s code.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Calculate, then build.</strong> Use <a href="#formulas">the five-formula ladder</a> and <a href="#build">reusable guarded actions</a>. Complete missing measurements before entering constants; then build and trace MoveResult.</div></li>
+          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Measure the BIOBUZZ drivetrain and record changes to wheels, gearing, and track width. Repeat affected tests after mechanical work.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Test separate movements.</strong> Follow <a href="#test">Test each segment separately</a>: forward, backward, and turn. Combine only after the separate checks pass; stop the sequence on any failed result.</div></li>
+          <li><time>2:45-3:00<br>15 min</time><div><strong>Save measured actions.</strong> Complete the <a href="#handoff">Meeting 11 handoff</a> with calculations, measured errors, returned results, and the tested fallback.</div></li>
+        </ol>
+        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+      </section>
+
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
+
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What you will make the robot do</h2>
         <div class="outcome-banner">Using measurements from this exact assembled drivetrain, the robot will separately test 36 inches forward, 12 inches backward, and 90 degrees left. Each reusable action must end by reaching its target or by an active-check, timeout, Driver Station Stop, or observer abort, then command zero.</div>
         <p>Do not combine the three segments until each one passes its own predeclared tolerance and all stopping and controller-state evidence is complete. Keep Meeting 9's exact one-action Autonomous as the fallback.</p>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
@@ -66,35 +114,9 @@
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m10-f01">Source M10-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m10-f03">Source M10-F03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
       </section>
 
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the Driver Station operator, separate Stop owner, observer, measurement lead, reset lead, programmer, recorder, and checker.</li>
-          <li>Use a <strong>supported test</strong> in the game arena for the visible-revolution and sign checks: secure the frame on stable support with every wheel clear of support, floor, people, wires, and loose objects.</li>
-          <li>Use a <strong>Travel test</strong> in the game arena for each segment: mark the start, intended route, stop boundary, exclusion area, observer position, and powered-off reset path.</li>
-          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before marking, measuring, touching, or adjusting any wheel, drivetrain part, wire, support, or field reference.</li>
-          <li>Secure the robot, battery, Hub, wires, and attached pieces. Inspect wheel retention, tire seating, axle freedom, gearing, encoder connections, and clearance before every powered set.</li>
-          <li>Before power, write the expected wheel, count sign, bounded command source, stop conditions, and evidence. Do not invent a power, timeout, tolerance, ratio, or count.</li>
-        </ul>
-        <aside class="safety-callout"><strong>Stop first.</strong> Unexpected direction, speed, path, count sign, implausible telemetry, missed boundary, continued motion, slip, collision risk, looseness, unsafe vibration, wire contact, binding, unusual sound, heat, odor, communication loss, or inability to command zero means press Stop. Verify no motion, say <q>stopped</q>, switch off the Hub, and disconnect before entry or contact.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:20<br>20 min</time><div><strong>Audit the handoff.</strong> Confirm the one-action fallback, exact drivetrain identity, roles, arena setups, and blockers.</div></li>
-          <li><time>0:20-0:45<br>25 min</time><div><strong>See one wheel revolution.</strong> Mark a wheel, predict channels and signs, then record encoder change in a supported test.</div></li>
-          <li><time>0:45-1:30<br>45 min</time><div><strong>Measure and calculate.</strong> Measure diameter and track width, verify every gearing stage, and complete the five-formula ladder.</div></li>
-          <li><time>1:30-1:40<br>10 min</time><div><strong>Break.</strong> Press Stop, verify no motion, switch off, disconnect, and preserve marks.</div></li>
-          <li><time>1:40-2:10<br>30 min</time><div><strong>Build reusable actions.</strong> Adapt guarded drive and turn methods with targets, telemetry, every escape, explicit zero, and exact saved-mode restoration.</div></li>
-          <li><time>2:10-2:45<br>35 min</time><div><strong>Run three separate Travel tests.</strong> Test 36 inches forward, then 12 inches backward, then 90 degrees left; reset and review between segments.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Decide and hand off.</strong> Preserve or block the combined sequence, record the fallback, and explain each input's provenance.</div></li>
-        </ol>
-      </section>
-
       <section id="measure" aria-labelledby="measure-title">
         <h2 id="measure-title">Measure before writing distance code</h2>
+        <p>Use the early measurement block for the robot that will run today’s code. If the later build block changes that same drivetrain, update the measurements and rebuild before testing. If you measure a different BIOBUZZ build later, keep those records separate from the practice robot’s constants.</p>
         <p>Complete these steps in order. A blank, unexplained mismatch, or unverified installed ratio blocks distance and turn code.</p>
         <ol>
           <li><strong>Freeze the identity:</strong> record robot revision, active configuration, OpMode/code identity, every drive motor and encoder model, configured motor type, Hub/port, wheel and tire, gearbox, external gears/sprockets/pulleys, surface, battery acceptance, date, student, and checker. <strong>Success:</strong> every exact part and transmission stage is named or marked blocked.</li>
@@ -189,7 +211,9 @@
         <p><strong>Recheck, compare, save, restore:</strong> use the team's already-established <code>getMode()</code> procedure at zero output immediately before the action. Compare each live enum with its Meeting 2 expected mode, Meeting 9 rechecked mode, and qualified-code declaration. Only after all four agree may code assign the live enum to a saved-mode variable and switch to <code>RUN_TO_POSITION</code>. A Java <code>finally</code> block executes when control leaves its paired <code>try</code>, including a normal end or an early <code>return</code>; use it to command zero and restore those exact saved values.</p>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m10-f03">Source M10-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m10-f07">Source M10-F07</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
         <pre><code>// Method intent; expand left/right to every mapped drive motor.
-void driveWheelDistances(double leftDistance, double rightDistance,
+enum MoveResult { REACHED, TIMEOUT, INACTIVE, BLOCKED, CLEANUP_FAILED }
+
+MoveResult driveWheelDistances(double leftDistance, double rightDistance,
                          double testedPower, double testedTimeout) {
     // Populate only from the named upstream rows and qualified code review.
     DcMotor.RunMode meeting2LeftExpectedMode = MEETING_2_LEFT_EXPECTED_MODE;
@@ -219,15 +243,15 @@ void driveWheelDistances(double leftDistance, double rightDistance,
         rightDrive.setPower(0.0);
         telemetry.addData("Action blocked", "Resolve mode progression");
         telemetry.update();
-        return;
+        return MoveResult.BLOCKED;
     }
+    if (!opModeIsActive()) return MoveResult.INACTIVE;
 
     DcMotor.RunMode savedLeftMode = leftModeRecheck;
     DcMotor.RunMode savedRightMode = rightModeRecheck;
 
-    String exitReason = "INACTIVE_BEFORE_ACTION";
+    MoveResult result = MoveResult.INACTIVE;
     try {
-        if (!opModeIsActive()) return;
 
         int leftChange = (int) Math.round(
                 leftDistance * COUNTS_PER_DISTANCE * LEFT_FORWARD_SIGN);
@@ -257,33 +281,40 @@ void driveWheelDistances(double leftDistance, double rightDistance,
                     timer.seconds(), testedTimeout);
             telemetry.update();
             // The observer presses Driver Station Stop for any abort condition.
+            idle();
         }
-        exitReason = !opModeIsActive() ? "STOP_OR_ABORT"
-                : timer.seconds() &gt;= testedTimeout ? "TIMEOUT"
-                : "TARGET_REACHED";
+        result = !opModeIsActive() ? MoveResult.INACTIVE
+                : timer.seconds() &gt;= testedTimeout ? MoveResult.TIMEOUT
+                : MoveResult.REACHED;
     } finally {
         leftDrive.setPower(0.0);
         rightDrive.setPower(0.0);
         leftDrive.setMode(savedLeftMode);
         rightDrive.setMode(savedRightMode);
-        telemetry.addData("Exit reason", exitReason);
+        if (leftDrive.getMode() != savedLeftMode
+                || rightDrive.getMode() != savedRightMode) {
+            result = MoveResult.CLEANUP_FAILED;
+        }
+        telemetry.addData("Exit reason", result);
         telemetry.addData("Left saved/restored", "%s / %s",
                 savedLeftMode, leftDrive.getMode());
         telemetry.addData("Right saved/restored", "%s / %s",
                 savedRightMode, rightDrive.getMode());
         telemetry.update();
     }
+    return result;
 }
 
-void driveDistance(double signedDistance, double power, double timeout) {
-    driveWheelDistances(signedDistance, signedDistance, power, timeout);
+MoveResult driveDistance(double signedDistance, double power, double timeout) {
+    return driveWheelDistances(signedDistance, signedDistance, power, timeout);
 }
 
-void turnLeftDegrees(double angle, double power, double timeout) {
+MoveResult turnLeftDegrees(double angle, double power, double timeout) {
     double path = Math.PI * MEASURED_TRACK_WIDTH * angle / 360.0;
-    driveWheelDistances(-path, path, power, timeout);
+    return driveWheelDistances(-path, path, power, timeout);
 }</code></pre>
         <p><strong>Adapt before use:</strong> if the robot has more than one motor per side, every motor needs its own Meeting 2 expected-mode row, Meeting 9 recheck/handoff row, qualified-code source, immediate <code>getMode()</code> comparison, saved enum, current position, target, busy telemetry, explicit zero, exact restoration, and restored <code>getMode()</code> evidence. Confirm whether the team's verified motor directions and sign convention make the shown left/right turn signs correct. Replace symbolic constants only from reviewed records. Use only a tested nonnegative power magnitude; target signs determine direction in this position-control pattern.</p>
+        <p><strong>Stop the route on failure:</strong> every caller must check the returned <code>MoveResult</code>. Continue only after <code>REACHED</code>. A timeout, blocked setup, Stop, or failed cleanup ends the route; never start the next segment from an unknown position. Meeting 11 shows the call pattern.</p>
         <p><strong>Exit evidence:</strong> after the loop, record whether the target condition, timeout, inactive/Driver Station Stop, or observer-triggered Stop ended the attempt. Reaching one motor's target is not permission to omit zero or exact saved-mode restoration on another motor. A timeout, abort, failed restored-mode readback, or unexpected mode is evidence to diagnose, not a passing target.</p>
         <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m10-f02">Source M10-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m10-f03">Source M10-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
       </section>
@@ -354,8 +385,10 @@ void turnLeftDegrees(double angle, double power, double timeout) {
         </div>
         <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -382,6 +415,7 @@ void turnLeftDegrees(double angle, double power, double timeout) {
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

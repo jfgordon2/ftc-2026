@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Phase 4, Meeting 14 / FTC SDK v12.0</p>
     <h1>Reliability and Failure Recovery</h1>
-    <p class="lede"><strong>Reliability</strong> means the exact system repeats its required behavior; <strong>recovery</strong> means evidence leads the team back to that verified behavior. Repeat the team's qualified flows, diagnose realistic failures, repair one cause at a time, and prove restoration.</p>
+    <p class="lede">Find a likely event problem, recover from it, and prove the robot works again.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -24,6 +24,7 @@
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0013-tune-launcher-velocity-with-pidf.html">Previous: Meeting 13: Tune Launcher Velocity With PIDF</a>
+    <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
     <a href="#safety">Safety</a>
@@ -40,29 +41,19 @@
   <main>
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">What your team will prove</h2>
-        <div class="outcome-banner">Starting from the exact qualified TeleOp, Autonomous protected by active/bounded/safe conditions, and accepted launcher/PIDF records, the team will repeat complete routines, safely diagnose approved failure cases, restore a known-good identity (the exact accepted system state), and rerun every affected flow (the complete operational sequence the failure or repair could change). The event guide will contain only steps that students completed and timed.</div>
-        <p>Meeting 14 does not add a feature. It tests whether students can recover startup, held-control, interrupted-run, configuration, and harmless mechanism problems without guessing, compounding changes, or losing a working rollback.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d02">Team choice M14-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
+        <h2 id="outcome-title">Today’s goal</h2>
+        <div class="outcome-banner">Find a likely event problem, recover from it, and prove the robot works again.</div>
+      </section>
+      <section id="start-here" aria-labelledby="start-here-title">
+        <h2 id="start-here-title">Start here</h2>
+        <p>A known-good version is one you tested and can restore. A repair is complete only after the original test passes.</p>
+        <ol><li>Start with the saved working code, configuration, and test results for the event robot.</li><li>Choose a safe rehearsed fault from the detailed list. Never create damage, unplug a live motor, or force a jam.</li><li>Record the symptom and first useful message. Use the fault log to choose one check and one repair.</li><li>Restore the working setup and rerun the complete affected routine, including Stop.</li><li>Write a short troubleshooting card another student can follow and practice a backup operator.</li></ol>
+        <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build task:</strong> Use the repair block for demonstrated faults and spares. Retest any changed wiring, mechanism, or mount.</p>
+        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result; next step. Use the detailed worksheet when the test calls for measurements.</p>
+        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
-      <section id="words" aria-labelledby="words-title">
-        <h2 id="words-title">Words you need today</h2>
-        <dl class="words-list">
-          <dt>Reliability routine</dt><dd>An unchanged, complete sequence whose actual results are recorded on repeated attempts.</dd>
-          <dt>Failure case</dt><dd>An actual symptom or a mentor-prepared harmless condition used to practice diagnosis and recovery.</dd>
-          <dt>Fault record</dt><dd>The time-ordered link among a symptom, hypothesis, evidence, confirmed cause, one repair, retest, and prevention step.</dd>
-          <dt>Likelihood</dt><dd>The team's evidence-based judgment of how often a failure could occur in the current event setup.</dd>
-          <dt>Consequence</dt><dd>The harm to safety, control, inspection, or event performance if the failure occurs.</dd>
-          <dt>Evidence strength</dt><dd>How directly repeated observations, logs, telemetry, inspection, or measurements support the suspected cause.</dd>
-          <dt>Affected flow</dt><dd>The complete operational sequence that could have changed because of the fault or repair, not only the step that failed.</dd>
-          <dt>Recovery time</dt><dd>Elapsed time from recognizing the symptom until the restored affected flow passes.</dd>
-          <dt>Residual risk</dt><dd>A known chance or consequence that remains after recovery and must be accepted, reduced, or kept blocked.</dd>
-          <dt>Rollback identity</dt><dd>The exact earlier code, configuration, controller mode, coefficients, hardware state, and evidence needed to reverse a change.</dd>
-          <dt>Known-good restoration</dt><dd>Returning every affected identity to its recorded accepted state and proving it with the complete affected-flow retest.</dd>
-          <dt>Guard</dt><dd>A condition that permits an action to continue only while the action remains active, bounded, and safe.</dd>
-        </dl>
-      </section>
 
       <section id="safety" aria-labelledby="safety-title">
         <h2 id="safety-title">Before you touch the robot</h2>
@@ -90,6 +81,33 @@
           <li><time>2:40-2:50<br>10 min</time><div><strong>Write the event guide.</strong> Keep only completed steps, measured recovery time, residual risk, and escalation limits.</div></li>
           <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Each student traces one record and identifies Meeting 15 blockers.</div></li>
         </ol>
+      </section>
+      <details class="lesson-details" id="lesson-details">
+        <summary>Detailed steps, code, and worksheets</summary>
+
+      <section id="scope" aria-labelledby="scope-title">
+        <h2 id="scope-title">What your team will prove</h2>
+        <div class="outcome-banner">Starting from the exact qualified TeleOp, Autonomous protected by active/bounded/safe conditions, and accepted launcher/PIDF records, the team will repeat complete routines, safely diagnose approved failure cases, restore a known-good identity (the exact accepted system state), and rerun every affected flow (the complete operational sequence the failure or repair could change). The event guide will contain only steps that students completed and timed.</div>
+        <p>Meeting 14 does not add a feature. It tests whether students can recover startup, held-control, interrupted-run, configuration, and harmless mechanism problems without guessing, compounding changes, or losing a working rollback.</p>
+        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d02">Team choice M14-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
+      </section>
+
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Words you need today</h2>
+        <dl class="words-list">
+          <dt>Reliability routine</dt><dd>An unchanged, complete sequence whose actual results are recorded on repeated attempts.</dd>
+          <dt>Failure case</dt><dd>An actual symptom or a mentor-prepared harmless condition used to practice diagnosis and recovery.</dd>
+          <dt>Fault record</dt><dd>The time-ordered link among a symptom, hypothesis, evidence, confirmed cause, one repair, retest, and prevention step.</dd>
+          <dt>Likelihood</dt><dd>The team's evidence-based judgment of how often a failure could occur in the current event setup.</dd>
+          <dt>Consequence</dt><dd>The harm to safety, control, inspection, or event performance if the failure occurs.</dd>
+          <dt>Evidence strength</dt><dd>How directly repeated observations, logs, telemetry, inspection, or measurements support the suspected cause.</dd>
+          <dt>Affected flow</dt><dd>The complete operational sequence that could have changed because of the fault or repair, not only the step that failed.</dd>
+          <dt>Recovery time</dt><dd>Elapsed time from recognizing the symptom until the restored affected flow passes.</dd>
+          <dt>Residual risk</dt><dd>A known chance or consequence that remains after recovery and must be accepted, reduced, or kept blocked.</dd>
+          <dt>Rollback identity</dt><dd>The exact earlier code, configuration, controller mode, coefficients, hardware state, and evidence needed to reverse a change.</dd>
+          <dt>Known-good restoration</dt><dd>Returning every affected identity to its recorded accepted state and proving it with the complete affected-flow retest.</dd>
+          <dt>Guard</dt><dd>A condition that permits an action to continue only while the action remains active, bounded, and safe.</dd>
+        </dl>
       </section>
 
       <section id="authority" aria-labelledby="authority-title">
@@ -296,8 +314,10 @@
           </table>
         </div>
       </section>
+      </details>
     </div>
 
+    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
     <section id="prep" aria-labelledby="prep-title">
       <h2 id="prep-title">Mentor preparation</h2>
       <aside class="mentor-note">
@@ -324,6 +344,7 @@
         <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/sdk-and-troubleshooting.html">troubleshooting ladder</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/robot-test-card.html">robot test card</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
       </ul>
     </section>
+    </details>
   </main>
 
   <footer class="site-footer">

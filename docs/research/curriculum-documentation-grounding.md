@@ -18,6 +18,26 @@ table. The aliases exactly match the stable IDs used in lesson URL fragments,
 so a label resolves to the table containing its named row without depending on
 renderer-generated Markdown anchors.
 
+## Delivery decisions updated September 20, 2026
+
+The team has assembled 2025-2026 REV and goBILDA practice robots and will build a
+BIOBUZZ robot with a required launcher. See the [practice and build plan](../../reference/practice-and-build.html).
+These user-confirmed decisions supersede the earlier assumption of one installed
+2026-2027 StarterBot in D entries and delivery examples. F entries describing
+2026-2027 vendor artifacts retain their original scope; they do not describe the
+old practice robots. Use each old robot's saved, reviewed source/configuration.
+A modified or custom robot uses team-adapted code and exact component documents.
+
+M4-M13 now reserve 35 minutes for build work within 180 minutes. Incomplete trials
+carry forward without weakening acceptance criteria. A practice qualification
+permits learning on that robot; M15-M16 require the BIOBUZZ event robot and launcher.
+Transfer requires fresh identity, configuration, motor, mechanism, and route checks.
+M02 mode readback happens after INIT and before Start. M06 one-press state persists
+between loops. M10 movement returns a result; M11 stops the route on any result
+other than REACHED. M13 keeps bounded F-then-P work, with I/D unchanged.
+These are curriculum decisions and code corrections, not new FIRST rules or
+claims that physical tests have passed.
+
 ## Register schema
 
 Every numbered entry contains these fields:

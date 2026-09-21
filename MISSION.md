@@ -19,10 +19,16 @@ and recover the competition robot's basic code.
 ## Working Constraints
 
 - One active programming coach supports four to six students in grades 9-12.
-- The team has one robot and one laptop per pair.
+- Students start with fully assembled REV and goBILDA StarterBots from the
+  2025-2026 season, with one laptop per pair.
+- The BIOBUZZ competition robot will have a launcher. Practice robots remain
+  available while the team builds and tests the competition robot.
+- With one active coach, schedule one powered test station at a time.
 - The team meets twice per week for three hours per meeting.
 - Students rotate through programming, building, testing, driving, strategy,
-  and documentation while advancing the same competition robot.
+  and documentation while building the BIOBUZZ competition robot.
+- Meetings 4-13 reserve 35 minutes for physical build work. Carry unfinished
+  work forward; meeting numbers never override hardware readiness.
 - Reliability, safety, and shared ownership take priority over feature count.
 
 ## Before-Event Scope
