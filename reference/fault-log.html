@@ -27,6 +27,7 @@
       .meta { gap: 0.06in 0.14in; }
       .write-line { min-height: 0.21in; }
       .write-box { min-height: 0.58in; }
+      .diagnosis-guide { display: none; }
       .site-footer { display: none; }
     }
   </style>
@@ -42,7 +43,7 @@
   </nav>
 
   <main>
-    <section aria-labelledby="words-title">
+    <section class="diagnosis-guide" aria-labelledby="words-title">
       <h2 id="words-title">What each diagnosis word asks for</h2>
       <dl class="words-list">
         <dt>Symptom</dt><dd>The exact wrong result you can observe, such as a message, value, sound, or movement.</dd>
@@ -57,40 +58,36 @@
     </section>
     <form class="sheet" aria-label="Fault log">
       <div class="meta">
-        <label class="field"><span class="field-label">Fault ID</span><span class="write-line"></span></label>
-        <label class="field"><span class="field-label">Trial ID</span><span class="write-line"></span></label>
-        <label class="field"><span class="field-label">Applicable claim ID(s)</span><span class="write-line"></span></label>
         <label class="field"><span class="field-label">Student / checker</span><span class="write-line"></span></label>
         <label class="field"><span class="field-label">Date and time</span><span class="write-line"></span></label>
-        <label class="field"><span class="field-label">Exact code / recovery identity</span><span class="write-line"></span></label>
       </div>
 
       <div class="columns">
-        <label class="field"><span class="field-label">Exact robot: manufacturer, model/assembly, and revision</span><span class="write-line"></span></label>
-        <label class="field"><span class="field-label">Exact active configuration and selected OpMode</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Robot and revision</span><span class="write-line"></span></label>
+        <label class="field"><span class="field-label">Configuration / OpMode</span><span class="write-line"></span></label>
       </div>
 
-      <label class="field"><span class="field-label">What exact symptom did we observe? Quote the message and describe only what happened.</span><span class="write-box"></span></label>
-      <label class="field"><span class="field-label">How can another student make the symptom happen again? Give the starting state, actions, and the point where it appears.</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">What happened? Record the exact message or observation.</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">How can we make it happen again?</span><span class="write-box"></span></label>
 
       <div class="field">
-        <span class="field-label">Where might the cause be? Choose one area before editing.</span>
+        <span class="field-label">Where might the cause be?</span>
         <span class="layers"><span><span class="box"></span>Build</span><span><span class="box"></span>Configuration</span><span><span class="box"></span>Wiring</span><span><span class="box"></span>Input</span><span><span class="box"></span>Code</span><span><span class="box"></span>Mechanical</span></span>
       </div>
 
       <div class="columns">
-        <label class="field"><span class="field-label">What one possible cause is our hypothesis?</span><span class="write-box"></span></label>
-        <label class="field"><span class="field-label">Input telemetry: what exact input name, value, unit, and time did we record?</span><span class="write-box"></span></label>
-        <label class="field"><span class="field-label">Decision/state telemetry: what exact branch, guard, state, or exit reason did we record?</span><span class="write-box"></span></label>
-        <label class="field"><span class="field-label">Commanded output: what output name, requested value, unit, and time did telemetry report?</span><span class="write-box"></span></label>
-        <label class="field"><span class="field-label">Observed physical evidence: what movement, direction, sound, measurement, inspection, safe hold or zero, and Stop response did we observe?</span><span class="write-box"></span></label>
-        <label class="field"><span class="field-label">What cause did the evidence confirm?</span><span class="write-box"></span></label>
-        <label class="field"><span class="field-label">What one smallest fix did we make?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What cause do we suspect?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What input telemetry did we record?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What decision or state did we record?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What output did we command?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What physical result and Stop response did we observe?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What cause did we confirm?</span><span class="write-box"></span></label>
+        <label class="field"><span class="field-label">What fix did we make?</span><span class="write-box"></span></label>
       </div>
 
-      <label class="field"><span class="field-label">What happened when we repeated the same trial setup after the fix? Record the retest trial ID and actual result, not only pass or fail.</span><span class="write-box"></span></label>
-      <label class="field"><span class="field-label">Affected safe-behavior retests: which affected initialization/default, action, release, guard, timeout/abort, explicit zero or safe hold, cleanup, and Stop behaviors did we repeat? Record trial IDs and actual results.</span><span class="write-box"></span></label>
-      <label class="field"><span class="field-label">What should the team label, check, teach, or document to prevent this fault?</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">What happened when we repeated the same trial setup after fix?</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">What other affected behaviors did we retest?</span><span class="write-box"></span></label>
+      <label class="field"><span class="field-label">How can we prevent this fault?</span><span class="write-box"></span></label>
     </form>
   </main>
 

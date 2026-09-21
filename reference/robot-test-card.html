@@ -12,6 +12,7 @@
     .field { break-inside: avoid; }
     .field.full { grid-column: 1 / -1; }
     .field-label { display: block; font-weight: 800; }
+    .prompt-example { font-weight: 400; }
     .write-line { border-bottom: 1px solid var(--ink); display: block; min-height: 1.8rem; }
     .write-box { border: 1px solid var(--ink); display: block; min-height: 4rem; margin-top: 0.25rem; }
     .choice { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; margin-top: 0.25rem; }
@@ -44,17 +45,10 @@
 
   <main>
     <p>Use one card for one change. A prediction gives the team something exact to compare with what actually happens.</p>
-    <table class="record-table">
-      <caption>EXAMPLE: telemetry-only test with no hardware motion</caption>
-      <thead><tr><th scope="col">What one change are we testing?</th><th scope="col">What do we predict?</th><th scope="col">What did we actually see?</th><th scope="col">Did it match?</th></tr></thead>
-      <tbody><tr><td data-label="Change">Change the waiting telemetry from <code>Ready</code> to <code>Pair 2 ready</code>.</td><td data-label="Prediction">After INIT, the Driver Station will show <code>Pair 2 ready</code>; no hardware will move.</td><td data-label="Observed">The exact message appeared after INIT; no hardware moved.</td><td data-label="Match?">Yes.</td></tr></tbody>
-    </table>
     <form class="sheet" aria-label="Robot test card">
       <div class="form-grid">
-        <label class="field"><span class="field-label">Trial ID</span><span class="write-line"></span></label>
-        <label class="field"><span class="field-label">Matching M claim ID</span><span class="write-line"></span></label>
-        <label class="field full"><span class="field-label">What one change are we testing?</span><span class="write-line"></span></label>
-        <label class="field full"><span class="field-label">What do we predict the robot will do, and when must we press Stop?</span><span class="write-line"></span></label>
+        <label class="field full"><span class="field-label">What one change are we testing? <span class="prompt-example">(e.g., change the waiting telemetry from <code>Ready</code> to <code>Pair 2 ready</code>.)</span></span><span class="write-line"></span></label>
+        <label class="field full"><span class="field-label">What do we predict the robot will do, and when must we press Stop? <span class="prompt-example">(e.g., after INIT, the Driver Station shows <code>Pair 2 ready</code>; no hardware will move.)</span></span><span class="write-line"></span></label>
 
         <div class="field full safety-callout">
           <strong>Setup gate before contact:</strong> Press Stop, switch the Control Hub off, and disconnect the battery before touching wiring or moving hardware. Stop alone ends the OpMode; it does not remove electrical power or make contact safe.
@@ -76,17 +70,13 @@
 
       <div class="form-grid">
         <label class="field full"><span class="field-label">What exact steps will we perform? Number the smallest safe sequence.</span><span class="write-box"></span></label>
-        <label class="field full"><span class="field-label">What did we actually see? Record messages, values, movement, and Stop response.</span><span class="write-box"></span></label>
+        <label class="field full"><span class="field-label">What did we actually see? Record messages, values, movement, and Stop response. <span class="prompt-example">(e.g., the exact message appeared after INIT; no hardware moved.)</span></span><span class="write-box"></span></label>
 
         <div class="field">
           <span class="field-label">Did the result match the prediction?</span>
           <span class="choice"><span><span class="box"></span>Yes</span><span><span class="box"></span>No</span><span><span class="box"></span>Blocked before test</span></span>
         </div>
-        <label class="field full"><span class="field-label">What commit hash did the workspace start from before this change?</span><span class="write-line"></span></label>
-        <label class="field full"><span class="field-label">What uncommitted workspace did we actually test? List every changed file and the saved diff file/location plus its saved time.</span><span class="write-line"></span></label>
-        <label class="field full"><span class="field-label">What resulting commit hash was created after this test, if any?</span><span class="write-line"></span><span>Write <strong>not created</strong> if the tested diff is still uncommitted.</span></label>
-
-        <label class="field full"><span class="field-label">What must happen before another test? Name the one next change or safety action, its owner, and the test to repeat.</span><span class="write-line"></span></label>
+        <label class="field full"><span class="field-label">What must happen before another test?</span><span class="write-line"></span></label>
       </div>
     </form>
   </main>
