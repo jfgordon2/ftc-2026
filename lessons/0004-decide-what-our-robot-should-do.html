@@ -23,7 +23,7 @@
 
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
-    <a href="0003-compare-starterbot-programs.html">Previous: Meeting 3: Compare the StarterBot Programs</a>
+    <a href="0003-read-apriltags-and-measure-distance.html">Previous: Meeting 3: Read AprilTags and Measure Distance</a>
     <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
@@ -114,7 +114,7 @@
           <li><strong>Separate periods.</strong> Section 10.4 says AUTO has no DRIVER input and TELEOP is remotely operated by DRIVERS. Build today's control map for TELEOP. Preserve AUTO actions as later Meeting 9-12 work, not hidden driver controls. <strong>Evidence:</strong> every candidate action is marked TELEOP or deferred AUTO.</li>
           <li><strong>Extract actions, not solutions.</strong> Section 10.1 says robots collect POLLEN and NECTAR, move them to the GARDEN, place them into FLOWERS, launch them into CELLS to cause a HIVE TIP, and finish by returning to the LOADING ZONE. Rewrite each as a plain action with no input name. <strong>Evidence:</strong> the action column contains verbs and game objects, no buttons.</li>
           <li><strong>Attach exact constraints.</strong> Use sections 10.5.1-10.5.4 and rules G407-G410, G417, and G418. Record the rule beside the affected action, including the control limit, opponent-NECTAR restriction, no-catching restriction, final-minute NECTAR restriction, HIVE interaction, and FLOWER entry/removal direction. <strong>Evidence:</strong> each rule-sensitive row names its section or rule.</li>
-          <li><strong>Check real availability.</strong> Compare the Matching StarterBot trace from Meeting 3 with the powered-off installed robot. Record installed, absent, or unknown and point to the exact trace, inventory, photo, configuration, or blocker. <strong>Evidence:</strong> no same-brand assumption substitutes for the installed robot.</li>
+          <li><strong>Check real availability.</strong> Compare the M2 source/control handoff saved in Meeting 3 with the powered-off installed robot. Record installed, absent, or unknown and point to the exact trace, inventory, photo, configuration, or blocker. <strong>Evidence:</strong> no same-brand assumption substitutes for the installed robot.</li>
           <li><strong>Classify before mapping.</strong> Decide required, optional, or unavailable. Write the event-plan reason and evidence. A manual-scoring opportunity is not automatically required, and a vendor mechanism is not automatically selected. <strong>Evidence:</strong> each row has one classification, rationale, proposer, and approver.</li>
           <li><strong>Design behavior before naming an input.</strong> Decide proportional, held, or one-press; safe release; reverse/recovery; feedback; conflicts; and telemetry. Then choose an available gamepad field from the pinned API and record its actual assignment. <strong>Evidence:</strong> no input appears before its behavior and safety fields are complete.</li>
         </ol>
@@ -126,13 +126,13 @@
           <caption>Game-action inventory before controls</caption>
           <thead><tr><th scope="col">Candidate action</th><th scope="col">Current manual grounding</th><th scope="col">Installed evidence</th><th scope="col">Team classification and rationale</th></tr></thead>
           <tbody>
-            <tr><td data-label="Action">Drive, steer, align, and stop during TELEOP</td><td data-label="Manual">Sections 10.1, 10.4, 10.5.4; G412-G413</td><td data-label="Installed evidence">Meeting 2 map / Meeting 3 trace / blocker: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Drive, steer, align, and stop during TELEOP</td><td data-label="Manual">Sections 10.1, 10.4, 10.5.4; G412-G413</td><td data-label="Installed evidence">Meeting 2 map / M2 source/control handoff / blocker: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
             <tr><td data-label="Action">Collect allowed POLLEN or NECTAR</td><td data-label="Manual">Sections 10.1, 10.5.3; G407-G409; G418 for POLLEN removal from a FLOWER</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
             <tr><td data-label="Action">Retain, transport, and release a scoring element</td><td data-label="Manual">Sections 10.1 and 10.5; G407-G408</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
             <tr><td data-label="Action">Launch a scoring element into the upward-facing HIVE CELL</td><td data-label="Manual">Section 10.5.1; G417</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
             <tr><td data-label="Action">Place allowed POLLEN or NECTAR into the top of a FLOWER</td><td data-label="Manual">Section 10.5.2; G410 and G418</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
             <tr><td data-label="Action">Move or release an allowed scoring element into the team's GARDEN</td><td data-label="Manual">Sections 10.1 and 10.5.3; G407-G408</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Return the robot to the LOADING ZONE for TELEOP PARK</td><td data-label="Manual">Sections 10.1 and 10.5.4</td><td data-label="Installed evidence">Meeting 2 map / Meeting 3 trace / blocker: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Return the robot to the LOADING ZONE for TELEOP PARK</td><td data-label="Manual">Sections 10.1 and 10.5.4</td><td data-label="Installed evidence">Meeting 2 map / M2 source/control handoff / blocker: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
             <tr><td data-label="Action">Reverse, clear, or recover each selected mechanism</td><td data-label="Manual">Supporting control for selected action; no scoring claim</td><td data-label="Installed evidence">Needed / Not needed / Unknown because __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
             <tr><td data-label="Action">Other legal TELEOP action: __________</td><td data-label="Manual">Exact section/rule: __________</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
           </tbody>
@@ -180,7 +180,7 @@
           <article class="station-card">
             <h3>2. Installed capability</h3>
             <ol>
-              <li>Use Meeting 3's matching source identity and trace; keep the unmatched program reading-only.</li>
+              <li>Use Meeting 3's saved M2 source identity and control trace; keep the unmatched program reading-only.</li>
               <li>With power disconnected, compare every traced mechanism with the installed robot.</li>
               <li>Mark each candidate installed, absent, or unknown. Record exact evidence or a named blocker.</li>
               <li>List unknown safe release, recovery, travel, and physical-limit evidence for Meeting 6.</li>
@@ -203,7 +203,7 @@
       <section id="record" aria-labelledby="record-title">
         <h2 id="record-title">Build the control-design record</h2>
         <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m04-m01">Measure it M04-M01</a> <strong>Status: pending delivery evidence.</strong> Complete one row for every inventory action, including optional and unavailable actions. Duplicate the row on the team worksheet as needed.</p>
-        <p><strong>Record identity:</strong> trial details: __________; date: __________; manual revision and access date: __________; Team Update/Q&amp;A checked: __________; robot manufacturer/revision: __________; active configuration: __________; matching source artifact and Meeting 3 record: __________; student recorder: __________; checker: __________.</p>
+        <p><strong>Record identity:</strong> trial details: __________; date: __________; manual revision and access date: __________; Team Update/Q&amp;A checked: __________; robot manufacturer/revision: __________; active configuration: __________; matching source artifact and M2 handoff record: __________; student recorder: __________; checker: __________.</p>
         <table class="record-table">
           <caption>Repeat this complete control-map record for every action</caption>
           <tbody>
@@ -234,7 +234,7 @@
         <p>This is a paper and source review, not a powered robot test. Read every action aloud and reject incomplete rows.</p>
         <ol>
           <li><strong>Game check:</strong> verify each season claim against the named current manual section or rule. <strong>Pass:</strong> the citation supports the action and constraint; open interpretation questions are blocked, not guessed.</li>
-          <li><strong>Scope check:</strong> compare every installed claim with Meeting 3 and the powered-off robot. <strong>Pass:</strong> vendor assumptions, installed evidence, and unknowns are distinct.</li>
+          <li><strong>Scope check:</strong> compare every installed claim with the M2 handoff saved in Meeting 3 and the powered-off robot. <strong>Pass:</strong> vendor assumptions, installed evidence, and unknowns are distinct.</li>
           <li><strong>Classification check:</strong> ask what the event plan loses if each required action is removed. <strong>Pass:</strong> required, optional, and unavailable have specific rationales and approval.</li>
           <li><strong>Workload check:</strong> act out each required action with concurrent tasks. <strong>Pass:</strong> the selected operator and gamepad count are plausible and all conflicts have a policy.</li>
           <li><strong>Safety and recovery check:</strong> point to safe release, Stop expectation, reverse/recovery, feedback, and acceptance evidence. <strong>Pass:</strong> no required action depends on an invented state or an unexplained blank.</li>
@@ -248,7 +248,7 @@
         <h2 id="fallback-title">If the robot or current source is unavailable</h2>
         <div class="fallback-box">
           <ol>
-            <li>Use the saved Meeting 3 matching trace to inventory candidate capability. Mark installed mechanism availability <strong>pending physical inspection</strong>; do not claim it is present.</li>
+            <li>Use the saved M2 source/control handoff from Meeting 3 to inventory candidate capability. Mark installed mechanism availability <strong>pending physical inspection</strong>; do not claim it is present.</li>
             <li>Use a mentor-provided saved copy of the current manual only if its revision and retrieval date are known. If the current manual, Team Update, or needed Q&amp;A cannot be checked, mark affected game claims <strong>pending current-source check</strong>.</li>
             <li>Complete the game-action, classification, workload, conflict, behavior, feedback, telemetry, and one/two-gamepad analysis on paper.</li>
             <li>Leave hardware-dependent safe release, recovery, limit, and acceptance evidence pending. Invent no replacement value or result.</li>
@@ -317,7 +317,7 @@
       <aside class="mentor-note">
         <ul class="checklist">
           <li>At delivery time, open the current English Competition Manual, latest Team Update, and relevant Q&amp;A. Record revision/date. Prepare exact links to sections 8, 10.1, 10.4, 10.5.1-10.5.4 and rules G407-G410, G412-G413, G417-G418.</li>
-          <li>Bring Meeting 1 robot identity, Meeting 2 motor map, Meeting 3 matching source/archive identity and trace, active configuration, and all blockers. Keep the unmatched path reading-only.</li>
+          <li>Bring Meeting 1 robot identity, Meeting 2 motor map, Meeting 3 handoff of M2 source/configuration and control trace, active configuration, and all blockers. Keep the unmatched path reading-only.</li>
           <li>Prepare one action row per candidate plus blank rows, manual excerpts for each pair, action cards, role cards, and one/two-gamepad workload scenarios. Do not prefill control assignments.</li>
           <li>Verify the robot is powered off, battery disconnected, and mechanisms free of stored energy before visual inspection. Identify mechanisms that students must not move by hand.</li>
           <li>Challenge undocumented classifications and require exact rationales. A high score, vendor default, mentor preference, or available button alone is not a sufficient control decision.</li>
@@ -330,7 +330,7 @@
       <h2 id="resources-title">Resources</h2>
       <ul>
         <li><span class="resource-label follow">Follow</span> Current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">2026-2027 BIOBUZZ Competition Manual</a>, especially sections 8, 10.1, 10.4, 10.5.1-10.5.4 and rules G407-G410, G412-G413, G417-G418. Recheck the current revision, Team Updates, and Q&amp;A at delivery.</li>
-        <li><span class="resource-label start-from">Start from</span> The signed Meeting 3 comparison: exact installed robot identity, matching checked-in program and source artifact, current control trace, tested result or blocker, and vendor assumptions.</li>
+        <li><span class="resource-label start-from">Start from</span> The signed Meeting 3 handoff of M2 work: exact installed robot identity, matching checked-in program and source artifact, current control trace, tested result or blocker, and vendor assumptions.</li>
         <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/Gamepad.html"><code>Gamepad</code> Javadoc</a> only to verify available fields and methods after behavior design.</li>
         <li><span class="resource-label optional">Scope boundary</span> Matching REV or goBILDA code may show existing actions and controls. It does not own game rules, team classifications, operator workload, gamepad count, or the team's final map.</li>
       </ul>
@@ -339,7 +339,7 @@
   </main>
 
   <footer class="site-footer">
-    <p><a href="0003-compare-starterbot-programs.html">Previous: Meeting 3: Compare the StarterBot Programs</a> | <a href="index.html">Course index</a> | <a href="0005-build-and-structure-our-teleop.html">Next: Meeting 5: Build and Structure Our TeleOp</a></p>
+    <p><a href="0003-read-apriltags-and-measure-distance.html">Previous: Meeting 3: Read AprilTags and Measure Distance</a> | <a href="index.html">Course index</a> | <a href="0005-build-and-structure-our-teleop.html">Next: Meeting 5: Build and Structure Our TeleOp</a></p>
   </footer>
 </body>
 </html>

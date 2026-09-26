@@ -82,3 +82,31 @@ must record:
 
 Reject a video that cannot be reconciled with current FIRST resources, pinned
 SDK v12.0 behavior, or documentation for the exact installed hardware.
+
+## Meeting 3 revision — September 26, 2026
+
+The mentor reports that students programmed last year's robot motors and servos
+in M2. M3 now reviews current game updates and teaches AprilTag telemetry through
+trace, predict, measure, and one bounded edit. Its filename now matches the lesson title: `0003-read-apriltags-and-measure-distance.html`.
+The M2 source/control handoff replaces the planned vendor-comparison artifact for
+M4; no unperformed hardware test is marked passed. The four-page print pack is
+`reference/meeting3-print-pack.html`; its code must match
+`examples/Meeting3AprilTagTelemetry.java` whenever the sample changes.
+The pose-only SDK 12 sample supports singles and clusters without type casts;
+IDs and cluster metadata are deliberately deferred. Print a measured 4-inch
+sample tag (584), not a screenshot of a game tag. Camera calibration and exact
+print size determine measurement quality. Verify on hardware before delivery.
+
+Validation: the sample passed the sibling robot project's
+`:TeamCode:compileDebugJavaWithJavac` build on 2026-09-26. Lesson, print-code,
+and TeamCode copies matched; local HTML links and Letter-sized print layouts
+were checked. Physical camera/Stop/restart tests remain pending. The older FIRST
+sample PDF and SDK 12 disagree on tag 583 size; use ID 584 at 4 inches instead.
+G410 explicitly names NECTAR, while §10.5.2 uses broader FLOWER wording; preserve
+that distinction and check current clarifications before changing strategy.
+
+The printable target is included at `output/pdf/meeting3-apriltag-584.pdf`:
+page 5 extracted without scaling from FIRST's official
+`FTCAprilTagSDK82SamplesExtended.pdf` (downloaded 2026-09-26 from
+https://ftc-docs.firstinspires.org/en/latest/_downloads/9dee926dd59f7f35e84c2b816c793fea/FTCAprilTagSDK82SamplesExtended.pdf).
+Print Actual Size / 100%, with no fit-to-page; verify the black square is 4 inches.

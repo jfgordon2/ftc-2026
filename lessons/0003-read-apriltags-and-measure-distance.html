@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Meeting 3: read AprilTag distance telemetry, measure camera results, review BIOBUZZ updates, and save one tested change.">
+<title>Meeting 3: Read AprilTags and Measure Distance | BIOBUZZ</title>
+<link rel="stylesheet" href="../assets/lesson.css"><script src="../assets/lesson.js" defer></script></head><body>
+  <header class="site-header">
+    <p>BIOBUZZ / Week 2, Meeting 3 / FTC SDK v12.0</p>
+    <h1>Read AprilTags and Measure Distance</h1>
+    <p class="lede">Read a camera, predict how its measurements change, and check the results with a tape measure.</p>
+    <ul class="meeting-meta">
+      <li><strong>Duration</strong><br>180 minutes</li>
+      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
+      <li><strong>New idea</strong><br>Sensor readings are measurements to check</li>
+      <li><strong>Team work</strong><br>Record measurements and save one tested edit</li>
+    </ul>
+  </header>
+
+  <nav class="site-nav" aria-label="Lesson navigation">
+    <a href="index.html">Course index</a>
+    <a href="0002-making-the-motor-move.html">Previous: Meeting 2: Making the Motor Move</a>
+    <a href="#start-here">Start here</a>
+    <a href="#words">Words you need</a>
+    <a href="#safety">Safety</a>
+    <a href="#agenda">Today's plan</a>
+    <a href="#game">Game updates</a>
+    <a href="#code">Follow along</a>
+    <a href="#practice">Partner practice</a>
+    <a href="#modify">Make one change</a>
+    <a href="#git">Student Git steps</a>
+    <a href="#handoff">Meeting 4 handoff</a>
+    <a href="#prep">Mentor preparation</a>
+    <a href="0004-decide-what-our-robot-should-do.html">Next: Meeting 4: Decide What Our Robot Should Do</a>
+  </nav>
+<main>
+  <div class="student-path">
+<section id="start-here"><h2>Today’s goal</h2><p>Last meeting you controlled motors and servos. Today, use the same program lifecycle to read a camera and test what its numbers mean.</p><ol><li>Review current game updates and record one effect on our robot plan.</li><li>Trace setup → wait for Start → read → show → repeat → Stop.</li><li>Predict how moving a printed tag changes distance and angles; compare telemetry with a tape measure.</li><li>Change one telemetry calculation or condition, test it, and save the result.</li></ol><p>We use a webcam connected to the robot controller. A laptop webcam by itself cannot run this FTC OpMode. This program commands no motors or servos.</p></section>
+<section id="safety"><h2>Set up one camera station</h2><ul><li>The coach supervises one powered station; assign a Driver Station operator and a separate Stop owner.</li><li>Secure the practice robot on its inspected support with wheels clear; remove game pieces and keep people clear of mechanisms. Select <strong>M3 AprilTag Telemetry</strong>, not a motor or driving OpMode.</li><li>Stop, switch off the Hub, and disconnect the battery before changing wiring, supports, or camera mounting. Move only the separate tag card during a run.</li><li>Unexpected motion or unsafe hardware means immediate Stop and power down. No driving or launching tests are part of this lesson.</li></ul></section>
+<section id="agenda"><h2>Today's plan — 180 minutes</h2><ol class="timed-agenda">
+<li><time>0:00–0:20<br>20 min</time><div><a href="#game">Review game updates</a>; note the source, rule, and effect on our plan.</div></li>
+<li><time>0:20–0:35<br>15 min</time><div><a href="#handoff">Recover M2 work</a>; save the working program, configuration, controls, and blockers for M4.</div></li>
+<li><time>0:35–1:00<br>25 min</time><div><a href="#code">Trace and predict</a> in pairs before powering the station.</div></li>
+<li><time>1:00–1:40<br>40 min</time><div><a href="#practice">Measure at one supervised camera station</a>; rotate 2–3 pairs through 12–18 minute turns. Waiting pairs predict and trace.</div></li>
+<li><time>1:40–1:50<br>10 min</time><div>Break; Stop, Hub off, battery disconnected.</div></li>
+<li><time>1:50–2:35<br>45 min</time><div><a href="#modify">Make one edit</a>; rotate pairs through build/deploy/test while others calculate and explain results.</div></li>
+<li><time>2:35–3:00<br>25 min</time><div><a href="#git">Review and save</a>; individual explanation and <a href="#handoff">Meeting 4 handoff</a>.</div></li></ol></section>
+<details class="lesson-details" id="lesson-details">
+  <summary>Detailed steps, code, and worksheets</summary>
+<section id="game"><h2>Game updates review</h2><p><strong>Checked September 26, 2026:</strong> FIRST lists BIOBUZZ manual TU02, dated September 24. Recheck <a href="https://ftc-resources.firstinspires.org/ftc/game">Game &amp; Season Materials</a> before Monday; record the version actually reviewed.</p>
+<ul><li><strong>HIVE — G417:</strong> induce tips by launching scoring elements into the upward-facing cell; read the full rule for prohibited interference.</li><li><strong>FLOWER — G410:</strong> NECTAR may enter the scoring volume only in the last 60 seconds. Section 10.5.2 uses broader wording; flag that discrepancy for Q&amp;A instead of extending G410 to POLLEN. Read G418 for entry/removal.</li><li><strong>Camera — §9.6 and §9.9:</strong> clusters are mounted on moving cells. Their camera-relative pose can change while our robot stays still. Do not treat them as fixed field landmarks.</li></ul>
+<p>Read the <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html">current manual</a>, sections 1.7.4, 9.9, and rules G410/G417/G418. Q&amp;A is scheduled to open Monday September 28 at noon ET (11 a.m. Chicago); opening does not guarantee answers will already be available.</p>
+<p><strong>Discuss:</strong> Which rule changes a driver control? What could explain a changing distance reading when the robot is parked? Carry one rule/action question into Meeting 4.</p><p>Revision/date checked: ______ Rule or Q&amp;A ID: ______ What changed: ______ Effect on controls/build: ______ Owner: ______</p></section>
+<section id="code"><h2>Trace the program</h2><p><a href="../examples/Meeting3AprilTagTelemetry.java" download>Download Meeting3AprilTagTelemetry.java</a> · <a href="../reference/meeting3-print-pack.html">Printable code and worksheets</a></p><p>Place the file in <code>TeamCode/src/main/java/org/firstinspires/ftc/teamcode/</code> in FtcRobotController. Use the existing <a href="../reference/android-studio-setup-and-deploy.html">build and deployment steps</a>. The camera name <code>Webcam 1</code> must match the active configuration exactly.</p><pre><code>package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import java.util.List;
+
+@TeleOp(name = &quot;M3 AprilTag Telemetry&quot;, group = &quot;BIOBUZZ&quot;)
+public class Meeting3AprilTagTelemetry extends LinearOpMode {
+    @Override
+    public void runOpMode() throws InterruptedException {
+        // SETUP: the configured webcam name must match exactly.
+        AprilTagProcessor tags = AprilTagProcessor.easyCreateWithDefaults();
+        VisionPortal camera = VisionPortal.easyCreateWithDefaults(
+                hardwareMap.get(WebcamName.class, &quot;Webcam 1&quot;), tags);
+
+        // The finally block releases the camera even if we Stop during INIT.
+        try {
+            telemetry.addLine(&quot;Camera opening. Press Start when ready.&quot;);
+            telemetry.update();
+            waitForStart();
+
+            while (opModeIsActive()) {
+                List&lt;AprilTagDetection&gt; detections = tags.getDetections();
+                telemetry.addData(&quot;Camera&quot;, camera.getCameraState());
+                telemetry.addData(&quot;Detections&quot;, detections.size());
+                if (detections.isEmpty()) {
+                    telemetry.addLine(&quot;No tags visible yet.&quot;);
+                }
+
+                // READ: single tags and clusters share the same pose fields.
+                for (AprilTagDetection detection : detections) {
+                    if (detection.ftcPose != null) {
+                        // SHOW: default units are inches and degrees.
+                        telemetry.addLine(&quot;--- Target pose ---&quot;);
+                        // Range: camera-to-target distance in the X-Y plane (inches).
+                        // It ignores height (Z): sqrt(X*X + Y*Y).
+                        telemetry.addData(&quot;Range (in)&quot;, &quot;%.1f&quot;, detection.ftcPose.range);
+                        // Bearing: left/right angle (degrees); left +, right -, centered 0.
+                        telemetry.addData(&quot;Bearing (deg)&quot;, &quot;%.1f&quot;, detection.ftcPose.bearing);
+                        // Elevation: up/down angle (degrees); above +, below -, level 0.
+                        telemetry.addData(&quot;Elevation (deg)&quot;, &quot;%.1f&quot;, detection.ftcPose.elevation);
+                        telemetry.addData(&quot;X / Y / Z (in)&quot;, &quot;%.1f / %.1f / %.1f&quot;,
+                                detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z);
+                    } else {
+                        telemetry.addLine(&quot;Tag seen; no distance. Check tag library/size.&quot;);
+                    }
+                }
+                telemetry.update();
+                sleep(50);
+            }
+        } finally {
+            camera.close();
+        }
+    }
+}
+</code></pre>
+<h3>Trace → predict → run → modify</h3><ol><li>Box the two setup calls. The processor finds tags; the portal connects it to a camera.</li><li>Underline <code>waitForStart()</code> and <code>opModeIsActive()</code>. Compare these to M2.</li><li>Follow one detection through the <code>if</code>. <code>null</code> means no pose is available; it does not mean distance zero.</li><li>Circle <code>telemetry.update()</code>: queued text reaches the Driver Station here.</li><li>Explain why <code>camera.close()</code> belongs in <code>finally</code>: release the camera when execution leaves the block, including Stop during INIT.</li></ol><p><strong>Skip API migration today.</strong> SDK 12 single detections and cluster detections both expose <code>ftcPose</code>. No casts are needed for these readings. This sample deliberately omits IDs, names, and cluster coverage; show one target at a time. Multiple targets produce repeated pose blocks, not a stable target-selection system.</p></section>
+<section id="words"><h2>Read the numbers</h2><dl class="words-list"><dt>Pose</dt><dd>Position and orientation of a target relative to the camera.</dd><dt>Range</dt><dd>Distance in the camera’s X–Y plane: √(x² + y²), in inches by default. It excludes height z.</dd><dt>Bearing</dt><dd>Left/right angle from camera forward, in degrees; left is positive, right negative.</dd><dt>Elevation</dt><dd>Up/down angle; above the camera is positive.</dd><dt>X / Y / Z</dt><dd>Right / forward / up distances relative to the camera. The camera is the reference, not the robot bumper.</dd></dl><p>The SDK calculates pose from the image, known tag size, and camera calibration. Do not teach pixel width as a distance by itself. Incorrect print scale or missing/mismatched calibration can give believable but wrong numbers.</p></section>
+<section id="practice"><h2>Predict, then measure</h2><p>Names: ____________________ Date: __________ Robot/config: ____________________</p>
+<p>Code commit: ______________ Camera model: __________ Resolution: ______ Calibration known? ______</p>
+<p>Printed tag ID/size: __________ Measured black square width: ______ Setup/checker: __________</p>
+<p>Keep the camera fixed and level. Use one sample tag, upright and facing it, with its center at lens height. Measure from the lens to the tag center. Predict before moving the card; wait for readings to settle.</p>
+<table><thead><tr><th>Trial</th><th>Prediction</th><th>Tape (in)</th><th>Range (in)</th><th>Bearing (°)</th><th>Elevation (°)</th></tr></thead><tbody>
+<tr><td>Centered, 24 in</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Centered, 36 in</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Same forward distance; left</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Same forward distance; right</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Raise tag above lens</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Cover/remove tag</td><td></td><td colspan="4">Message/count observed:</td></tr>
+</tbody></table>
+<p><strong>Calculate:</strong> range change = second range − first range = ______ in (predict about 12 in).</p>
+<p>For a centered, lens-height trial: error = reported range − tape distance = ______ in.</p>
+<p>Record three repeat range readings at the same position: ______ / ______ / ______ in.</p>
+<p><strong>Explain:</strong> Why can the tag be detected but have no distance? __________________________</p>
+<p>What happened after covering the tag? ______________________________________________</p>
+<p><strong>One edit:</strong> __________ Prediction: __________ Actual result: __________</p>
+<p>Stop/restart result: __________ Student/checker: __________ Tested commit or blocker: __________</p><p><strong>Expected trends:</strong> centered range rises about 12 inches between 24 and 36 inches. Left/right changes bearing sign; raising the tag changes elevation. Height alone does not make SDK range the full 3D slant distance. At lens height with a level camera, tape distance and range are comparable.</p><p><strong>If something fails:</strong> check camera state and preview, configuration name, lighting, sharpness, tag visibility, printed size, and library match. No detections is different from a detection with no pose. Covering a target should remove its pose after processing catches up. These are latest available results, not a freshness guarantee suitable for robot control.</p></section>
+<section id="modify"><h2>Make exactly one small change</h2><p>Choose one edit inside the non-null pose branch; predict, build, deploy, test, and review the diff.</p><ul><li><strong>Unit conversion:</strong> add <code>telemetry.addData("Range (cm)", "%.1f", detection.ftcPose.range * 2.54);</code> Check 10 inches → 25.4 cm on paper, then check live paired readings.</li><li><strong>Condition:</strong> add <code>telemetry.addData("Under 36 in", detection.ftcPose.range &lt; 36);</code> Test clearly below and above 36 inches, then remove the tag. This is a classroom threshold, not a proven shooting range.</li></ul><p>Optional paper extension: compute 3D distance √(x² + y² + z²) and explain why it differs from SDK range when z is nonzero. Keep auto-aiming, PID, cluster geometry, and field localization for later.</p></section>
+<section id="git"><h2>Save and explain</h2><p>In the <strong>robot-code repository</strong>, use <code>git status</code> and <code>git diff</code>; stage only the intended Java file, inspect <code>git diff --cached</code>, and commit after the camera test. Record <code>git rev-parse --short HEAD</code> on the worksheet. If you only built or traced, label the result “not hardware tested.”</p><p>Each student explains the loop, one predicted/observed measurement, the missing-pose check, and the limitation of using a moving target. Test Stop, restart, and Stop during INIT before recording completion.</p></section>
+<section id="handoff"><h2>Keep Meeting 4 ready</h2><p><strong>Recover the motor/servo work actually completed in Meeting 2.</strong> Preserve the working robot program separately from this camera-only OpMode. Do not replace it with new-season vendor code.</p>
+<table><thead><tr><th>Record for Meeting 4</th><th>Evidence / unknown / owner</th></tr></thead><tbody>
+<tr><td>Exact robot and active configuration</td><td>_______________________________</td></tr>
+<tr><td>Saved motor/servo source file and commit</td><td>_______________________________</td></tr>
+<tr><td>Setup → input → output → release/Stop trace</td><td>_______________________________</td></tr>
+<tr><td>Installed motors/servos and control mapping</td><td>_______________________________</td></tr>
+<tr><td>M2 tested behavior and unresolved limits</td><td>_______________________________</td></tr>
+<tr><td>Current manual/update/Q&amp;A and one action question</td><td>_______________________________</td></tr>
+<tr><td>Camera result, one limitation, next check</td><td>_______________________________</td></tr>
+</tbody></table><p>Student: __________ Mentor/checker: __________ Date: __________</p>
+<p>An untested mechanism remains untested. Camera success does not qualify driving, aiming, launching, or field localization.</p></section>
+</details>
+  </div>
+
+<details class="lesson-details mentor-details">
+  <summary>Mentor preparation and sources</summary>
+<section id="prep"><h2>Mentor preparation and print list</h2><p><strong>For three pairs:</strong> print pages 1–2 of the <a href="../reference/meeting3-print-pack.html">print pack</a> three times (code + worksheet); page 3 once per student (game review); page 4 once per robot carried into Meeting 4 (source/control handoff). For two pairs, print two code/worksheet sets. Browser print: Letter, 100%, headers/footers off.</p><ul><li>Print the included <a href="../output/pdf/meeting3-apriltag-584.pdf"><strong>AprilTag 584 target sheet (4-inch PDF)</strong></a>, extracted without resizing from FIRST’s official sample PDF at actual size; measure the outer black square as 4 inches, excluding white margin. Mount flat on stiff card. One target plus one spare is enough.</li><li>Keep the white border; no screenshot, fit-to-page resizing, or shiny cover. The default SDK 12 library includes ID 584 at 4 inches (named Number 5 in the SDK; Jonah in the older PDF). Avoid ID 583 from that older PDF: its printed 4-inch size differs from the local SDK 12 library’s 2-inch definition. BIOBUZZ clusters are optional follow-up, not needed for the core lesson; use official field print files and their prescribed scale/layout.</li><li>Bring a configured compatible USB webcam, Hub/Driver Station, charged battery, ruler/tape, card stand, markers, and pair laptops. Verify the camera model/resolution has suitable calibration and run the exact sample before students arrive.</li><li>Save the working M2 motor/servo program and active configuration. Confirm actual student progress; fill missing source/control notes during the 15-minute handoff block.</li><li>Recheck manual, Team Updates, and Q&amp;A Monday. Print fresh relevant rule text if it changed.</li></ul><p><strong>No camera or failed setup:</strong> trace code, predict values, calculate using explicitly labeled practice data (x=0, y=24, z=0; then x=0, y=36, z=0), and inspect a one-line diff. Record the blocker/owner; leave physical measurements, Stop/restart checks, and test status pending.</p></section>
+<section id="sources"><h2>Mentor source notes</h2><p>Reviewed against the local FtcRobotController SDK 12.0.0 dependency pin, its <code>ConceptAprilTagEasy</code> sample, and SDK <code>AprilTagPoseFtc</code> source. <a href="https://ftc-docs.firstinspires.org/en/latest/tech_tips/tech-tips/tech-tip-apriltag-clusters/tech-tip-apriltag-clusters.html">FIRST’s SDK 12 cluster guide</a> explains shared pose versus subclass metadata. <a href="https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_library/apriltag-library.html">FIRST’s tag-library guide</a> lists sample-tag sizes; its historical season examples are not BIOBUZZ field definitions. <a href="../docs/research/curriculum-documentation-grounding.html#m03-f01">M3 evidence register</a>.</p></section>
+</details>
+</main>
+
+  <footer class="site-footer">
+    <p><a href="0002-making-the-motor-move.html">Previous: Meeting 2: Making the Motor Move</a> | <a href="index.html">Course index</a> | <a href="0004-decide-what-our-robot-should-do.html">Next: Meeting 4: Decide What Our Robot Should Do</a></p>
+  </footer>
+</body>
+</html>

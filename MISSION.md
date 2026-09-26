@@ -38,6 +38,11 @@ observable robot behavior. Before the first event, control-system instruction
 is limited to Meeting 13's bounded launcher-velocity PIDF work: students may
 read the matching baseline, graph target and measured velocity, and compare
 one-variable F and P changes under the approved procedure. General-purpose PID
-tuning, adding I or D, abstract advanced-control coverage, vision, and
+tuning, adding I or D, abstract advanced-control coverage and
 localization remain deferred until the team owns dependable basic operation
 and recovery.
+
+Meeting 3 adds a bounded camera-telemetry lab after students programmed motors
+and servos in Meeting 2. Read and measure AprilTag pose only; automatic aiming,
+vision-driven motion, and localization remain deferred. Preserve the working M2
+source, configuration, and control trace for Meeting 4.

@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Meeting 3 print pack</title><style>
+*{box-sizing:border-box}body{margin:0;background:#e8edf0;color:#17212b;font:11pt/1.4 Arial,sans-serif}.page{background:white;width:8.5in;min-height:11in;margin:20px auto;padding:.55in}h1{font-size:20pt;margin:0 0 8px}h2{font-size:14pt}p{margin:12px 0}pre{font:8.3pt/1.3 monospace;white-space:pre}table{border-collapse:collapse;width:100%;font-size:10pt}th,td{border:1px solid #65717b;padding:8px;text-align:left}td{height:43px}a{color:#174a72}.toolbar{text-align:center;padding:15px}.small{font-size:9pt}@page{size:letter;margin:0}@media print{body{background:white}.toolbar{display:none}.page{width:auto;height:11in;min-height:0;margin:0;break-after:page;overflow:visible}.page:last-child{break-after:auto}a{color:inherit;text-decoration:none}}
+</style></head><body><div class="toolbar"><a href="../lessons/0003-read-apriltags-and-measure-distance.html">Back to lesson</a> · Print Letter, 100%, headers/footers off<br><strong>Also print:</strong> <a href="../output/pdf/meeting3-apriltag-584.pdf">AprilTag 584 target sheet (PDF)</a> — one target plus one spare; Actual Size / 100%, no fit-to-page. Measure the outer black square: 4 inches, excluding white margin.</div>
+<section class="page"><h1>1 · Read the camera program</h1><p class="small">One per pair · SDK 12.0.0 · Circle setup, Start, loop, pose check, update, cleanup.</p><pre> 1  package org.firstinspires.ftc.teamcode;
+ 2  
+ 3  import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+ 4  import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+ 5  import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+ 6  import org.firstinspires.ftc.vision.VisionPortal;
+ 7  import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+ 8  import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+ 9  import java.util.List;
+10  
+11  @TeleOp(name = &quot;M3 AprilTag Telemetry&quot;, group = &quot;BIOBUZZ&quot;)
+12  public class Meeting3AprilTagTelemetry extends LinearOpMode {
+13      @Override
+14      public void runOpMode() throws InterruptedException {
+15          // SETUP: the configured webcam name must match exactly.
+16          AprilTagProcessor tags = AprilTagProcessor.easyCreateWithDefaults();
+17          VisionPortal camera = VisionPortal.easyCreateWithDefaults(
+18                  hardwareMap.get(WebcamName.class, &quot;Webcam 1&quot;), tags);
+19  
+20          // The finally block releases the camera even if we Stop during INIT.
+21          try {
+22              telemetry.addLine(&quot;Camera opening. Press Start when ready.&quot;);
+23              telemetry.update();
+24              waitForStart();
+25  
+26              while (opModeIsActive()) {
+27                  List&lt;AprilTagDetection&gt; detections = tags.getDetections();
+28                  telemetry.addData(&quot;Camera&quot;, camera.getCameraState());
+29                  telemetry.addData(&quot;Detections&quot;, detections.size());
+30                  if (detections.isEmpty()) {
+31                      telemetry.addLine(&quot;No tags visible yet.&quot;);
+32                  }
+33  
+34                  // READ: single tags and clusters share the same pose fields.
+35                  for (AprilTagDetection detection : detections) {
+36                      if (detection.ftcPose != null) {
+37                          // SHOW: default units are inches and degrees.
+38                          telemetry.addLine(&quot;--- Target pose ---&quot;);
+39                          // Range: camera-to-target distance in the X-Y plane (inches).
+40                          // It ignores height (Z): sqrt(X*X + Y*Y).
+41                          telemetry.addData(&quot;Range (in)&quot;, &quot;%.1f&quot;, detection.ftcPose.range);
+42                          // Bearing: left/right angle (degrees); left +, right -, centered 0.
+43                          telemetry.addData(&quot;Bearing (deg)&quot;, &quot;%.1f&quot;, detection.ftcPose.bearing);
+44                          // Elevation: up/down angle (degrees); above +, below -, level 0.
+45                          telemetry.addData(&quot;Elevation (deg)&quot;, &quot;%.1f&quot;, detection.ftcPose.elevation);
+46                          telemetry.addData(&quot;X / Y / Z (in)&quot;, &quot;%.1f / %.1f / %.1f&quot;,
+47                                  detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z);
+48                      } else {
+49                          telemetry.addLine(&quot;Tag seen; no distance. Check tag library/size.&quot;);
+50                      }
+51                  }
+52                  telemetry.update();
+53                  sleep(50);
+54              }
+55          } finally {
+56              camera.close();
+57          }
+58      }
+59  }</pre></section>
+<section class="page"><h1>2 · Predict → measure → explain</h1><p>Names: ____________________ Date: __________ Robot/config: ____________________</p>
+<p>Code commit: ______________ Camera model: __________ Resolution: ______ Calibration known? ______</p>
+<p>Printed tag ID/size: __________ Measured black square width: ______ Setup/checker: __________</p>
+<p>Keep the camera fixed and level. Use one sample tag, upright and facing it, with its center at lens height. Measure from the lens to the tag center. Predict before moving the card; wait for readings to settle.</p>
+<table><thead><tr><th>Trial</th><th>Prediction</th><th>Tape (in)</th><th>Range (in)</th><th>Bearing (°)</th><th>Elevation (°)</th></tr></thead><tbody>
+<tr><td>Centered, 24 in</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Centered, 36 in</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Same forward distance; left</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Same forward distance; right</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Raise tag above lens</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Cover/remove tag</td><td></td><td colspan="4">Message/count observed:</td></tr>
+</tbody></table>
+<p><strong>Calculate:</strong> range change = second range − first range = ______ in (predict about 12 in).</p>
+<p>For a centered, lens-height trial: error = reported range − tape distance = ______ in.</p>
+<p>Record three repeat range readings at the same position: ______ / ______ / ______ in.</p>
+<p><strong>Explain:</strong> Why can the tag be detected but have no distance? __________________________</p>
+<p>What happened after covering the tag? ______________________________________________</p>
+<p><strong>One edit:</strong> __________ Prediction: __________ Actual result: __________</p>
+<p>Stop/restart result: __________ Student/checker: __________ Tested commit or blocker: __________</p></section>
+<section class="page"><h1>3 · BIOBUZZ game review</h1><p>September 28, 2026 · One per student</p><p><strong>Checked September 26, 2026:</strong> FIRST lists BIOBUZZ manual TU02, dated September 24. Recheck <a href="https://ftc-resources.firstinspires.org/ftc/game">Game &amp; Season Materials</a> before Monday; record the version actually reviewed.</p>
+<ul><li><strong>HIVE — G417:</strong> induce tips by launching scoring elements into the upward-facing cell; read the full rule for prohibited interference.</li><li><strong>FLOWER — G410:</strong> NECTAR may enter the scoring volume only in the last 60 seconds. Section 10.5.2 uses broader wording; flag that discrepancy for Q&amp;A instead of extending G410 to POLLEN. Read G418 for entry/removal.</li><li><strong>Camera — §9.6 and §9.9:</strong> clusters are mounted on moving cells. Their camera-relative pose can change while our robot stays still. Do not treat them as fixed field landmarks.</li></ul>
+<p>Read the <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html">current manual</a>, sections 1.7.4, 9.9, and rules G410/G417/G418. Q&amp;A is scheduled to open Monday September 28 at noon ET (11 a.m. Chicago); opening does not guarantee answers will already be available.</p>
+<p><strong>Discuss:</strong> Which rule changes a driver control? What could explain a changing distance reading when the robot is parked? Carry one rule/action question into Meeting 4.</p><h2>Bring a source, then a decision</h2><p>Name: ____________________ Checked at: ____________________</p><p>Manual revision / Team Update: ______________________________</p><p>Rule or Q&amp;A question ID: __________________________________</p><p>What changed or needs clarification?</p><p>________________________________________________________________</p><p>What should we change in our controls, code, or build plan?</p><p>________________________________________________________________</p><p>Owner / next check: ___________________________________________</p><p class="small">Source: ftc-resources.firstinspires.org/ftc/game · Current manual §1.7.4, §9.9, G410, G417, G418. Recheck before delivery.</p></section>
+<section class="page"><h1>4 · M2 → M4 robot handoff</h1><p>One per robot · Complete with the working M2 program open.</p><p><strong>Recover the motor/servo work actually completed in Meeting 2.</strong> Preserve the working robot program separately from this camera-only OpMode. Do not replace it with new-season vendor code.</p>
+<table><thead><tr><th>Record for Meeting 4</th><th>Evidence / unknown / owner</th></tr></thead><tbody>
+<tr><td>Exact robot and active configuration</td><td>_______________________________</td></tr>
+<tr><td>Saved motor/servo source file and commit</td><td>_______________________________</td></tr>
+<tr><td>Setup → input → output → release/Stop trace</td><td>_______________________________</td></tr>
+<tr><td>Installed motors/servos and control mapping</td><td>_______________________________</td></tr>
+<tr><td>M2 tested behavior and unresolved limits</td><td>_______________________________</td></tr>
+<tr><td>Current manual/update/Q&amp;A and one action question</td><td>_______________________________</td></tr>
+<tr><td>Camera result, one limitation, next check</td><td>_______________________________</td></tr>
+</tbody></table><p>Student: __________ Mentor/checker: __________ Date: __________</p>
+<p>An untested mechanism remains untested. Camera success does not qualify driving, aiming, launching, or field localization.</p></section></body></html>

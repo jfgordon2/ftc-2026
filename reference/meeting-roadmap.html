@@ -58,8 +58,8 @@
       <ul>
         <li><strong>Meeting 1 identity gate:</strong> identify the installed manufacturer and exact revision, active hardware configuration, Control Hub, Driver Station, and matching source path before treating any vendor assumption as applicable.</li>
         <li><strong>Meeting 2 motor gate:</strong> secure the robot on stable support in the game arena, clear every wheel, verify one exact saved name and motor at a time, and prove explicit zero and Stop. No floor travel occurs.</li>
-        <li><strong>Meeting 3 source gate:</strong> compare both vendor programs but run only the checked-in program matching the installed robot. A Supported test must pass before any authorized Travel test.</li>
-        <li><strong>Meetings 4-8 TeleOp gate:</strong> current game sources and the signed Meeting 3 trace must precede the control map; the drivetrain must pass Supported testing before Travel testing; each mechanism needs exact-part evidence, stable securement, measured limits, safe release, recovery, and Stop before integration. Autonomous work waits until required TeleOp behavior qualifies or is formally reclassified and disabled.</li>
+        <li><strong>Meeting 3 camera gate:</strong> preserve M2 source/configuration and control notes; verify webcam and printed tag scale; test camera telemetry, missing target, and Stop/restart at one supervised stationary station.</li>
+        <li><strong>Meetings 4-8 TeleOp gate:</strong> current game sources and the signed M2 source/control handoff from Meeting 3 must precede the control map; the drivetrain must pass Supported testing before Travel testing; each mechanism needs exact-part evidence, stable securement, measured limits, safe release, recovery, and Stop before integration. Autonomous work waits until required TeleOp behavior qualifies or is formally reclassified and disabled.</li>
         <li><strong>Meeting 10 measurement gate:</strong> encoder wiring, configured motor type, software direction, wheels, tires, axles, every gearing stage, and track-width references must be consistent and recorded before counts are converted to distance.</li>
         <li><strong>Meetings 11-12 Autonomous gate:</strong> each Meeting 10 action needs completed physical evidence before route composition. A launcher action additionally needs current rules, exact assembly/source match, powered-off geometry inspection, measured artifact and launcher inputs, a guarded method, explicit named zeros, and a passing Supported test before a Travel test.</li>
         <li><strong>Meeting 13 PIDF gate:</strong> record the exact motor, controller, run mode, target unit, code/configuration, load, battery criterion, and original read-back P/I/D/F tuple. If a reliable baseline is unavailable, graph and explain only; do not change coefficients.</li>
@@ -94,18 +94,18 @@
             <td data-label="Fallback">Build and trace prepared one-motor changes against configuration captures; leave every physical row and readiness result pending.</td>
           </tr>
           <tr>
-            <td data-label="Phase / meeting"><strong><a href="../lessons/0003-compare-starterbot-programs.html">Phase 1 / M3: Compare the StarterBot Programs</a></strong></td>
-            <td data-label="Outcome">Trace REV and goBILDA programs side by side, run only the matching checked-in program, test one telemetry-label change, inspect its diff, and commit it.</td>
-            <td data-label="Readiness"><span class="gate">Source-match gate:</span> signed M1-M2 identity and motor records; matching program checked in; Supported test before any Travel test.</td>
-            <td data-label="Evidence">F: exact vendor artifacts and lifecycle behavior. D: controls to keep/reconsider and bounded label edit. M: matching-program test and exact tested diff.</td>
-            <td data-label="Artifact">Vendor comparison and first meaningful tested commit.</td>
-            <td data-label="Robot access">Matching assembled robot for physical claims; game arena and support for powered tests.</td>
-            <td data-label="Fallback">Complete both source traces, build or validate the matching artifact, and inspect the bounded diff; do not commit as robot-tested or claim behavior passed.</td>
+            <td data-label="Phase / meeting"><strong><a href="../lessons/0003-read-apriltags-and-measure-distance.html">Phase 1 / M3: Read AprilTags and Measure Distance</a></strong></td>
+            <td data-label="Outcome">Review game updates; predict and measure camera pose; test one telemetry edit.</td>
+            <td data-label="Readiness">M2 program/configuration saved; configured webcam, correctly sized sample tag, SDK 12.0.0, one supervised station.</td>
+            <td data-label="Evidence">F: SDK shared pose and current rules. D: one display edit. M: tape/telemetry comparison and missing-target/Stop checks.</td>
+            <td data-label="Artifact">Camera worksheet, tested commit or blocker, M2 source/control handoff for M4.</td>
+            <td data-label="Robot access">Stationary supported practice robot; no motor/servo commands in the camera sample.</td>
+            <td data-label="Fallback">Trace, predict, and calculate from labeled practice data; physical evidence remains pending.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0004-decide-what-our-robot-should-do.html">Phase 2 / M4: Decide What Our Robot Should Do</a></strong></td>
             <td data-label="Outcome">Classify all current game actions and approve one- or two-gamepad controls from workload, conflict, feedback, release, recovery, and diagnosis needs.</td>
-            <td data-label="Readiness">Current Competition Manual, Team Update/Q&amp;A, installed-robot inventory, and signed Meeting 3 trace available; no new control is assumed from vendor code.</td>
+            <td data-label="Readiness">Current Competition Manual, Team Update/Q&amp;A, installed-robot inventory, and signed M2 source/control handoff from Meeting 3 available; no new control is assumed from vendor code.</td>
             <td data-label="Evidence">F: current rules and matching installed capabilities. D: required/optional/unavailable classifications and complete control map. M: only verified installed capability observations.</td>
             <td data-label="Artifact">Approved game-action inventory and control map.</td>
             <td data-label="Robot access">Powered access not required; powered-off inspection helps confirm installed mechanisms.</td>
