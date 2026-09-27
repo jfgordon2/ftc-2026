@@ -18,6 +18,7 @@
     <a href="../lessons/index.html">Return to course index</a>
     <a href="#robot-control">Robot and control system</a>
     <a href="#programming">Programming</a>
+    <a href="#camera">Camera measurements</a>
     <a href="#testing">Testing and evidence</a>
     <a href="#git">Git and recovery</a>
     <a href="#event">Event readiness</a>
@@ -78,6 +79,19 @@
         <dt>Ready condition</dt>
         <dd>The complete measured rule that must remain true before a guarded action may proceed, including the recorded velocity boundary, repeated-sample rule, sample interval, and minimum duration. Ready does not by itself mean safe or successful.</dd>
       </dl>
+    </section>
+
+    <section id="camera" aria-labelledby="camera-title">
+      <h2 id="camera-title">Camera Measurements</h2>
+      <dl class="words-list">
+        <dt>AprilTag</dt><dd>A printed square pattern that a camera can recognize. A known physical tag size and suitable camera calibration let the SDK estimate its pose.</dd>
+        <dt>Pose</dt><dd>A target's position and orientation relative to the camera. It does not by itself give the robot's position on the field.</dd>
+        <dt>Range</dt><dd>Distance in the camera's X-Y plane: √(x² + y²). FTC SDK range excludes height Z; this lesson reports inches.</dd>
+        <dt>Bearing</dt><dd>Left/right angle from camera forward, in degrees. Left is positive, right is negative, and horizontally centered is zero.</dd>
+        <dt>Elevation</dt><dd>Up/down angle from camera forward, in degrees. Above is positive, below is negative, and vertically centered is zero.</dd>
+        <dt>Calibration</dt><dd>Camera measurements used to interpret an image accurately. They must match the camera and resolution used for the test.</dd>
+      </dl>
+      <p>Practice these in <a href="../lessons/0003-read-apriltags-and-measure-distance.html#words">Meeting 3</a>.</p>
     </section>
 
     <section id="testing" aria-labelledby="testing-title">

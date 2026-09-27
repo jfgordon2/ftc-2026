@@ -9,7 +9,7 @@ permalink: /docs/research/curriculum-documentation-grounding.html
 Research date: 2026-09-17
 
 This is the mentor-facing claim register for the approved [Trace, Evaluate,
-Rebuild curriculum design](../superpowers/specs/2026-09-17-trace-evaluate-rebuild-curriculum-design.md).
+Rebuild curriculum roadmap](../../reference/meeting-roadmap.html).
 It distinguishes documented facts from BIOBUZZ decisions and physical evidence.
 Student-facing `Source`, `Team choice`, and `Measure it` labels link to the
 matching entry. A link never substitutes for an unperformed physical test.

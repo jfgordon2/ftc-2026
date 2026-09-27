@@ -233,3 +233,16 @@ configuration, evidence, answer, and primary source that confirms the answer.
   integration and event practice. Ask for the source and season behind an
   answer, test technical advice safely, and confirm rule questions through
   current official channels.
+
+## Meeting 3 teaching materials
+
+- [AprilTag lesson](lessons/0003-read-apriltags-and-measure-distance.html):
+  the bounded camera-only activity using the pinned FTC SDK 12.0.0.
+- [Java sample](examples/Meeting3AprilTagTelemetry.java) and
+  [print pack](reference/meeting3-print-pack.html): keep the downloadable,
+  displayed, and numbered code identical when editing.
+- [AprilTag 584 target sheet](output/pdf/meeting3-apriltag-584.pdf): print at
+  Actual Size / 100% and verify the black square is 4 inches wide, excluding
+  the white margin; see NOTES.md for FIRST source provenance.
+- [Camera vocabulary](reference/words-we-use.html#camera): shared definitions
+  of pose, range, bearing, elevation, and calibration.

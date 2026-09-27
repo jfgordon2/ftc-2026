@@ -8,7 +8,7 @@ permalink: /docs/research/ftc-programming-syllabus-resources.html
 
 Research date: 2026-09-16
 
-This map supports the approved [Trace, Evaluate, Rebuild curriculum](../superpowers/specs/2026-09-17-trace-evaluate-rebuild-curriculum-design.md). It prioritizes resources maintained by FIRST, the FIRST Tech Challenge Technology Team, GitHub, Oracle, and the installed hardware manufacturer, then adds selected community explanations. "Official" means that the cited source owns the product or platform. "Supplemental" identifies non-authoritative teaching material. "Recommendation" means a teaching or team-workflow choice made for BIOBUZZ; it is not represented as FIRST policy.
+This map supports the approved [Trace, Evaluate, Rebuild curriculum](../../reference/meeting-roadmap.html). It prioritizes resources maintained by FIRST, the FIRST Tech Challenge Technology Team, GitHub, Oracle, and the installed hardware manufacturer, then adds selected community explanations. "Official" means that the cited source owns the product or platform. "Supplemental" identifies non-authoritative teaching material. "Recommendation" means a teaching or team-workflow choice made for BIOBUZZ; it is not represented as FIRST policy.
 
 ## Currency and link policy
 
