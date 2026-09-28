@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-labelledby="title desc">
+<title id="title">Coordinate directions when looking through the camera</title>
+<desc id="desc">Imagine standing behind the camera looking where it looks. Positive X is right, negative X left, positive Z up and negative Z down. Positive Y points away from you into the scene, not upward on this image. These are camera-frame directions, not pixel coordinates.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1f2328"/></marker></defs>
+<rect width="600" height="420" rx="8" fill="#f6f8fa"/>
+<g font-family="Arial, sans-serif" fill="#1f2328">
+<text x="24" y="36" font-size="24" font-weight="bold">2. Look where the camera looks</text>
+<text x="300" y="74" font-size="20" text-anchor="middle">Imagine standing behind the camera.</text>
+<path d="M68 225 H532" fill="none" stroke="#1f2328" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<path d="M300 336 V112" fill="none" stroke="#1f2328" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="320" y="126" font-size="21">+Z: up</text>
+<text x="320" y="335" font-size="21">−Z: down</text>
+<text x="473" y="260" font-size="21" text-anchor="middle">+X: right</text>
+<text x="120" y="260" font-size="21" text-anchor="middle">−X: left</text>
+<circle cx="300" cy="225" r="7" fill="#fff" stroke="#1f2328" stroke-width="2"/>
+<rect x="428" y="156" width="28" height="28" fill="#0969da"/>
+<text x="387" y="145" font-size="18">Target: X &gt; 0, Z &gt; 0</text>
+<text x="300" y="378" font-size="21" text-anchor="middle">+Y: away from the lens, into the scene</text>
+<text x="300" y="407" font-size="17" text-anchor="middle">Camera-frame directions, not image pixel coordinates.</text>
+</g></svg>

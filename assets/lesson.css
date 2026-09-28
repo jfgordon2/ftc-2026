@@ -1018,3 +1018,12 @@ body.print-worksheets .worksheet-answer-space + br {
     page-break-before: auto;
   }
 }
+
+/* Two views make the camera frame explicit without a perspective illusion. */
+.camera-axis-diagrams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 1rem;
+}
+.camera-axis-diagrams figure { margin: 0; break-inside: avoid; }
+.camera-axis-diagrams img { display: block; width: 100%; height: auto; }
