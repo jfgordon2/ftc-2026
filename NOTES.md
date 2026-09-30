@@ -110,3 +110,24 @@ page 5 extracted without scaling from FIRST's official
 `FTCAprilTagSDK82SamplesExtended.pdf` (downloaded 2026-09-26 from
 https://ftc-docs.firstinspires.org/en/latest/_downloads/9dee926dd59f7f35e84c2b816c793fea/FTCAprilTagSDK82SamplesExtended.pdf).
 Print Actual Size / 100%, with no fit-to-page; verify the black square is 4 inches.
+
+## Meeting 4 StarterBot audit — September 30, 2026
+
+The standard 2026–2027 goBILDA six-wheel StarterBot kit is ordered and will not be available at Meeting 4. M4 now includes
+scoring/capability/gap decisions, exact measurement references, and a linked
+code/calibration guide while preserving the 180-minute agenda and 35-minute
+build slot for assembly preparation. The student session uses vendor documents and code for an unpowered review; physical checks wait until assembly. Code drafts in the sibling FtcRobotController repository support later tests;
+this does not move general localization or PID instruction into M4.
+
+The reviewed standard vendor ZIP contains TeleOp AND autonomous Java. Its
+originals/checksum are preserved separately from team adaptations. Source audit
+found one-encoder completion, no drive timeout, and accumulating intake power
+in the vendor auto. SDK 12.0 cluster names and explicit output units were checked
+against resolved SDK sources. The M3 sample uses the shared pose fields and default units correctly. Physical calibration remains pending.
+See `reference/meeting4-starterbot-calibration.html` and the robot repo's
+`docs/biobuzz-starterbot.md` for scope, provenance, limits, and commissioning.
+
+Validation: new TeamCode compiled against SDK 12.0.0; 15 pure Java aim sign,
+freshness, invalid-pose and range-window checks passed. Updated lesson/reference
+relative links, fragments and unique IDs passed; browser preview checked with
+responsive table labels. Hardware tests remain pending.

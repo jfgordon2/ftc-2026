@@ -27,7 +27,7 @@ and recover the competition robot's basic code.
 - The team meets twice per week for three hours per meeting.
 - Students rotate through programming, building, testing, driving, strategy,
   and documentation while building the BIOBUZZ competition robot.
-- Meetings 4-13 reserve 35 minutes for physical build work. Carry unfinished
+- Meetings 4-13 reserve 35 minutes for build work; Meeting 4 uses this time for assembly planning while the ordered kit is unavailable. Carry unfinished
   work forward; meeting numbers never override hardware readiness.
 - Reliability, safety, and shared ownership take priority over feature count.
 
@@ -46,3 +46,8 @@ Meeting 3 adds a bounded camera-telemetry lab after students programmed motors
 and servos in Meeting 2. Read and measure AprilTag pose only; automatic aiming,
 vision-driven motion, and localization remain deferred. Preserve the working M2
 source, configuration, and control trace for Meeting 4.
+
+Meeting 4 compares the ordered standard 2026–2027 goBILDA StarterBot with game
+objectives and reviews aiming/relative-position code drafts. This is
+an unpowered planning extension. Later supervised commissioning follows the
+calibration guide; field localization and general PID instruction remain deferred.

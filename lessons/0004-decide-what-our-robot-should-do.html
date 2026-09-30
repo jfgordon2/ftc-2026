@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Phase 2, Meeting 4 / 2026-2027 season / FTC SDK v12.0</p>
     <h1>Decide What Our Robot Should Do</h1>
-    <p class="lede">Choose how our BIOBUZZ robot will collect, feed, and launch pollen, then design its controls.</p>
+    <p class="lede">Compare the ordered goBILDA StarterBot design with the game objectives, choose what to improve, and design its controls.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
@@ -27,6 +27,9 @@
     <a href="#start-here">Start here</a>
     <a href="#outcome">Today's result</a>
     <a href="#words">Words you need</a>
+    <a href="#starterbot">StarterBot and game goals</a>
+    <a href="#measurements">Measurements</a>
+    <a href="#default-controls">Default controller map</a>
     <a href="#safety">Safety</a>
     <a href="#agenda">Today's plan</a>
     <a href="#follow">Follow along</a>
@@ -42,18 +45,76 @@
     <div class="student-path">
       <section id="outcome" aria-labelledby="outcome-title">
         <h2 id="outcome-title">Today’s goal</h2>
-        <div class="outcome-banner">Choose how our BIOBUZZ robot will collect, feed, and launch pollen, then design its controls.</div>
+        <div class="outcome-banner">Compare the ordered goBILDA StarterBot design with the game objectives, choose what to improve, and design its controls.</div>
       </section>
       <section id="start-here" aria-labelledby="start-here-title">
         <h2 id="start-here-title">Start here</h2>
         <p>A control map connects a robot action to a button or stick. “Required” is our plan; “ready” means we have built and tested it.</p>
-        <ol><li>Use the current game manual to list legal collection and scoring actions. Read the specific rules linked below.</li><li>Mark launching required. Mark an unfinished intake, feeder, or launcher “required — not ready” and give its build task an owner.</li><li>Sketch the pollen path from the floor through intake and feeder to launcher. Compare what the practice robots already teach us.</li><li>For each required action, choose hold, press-once, or variable input. Decide what release, reverse, conflicting buttons, and Stop should do.</li><li>Act out the controls with one and then two gamepads. Record the simpler workable arrangement and review it together.</li></ol>
-        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
-        <p><strong>Build task:</strong> Make a chassis and mechanism sketch. Choose parts, mounting locations, tool needs, and one next build task per pair.</p>
+        <ol><li>Start with the standard 6WD goBILDA comparison below, then use the current game manual to list legal collection and scoring actions. Read the specific rules linked below.</li><li>Mark launching required. Mark an unfinished intake, feeder, or launcher “required — not ready” and give its build task an owner.</li><li>Sketch the pollen path from the floor through intake and feeder to launcher. Compare what the practice robots already teach us.</li><li>For each required action, choose hold, press-once, or variable input. Decide what release, reverse, conflicting buttons, and Stop should do.</li><li>Act out the controls with one and then two gamepads. Record the simpler workable arrangement and review it together.</li></ol>
+        <p><strong>Robot for today:</strong> The BIOBUZZ StarterBot kit is ordered and will not be available for this meeting. Use its assembly instructions and sample code for planning. Existing REV and goBILDA practice robots may support powered-off comparisons; keep their records separate. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
+        <p><strong>Build preparation:</strong> Review the assembly sequence, sketch the pollen path and a possible camera mount, list tools and additional parts, and assign the first assembly tasks for when the kit arrives.</p>
         <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
         <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
       </section>
 
+
+      <section id="starterbot" aria-labelledby="starterbot-title">
+        <h2 id="starterbot-title">What does the StarterBot design provide?</h2>
+        <p><strong>Our planned build:</strong> The ordered kit will become the standard six-wheel, skid-steer 2026–2027 goBILDA StarterBot. The documented design has an intake, corner rollers, a four-pollen path, feeder, and launcher. It does not strafe. The mecanum version requires extra parts and different drive code. The kit still needs the REV control system. See the <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">exact vendor build guide</a>.</p>
+        <figure class="starterbot-components">
+          <a href="../assets/diagrams/starterbot-components.png" target="_blank" rel="noopener" aria-label="Open the labeled StarterBot picture at full size">
+            <img src="../assets/diagrams/starterbot-components.png" width="1536" height="1024" alt="Standard six-wheel goBILDA StarterBot with arrows to four components: drivetrain wheels, front intake roller, corner rollers, and the launcher wheel beneath the sloping hood.">
+          </a>
+          <figcaption>Standard BIOBUZZ StarterBot design. Open the picture for a larger view. Based on the <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">official goBILDA product photo</a>, with classroom annotations.</figcaption>
+        </figure>
+        <ol aria-label="Component key">
+          <li><strong>Drivetrain:</strong> moves between collection and shooting positions, turns the robot to aim, and supports LEAVE and PARK.</li>
+          <li><strong>Intake roller:</strong> collects POLLEN from the floor and the bottom of a FLOWER.</li>
+          <li><strong>Corner rollers:</strong> guide hard-to-reach POLLEN toward the intake, supporting faster collection cycles.</li>
+          <li><strong>Launcher:</strong> sends POLLEN into the upward-facing HIVE CELL. Feeding, speed, alignment, and shot distance must work together.</li>
+        </ol>
+        <p><strong>Discuss:</strong> Trace the path of one POLLEN from collection to launch. Which parts help us score directly, and which support the cycle? Where would a camera need an unobstructed view? What would we need to add for top-of-FLOWER placement and NECTAR handling?</p>
+        <p><strong>Source snapshot:</strong> <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html">FIRST manual TU02</a>, checked September 30, 2026. Points below are from §10.5.5, <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref174031617" target="_blank" rel="noopener">Table 10-2</a>; scoring conditions matter as much as point values. The vendor describes capabilities, not our tested success rate.</p>
+        <aside class="mentor-note"><strong>Start with the field picture.</strong> Open <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref206129987" target="_blank" rel="noopener">Figure 9-2: zones and areas</a> and <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref239193872" target="_blank" rel="noopener">Figure 9-3: loading zone and garden</a>. Trace a possible route from the wall to a shooting position and back to the loading zone. Point out where we would collect, score, and park. These are discussion sketches; the kit is not needed.</aside>
+        <table class="course-map">
+          <caption>Game objective → starting capability → team decision</caption>
+          <thead><tr><th scope="col">Game goal and points</th><th scope="col">What the standard build offers</th><th scope="col">Gap / decision / evidence to collect</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Game goal and points">LEAVE: 3 in AUTO; PARK: 5 in AUTO and 5 in TELEOP (§10.5.4)<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref239287294" target="_blank" rel="noopener">Figure 10-7: PARK examples</a><br><em>Which pictured robots meet the parking condition? How is leaving the wall different?</em></td><td data-label="What the standard build offers">Drivetrain and vendor encoder auto; LEAVE means no perimeter contact, PARK means at least partly in the LOADING ZONE.</td><td data-label="Gap / decision / evidence to collect">Choose and mark our start/end poses. Measure route repeatability; no fixed distance guarantees points.</td></tr>
+            <tr><td data-label="Game goal and points">HIVE TIP: 20 in either period; remaining upward-CELL elements: 2 each at match end (§10.5.1)<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#TIP2" target="_blank" rel="noopener">Figure 10-3: hive damper and frame</a><br><em>Find the contact that marks a completed tip. Why should we pause shooting while the hive moves?</em></td><td data-label="What the standard build offers">Collects floor/flower-bottom POLLEN and launches up to four in succession.</td><td data-label="Gap / decision / evidence to collect">Qualify hits, tip completion, cycle time, jams, and recovery. Aim assistance is an upgrade; ball count alone does not guarantee a tip.</td></tr>
+            <tr><td data-label="Game goal and points">FLOWER: 2 per element for owner; bottom NECTAR bonus: 5 (§10.5.2)<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Toc205155315" target="_blank" rel="noopener">Figure 10-5: FLOWER ownership</a><br><em>Identify the top-most and bottom-most nectar. Which alliance gets each benefit?</em></td><td data-label="What the standard build offers">Vendor documents bottom POLLEN retrieval, not a top-placement or NECTAR-scoring mechanism.</td><td data-label="Gap / decision / evidence to collect">Decide whether to add a NECTAR-capable top-placement mechanism, defer it, or rely on an alliance partner. Larger NECTAR needs its own handling tests.</td></tr>
+            <tr><td data-label="Game goal and points">GARDEN: 1 per qualifying element at match end (§10.5.3)<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Toc209089384" target="_blank" rel="noopener">Figure 10-6: GARDEN scoring</a><br><em>Point out elements that overlap the garden boundary. Where should our robot release them?</em></td><td data-label="What the standard build offers">Driving and intake provide a starting way to move POLLEN.</td><td data-label="Gap / decision / evidence to collect">Test controlled release into our GARDEN. Do not assume reversing reliably ejects a held ball.</td></tr>
+            <tr><td data-label="Game goal and points">Ranking goals (§10.5.5, <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref174031617" target="_blank" rel="noopener">Table 10-3</a>)</td><td data-label="What the standard build offers">Driving and repeated successful tips can contribute.</td><td data-label="Gap / decision / evidence to collect">At “all other events,” SWARM needs 16 combined LEAVE/PARK points; POLLINATOR thresholds are 4 and 7 tips. These are alliance totals; regional/championship thresholds remain TBA and premier events may differ.</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Rules that shape the build:</strong> maximum four controlled elements (G407); launch into the upward-facing CELL to tip (G417); top entry and bottom POLLEN-only removal at FLOWERS (G418). G410 explicitly restricts NECTAR entry to the last 60 seconds; §10.5.2 describes FLOWER timing more broadly. Check current clarifications before adopting an early-POLLEN strategy.</p>
+        <p><strong>Starting code:</strong> the reviewed vendor ZIP contains both TeleOp and autonomous Java, plus TeleOp Blocks. The vendor auto launches first, then drives; it has no vision. Our repository includes the vendor source, a team baseline, a held aim-assist draft, and a bounded drive-then-aim draft. See <a href="../reference/meeting4-starterbot-calibration.html">code map, operating limits, and calibration</a>.</p>
+        <h3>Choose our next work, with evidence</h3>
+        <ol>
+          <li><strong>Baseline first:</strong> plan assembly of the standard intake/feeder/launcher; name the owner and the first reliability test after assembly.</li>
+          <li><strong>Score reliably:</strong> choose a fixed shooting location and measure hits, tips, and cycle time before adding range-dependent velocity.</li>
+          <li><strong>Aim upgrade:</strong> inventory an available camera, mount it rigidly, select the correct cell, and plan loss-of-target behavior. No webcam is listed in this build’s required components; check team inventory before buying.</li>
+          <li><strong>AUTO:</strong> choose LEAVE/PARK and a measured route first. Decide separately when autonomous shooting is qualified; our new position draft does not shoot.</li>
+          <li><strong>Mechanism gap:</strong> choose NECTAR/FLOWER work, GARDEN release, or improved intake reliability as the next project. Record value, build time, test, owner, and what must work first.</li>
+        </ol>
+      </section>
+      <section id="measurements" aria-labelledby="measurements-title">
+        <h2 id="measurements-title">Which measurements change our design?</h2>
+        <table class="course-map">
+          <caption>Published dimensions and measurements still owed</caption>
+          <thead><tr><th scope="col">Manual fact</th><th scope="col">Decision / team measurement</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Manual fact">18 × 18 × 18 in starting volume (R102); expanded 18 × 24 × 29 in, physically constrained (R105).<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#R105" target="_blank" rel="noopener">Figures 12-1 and 12-2: expansion limits</a><br><em>Sketch the camera and mechanisms inside both the starting and expanded envelopes.</em></td><td data-label="Decision / team measurement">Measure complete build with camera and every mechanism position; choose mount and expansion stops.</td></tr>
+            <tr><td data-label="Manual fact">Bottom of HIVE above TILES: 30.6 in, <a href="https://ftc-resources.firstinspires.org/ftc/game/tu-01#page=1" target="_blank" rel="noopener">Figure 9-10</a>, §9.6.2 (TU01).<br><em>Find the clearance reference points; distinguish the bottom of the hive from the cell opening.</em></td><td data-label="Decision / team measurement">Measure actual route clearance, including the frame and attachments, using the reference points shown in the figure.</td></tr>
+            <tr><td data-label="Manual fact">CELL opening about 20 × 14 in; depth 12 in (§9.6.2).<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref237758943" target="_blank" rel="noopener">Figure 9-11: CELL dimensions</a><br><em>Trace a shot into the opening. Which dimensions affect the trajectory and aiming tolerance?</em></td><td data-label="Decision / team measurement">Measure trajectory into the opening, camera-to-launcher offset, and useful shot positions. Centered tag bearing alone does not establish a successful shot.</td></tr>
+            <tr><td data-label="Manual fact">FLOWER top opening about 4 in across, 21.5 in high; bottom retrieval opening about 3.55 in high (§9.7).<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref205822277" target="_blank" rel="noopener">Figure 9-12: FLOWER details</a><br><em>Compare the bottom retrieval opening with the top scoring opening. Which can our planned intake reach?</em></td><td data-label="Decision / team measurement">Compare intake reach with top-placement reach; determine whether a new mechanism is worthwhile.</td></tr>
+            <tr><td data-label="Manual fact">POLLEN about 2.8 in; NECTAR about 3.6 in, with variation (§9.8).<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#SCORING_ELEMENTS" target="_blank" rel="noopener">Figures 9-13 and 9-14: scoring elements</a><br><em>Compare the two sizes with the planned intake and feeder clearances.</em></td><td data-label="Decision / team measurement">Test each element through the intake/path before claiming NECTAR capability.</td></tr>
+            <tr><td data-label="Manual fact">Four 3.25-in tags per CELL cluster (§9.9); clusters move with the hive.<br><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref239285332" target="_blank" rel="noopener">Figure 9-16: AprilTags on the CELL</a><br><em>Locate the tags relative to the opening. What moves when the hive tips?</em></td><td data-label="Decision / team measurement">Check real print scale, camera calibration/resolution, mounting, bearing sign, and range against a defined reference. Use relative targeting; do not assume fixed-field localization.</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Reading the visuals:</strong> Figure links open the official TU02 manual in a new tab at the figure or its section; scroll slightly if needed. Read the labeled dimensions rather than measuring pixels. Manual images are not to scale or AprilTag print targets. Use the <a href="https://ftc-resources.firstinspires.org/ftc/game">current manual and updates</a> to check revisions before the meeting.</p>
+        <p><strong>Our worksheet:</strong> quantity / reference points / predicted value / actual value / units / robot and code / battery / measurer / next decision. Leave actual values blank until measured. The <a href="../reference/meeting4-starterbot-calibration.html">calibration sequence</a> turns these blanks into later station tests.</p>
+      </section>
 
       <section id="safety" aria-labelledby="safety-title">
         <h2 id="safety-title">Before you touch the robot</h2>
@@ -69,15 +130,15 @@
       <section id="agenda" aria-labelledby="agenda-title">
         <h2 id="agenda-title">Today’s plan</h2>
         <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Read the game actions.</strong> Use the current-source inventory in <a href="#follow">Game first, controls second</a>. Record rules and identify our required launcher work.</div></li>
-          <li><time>0:15-0:35<br>20 min</time><div><strong>Work one control example.</strong> Trace the <a href="#worked-example">completed intake-control example</a> from action to buttons, conflicts, and checks.</div></li>
-          <li><time>0:35-1:20<br>45 min</time><div><strong>Draft the control map.</strong> Use the <a href="#practice">three workstreams</a> and <a href="#record">control-design record</a>. Decide behavior before assigning inputs; swap speaker and recorder halfway.</div></li>
+          <li><time>0:00-0:15<br>15 min</time><div><strong>Read the game actions.</strong> Compare the <a href="#starterbot">game goals and StarterBot capabilities</a>; record rules and choose the first improvements.</div></li>
+          <li><time>0:15-0:35<br>20 min</time><div><strong>Work one control example.</strong> Read the <a href="#default-controls">default controller map</a>, then trace the <a href="#worked-example">completed intake-control example</a> from action to buttons, conflicts, and checks.</div></li>
+          <li><time>0:35-1:20<br>45 min</time><div><strong>Draft the control map.</strong> Use the <a href="#practice">three workstreams</a>, <a href="#measurements">measurement plan</a>, and <a href="#record">control-design record</a>. Decide behavior before assigning inputs; swap speaker and recorder halfway.</div></li>
           <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
-          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Make a chassis and mechanism sketch. Choose parts, mounting locations, tool needs, and one next build task per pair.</div></li>
-          <li><time>2:05-2:45<br>40 min</time><div><strong>Rehearse and review.</strong> Use <a href="#test">Review the map before approval</a> to rehearse one- and two-gamepad operation without power. Resolve conflicts or record blockers.</div></li>
+          <li><time>1:30-2:05<br>35 min</time><div><strong>Prepare for the build.</strong> Review the vendor assembly sequence, sketch the pollen path and camera mount, list tools and additional parts, and assign first assembly tasks. The kit is not available today.</div></li>
+          <li><time>2:05-2:45<br>40 min</time><div><strong>Rehearse and review.</strong> Review the <a href="../reference/meeting4-starterbot-calibration.html">aiming draft and calibration plan</a>, then use <a href="#test">Review the map before approval</a> to rehearse one- and two-gamepad operation without power. Resolve conflicts or record blockers.</div></li>
           <li><time>2:45-3:00<br>15 min</time><div><strong>Save the plan.</strong> Complete the <a href="#handoff">Meetings 5–8 handoff</a>: save the action map, gamepad decision, sketch, and next build tasks. No code change is required.</div></li>
         </ol>
-        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
+        <p>Today’s 35-minute build block is preparation using the vendor instructions; assembly begins after the kit arrives. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
       </section>
 
       <details class="lesson-details" id="lesson-details">
@@ -86,7 +147,7 @@
       <section id="scope" aria-labelledby="scope-title">
         <h2 id="scope-title">What you will decide</h2>
         <div class="outcome-banner">The team will approve one complete list of TELEOP actions. Every action will be classified <strong>required</strong>, <strong>optional</strong>, or <strong>unavailable</strong>, then receive a control design or an explicit reason that no control will be implemented.</div>
-        <p>This meeting produces a design contract, not robot code. Meetings 5-8 may implement and qualify only what this record approves. The matching vendor program is evidence about available mechanisms and existing controls; it does not decide the team's strategy or button map.</p>
+        <p>This meeting produces a design contract. Use the code drafts to trace the proposed controls; deployment comes after hardware review and calibration. Meetings 5-8 may implement and qualify only what this record approves. The matching vendor program is evidence about available mechanisms and existing controls; it does not decide the team's strategy or button map.</p>
         <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m04-d01">Team choice M04-D01</a> The team classifies actions and chooses one or two gamepads from workload, conflicts, safe release, recovery, feedback, and diagnosis evidence rather than convention.</p>
       </section>
 
@@ -108,13 +169,13 @@
       </section>
 
       <section id="follow" aria-labelledby="follow-title">
-        <h2 id="follow-title">Follow along: game first, controls second</h2><p><strong>Our launcher is required.</strong> Use a separate readiness field: installed and tested, installed but not tested, or required — not yet built. An unfinished launcher stays on the build plan with an owner and next task. Reclassification below applies to other optional strategy choices; it cannot remove the launcher to claim BIOBUZZ readiness. Practice-only qualification is labeled for the old robot.</p>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m04-f01">Source M04-F01</a> Use the current English Competition Manual and current updates, not a StarterBot summary. For this 2026-2027 BIOBUZZ inventory, read <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538713">section 8, Game Overview</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538726">section 10, Game Details</a>, and the exact sections and rules named below. Record the manual revision and access date on the action map.</p>
+        <h2 id="follow-title">Follow along: game first, controls second</h2><p><strong>Our launcher is required.</strong> Use a separate readiness field: installed and tested, installed but not tested, or required — not yet built. An unfinished launcher stays on the build plan with an owner and next task. Reclassification below applies to other optional strategy choices; it cannot remove the launcher to claim BIOBUZZ readiness. Practice-only qualification is labeled for the practice robot.</p>
+        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m04-f01">Source M04-F01</a> Use the current English Competition Manual and current updates, not a StarterBot summary. For this 2026-2027 BIOBUZZ inventory, read <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html">section 8, Game Overview</a>, <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html">section 10, Game Details</a>, and the exact sections and rules named below. Record the manual revision and access date on the action map.</p>
         <ol>
           <li><strong>Separate periods.</strong> Section 10.4 says AUTO has no DRIVER input and TELEOP is remotely operated by DRIVERS. Build today's control map for TELEOP. Preserve AUTO actions as later Meeting 9-12 work, not hidden driver controls. <strong>Evidence:</strong> every candidate action is marked TELEOP or deferred AUTO.</li>
           <li><strong>Extract actions, not solutions.</strong> Section 10.1 says robots collect POLLEN and NECTAR, move them to the GARDEN, place them into FLOWERS, launch them into CELLS to cause a HIVE TIP, and finish by returning to the LOADING ZONE. Rewrite each as a plain action with no input name. <strong>Evidence:</strong> the action column contains verbs and game objects, no buttons.</li>
           <li><strong>Attach exact constraints.</strong> Use sections 10.5.1-10.5.4 and rules G407-G410, G417, and G418. Record the rule beside the affected action, including the control limit, opponent-NECTAR restriction, no-catching restriction, final-minute NECTAR restriction, HIVE interaction, and FLOWER entry/removal direction. <strong>Evidence:</strong> each rule-sensitive row names its section or rule.</li>
-          <li><strong>Check real availability.</strong> Compare the M2 source/control handoff saved in Meeting 3 with the powered-off installed robot. Record installed, absent, or unknown and point to the exact trace, inventory, photo, configuration, or blocker. <strong>Evidence:</strong> no same-brand assumption substitutes for the installed robot.</li>
+          <li><strong>Check real availability.</strong> Mark the planned BIOBUZZ mechanisms “ordered — not built” and cite the vendor instructions/code. For an existing practice robot only, compare the M2 handoff with the powered-off hardware and record installed, absent, or unknown. <strong>Evidence:</strong> no same-brand assumption substitutes for the installed robot.</li>
           <li><strong>Classify before mapping.</strong> Decide required, optional, or unavailable. Write the event-plan reason and evidence. A manual-scoring opportunity is not automatically required, and a vendor mechanism is not automatically selected. <strong>Evidence:</strong> each row has one classification, rationale, proposer, and approver.</li>
           <li><strong>Design behavior before naming an input.</strong> Decide proportional, held, or one-press; safe release; reverse/recovery; feedback; conflicts; and telemetry. Then choose an available gamepad field from the pinned API and record its actual assignment. <strong>Evidence:</strong> no input appears before its behavior and safety fields are complete.</li>
         </ol>
@@ -137,6 +198,30 @@
             <tr><td data-label="Action">Other legal TELEOP action: __________</td><td data-label="Manual">Exact section/rule: __________</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <section id="default-controls" aria-labelledby="default-controls-title">
+        <h2 id="default-controls-title">Read the default controller map</h2>
+        <p>This is the standard StarterBot TeleOp mapping on <strong>gamepad 1</strong>, as used by <code>StarterBotTeleOp</code>. Use it as a starting point for the control-design discussion; our team can choose a different map after rehearsing the workload.</p>
+        <figure class="starterbot-components">
+          <a href="../assets/diagrams/f310-starterbot-controls.png" target="_blank" rel="noopener" aria-label="Open the Logitech F310 default controller map at full size">
+            <img src="../assets/diagrams/f310-starterbot-controls.png" width="1536" height="1024" alt="Logitech F310 baseline mapping: left stick forward and reverse; right stick turns; RT collects; LT reverses the intake; hold RB to spin the launcher and feed at speed, release RB to stop launcher and feeder. A/B/X/Y, D-pad, LB and stick clicks have no robot action in this baseline. A shoulder view distinguishes RB from RT.">
+          </a>
+          <figcaption>Controller photos: <a href="https://www.logitechg.com/en-us/shop/p/f310-gamepad">Logitech F310</a>, with classroom annotations. Open the picture for a larger view. The shoulder view looks toward the cable, so the controller’s right shoulder appears on the left side of that view.</figcaption>
+        </figure>
+        <table class="course-map">
+          <caption>Default controls to trace in the code</caption>
+          <thead><tr><th scope="col">Input</th><th scope="col">Robot action</th><th scope="col">Release / interaction</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Input">Left stick up / down</td><td data-label="Robot action">Forward / reverse</td><td data-label="Release / interaction">Center removes the forward/reverse request; the right stick can still turn the robot.</td></tr>
+            <tr><td data-label="Input">Right stick left / right</td><td data-label="Robot action">Turn left / right</td><td data-label="Release / interaction">Center removes the turn request; the left stick can still drive. Both centered: drive output zero.</td></tr>
+            <tr><td data-label="Input">RT / LT</td><td data-label="Robot action">Collect / reverse the intake roller and corner rollers</td><td data-label="Release / interaction">Intake request is RT minus LT. Equal pressures cancel when not feeding; releasing both removes the trigger request.</td></tr>
+            <tr><td data-label="Input">Hold RB</td><td data-label="Robot action">Request launcher speed; feed automatically once measured speed exceeds the minimum</td><td data-label="Release / interaction">Feeding also adds 0.5 to the intake request. Release RB to stop launcher/feeder commands and return intake control to the triggers; the flywheel takes time to spin down.</td></tr>
+            <tr><td data-label="Input">A/B/X/Y, D-pad, LB, stick clicks</td><td data-label="Robot action">No robot action assigned in this baseline</td><td data-label="Release / interaction">Stop the OpMode using the Driver Station.</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Aim-assist draft:</strong> <code>StarterBotAimTeleOp</code> has a different mapping: hold A for stationary aim; RB requests spin-up; A + RB permits feeding only when all calibration, target, alignment, range, and speed checks pass. Use the <a href="../reference/meeting4-starterbot-calibration.html">calibration guide</a> before enabling that draft.</p>
+        <p><strong>Paper rehearsal:</strong> point to the inputs for driving while collecting, reversing a jam, and launching. Predict what happens when RB is held with neither trigger, and when RB is released while RT stays pressed. Which tasks compete for the same fingers?</p>
       </section>
 
       <section id="worked-example" aria-labelledby="worked-example-title">
@@ -178,11 +263,11 @@
             <p class="success-check">Success looks like: every season-dependent action has an exact current section or rule and no vendor page is used as game authority.</p>
           </article>
           <article class="station-card">
-            <h3>2. Installed capability</h3>
+            <h3>2. Planned build and capability gaps</h3>
             <ol>
-              <li>Use Meeting 3's saved M2 source identity and control trace; keep the unmatched program reading-only.</li>
-              <li>With power disconnected, compare every traced mechanism with the installed robot.</li>
-              <li>Mark each candidate installed, absent, or unknown. Record exact evidence or a named blocker.</li>
+              <li>Compare the standard-season vendor TeleOp and auto with our planned build; use M3’s saved M2 trace only for the practice robot. See the linked code and calibration guide.</li>
+              <li>Locate each planned mechanism in the vendor assembly instructions and code. If useful, compare it with a powered-off practice robot; do not treat that robot as the BIOBUZZ build.</li>
+              <li>Mark standard-build mechanisms “ordered — not built” and proposed additions “not acquired” or “inventory to check.” Record vendor evidence and what must be verified after assembly.</li>
               <li>List unknown safe release, recovery, travel, and physical-limit evidence for Meeting 6.</li>
             </ol>
             <p class="success-check">Success looks like: the inventory distinguishes vendor-example capability from verified installed capability and invents no hardware value.</p>
@@ -203,12 +288,12 @@
       <section id="record" aria-labelledby="record-title">
         <h2 id="record-title">Build the control-design record</h2>
         <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m04-m01">Measure it M04-M01</a> <strong>Status: pending delivery evidence.</strong> Complete one row for every inventory action, including optional and unavailable actions. Duplicate the row on the team worksheet as needed.</p>
-        <p><strong>Record identity:</strong> trial details: __________; date: __________; manual revision and access date: __________; Team Update/Q&amp;A checked: __________; robot manufacturer/revision: __________; active configuration: __________; matching source artifact and M2 handoff record: __________; student recorder: __________; checker: __________.</p>
+        <p><strong>Record identity:</strong> trial details (paper review today): __________; date: __________; manual revision and access date: __________; Team Update/Q&amp;A checked: __________; robot manufacturer/revision: __________; active configuration: __________; matching source artifact and M2 handoff record: __________; student recorder: __________; checker: __________.</p>
         <table class="record-table">
           <caption>Repeat this complete control-map record for every action</caption>
           <tbody>
             <tr><th scope="row">Action and game source</th><td>Plain action: __________; exact manual section/rule: __________</td></tr>
-            <tr><th scope="row">Availability evidence</th><td>Installed / Absent / Unknown; exact mechanism/source/configuration/photo/blocker: __________</td></tr>
+            <tr><th scope="row">Availability evidence</th><td>Ordered — not built / Planned addition / Practice robot only; exact vendor source or inventory evidence: __________</td></tr>
             <tr><th scope="row">Classification and rationale</th><td>Required / Optional / Unavailable because __________; event-plan value: __________</td></tr>
             <tr><th scope="row">Operator workload</th><td>Operator role: __________; concurrent driving/scoring/recovery tasks: __________</td></tr>
             <tr><th scope="row">Input behavior</th><td>Proportional / Held / One-press / No control; why this behavior fits: __________</td></tr>
@@ -234,7 +319,7 @@
         <p>This is a paper and source review, not a powered robot test. Read every action aloud and reject incomplete rows.</p>
         <ol>
           <li><strong>Game check:</strong> verify each season claim against the named current manual section or rule. <strong>Pass:</strong> the citation supports the action and constraint; open interpretation questions are blocked, not guessed.</li>
-          <li><strong>Scope check:</strong> compare every installed claim with the M2 handoff saved in Meeting 3 and the powered-off robot. <strong>Pass:</strong> vendor assumptions, installed evidence, and unknowns are distinct.</li>
+          <li><strong>Scope check:</strong> check planned capabilities against vendor documents; reserve installed claims for the existing practice robots. <strong>Pass:</strong> vendor assumptions, installed evidence, and unknowns are distinct.</li>
           <li><strong>Classification check:</strong> ask what the event plan loses if each required action is removed. <strong>Pass:</strong> required, optional, and unavailable have specific rationales and approval.</li>
           <li><strong>Workload check:</strong> act out each required action with concurrent tasks. <strong>Pass:</strong> the selected operator and gamepad count are plausible and all conflicts have a policy.</li>
           <li><strong>Safety and recovery check:</strong> point to safe release, Stop expectation, reverse/recovery, feedback, and acceptance evidence. <strong>Pass:</strong> no required action depends on an invented state or an unexplained blank.</li>
@@ -260,9 +345,9 @@
 
       <section id="evidence" aria-labelledby="evidence-title">
         <h2 id="evidence-title">Show what you learned</h2>
-        <p><strong>Keep:</strong> current-source revision record; annotated game sections and rules; complete inventory; installed/absent/unknown evidence; every action's control-design row; one/two-gamepad rehearsal notes; conflict decisions; signatures; and the provisional-blocker list or approved map revision.</p>
+        <p><strong>Keep:</strong> current-source revision record; annotated game sections and rules; complete inventory; planned-build status and separate practice-robot evidence; every action's control-design row; one/two-gamepad rehearsal notes; conflict decisions; signatures; and the provisional-blocker list or approved map revision.</p>
         <h3>Each student explains</h3>
-        <p>Without partner help, choose one action and explain its manual grounding, installed evidence, classification rationale, workload, behavior type, proposed assignment or no-control decision, recovery, feedback, safe release, conflict policy, telemetry, and acceptance evidence. Then explain one fact that remains pending.</p>
+        <p>Without partner help, choose one action and explain its manual grounding, planned capability and readiness evidence, classification rationale, workload, behavior type, proposed assignment or no-control decision, recovery, feedback, safe release, conflict policy, telemetry, and acceptance evidence. Then explain one fact that remains pending.</p>
         <h3>Record each student's evidence</h3>
         <ul>
           <li>Game reasoning passes when the student distinguishes a manual fact from a team strategy choice.</li>
@@ -317,7 +402,9 @@
       <aside class="mentor-note">
         <ul class="checklist">
           <li>At delivery time, open the current English Competition Manual, latest Team Update, and relevant Q&amp;A. Record revision/date. Prepare exact links to sections 8, 10.1, 10.4, 10.5.1-10.5.4 and rules G407-G410, G412-G413, G417-G418.</li>
+          <li>Prepare the vendor assembly instructions, kit inventory, and code for the ordered standard StarterBot. Plan no BIOBUZZ assembly, measurements, or powered tests during this meeting.</li>
           <li>Bring Meeting 1 robot identity, Meeting 2 motor map, Meeting 3 handoff of M2 source/configuration and control trace, active configuration, and all blockers. Keep the unmatched path reading-only.</li>
+          <li>Read the <a href="../reference/meeting4-starterbot-calibration.html">standard StarterBot code and calibration guide</a>; prepare the saved vendor code and separate team drafts for paper tracing.</li>
           <li>Prepare one action row per candidate plus blank rows, manual excerpts for each pair, action cards, role cards, and one/two-gamepad workload scenarios. Do not prefill control assignments.</li>
           <li>Verify the robot is powered off, battery disconnected, and mechanisms free of stored energy before visual inspection. Identify mechanisms that students must not move by hand.</li>
           <li>Challenge undocumented classifications and require exact rationales. A high score, vendor default, mentor preference, or available button alone is not a sufficient control decision.</li>

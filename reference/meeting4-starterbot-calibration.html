@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meeting 4: StarterBot Code and Calibration | BIOBUZZ</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <script src="../assets/lesson.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <p>BIOBUZZ / Meeting 4 reference / FTC SDK 12.0 / Reviewed September 30, 2026</p>
+    <h1>StarterBot Code and Calibration</h1>
+    <p class="lede">Trace the standard six-wheel baseline, then plan one measured improvement at a time.</p>
+  </header>
+  <nav class="site-nav" aria-label="Reference navigation">
+    <a href="../lessons/0004-decide-what-our-robot-should-do.html">Back to Meeting 4</a>
+    <a href="#code">Code map</a><a href="#operating-limits">Operating limits</a><a href="#calibrate">Calibration</a><a href="#record">Record</a>
+  </nav>
+  <main>
+    <section id="code">
+      <h2>Start from the matching code</h2>
+      <p>This guide prepares for the ordered standard six-wheel goBILDA StarterBot. The kit will not be available at Meeting 4. Use the <a href="https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/">season build guide</a>, not the mecanum or preseason code. Meeting 4 remains an unpowered design review; the drafts prepare later supervised tests.</p>
+      <p>In <a href="https://github.com/jfgordon2/FtcRobotController">FtcRobotController</a>, open <code>docs/biobuzz-starterbot.md</code> for the operating limits, configuration map, source checksum, and calibration procedure. Keep the guide with the code revision used for each test.</p>
+      <p>Use the <a href="../lessons/0004-decide-what-our-robot-should-do.html#default-controls">Logitech F310 default controller diagram and text key</a> to rehearse baseline controls before comparing the aim-assist draft.</p>
+      <table class="course-map">
+        <thead><tr><th scope="col">Path / class</th><th scope="col">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Path / class"><code>vendor/gobilda/2026-09-30/</code></td><td data-label="Purpose">Vendor ZIP and Java source, outside the compiled source tree. Both TeleOp and autonomous are included.</td></tr>
+          <tr><td data-label="Path / class"><code>teamcode/biobuzz/StarterBotTeleOp</code></td><td data-label="Purpose">Team baseline: standard drive and mechanisms, normalized driving and explicit shutdown. Right bumper spins and feeds when fast enough; triggers control intake.</td></tr>
+          <tr><td data-label="Path / class"><code>StarterBotAimTeleOp</code></td><td data-label="Purpose">Hold A for stationary aim. Right bumper spins; A + bumper feeds only after calibration, fresh target, stable alignment, tested range, and launcher-speed checks.</td></tr>
+          <tr><td data-label="Path / class"><code>HiveAim</code> / <code>AimMath</code></td><td data-label="Purpose">Explicit cluster selection, camera lifecycle, age checks, and bounded turn calculations. Initial target is UNSET; motion and assisted feeding start disabled.</td></tr>
+          <tr><td data-label="Path / class"><code>StarterBotPositionAuto</code></td><td data-label="Purpose">Measured encoder travel, then bounded alignment. Both encoders must arrive; a timeout stops with a fault. No shooting or global localization.</td></tr>
+        </tbody>
+      </table>
+      <aside class="safety-callout">The team OpModes carry <code>@Disabled</code>. Enable only the specific draft after its hardware/configuration review. Motion and feed flags, target selection, and missing measurements are separate commissioning gates.</aside>
+    </section>
+    <section id="operating-limits">
+      <h2>Code behavior and measurement limits</h2>
+      <ul>
+        <li>The current goBILDA ZIP includes an autonomous example. Its route launches for ten seconds, then requests a −120 mm move; it is not a vision auto.</li>
+        <li>The position draft checks both drive encoders, limits the duration of each phase, and stops on failure.</li>
+        <li>SDK 12 reports the selected pose angles in degrees. Use shared pose fields for measurements and cluster metadata to select the target.</li>
+        <li>No pose can mean missing tag-size/library metadata. Lens calibration affects pose accuracy; an inaccurate camera can still return pose values.</li>
+        <li>Qualify a shooting range through measured trials. Camera-frame XY range differs from floor tape distance when the camera is tilted.</li>
+        <li>Moving hive tags support relative aiming. They do not make encoder travel into reliable field localization.</li>
+        <li>The bottom of the HIVE is 30.6 inches above the TILES (<a href="https://ftc-resources.firstinspires.org/ftc/game/tu-01#page=1" target="_blank" rel="noopener">Figure 9-10</a>, §9.6.2). Use the labeled reference points when planning clearance.</li>
+      </ul>
+    </section>
+    <section id="calibrate">
+      <h2>Plan the calibration before enabling motion</h2>
+      <p>At Meeting 4, trace these steps and assign future tests using the documentation. Carry out the physical checks only after the kit arrives and the robot is assembled.</p>
+      <ol>
+        <li><strong>Baseline:</strong> confirm exact motor models, ports, directions, encoder wiring, wheel/gear sizes, CRServo types, neutral, release, Stop, and restart. Match <code>left_drive</code>, <code>right_drive</code>, <code>intake</code>, <code>launcher</code>, <code>windmill</code>, <code>left_intake_servo</code>, and <code>right_intake_servo</code>.</li>
+        <li><strong>Camera:</strong> add <code>Webcam 1</code>, verify calibration at 640×480 and actual printed dimensions, and record mount position/pitch. Use the full BIOBUZZ cluster geometry for aiming. M3's single sample tag 584 is a telemetry target, not an aim target in this draft.</li>
+        <li><strong>Select and check:</strong> set one observed SDK cluster name: RED SCORING (30–33), RED AUDIENCE (34–37), BLUE AUDIENCE (38–41), or BLUE SCORING (42–45). The driver must confirm alliance and upward-facing cell. Release aim/feed as the hive tips; this draft does not switch cells automatically.</li>
+        <li><strong>Sign and loss:</strong> with mechanisms empty, confirm that a target to the left produces positive bearing and a small left turn reduces the error. If error grows, stop. Cover the target, show the wrong cluster, disconnect the camera, and release A. Missing/stale target while holding A must stop drive; releasing A restores sticks.</li>
+        <li><strong>Tune alignment:</strong> test the proposed gain and turn cap one change at a time. Alignment requires ±2° for 0.3 seconds; frame age must be at most 0.25 seconds. These are draft test settings. Measure camera-to-launcher offset; tag center is not automatically the correct shooting trajectory.</li>
+        <li><strong>Measure the shot:</strong> record range, a consistent tape reference, offset, cell state, requested/actual velocity, battery, hits, misses, and tips. Qualify one narrow range window at the matching vendor starting velocity of 1250 ticks/s; do not extrapolate. Populate range limits before enabling assisted feed, then test every gate and button release.</li>
+        <li><strong>Measure travel:</strong> compare both wheel tick deltas with actual loaded travel over repeated runs. Set ticks/inch and a signed route distance for a marked start. Both wheels must settle within the draft 0.5-inch encoder tolerance; failure must stop at the four-second drive deadline. Aim has a three-second deadline. Test Stop in both phases and a wheel-failure case.</li>
+        <li><strong>Accept or revise:</strong> proposed evidence is five repeatable drives within the team's tape tolerance, five stable aim trials from each side, and all loss/release/Stop tests passing. Repeat after mount or battery changes. Record LEAVE/PARK from actual end position, not a constant in code.</li>
+      </ol>
+      <p><strong>Student trace:</strong> predict outputs when A is held and the tag disappears; when the bumper is released; when range is outside the measured window; and when only one encoder reaches the target. Explain which check prevents the next action.</p>
+    </section>
+    <section id="record">
+      <h2>Keep the result and next decision</h2>
+      <p>All physical evidence is pending. Give each proposed upgrade an owner, test, and prerequisite; do not mark it ready because the code compiles.</p>
+      <table class="record-table">
+        <tbody>
+          <tr><th scope="row">Identity</th><td>Date / robot / code / configuration / battery / recorder: __________</td></tr>
+          <tr><th scope="row">Camera and target</th><td>Model / calibration / resolution / mount / cluster / cell state: __________</td></tr>
+          <tr><th scope="row">Shot trial</th><td>Tape reference / SDK range / bearing / velocity / hits / shots / tips: __________</td></tr>
+          <tr><th scope="row">Drive trial</th><td>Left ticks / right ticks / tape distance / start / end / timeout: __________</td></tr>
+          <tr><th scope="row">Failure and recovery</th><td>Loss / wrong target / release / Stop / restart / wheel failure: __________</td></tr>
+          <tr><th scope="row">Decision</th><td>Pass or blocker / next change / owner / reviewer: __________</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer class="site-footer"><p><a href="../lessons/0004-decide-what-our-robot-should-do.html">Return to Meeting 4</a></p></footer>
+</body>
+</html>

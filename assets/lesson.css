@@ -1027,3 +1027,8 @@ body.print-worksheets .worksheet-answer-space + br {
 }
 .camera-axis-diagrams figure { margin: 0; break-inside: avoid; }
 .camera-axis-diagrams img { display: block; width: 100%; height: auto; }
+
+/* Meeting 4: annotated standard StarterBot component guide. */
+.starterbot-components { margin: 1.5rem 0; break-inside: avoid; }
+.starterbot-components img { display: block; width: 100%; height: auto; }
+.starterbot-components figcaption { margin-top: 0.6rem; font-size: 0.9rem; line-height: 1.5; }
