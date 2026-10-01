@@ -128,8 +128,12 @@
 
   const tools = document.createElement("div");
   tools.className = "print-tools no-print";
-  tools.setAttribute("aria-label", "Mentor print tools");
-  tools.innerHTML = `
+  const teamWorksheets = document.body.dataset.worksheetMode === "team";
+  tools.setAttribute("aria-label", teamWorksheets ? "Team print tools" : "Mentor print tools");
+  tools.innerHTML = teamWorksheets ? `
+    <p><strong>Team print tools:</strong> print one shared set of worksheets for the discussion.</p>
+    <button type="button">Print team worksheets</button>
+  ` : `
     <p><strong>Mentor print tools:</strong> each student record is prepared as its own worksheet page.</p>
     <button type="button">Print student worksheets</button>
   `;
