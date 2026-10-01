@@ -88,13 +88,13 @@
           </tbody>
         </table>
         <p><strong>Rules that shape the build:</strong> maximum four controlled elements (G407); launch into the upward-facing CELL to tip (G417); top entry and bottom POLLEN-only removal at FLOWERS (G418). G410 explicitly restricts NECTAR entry to the last 60 seconds; §10.5.2 describes FLOWER timing more broadly. Check current clarifications before adopting an early-POLLEN strategy.</p>
-        <p><strong>Starting code:</strong> the reviewed vendor ZIP contains both TeleOp and autonomous Java, plus TeleOp Blocks. The vendor auto launches first, then drives; it has no vision. Our repository includes the vendor source, a team baseline, a held aim-assist draft, and a bounded drive-then-aim draft. See <a href="../reference/meeting4-starterbot-calibration.html">code map, operating limits, and calibration</a>.</p>
+        <p><strong>Starting code:</strong> the reviewed vendor ZIP contains both TeleOp and autonomous Java, plus TeleOp Blocks. The vendor auto launches first, then drives; it has no vision. Our repository includes the vendor source, a team baseline, a held aim-assist draft, and a complete selectable approach–position–shoot–park draft with reusable drive and launcher classes. See <a href="../reference/meeting4-starterbot-calibration.html">code map, operating limits, and calibration</a>.</p>
         <h3>Choose our next work, with evidence</h3>
         <ol>
           <li><strong>Baseline first:</strong> plan assembly of the standard intake/feeder/launcher; name the owner and the first reliability test after assembly.</li>
           <li><strong>Score reliably:</strong> choose a fixed shooting location and measure hits, tips, and cycle time before adding range-dependent velocity.</li>
           <li><strong>Aim upgrade:</strong> inventory an available camera, mount it rigidly, select the correct cell, and plan loss-of-target behavior. No webcam is listed in this build’s required components; check team inventory before buying.</li>
-          <li><strong>AUTO:</strong> choose LEAVE/PARK and a measured route first. Decide separately when autonomous shooting is qualified; our new position draft does not shoot.</li>
+          <li><strong>AUTO:</strong> choose LEAVE/PARK and a measured route first. Select alliance, cell, a measured start/shot/park route, and mode during INIT. Trace approach → drive to tag → shoot preloads → reverse tag movements → park. Compare a park-only fallback with a shooting attempt; measure time and validate each route before using it in a match.</li>
           <li><strong>Mechanism gap:</strong> choose NECTAR/FLOWER work, GARDEN release, or improved intake reliability as the next project. Record value, build time, test, owner, and what must work first.</li>
         </ol>
       </section>
@@ -113,7 +113,7 @@
           </tbody>
         </table>
         <p><strong>Reading the visuals:</strong> Figure links open the official TU02 manual in a new tab at the figure or its section; scroll slightly if needed. Read the labeled dimensions rather than measuring pixels. Manual images are not to scale or AprilTag print targets. Use the <a href="https://ftc-resources.firstinspires.org/ftc/game">current manual and updates</a> to check revisions before the meeting.</p>
-        <p><strong>Our worksheet:</strong> quantity / reference points / predicted value / actual value / units / robot and code / battery / measurer / next decision. Leave actual values blank until measured. The <a href="../reference/meeting4-starterbot-calibration.html">calibration sequence</a> turns these blanks into later station tests.</p>
+        <p><strong>Our worksheet:</strong> quantity / reference points / predicted value / actual value / units / robot and code / battery / measurer / next decision. Leave actual values blank until measured. The <a href="../reference/meeting4-starterbot-calibration.html#calibrate">calibration exercises</a> explain how to place floor marks, read telemetry, calculate ticks per inch, and change one setting at a time. Practice the worked example now; take actual measurements after assembly.</p>
       </section>
 
       <section id="safety" aria-labelledby="safety-title">
@@ -220,7 +220,7 @@
             <tr><td data-label="Input">A/B/X/Y, D-pad, LB, stick clicks</td><td data-label="Robot action">No robot action assigned in this baseline</td><td data-label="Release / interaction">Stop the OpMode using the Driver Station.</td></tr>
           </tbody>
         </table>
-        <p><strong>Aim-assist draft:</strong> <code>StarterBotAimTeleOp</code> has a different mapping: hold A for stationary aim; RB requests spin-up; A + RB permits feeding only when all calibration, target, alignment, range, and speed checks pass. Use the <a href="../reference/meeting4-starterbot-calibration.html">calibration guide</a> before enabling that draft.</p>
+        <p><strong>Aim-assist draft:</strong> during INIT, D-pad left/right selects red/blue and up/down selects the far-side/audience-side cell. Check the selection on the Driver Station before Start. Alliance then locks; to change cells during TeleOp, release A and RB and make a new D-pad up/down press. <code>StarterBotAimTeleOp</code> also has a different aiming mapping: hold A for stationary aim; RB requests spin-up; A + RB permits feeding only when all calibration, target, alignment, range, and speed checks pass. Use the <a href="../reference/meeting4-starterbot-calibration.html">calibration guide</a> before enabling that draft.</p>
         <p><strong>Paper rehearsal:</strong> point to the inputs for driving while collecting, reversing a jam, and launching. Predict what happens when RB is held with neither trigger, and when RB is released while RT stays pressed. Which tasks compete for the same fingers?</p>
       </section>
 
