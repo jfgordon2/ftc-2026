@@ -74,8 +74,20 @@
           <li><strong>Launcher:</strong> sends POLLEN into the upward-facing HIVE CELL. Feeding, speed, alignment, and shot distance must work together.</li>
         </ol>
         <p><strong>Discuss:</strong> Trace the path of one POLLEN from collection to launch. Which parts help us score directly, and which support the cycle? Where would a camera need an unobstructed view? What would we need to add for top-of-FLOWER placement and NECTAR handling?</p>
+        <h3>What can tell us where the robot is?</h3>
+        <p>The mounted REV Control Hub includes an <strong>IMU</strong>, a sensor that measures which direction the robot faces. Combine that heading with drive-motor encoder counts to estimate movement from a known start. This is <strong>odometry</strong>: keeping track of position as the robot moves. Wheel slip and heading drift can make that estimate less accurate.</p>
+        <table class="course-map">
+          <caption>Sensing options for driving and aiming</caption>
+          <thead><tr><th scope="col">Source</th><th scope="col">What it tells us</th><th scope="col">How we can use it</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Source">Drive-motor encoders</td><td data-label="What it tells us">How far each drive motor has rotated.</td><td data-label="How we can use it">Estimate travel distance after measuring wheel movement against a tape measure.</td></tr>
+            <tr><td data-label="Source">IMU built into the Control Hub</td><td data-label="What it tells us">Heading: which direction the robot faces.</td><td data-label="How we can use it">Turn to a requested angle, keep a straight heading, and improve the encoder-based movement estimate. Check the Hub’s mounting orientation first.</td></tr>
+            <tr><td data-label="Source">USB webcam connected to the Control Hub</td><td data-label="What it tells us">Which field AprilTag cluster is visible, and its distance and direction relative to the camera.</td><td data-label="How we can use it">Approach and aim at the selected hive cell, or check a marked start while the hive is in the same known state. Check camera availability, mount, and calibration.</td></tr>
+          </tbody>
+        </table>
+        <p>A compatible webcam can provide the robot’s “eyes.” Check our available equipment and plan a rigid mount with a clear view of the field tags. BIOBUZZ tags move with the hive cells, so their measurements describe the current target position. See <a href="https://docs.revrobotics.com/duo-control/sensors/i2c/imu">REV’s IMU explanation</a>, <a href="https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/visionportal_webcams/visionportal-webcams.html">FIRST’s webcam guide</a>, and our <a href="../reference/meeting4-starterbot-calibration.html">sensor setup and calibration exercises</a>.</p>
         <p><strong>Source snapshot:</strong> <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html">FIRST manual TU02</a>, checked September 30, 2026. Points below are from §10.5.5, <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref174031617" target="_blank" rel="noopener">Table 10-2</a>; scoring conditions matter as much as point values. The vendor describes capabilities, not our tested success rate.</p>
-        <aside class="mentor-note"><strong>Start with the field picture.</strong> Open <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref206129987" target="_blank" rel="noopener">Figure 9-2: zones and areas</a> and <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref239193872" target="_blank" rel="noopener">Figure 9-3: loading zone and garden</a>. Trace a possible route from the wall to a shooting position and back to the loading zone. Point out where we would collect, score, and park. These are discussion sketches; the kit is not needed.</aside>
+        <p><strong>Start with the field picture.</strong> Open <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref206129987" target="_blank" rel="noopener">Figure 9-2: zones and areas</a> and <a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU02.htm#_Ref239193872" target="_blank" rel="noopener">Figure 9-3: loading zone and garden</a>. Trace a possible route from the wall to a shooting position and back to the loading zone. Point out where we would collect, score, and park. These are discussion sketches; the kit is not needed.</p>
         <table class="course-map">
           <caption>Game objective → starting capability → team decision</caption>
           <thead><tr><th scope="col">Game goal and points</th><th scope="col">What the standard build offers</th><th scope="col">Gap / decision / evidence to collect</th></tr></thead>
@@ -93,7 +105,7 @@
         <ol>
           <li><strong>Baseline first:</strong> plan assembly of the standard intake/feeder/launcher; name the owner and the first reliability test after assembly.</li>
           <li><strong>Score reliably:</strong> choose a fixed shooting location and measure hits, tips, and cycle time before adding range-dependent velocity.</li>
-          <li><strong>Aim upgrade:</strong> inventory an available camera, mount it rigidly, select the correct cell, and plan loss-of-target behavior. No webcam is listed in this build’s required components; check team inventory before buying.</li>
+          <li><strong>Sensing and aim upgrade:</strong> use the Control Hub’s included IMU with drive encoders for movement estimates. Check for an available USB webcam, plan its mount, select the correct cell, and decide what happens when heading or tag data becomes unavailable.</li>
           <li><strong>AUTO:</strong> choose LEAVE/PARK and a measured route first. Select alliance, cell, a measured start/shot/park route, and mode during INIT. Trace approach → drive to tag → shoot preloads → reverse tag movements → park. Compare a park-only fallback with a shooting attempt; measure time and validate each route before using it in a match.</li>
           <li><strong>Mechanism gap:</strong> choose NECTAR/FLOWER work, GARDEN release, or improved intake reliability as the next project. Record value, build time, test, owner, and what must work first.</li>
         </ol>
@@ -185,17 +197,17 @@
         <p>Begin with every row. Add a row if the team's game reading finds another legal action. Do not delete an action to avoid deciding it; classify it unavailable or optional with a reason.</p>
         <table class="record-table">
           <caption>Game-action inventory before controls</caption>
-          <thead><tr><th scope="col">Candidate action</th><th scope="col">Current manual grounding</th><th scope="col">Installed evidence</th><th scope="col">Team classification and rationale</th></tr></thead>
+          <thead><tr><th scope="col">Candidate action</th><th scope="col">Current manual grounding</th><th scope="col">Team classification and rationale</th></tr></thead>
           <tbody>
-            <tr><td data-label="Action">Drive, steer, align, and stop during TELEOP</td><td data-label="Manual">Sections 10.1, 10.4, 10.5.4; G412-G413</td><td data-label="Installed evidence">Meeting 2 map / M2 source/control handoff / blocker: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Collect allowed POLLEN or NECTAR</td><td data-label="Manual">Sections 10.1, 10.5.3; G407-G409; G418 for POLLEN removal from a FLOWER</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Retain, transport, and release a scoring element</td><td data-label="Manual">Sections 10.1 and 10.5; G407-G408</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Launch a scoring element into the upward-facing HIVE CELL</td><td data-label="Manual">Section 10.5.1; G417</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Place allowed POLLEN or NECTAR into the top of a FLOWER</td><td data-label="Manual">Section 10.5.2; G410 and G418</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Move or release an allowed scoring element into the team's GARDEN</td><td data-label="Manual">Sections 10.1 and 10.5.3; G407-G408</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Return the robot to the LOADING ZONE for TELEOP PARK</td><td data-label="Manual">Sections 10.1 and 10.5.4</td><td data-label="Installed evidence">Meeting 2 map / M2 source/control handoff / blocker: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Reverse, clear, or recover each selected mechanism</td><td data-label="Manual">Supporting control for selected action; no scoring claim</td><td data-label="Installed evidence">Needed / Not needed / Unknown because __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
-            <tr><td data-label="Action">Other legal TELEOP action: __________</td><td data-label="Manual">Exact section/rule: __________</td><td data-label="Installed evidence">Installed / Absent / Unknown; evidence: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Drive, steer, align, and stop during TELEOP</td><td data-label="Manual">Sections 10.1, 10.4, 10.5.4; G412-G413</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Collect allowed POLLEN or NECTAR</td><td data-label="Manual">Sections 10.1, 10.5.3; G407-G409; G418 for POLLEN removal from a FLOWER</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Retain, transport, and release a scoring element</td><td data-label="Manual">Sections 10.1 and 10.5; G407-G408</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Launch a scoring element into the upward-facing HIVE CELL</td><td data-label="Manual">Section 10.5.1; G417</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Place allowed POLLEN or NECTAR into the top of a FLOWER</td><td data-label="Manual">Section 10.5.2; G410 and G418</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Move or release an allowed scoring element into the team's GARDEN</td><td data-label="Manual">Sections 10.1 and 10.5.3; G407-G408</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Return the robot to the LOADING ZONE for TELEOP PARK</td><td data-label="Manual">Sections 10.1 and 10.5.4</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Reverse, clear, or recover each selected mechanism</td><td data-label="Manual">Supporting control for selected action; no scoring claim</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
+            <tr><td data-label="Action">Other legal TELEOP action: __________</td><td data-label="Manual">Exact section/rule: __________</td><td data-label="Decision">Required / Optional / Unavailable because __________</td></tr>
           </tbody>
         </table>
       </section>
@@ -243,7 +255,7 @@
         <ol>
           <li>One partner acts as the operator; the other reads each of the six test cases and asks what should happen.</li>
           <li>Explain why both buttons select STOP and why releasing the button must write zero.</li>
-          <li>Use the <a href="#record">blank control-design record</a> for one actual team action. Change the example choices wherever our robot or workload needs something different.</li>
+          <li>Use the <a href="#record">six-question control map</a> for one actual team action. Change the example choices wherever our robot or workload needs something different.</li>
         </ol>
         <p><strong>Finished result:</strong> you can trace action → operator → input → decision → output → test, and distinguish a proposed control from a tested mechanism.</p>
       </section>
@@ -286,37 +298,46 @@
       </section>
 
       <section id="record" aria-labelledby="record-title">
-        <h2 id="record-title">Build the control-design record</h2>
-        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m04-m01">Measure it M04-M01</a> <strong>Status: pending delivery evidence.</strong> Complete one row for every inventory action, including optional and unavailable actions. Duplicate the row on the team worksheet as needed.</p>
-        <p><strong>Record identity:</strong> trial details (paper review today): __________; date: __________; manual revision and access date: __________; Team Update/Q&amp;A checked: __________; robot manufacturer/revision: __________; active configuration: __________; matching source artifact and M2 handoff record: __________; student recorder: __________; checker: __________.</p>
+        <h2 id="record-title">Our control map</h2>
+        <p>Use one copy of the six questions below for each action we want to control. Write button names in everyday language, such as “gamepad 1 right trigger.” We can look up the Java names when we code.</p>
+        <p><strong>Fill in once for the whole map:</strong> team/pair: __________; date/version: __________; robot: standard StarterBot, ordered — not built; <a href="#follow">game-action inventory and rule references</a>: __________.</p>
+        <p>Keep Required / Optional / Unavailable decisions in the action inventory. For an action we are not adding, write “no control planned” there and give a reason; it does not need another six-question record.</p>
         <table class="record-table">
-          <caption>Repeat this complete control-map record for every action</caption>
+          <caption>One action, six questions</caption>
           <tbody>
-            <tr><th scope="row">Action and game source</th><td>Plain action: __________; exact manual section/rule: __________</td></tr>
-            <tr><th scope="row">Availability evidence</th><td>Ordered — not built / Planned addition / Practice robot only; exact vendor source or inventory evidence: __________</td></tr>
-            <tr><th scope="row">Classification and rationale</th><td>Required / Optional / Unavailable because __________; event-plan value: __________</td></tr>
-            <tr><th scope="row">Operator workload</th><td>Operator role: __________; concurrent driving/scoring/recovery tasks: __________</td></tr>
-            <tr><th scope="row">Input behavior</th><td>Proportional / Held / One-press / No control; why this behavior fits: __________</td></tr>
-            <tr><th scope="row">Proposed control</th><td>Gamepad 1 / Gamepad 2 / No control; exact API field after behavior review: __________</td></tr>
-            <tr><th scope="row">Reverse or recovery</th><td>Needed / Not needed / Unknown; request and reason: __________</td></tr>
-            <tr><th scope="row">Operator feedback</th><td>What the operator must see, hear, or feel, and when: __________</td></tr>
-            <tr><th scope="row">Safe release</th><td>Exact intended zero/safe hold/other sourced state: __________; evidence required: __________</td></tr>
-            <tr><th scope="row">Conflicts and priority</th><td>Conflicting actions: __________; prevent, prioritize, or block because: __________</td></tr>
-            <tr><th scope="row">Telemetry</th><td>Input, decision/state, commanded output, fault/limit, or other diagnostic fields: __________</td></tr>
-            <tr><th scope="row">Acceptance evidence</th><td>What Meetings 5-8 must visibly prove before this action is qualified: __________</td></tr>
-            <tr><th scope="row">Approval</th><td>Proposed by: __________; student reviewer: __________; mentor safety review: __________; team approver/date: __________</td></tr>
+            <tr><th scope="row">1. What should the robot do?</th><td>Action: __________<br>Why do we need it? __________</td></tr>
+            <tr><th scope="row">2. Who controls it, and with what?</th><td>Driver / other operator: __________<br>Gamepad 1 / 2; button, trigger, or stick: __________</td></tr>
+            <tr><th scope="row">3. How does the input work?</th><td>Hold to run / press once / vary with stick or trigger: __________<br>While using it, the robot should: __________</td></tr>
+            <tr><th scope="row">4. What happens when we let go?</th><td>On release or stick returning to center: __________<br>When Driver Station Stop is pressed: __________</td></tr>
+            <tr><th scope="row">5. What if something goes wrong?</th><td>If two controls conflict, the robot should: __________<br>If it jams or fails, the operator should: __________</td></tr>
+            <tr><th scope="row">6. How will we know it works?</th><td>What we should see on the robot or Driver Station: __________<br>One test to try after assembly: __________<br>Still to find out / who will check: __________</td></tr>
           </tbody>
         </table>
+        <p><strong>Today:</strong> act out the controls with your partner. Say “press,” “hold,” “release,” “both at once,” and “Stop”; explain what the robot should do. Write “needs checking” for anything we cannot answer yet. A paper plan is not a passed robot test.</p>
 
-        <h3>One-gamepad or two-gamepad decision</h3>
-        <p><strong>One-gamepad rehearsal evidence:</strong> concurrent tasks completed/missed: __________; hand conflicts: __________; communication load: __________; recovery access: __________.</p>
-        <p><strong>Two-gamepad rehearsal evidence:</strong> concurrent tasks completed/missed: __________; hand conflicts: __________; communication load: __________; recovery access: __________.</p>
-        <p><strong>Team decision:</strong> use one / two gamepads because __________. Driver responsibilities: __________. Other operator responsibilities: __________. Proposed by: __________. Student reviewer: __________. Mentor safety review: __________. Team approval/date: __________.</p>
+        <h3>Choose one or two gamepads</h3>
+        <p>Try the same pretend driving-and-scoring task both ways. What was awkward or missed with <strong>one gamepad</strong>? __________ With <strong>two gamepads</strong>? __________</p>
+        <p><strong>Our choice:</strong> one / two because __________. Driver handles: __________. Other operator handles: __________.</p>
+        <p><strong>Review once for the whole map:</strong> students: __________; mentor: __________; date: __________. Ready for coding / needs changes: __________. Open questions: __________.</p>
+
+        <details>
+          <summary>For the coding session: connect the plan to the code</summary>
+          <p>Complete these details before enabling the action on the assembled robot. Use the six answers above and the existing action inventory; do not make students copy the same decisions again.</p>
+          <table class="record-table">
+            <caption>Coding handoff for each action</caption>
+            <tbody>
+              <tr><th scope="row">Code and hardware</th><td>Java input field: __________; configured device names/types/directions: __________; matching source or configuration record: __________</td></tr>
+              <tr><th scope="row">Settings and feedback</th><td>Measured or sourced limits: __________; telemetry for requested action, actual state, output, and faults: __________</td></tr>
+              <tr><th scope="row">Test result</th><td>Press/hold/release, conflicting inputs, recovery, and Stop results: __________; code/configuration version: __________; checked by/date: __________</td></tr>
+            </tbody>
+          </table>
+          <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m04-m01">Measure it M04-M01</a> Physical test evidence remains pending until assembly and testing.</p>
+        </details>
       </section>
 
       <section id="test" aria-labelledby="test-title">
         <h2 id="test-title">Review the map before approval</h2>
-        <p>This is a paper and source review, not a powered robot test. Read every action aloud and reject incomplete rows.</p>
+        <p>This is a paper review, not a powered robot test. Read each action aloud, rehearse its controls, and mark unanswered questions for follow-up.</p>
         <ol>
           <li><strong>Game check:</strong> verify each season claim against the named current manual section or rule. <strong>Pass:</strong> the citation supports the action and constraint; open interpretation questions are blocked, not guessed.</li>
           <li><strong>Scope check:</strong> check planned capabilities against vendor documents; reserve installed claims for the existing practice robots. <strong>Pass:</strong> vendor assumptions, installed evidence, and unknowns are distinct.</li>
@@ -326,7 +347,7 @@
           <li><strong>Diagnosis check:</strong> trace proposed telemetry from input through decision/state to commanded output or safe state. <strong>Pass:</strong> Meeting 7 can distinguish a wrong request from a wrong decision or output.</li>
           <li><strong>Source-scope check:</strong> search the map for every number and control name. <strong>Pass:</strong> each is an actual team assignment, exact-source fact, or pending measurement; none came from the unmatched vendor path.</li>
         </ol>
-        <p class="success-check">Approval gate: every action is present, every required field is complete, all blockers are explicit, the gamepad-count rationale is signed, and the team can explain what Meetings 5-8 must implement and prove. Otherwise mark the map <strong>provisional</strong>.</p>
+        <p class="success-check">Ready for coding: every inventory action has a control plan or a reason for having none; the six questions are answered for each planned control; the gamepad choice is reviewed; and remaining checks have owners. Hardware settings and physical tests are completed in the coding handoff before powered use.</p>
       </section>
 
       <section id="fallback" aria-labelledby="fallback-title">
@@ -345,7 +366,7 @@
 
       <section id="evidence" aria-labelledby="evidence-title">
         <h2 id="evidence-title">Show what you learned</h2>
-        <p><strong>Keep:</strong> current-source revision record; annotated game sections and rules; complete inventory; planned-build status and separate practice-robot evidence; every action's control-design row; one/two-gamepad rehearsal notes; conflict decisions; signatures; and the provisional-blocker list or approved map revision.</p>
+        <p><strong>Keep:</strong> current-source revision record; annotated game sections and rules; complete inventory; planned-build status and separate practice-robot evidence; the six-question records for planned controls; one/two-gamepad rehearsal notes; conflict decisions; signatures; and the provisional-blocker list or approved map revision.</p>
         <h3>Each student explains</h3>
         <p>Without partner help, choose one action and explain its manual grounding, planned capability and readiness evidence, classification rationale, workload, behavior type, proposed assignment or no-control decision, recovery, feedback, safe release, conflict policy, telemetry, and acceptance evidence. Then explain one fact that remains pending.</p>
         <h3>Record each student's evidence</h3>
