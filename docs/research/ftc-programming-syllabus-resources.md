@@ -62,8 +62,7 @@ and its [OnBot Java path](https://docs.revrobotics.com/duo-control/hello-robot-j
 [goBILDA 2026-2027 StarterBot Resource Guide](https://www.gobilda.com/ftc-starter-bot-resource-guide-2026-2027-season/);
 and the mutable [goBILDA example-code ZIP](https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip).
 The ZIP was downloaded and verified on 2026-09-17 as
-`3200-2627-0003_example-code.zip`, SHA-256
-`aadbb82cfeaef37b6fbf814589956c5305efc0734ce5ef7df23dbfa996882ca3`.
+`3200-2627-0003_example-code.zip`.
 It contained one 12,500-byte Java TeleOp file,
 `BioBuzzStarterbotTeleop.java`, and no Autonomous file.
 
@@ -73,7 +72,7 @@ It contained one 12,500-byte Java TeleOp file,
 | 2. Making the Motor Move | Use the exact-name and one-secured-motor portions of Hello Robot Java Part 1 only with its named parts. | Read declarations and `hardwareMap.get` calls as name-matching evidence, not as a one-motor recipe. |
 | 3. Read AprilTags and Measure Distance | Preserve the actual M2 motor/servo source and controls; use the camera-only SDK 12 example and measured sample tag. | Same camera lab on the configured practice robot; no vendor-specific mechanism assumptions. |
 | 4. Decide What Our Robot Should Do | Use the matching program only to inventory available actions and current controls; the team's action map remains a decision based on game and workload evidence. | Apply the same bounded inventory rule; vendor controls do not decide one-versus-two gamepads or team strategy. |
-| 5. Build and Structure Our TeleOp | Preserve verified REV names/directions and linear lifecycle while rebuilding the team-owned `drive(double forward, double turn)` method. | Preserve verified goBILDA names/directions and iterative lifecycle while rebuilding the same team-owned drive intent. |
+| 5. Sample Shooting Power and Tune Auto | Use the reviewed practice robot only for its matching drive/turn and hardware checks; keep shooting evidence specific to that build. | Reuse the standard hardware, selected-target aiming and IMU drive/turn examples; record power/distance trials and measure one route. |
 | 6. Build the Mechanism Controls | Use only matching REV mechanism names, source values, safe-release branches, and recovery concepts; verify every physical limit. | Use only matching launcher, windmill, intake, and corner-intake concepts; source values are not proof of physical safety. |
 | 7. Integrate and Debug TeleOp | Use exact REV telemetry and component documentation to instrument a predicted fault. | Use launcher/drivetrain telemetry and encoder comments as evidence prompts, not as a complete troubleshooting procedure. |
 | 8. Qualify TeleOp | Use the matching REV program only to define available capability; team qualification still requires the team's controlled routine and records. | Use the matching goBILDA program under the same boundary; vendor code does not prove team-owned parity or qualification. |

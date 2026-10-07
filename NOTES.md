@@ -46,9 +46,8 @@ against the linked section rather than checking the 180-minute total alone.
   StarterBot guide, and their linked downloads. Confirm that headings, examples,
   named parts, APIs, screenshots, and robot revisions still match each bounded
   course citation.
-- If a fixed handout uses the mutable goBILDA example-code ZIP, retain the
-  reviewed local copy and record its local filename, download date, and checksum
-  in the handout notes. A stable-looking URL is not a version identifier.
+- If a fixed handout uses the goBILDA example-code ZIP, keep a copy of the ZIP in
+  the robot repository and check whether goBILDA has updated it before delivery.
 - Treat every claim-register M entry as an evidence template until students
   perform its stated procedure during delivery. Keep its status as `pending
   delivery evidence`, and never present a pending entry as a passed physical
@@ -120,7 +119,7 @@ build slot for assembly preparation. The student session uses vendor documents a
 this does not move general localization or PID instruction into M4.
 
 The reviewed standard vendor ZIP contains TeleOp AND autonomous Java. Its
-originals/checksum are preserved separately from team adaptations. Source audit
+originals are kept separately from team adaptations. Source audit
 found one-encoder completion, no drive timeout, and accumulating intake power
 in the vendor auto. SDK 12.0 cluster names and explicit output units were checked
 against resolved SDK sources. The M3 sample uses the shared pose fields and default units correctly. Physical calibration remains pending.
@@ -131,3 +130,67 @@ Validation: new TeamCode compiled against SDK 12.0.0; 15 pure Java aim sign,
 freshness, invalid-pose and range-window checks passed. Updated lesson/reference
 relative links, fragments and unique IDs passed; browser preview checked with
 responsive table labels. Hardware tests remain pending.
+
+## Meeting 5 shooter and auto revision — October 6, 2026
+
+Meeting 5 was rewritten to be short enough for students to follow and to match what
+the team has: last season's goBILDA practice robot with a webcam, no field elements,
+and the BIOBUZZ kit still in the mail.
+
+- **Robot:** `StarterRobot.ROBOT` chooses the hardware: `PRACTICE_GOBILDA` and
+  `PRACTICE_REV` for last season's two practice robots, `BIOBUZZ_GOBILDA` for the new
+  StarterBot. Launcher speed, speed tolerance, PIDF and ticks per inch follow the choice.
+- **Shooter:** tuned by launcher speed in ticks per second, the same control the vendor
+  code and our baseline use. `ShooterCalibration` holds one range-to-speed table.
+  The earlier raw-power sampler and its extra flags were removed.
+- **Practice field:** a tape rectangle 20 inches wide with its bottom edge 53.5 inches
+  up (manual Figure 9-10), a start line 52 inches out (our estimate from the manual
+  drawings), shooting marks at 18, 26 and 34 inches, and a 23 by 11 inch parking box.
+- **Print packet:** `scripts/build_meeting5_print_pack.py` builds four handout pages
+  plus FIRST's eight tag sheets. Rebuild it if the worksheets change.
+- **Record keeping:** across the course, worksheets no longer ask for commit hashes,
+  tags, checksums, access dates or the names of students in each role, and the
+  end-of-meeting handoff forms in Meetings 6-15 are short "Save your work" lists.
+
+Nothing in Meeting 5 has been run on a robot yet. The code compiles against SDK
+12.0.0 and its unit tests pass.
+
+## Meetings 6-16 rewrite — October 6, 2026
+
+Meetings 6-16 were rewritten in the same style as Meeting 5: a goal, a start-here
+list, short safety rules, a 180-minute plan, numbered steps, worksheets without
+names or code identifiers, a "Save your work" list and a short mentor section.
+Titles and file names are unchanged.
+
+Each lesson now points at a real program in the robot repository:
+
+| Meeting | Program |
+|---|---|
+| 6 | TeleOp (`TeleOpBasic`) |
+| 7, 8 | TeleOp with Aiming (`TeleOpAim`), which now takes its speed from the Meeting 5 table |
+| 9 | Autonomous One Action (`AutoOneAction`), new |
+| 10 | Tune Drive |
+| 11, 12 | Autonomous Route with `Routes` and `ShooterCalibration` |
+| 13 | Tune Launcher PIDF (`TuneLauncherPidf`), new |
+
+Every team program now shows on the Driver Station. Programs that move by
+themselves still wait for `MOUNTING_CONFIRMED` and `MOTION_ENABLED`, and autonomous
+shooting waits for `FEED_ENABLED`. Unit tests no longer depend on numbers students
+are meant to change (routes, feed time, the speed table).
+
+Before teaching each lesson, check three things: the newest Team Update, that the
+screen messages quoted in the lesson still match the code, and which robot is in
+use. The 59-inch and 52-inch field distances in Meeting 11 are estimates from the
+manual's drawings; measure them on a real field.
+
+Autonomous was simplified after that rewrite. A route is now one list of `drive`,
+`turn` and `aimAndShoot` steps in `Routes.java`; the robot turns to face the tags
+and turns back, and no longer drives toward a tag range or replays recorded moves.
+There is no `AUTO_RANGE_INCHES`, no "proven" flag on a route, and no park-time
+reserve; dry run is a switch in INIT. The Meeting 9 program and the full autonomous
+share the same shape (MOVE / DONE / FAULT) so students can read one from the other.
+
+Robot code names were then made consistent. Code is in three folders (`programs`,
+`robot`, `settings`). Driver Station names are TeleOp, TeleOp with Aiming, Autonomous
+One Action, Autonomous Route, Tune Drive, Tune Shooter and Tune Launcher PIDF. Screens and
+routes use FIRST's tag names, AUDIENCE and SCORING (the side away from the audience). Lessons 4 to 16 use the new names.

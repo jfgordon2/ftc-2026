@@ -63,7 +63,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
-@TeleOp(name = &quot;M3 AprilTag Telemetry&quot;, group = &quot;BIOBUZZ&quot;)
+@TeleOp(name = &quot;M3 AprilTag Telemetry&quot;, group = &quot;Lessons&quot;)
 public class Meeting3AprilTagTelemetry extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -145,15 +145,15 @@ public class Meeting3AprilTagTelemetry extends LinearOpMode {
 <section id="modify" aria-labelledby="modify-title"><h2 id="modify-title">Make exactly one small change</h2><p>Choose one edit inside the non-null pose branch; predict, build, deploy, test, and review the diff.</p><ul><li><strong>Unit conversion:</strong> add <code>telemetry.addData("Range (cm)", "%.1f", detection.ftcPose.range * 2.54);</code> Check 10 inches → 25.4 cm on paper, then check live paired readings.</li><li><strong>Condition:</strong> add <code>telemetry.addData("Under 36 in", detection.ftcPose.range &lt; 36);</code> Test clearly below and above 36 inches, then remove the tag. This is a classroom threshold, not a proven shooting range.</li></ul><p>Optional paper extension: compute 3D distance √(x² + y² + z²) and explain why it differs from SDK range when z is nonzero. Keep auto-aiming, PID, cluster geometry, and field localization for later.</p></section>
 <section id="git" aria-labelledby="git-title"><h2 id="git-title">Save and explain</h2><p>In the <strong>robot-code repository</strong>, use <code>git status</code> and <code>git diff</code>; stage only the intended Java file, inspect <code>git diff --cached</code>, and commit after the camera test. If you only built or traced, label the result “not hardware tested.”</p><p>Each student explains the loop, one predicted/observed measurement, the missing-pose check, and the limitation of using a moving target. Test Stop, restart, and Stop during INIT before recording completion.</p></section>
 <section id="handoff" aria-labelledby="handoff-title"><h2 id="handoff-title">Keep Meeting 4 ready</h2><p><strong>Recover the motor/servo work actually completed in Meeting 2.</strong> Preserve the working robot program separately from this camera-only OpMode. Do not replace it with new-season vendor code.</p>
-<table><caption>Robot source and control handoff</caption><thead><tr><th scope="col">Record for Meeting 4</th><th scope="col">Evidence / unknown / owner</th></tr></thead><tbody>
+<table><caption>Robot source and control handoff</caption><thead><tr><th scope="col">Record for Meeting 4</th><th scope="col">Evidence / unknown</th></tr></thead><tbody>
 <tr><td>Exact robot and active configuration</td><td>_______________________________</td></tr>
-<tr><td>Saved motor/servo source file and commit</td><td>_______________________________</td></tr>
+<tr><td>Saved motor/servo source file</td><td>_______________________________</td></tr>
 <tr><td>Setup → input → output → release/Stop trace</td><td>_______________________________</td></tr>
 <tr><td>Installed motors/servos and control mapping</td><td>_______________________________</td></tr>
 <tr><td>M2 tested behavior and unresolved limits</td><td>_______________________________</td></tr>
 <tr><td>Current manual/update/Q&amp;A and one action question</td><td>_______________________________</td></tr>
 <tr><td>Camera result, one limitation, next check</td><td>_______________________________</td></tr>
-</tbody></table><p>Student: __________ Mentor/checker: __________ Date: __________</p>
+</tbody></table><p>Date: __________</p>
 <p>An untested mechanism remains untested. Camera success does not qualify driving, aiming, launching, or field localization.</p></section>
 </details>
   </div>

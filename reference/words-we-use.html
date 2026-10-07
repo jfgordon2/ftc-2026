@@ -110,7 +110,7 @@
         <dt>Travel test</dt>
         <dd>A powered test in the game arena that begins at a marked start, follows a marked route to a marked stop, and keeps everyone outside the exclusion area.</dd>
         <dt>Claim ID</dt>
-        <dd>A compact identifier, such as <code>M13-F01</code>, that links a consequential fact, team choice, or measurement to its owner, evidence, scope, and recheck trigger.</dd>
+        <dd>A compact identifier, such as <code>M13-F01</code>, that links a fact, team choice, or measurement to its source and to when it should be checked again.</dd>
       </dl>
     </section>
 
@@ -122,11 +122,11 @@
         <dt>Commit</dt>
         <dd>One saved set of understood changes in Git history. Example: commit the new slow mode after both test cases pass.</dd>
         <dt>Tag</dt>
-        <dd>A fixed name attached to one exact commit. Example: tag the tested event version <code>event-2026-10-24</code>.</dd>
+        <dd>A name Git can attach to a commit. We do not need tags; a commit message such as “event code” is enough to find the version we tested.</dd>
         <dt>Clone</dt>
-        <dd>A complete working copy of a repository made in a new folder. Example: clone the team repository on a backup laptop and build the event tag.</dd>
+        <dd>A complete working copy of a repository made in a new folder. Example: clone the team repository on a backup laptop and build the event code.</dd>
         <dt>Rollback</dt>
-        <dd>The separately recorded known-good identity and supporting configuration, controller mode, values, hardware state, and evidence needed to reverse a change and prove the restored affected flow.</dd>
+        <dd>The separately recorded known-good setup and supporting configuration, controller mode, values, hardware state, and evidence needed to reverse a change and prove the restored affected flow.</dd>
       </dl>
     </section>
 

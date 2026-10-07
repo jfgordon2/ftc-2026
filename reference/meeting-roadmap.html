@@ -50,20 +50,19 @@
 
     <section id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Source, decision, and measurement expectations</h2>
-      <p><strong>F (documented fact):</strong> name the exact source, revision or access date, and scope. Vendor examples apply only to their matching named assembly; current Competition Manual, Team Update, and Q&amp;A control current game and event claims. <strong>D (team decision):</strong> record the selected behavior, criteria, or limit and why the evidence supports it. <strong>M (team measurement):</strong> record robot/configuration identity, procedure, trial ID, units, result, student, checker, and date. Unperformed measurements remain <strong>pending delivery evidence</strong>.</p>
+      <p><strong>F (documented fact):</strong> name the source and what it covers. Vendor examples apply only to their matching named assembly; current Competition Manual, Team Update, and Q&amp;A control current game and event claims. <strong>D (team decision):</strong> record the selected behavior, criteria, or limit and why the evidence supports it. <strong>M (team measurement):</strong> record robot/configuration setup, procedure, trial ID, units, result, and date. Unperformed measurements remain <strong>pending delivery evidence</strong>.</p>
     </section>
 
     <section id="gates" aria-labelledby="gates-title">
       <h2 id="gates-title">Readiness gates</h2>
       <ul>
-        <li><strong>Meeting 1 identity gate:</strong> identify the installed manufacturer and exact revision, active hardware configuration, Control Hub, Driver Station, and matching source path before treating any vendor assumption as applicable.</li>
+        <li><strong>Meeting 1 setup gate:</strong> identify the installed manufacturer and exact revision, active hardware configuration, Control Hub, Driver Station, and matching source path before treating any vendor assumption as applicable.</li>
         <li><strong>Meeting 2 motor gate:</strong> secure the robot on stable support in the game arena, clear every wheel, verify one exact saved name and motor at a time, and prove explicit zero and Stop. No floor travel occurs.</li>
         <li><strong>Meeting 3 camera gate:</strong> preserve M2 source/configuration and control notes; verify webcam and printed tag scale; test camera telemetry, missing target, and Stop/restart at one supervised stationary station.</li>
-        <li><strong>Meetings 4-8 TeleOp gate:</strong> current game sources and the signed M2 source/control handoff from Meeting 3 must precede the control map; the drivetrain must pass Supported testing before Travel testing; each mechanism needs exact-part evidence, stable securement, measured limits, safe release, recovery, and Stop before integration. Autonomous work waits until required TeleOp behavior qualifies or is formally reclassified and disabled.</li>
-        <li><strong>Meeting 10 measurement gate:</strong> encoder wiring, configured motor type, software direction, wheels, tires, axles, every gearing stage, and track-width references must be consistent and recorded before counts are converted to distance.</li>
-        <li><strong>Meetings 11-12 Autonomous gate:</strong> each Meeting 10 action needs completed physical evidence before route composition. A launcher action additionally needs current rules, exact assembly/source match, powered-off geometry inspection, measured artifact and launcher inputs, a guarded method, explicit named zeros, and a passing Supported test before a Travel test.</li>
-        <li><strong>Meeting 13 PIDF gate:</strong> record the exact motor, controller, run mode, target unit, code/configuration, load, battery criterion, and original read-back P/I/D/F tuple. If a reliable baseline is unavailable, graph and explain only; do not change coefficients.</li>
-        <li><strong>Meetings 14-16 release gate:</strong> preserve exact qualified TeleOp, accepted Autonomous, launcher/PIDF, configuration, rollback, and evidence identities. Meetings 15 and 16 require the event robot, control system, realistic setup, recovery equipment, access credentials, and practiced role backups; missing items remain blocked.</li>
+        <li><strong>Meetings 6-8 TeleOp:</strong> the robot in use drives and <code>ROBOT</code> in <code>StarterRobot.java</code> matches it. Meeting 7 also needs the webcam and the mentor’s motion and feed switches. Autonomous work for a match waits until the TeleOp routine has passed, or the team has written down what it switched off.</li>
+        <li><strong>Meetings 9-12 Autonomous:</strong> Hub direction and drive direction are checked on the robot in use before any program drives by itself. A route is run empty three times before shooting is switched on. The one-action autonomous from Meeting 9 always stays as the backup.</li>
+        <li><strong>Meeting 13 PIDF:</strong> write down the starting P and F first. Without a reliable launcher, measure and graph only.</li>
+        <li><strong>Meetings 14-16 event readiness:</strong> the event robot, a timer, Self-Inspect all green, and a backup for every drive-team job. After Meeting 15 the code changes only with a full practice match afterwards.</li>
       </ul>
     </section>
 
@@ -78,11 +77,11 @@
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0001-robot-init.html">Phase 1 / M1: Robot Init</a></strong></td>
             <td data-label="Outcome">Identify the exact robot and active configuration; trace initialization, active execution, telemetry, safe output, and Stop; deploy one harmless telemetry change.</td>
-            <td data-label="Readiness"><span class="gate">Identity gate:</span> mentor-prepared telemetry-only <code>TeamCode</code> program and exact candidate robot records; no actuator command.</td>
-            <td data-label="Evidence">F: lifecycle and matching vendor source scope. D: selected exact robot path. M: observed identity, configuration names, deployment, and lifecycle messages.</td>
-            <td data-label="Artifact">Robot and configuration identity record for Meeting 2.</td>
+            <td data-label="Readiness"><span class="gate">Setup gate:</span> mentor-prepared telemetry-only <code>TeamCode</code> program and exact candidate robot records; no actuator command.</td>
+            <td data-label="Evidence">F: lifecycle and matching vendor source scope. D: selected exact robot path. M: observed setup, configuration names, deployment, and lifecycle messages.</td>
+            <td data-label="Artifact">Robot and configuration setup record for Meeting 2.</td>
             <td data-label="Robot access">Configured Control Hub and Driver Station; powered motion is not required.</td>
-            <td data-label="Fallback">Build locally, trace lifecycle cards and exact source candidates, and record deployment or identity blockers without claiming installation or robot identity passed.</td>
+            <td data-label="Fallback">Build locally, trace lifecycle cards and exact source candidates, and record deployment or setup blockers without claiming installation or robot name passed.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0002-making-the-motor-move.html">Phase 1 / M2: Making the Motor Move</a></strong></td>
@@ -98,126 +97,126 @@
             <td data-label="Outcome">Review game updates; predict and measure camera pose; test one telemetry edit.</td>
             <td data-label="Readiness">M2 program/configuration saved; configured webcam, correctly sized sample tag, SDK 12.0.0, one supervised station.</td>
             <td data-label="Evidence">F: SDK shared pose and current rules. D: one display edit. M: tape/telemetry comparison and missing-target/Stop checks.</td>
-            <td data-label="Artifact">Camera worksheet, tested commit or blocker, M2 source/control handoff for M4.</td>
+            <td data-label="Artifact">Camera worksheet and the saved, working M2 program.</td>
             <td data-label="Robot access">Stationary supported practice robot; no motor/servo commands in the camera sample.</td>
             <td data-label="Fallback">Trace, predict, and calculate from labeled practice data; physical evidence remains pending.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0004-decide-what-our-robot-should-do.html">Phase 2 / M4: Decide What Our Robot Should Do</a></strong></td>
             <td data-label="Outcome">Classify all current game actions and approve one- or two-gamepad controls from workload, conflict, feedback, release, recovery, and diagnosis needs.</td>
-            <td data-label="Readiness">Current Competition Manual, Team Update/Q&amp;A, installed-robot inventory, and signed M2 source/control handoff from Meeting 3 available; no new control is assumed from vendor code.</td>
+            <td data-label="Readiness">Current Competition Manual, Team Update/Q&amp;A, installed-robot inventory, and checked M2 source/control handoff from Meeting 3 available; no new control is assumed from vendor code.</td>
             <td data-label="Evidence">F: current rules and matching installed capabilities. D: required/optional/unavailable classifications and complete control map. M: only verified installed capability observations.</td>
             <td data-label="Artifact">Approved game-action inventory and control map.</td>
             <td data-label="Robot access">Powered access not required; powered-off inspection helps confirm installed mechanisms.</td>
             <td data-label="Fallback">Use source records, photos, configuration captures, and named blockers; classify uncertain actions unavailable or pending rather than inventing hardware.</td>
           </tr>
           <tr>
-            <td data-label="Phase / meeting"><strong><a href="../lessons/0005-build-and-structure-our-teleop.html">Phase 2 / M5: Build and Structure Our TeleOp</a></strong></td>
-            <td data-label="Outcome">Implement and explain <code>drive(double forward, double turn)</code> with bounded outputs, telemetry, explicit zero, and the matching lifecycle.</td>
-            <td data-label="Readiness">Approved Meeting 4 control map plus verified M2 names, types, directions, and recovery candidate; Supported test passes before controlled Travel testing.</td>
-            <td data-label="Evidence">F: API limits and matching lifecycle. D: steering rule and approved output limit. M: sign, zero, limit, Stop, and Travel-test results.</td>
-            <td data-label="Artifact">Team-owned tested drivetrain TeleOp.</td>
-            <td data-label="Robot access">Exact drivetrain for physical acceptance; game arena, stable support, and marked Travel-test boundaries.</td>
-            <td data-label="Fallback">Implement, review, build, and trace values in a copy of known-working code; label it code-path evidence only and leave physical tests blocked.</td>
+            <td data-label="Phase / meeting"><strong><a href="../lessons/0005-build-and-structure-our-teleop.html">Phase 2 / M5: Tune the Shooter and Build an Auto Path</a></strong></td>
+            <td data-label="Outcome">Find the launcher speed that hits a tape wall target from three distances, measure one drive and one turn, and run one autonomous path that lines up on an AprilTag and parks.</td>
+            <td data-label="Readiness">One of last season’s practice robots with the webcam; Hub direction and drive direction checked by the mentor; tape, printed tags and last season’s balls.</td>
+            <td data-label="Evidence">F: opening height and size, LEAVE and PARK rules, launcher speed units. D: tape layout, 25 ticks/s steps, five shots per setting. M: hits at each mark, ticks per inch, turn angle, where the path ends.</td>
+            <td data-label="Artifact">Launcher speed table and one route, both saved in the code.</td>
+            <td data-label="Robot access">One robot running at a time. The 35-minute build block is spent building the tape practice field.</td>
+            <td data-label="Fallback">No camera: tune by tape distance and do the drive and turn measurements; the tag path waits. Launcher cannot reach the rectangle: lower it and note the height.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0006-build-the-mechanism-controls.html">Phase 2 / M6: Build the Mechanism Controls</a></strong></td>
-            <td data-label="Outcome">Implement only approved installed mechanism actions with correct input patterns, conflict rules, safe release, recovery, telemetry, and explicit shutdown.</td>
-            <td data-label="Readiness"><span class="gate">Mechanism gate:</span> exact vendor/part match, stable securement, unloaded first test, powered-off interference check, measured limits, and named Stop ownership.</td>
-            <td data-label="Evidence">F: matching vendor behavior and APIs. D: enabled actions, conflicts, conservative limits, and recovery. M: physical ranges, commands, release, load, and Stop evidence.</td>
-            <td data-label="Artifact">Required mechanism controls, limit records, and test cards.</td>
-            <td data-label="Robot access">Installed mechanism or exact secured subsystem in the game arena.</td>
-            <td data-label="Fallback">Implement disabled branches and use telemetry or prepared values to test logic; do not invent limits, enable output, or mark physical acceptance passed.</td>
+            <td data-label="Outcome">Read and test the baseline TeleOp, then add slow mode, a launcher-speed readout and a keep-launcher-on toggle, one at a time.</td>
+            <td data-label="Readiness">Robot in use drives; <code>ROBOT</code> in <code>StarterRobot.java</code> matches it.</td>
+            <td data-label="Evidence">F: gamepad inputs and the vendor baseline. D: which controls to add. M: what each control really did on press, release and conflict.</td>
+            <td data-label="Artifact">Control worksheet and the updated TeleOp</td>
+            <td data-label="Robot access">Robot on blocks, then on the floor.</td>
+            <td data-label="Fallback">No robot: read the code, fill in predictions, and make the edits so they build.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0007-integrate-and-debug-teleop.html">Phase 2 / M7: Integrate and Debug TeleOp</a></strong></td>
-            <td data-label="Outcome">Combine accepted drivetrain and mechanism paths, prove coexistence, and close faults only from an evidence trail and repeated original test.</td>
-            <td data-label="Readiness">Recoverable M5 drivetrain and accepted M6 controls; one owner and one fresh final write per output; only mentor-prepared known-safe simulated faults.</td>
-            <td data-label="Evidence">F: exact messages and API behavior. D: integration/output ownership and diagnostic workflow. M: neutral, each path, simultaneous input, release, recovery, Stop, and retest evidence.</td>
-            <td data-label="Artifact">Integrated TeleOp candidate and completed fault evidence.</td>
-            <td data-label="Robot access">Needed for coexistence and physical faults; build, configuration-capture, and log diagnosis can proceed without motion.</td>
-            <td data-label="Fallback">Integrate, build, inspect diffs, and diagnose prepared safe logs or code faults; mark every unavailable physical coexistence case blocked.</td>
+            <td data-label="Outcome">Run the aiming TeleOp, add slow mode to it, and find one planted fault with five debugging steps.</td>
+            <td data-label="Readiness">Webcam mounted; motion and feed switches set; speed table for the robot in use.</td>
+            <td data-label="Evidence">F: what bearing and range mean. D: the five debugging steps. M: whether driving, aiming and shooting work together.</td>
+            <td data-label="Artifact">Aiming TeleOp with slow mode; fault worksheet</td>
+            <td data-label="Robot access">Robot, webcam and a safe target.</td>
+            <td data-label="Fallback">No camera: do the combine and debug parts on the baseline TeleOp.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0008-qualify-teleop.html">Phase 2 / M8: Qualify TeleOp</a></strong></td>
-            <td data-label="Outcome">Pass one unchanged complete routine three consecutive times across safe initialization, required actions, simultaneous work, release, recovery, telemetry, and Stop.</td>
-            <td data-label="Readiness"><span class="gate">TeleOp qualification gate:</span> exact installed required scope and integrated candidate; unresolved safety-critical behavior must be repaired or formally reclassified, disabled, and removed from the event plan.</td>
-            <td data-label="Evidence">F: candidate capability only from matching sources. D: fixed routine and acceptance criteria. M: three consecutive complete physical passes and exact recovery identity.</td>
-            <td data-label="Artifact">Qualification record and known-good Git recovery point.</td>
-            <td data-label="Robot access">Complete robot with every enabled required TeleOp mechanism.</td>
-            <td data-label="Fallback">Qualify only available scope as partial evidence and mark absent or unsafe actions blocked; do not open Autonomous work without satisfying the gate.</td>
+            <td data-label="Outcome">Run the same two-minute TeleOp routine three times in a row without changing the code.</td>
+            <td data-label="Readiness">A TeleOp that drives and shoots; the tape field from Meeting 5.</td>
+            <td data-label="Evidence">F: TELEOP length, points for a tip and for parking. D: the routine and the hits needed. M: each timed run.</td>
+            <td data-label="Artifact">Score sheet and the commit that passed</td>
+            <td data-label="Robot access">Robot and tape field for most of the meeting.</td>
+            <td data-label="Fallback">Cannot pass: write exactly what stops it and switch off a failing feature rather than leave it half-working.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0009-autonomous-starts-with-one-action.html">Phase 3 / M9: Autonomous Starts With One Action</a></strong></td>
-            <td data-label="Outcome">Run one low-speed action from a repeatable marked start with active check, bounded timeout, telemetry, observer abort, and explicit zero.</td>
-            <td data-label="Readiness">Qualified M8 drivetrain and protected TeleOp recovery point; Supported test before Travel test; game arena start, route, stop, and exclusion marks.</td>
-            <td data-label="Evidence">F: Autonomous registration and active-check behavior. D: one-action scope and conservative command. M: elapsed motion, stop reason, zero, repeatability, and exact identity.</td>
-            <td data-label="Artifact">Smallest safe Autonomous baseline and action record.</td>
-            <td data-label="Robot access">Qualified drivetrain in the game arena, stable support, then marked Travel-test setup.</td>
-            <td data-label="Fallback">Register, build, trace, and narrate every exit; preserve TeleOp and record physical action evidence pending.</td>
+            <td data-label="Outcome">Read and run a one-action autonomous that drives off the start line, then make it time out safely on purpose.</td>
+            <td data-label="Readiness">Hub direction and drive direction checked; a clear lane.</td>
+            <td data-label="Evidence">F: AUTO is 30 seconds and LEAVE is 3 points. D: start once, check every loop, give up after a time limit. M: distance and time over three runs.</td>
+            <td data-label="Artifact">One-action worksheet; the backup autonomous</td>
+            <td data-label="Robot access">Robot and a clear 6-foot lane.</td>
+            <td data-label="Fallback">No robot: read the program and answer the four questions; run it next time.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0010-from-motor-rotations-to-distance.html">Phase 3 / M10: From Motor Rotations to Distance</a></strong></td>
-            <td data-label="Outcome">Derive measured conversions and separately prove 36 inches forward, 12 inches backward, and 90 degrees left with guarded reusable actions.</td>
-            <td data-label="Readiness"><span class="gate">Measurement gate:</span> consistent encoder wiring, type, direction, wheels, tires, axles, every gearing stage, encoder signs, and track-width references.</td>
-            <td data-label="Evidence">F: exact encoder/motor specifications and formulas. D: tolerances, timeouts, and controller cleanup. M: revolution counts, wheel diameter, gearing, track width, surface travel, and segment trials.</td>
-            <td data-label="Artifact">Measurement record and reusable measured drive/turn methods.</td>
-            <td data-label="Robot access">Exact assembled drivetrain for every retained conversion and physical segment result.</td>
-            <td data-label="Fallback">Practice formulas with clearly labeled recorded data and review guards; do not select final constants or claim segments passed.</td>
+            <td data-label="Outcome">Calculate ticks per inch from the motor and wheel, measure it over 24 inches, and check 90-degree turns.</td>
+            <td data-label="Readiness">The robot that will compete, if it drives; a taped lane and square corner.</td>
+            <td data-label="Evidence">F: 537.7 ticks per wheel turn and 96 mm wheels on both StarterBots. D: keep the measured number. M: ticks, inches and seconds for each run.</td>
+            <td data-label="Artifact">Measured ticks per inch and robot speed</td>
+            <td data-label="Robot access">Robot and floor space.</td>
+            <td data-label="Fallback">Competition robot not driving: measure the practice robot and repeat later.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0011-compose-the-autonomous-route.html">Phase 3 / M11: Compose the Autonomous Route</a></strong></td>
-            <td data-label="Outcome">Choose a current-game driving objective, compose measured actions, prove every segment, then test the complete route while preserving the Meeting 10 fallback.</td>
-            <td data-label="Readiness"><span class="gate">Route gate:</span> current game/start constraints and completed M10 physical action evidence; frozen arena setup and exact fallback identity.</td>
-            <td data-label="Evidence">F: current constraints. D: route objective, segments, criteria, and fallback choice. M: segment and complete-route endpoint/error, stop, zero, and repeatability results.</td>
-            <td data-label="Artifact">Autonomous route, segment-test record, and preserved fallback.</td>
-            <td data-label="Robot access">Event drivetrain and realistic marked game-arena setup.</td>
-            <td data-label="Fallback">Design cards, implement guarded calls, and analyze eligible earlier data; do not run or select a route whose prerequisite physical evidence is missing.</td>
+            <td data-label="Outcome">Choose what the autonomous is for by points and time, tape the route, type it in as a list of steps and run it empty three times.</td>
+            <td data-label="Readiness">Meeting 10 number in the code; tags printed for the chosen cell; floor space or a field.</td>
+            <td data-label="Evidence">F: start rules, LEAVE and PARK, zone size. D: which route and which backup. M: where each run ended and how long it took.</td>
+            <td data-label="Artifact">Route plan and a proven route</td>
+            <td data-label="Robot access">Robot and at least 8 by 8 feet of floor.</td>
+            <td data-label="Fallback">No space: plan on paper and prove each leg separately.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0012-add-and-tune-autonomous-game-actions.html">Phase 3 / M12: Add and Tune Autonomous Game Actions</a></strong></td>
-            <td data-label="Outcome">Add one guarded launcher/feed action, measure the exact system, compare target speed or gap/compression one at a time, and preserve both driving-only candidates.</td>
-            <td data-label="Readiness"><span class="gate">Launcher gate:</span> current rules, exact source/assembly match, eligible route, exact parts/configuration, powered-off geometry inspection, measured artifact, reviewed method, named zeros, and passing Supported test before Travel test.</td>
-            <td data-label="Evidence">F: branch-specific source values and API units. D: action, readiness rule, experiment, criteria, and constants held fixed. M: speed, RPM, surface speed, gap, compression, timing, outcome, and shutdown.</td>
-            <td data-label="Artifact">Guarded game-action candidate and launcher measurement/trial record.</td>
-            <td data-label="Robot access">Exact launcher assembly for measurements; game arena support and approved containment, then complete Travel-test setup.</td>
-            <td data-label="Fallback">Trace the matching branch, calculate from documented inputs, review the method, and keep output disabled; never transfer vendor values or invent physical results.</td>
+            <td data-label="Outcome">Measure a speed table on the competition robot, switch on shooting in autonomous, and tune the feed time.</td>
+            <td data-label="Readiness">A proven route with an aim-and-shoot step; feed switch set; the robot’s real balls; a target.</td>
+            <td data-label="Evidence">F: what counts as a tip; four preloads. D: change only the feed time. M: balls out, hits and time for each run.</td>
+            <td data-label="Artifact">Speed table for this robot; autonomous shooting runs</td>
+            <td data-label="Robot access">Robot, balls and a target for the whole meeting.</td>
+            <td data-label="Fallback">Shooting not reliable: keep the dry run or park-only route as the match plan.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0013-tune-launcher-velocity-with-pidf.html">Phase 4 / M13: Tune Launcher Velocity With PIDF</a></strong></td>
-            <td data-label="Outcome">Explain velocity patterns, preserve three original-coefficient baselines, tune only F and then only P, run three final trials, and retain or restore.</td>
-            <td data-label="Readiness"><span class="gate">PIDF gate:</span> exact motor/controller/mode, target unit, code/configuration, geometry/load, battery method, original read-back tuple, immutable criteria, and complete Supported-test controls.</td>
-            <td data-label="Evidence">F: pinned API and scoped teaching sources; no universal tuple. D: acceptance criteria and bounded sequence. M: baseline, candidate, symptom, final, rollback, zero, and safety evidence.</td>
-            <td data-label="Artifact">PIDF baseline, candidate, symptom, acceptance, and rollback table.</td>
-            <td data-label="Robot access">Exact matching launcher secured in the game arena for any coefficient change or result.</td>
-            <td data-label="Fallback">Use source-backed diagrams and captured matching data to explain patterns. If baseline identity is unknown, observe and graph only; do not change coefficients.</td>
+            <td data-label="Outcome">Measure how the launcher reaches and holds speed, try one step of F and of P, and keep a change only if it is clearly better.</td>
+            <td data-label="Readiness">The launcher that will compete; fresh batteries.</td>
+            <td data-label="Evidence">F: what F and P do. D: what “better” means, agreed before changing anything. M: time to reach speed, dip and recovery for each run.</td>
+            <td data-label="Artifact">PIDF worksheet; kept or restored numbers</td>
+            <td data-label="Robot access">Robot, balls and a target.</td>
+            <td data-label="Fallback">No reliable launcher: measure and graph the baseline only.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0014-reliability-and-failure-recovery.html">Phase 4 / M14: Reliability and Failure Recovery</a></strong></td>
-            <td data-label="Outcome">Repeat accepted flows, diagnose approved failures, restore a known-good identity, rerun every affected flow, and retain only completed/timed guide steps.</td>
-            <td data-label="Readiness">Exact qualified TeleOp, accepted guarded Autonomous and launcher/PIDF records, known-good rollback, approved harmless drills, and protected baseline evidence.</td>
-            <td data-label="Evidence">F: official inspection/control-system facts. D: approved failure drills and risk priorities. M: symptom-to-cause records, restore timing, and complete affected-flow retests.</td>
-            <td data-label="Artifact">Reliability checklist, recovery records, and event troubleshooting guide.</td>
-            <td data-label="Robot access">Event setup preferred; selected builds, logs, configuration checks, and code restoration need no powered motion.</td>
-            <td data-label="Fallback">Practice exact code restore and diagnose prepared messages/logs; list each physical recovery flow as blocked until fully retested.</td>
+            <td data-label="Outcome">Find and fix seven common planted problems, re-test after each, and write a one-page troubleshooting guide.</td>
+            <td data-label="Readiness">A robot that passes one TeleOp run and one autonomous run before anything is planted.</td>
+            <td data-label="Evidence">F: Self-Inspect and FTC troubleshooting pages. D: which faults to practice. M: what fixed each and how long it took.</td>
+            <td data-label="Artifact">Troubleshooting guide</td>
+            <td data-label="Robot access">Robot for the whole meeting.</td>
+            <td data-label="Fallback">Robot not working at the start: that is the first fault to find.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0015-match-simulation-and-event-readiness.html">Phase 4 / M15: Match Simulation and Event Readiness</a></strong></td>
-            <td data-label="Outcome">Run at least three complete uncoached simulations, recover from evidence, classify blockers, practice backups, and freeze one exact tested event candidate.</td>
-            <td data-label="Readiness"><span class="gate">Event gate:</span> complete robot/control system, current official workflow, charged accepted batteries, inspection, spares, rollback, realistic arena, and named primary/backup roles.</td>
-            <td data-label="Evidence">F: current event procedures. D: blocker/defer criteria and freeze rule. M: complete simulation logs, recovery results, event-candidate identity, rollback, and backup practice.</td>
-            <td data-label="Artifact">Simulation, backup, event-readiness, and code-freeze record.</td>
-            <td data-label="Robot access">Complete event-ready robot and realistic match setup.</td>
-            <td data-label="Fallback">Rehearse setup, timing, roles, blocker triage, identities, and restore steps; do not freeze or tag untested robot behavior.</td>
+            <td data-label="Outcome">Play three full practice matches without coaching, give every job a backup, and pack for the event.</td>
+            <td data-label="Readiness">The event robot; a timer; as much field as you can set up.</td>
+            <td data-label="Evidence">F: match timing, drive team and points. D: jobs and backups. M: each practice match.</td>
+            <td data-label="Artifact">Match sheet; the event code; packed kit</td>
+            <td data-label="Robot access">Event robot and field for the whole meeting.</td>
+            <td data-label="Fallback">No field: run the full match flow on the tape field.</td>
           </tr>
           <tr>
             <td data-label="Phase / meeting"><strong><a href="../lessons/0016-capstone-demo-and-handoff.html">Phase 4 / M16: Capstone Demo and Handoff</a></strong></td>
-            <td data-label="Outcome">Each student independently traces, changes, builds, deploys, tests, diagnoses, and records evidence; the team restores the protected version and hands off all critical roles/items.</td>
-            <td data-label="Readiness"><span class="gate">Release gate:</span> exact frozen candidate and rollback, clean clone location, repository access, laptops/cables, complete event system, rehearsed harmless faults, and practiced backups. Mentor does not take the keyboard.</td>
-            <td data-label="Evidence">F: exact Git/build/deploy procedures. D: assigned isolated tasks and readiness test. M: individual records, clean restore, full hash/tag proof, readiness result, fault diagnosis, and operational handoff.</td>
-            <td data-label="Artifact">Final code and operational handoff.</td>
-            <td data-label="Robot access">Complete event system for readiness proof; isolated telemetry edits and builds occur in disposable copies.</td>
-            <td data-label="Fallback">Complete clean clone/build, code explanation, table diagnosis, archive, and ownership records; mark every blocked deployment or physical check incomplete with owner/date.</td>
+            <td data-label="Outcome">Each student changes, builds, deploys and tests alone; the saved code builds from a fresh copy; the team writes handover notes.</td>
+            <td data-label="Readiness">Repository pushed; a second laptop with Android Studio.</td>
+            <td data-label="Evidence">F: build and deploy steps. D: order of solo turns. M: what each student could do alone.</td>
+            <td data-label="Artifact">Solo checklists; handover notes</td>
+            <td data-label="Robot access">Event robot on blocks; two laptops.</td>
+            <td data-label="Fallback">No second laptop: build from a fresh folder on the same one.</td>
           </tr>
         </tbody>
       </table>

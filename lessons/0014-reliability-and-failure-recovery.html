@@ -3,352 +3,156 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Student-first BIOBUZZ Meeting 14 lesson on repeatable reliability routines, safe failure recovery, rollback, complete retesting, and fault records.">
+  <meta name="description" content="BIOBUZZ Meeting 14: Break the robot in small, safe ways on purpose, and practice getting it working again fast.">
   <title>Meeting 14: Reliability and Failure Recovery | BIOBUZZ</title>
   <link rel="stylesheet" href="../assets/lesson.css">
   <script src="../assets/lesson.js" defer></script>
 </head>
 <body>
   <header class="site-header">
-    <p>BIOBUZZ / Phase 4, Meeting 14 / FTC SDK v12.0</p>
+    <p>BIOBUZZ / Week 7, Meeting 14 / FTC SDK v12.0</p>
     <h1>Reliability and Failure Recovery</h1>
-    <p class="lede">Find a likely event problem, recover from it, and prove the robot works again.</p>
+    <p class="lede">Break the robot in small, safe ways on purpose, and practice getting it working again fast.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
-      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
-      <li><strong>New idea</strong><br>Recovery includes the complete affected flow</li>
-      <li><strong>Team artifact</strong><br>Completed recovery records</li>
+      <li><strong>Robot</strong><br>The robot you will compete with</li>
+      <li><strong>New idea</strong><br>A fix is finished when the robot has been re-tested</li>
+      <li><strong>Team work</strong><br>Pairs rotate through fault drills</li>
     </ul>
   </header>
-
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0013-tune-launcher-velocity-with-pidf.html">Previous: Meeting 13: Tune Launcher Velocity With PIDF</a>
-    <a href="#start-here">Start here</a>
-    <a href="#outcome">Today's result</a>
-    <a href="#words">Words you need</a>
-    <a href="#safety">Safety</a>
-    <a href="#agenda">Today's plan</a>
-    <a href="#authority">Facts and drills</a>
-    <a href="#practice">Partner work</a>
-    <a href="#test">Recovery test</a>
-    <a href="#record">Fault records</a>
-    <a href="#handoff">Meeting 15 handoff</a>
-    <a href="#prep">Mentor preparation</a>
+    <a href="#start-here">Start here</a><a href="#safety">Safety</a><a href="#agenda">Today’s plan</a>
+    <a href="#baseline">Baseline</a><a href="#drills">Fault drills</a><a href="#guide">Troubleshooting guide</a>
+    <a href="#handoff">Save your work</a><a href="#prep">Mentor preparation</a>
     <a href="0015-match-simulation-and-event-readiness.html">Next: Meeting 15: Match Simulation and Event Readiness</a>
   </nav>
-
   <main>
     <div class="student-path">
-      <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">Today’s goal</h2>
-        <div class="outcome-banner">Find a likely event problem, recover from it, and prove the robot works again.</div>
+      <section id="outcome">
+        <h2>Today’s goal</h2>
+        <div class="outcome-banner">Leave with a one-page troubleshooting guide made only from fixes this team has actually done, and a robot that works after every one of them.</div>
+        <p>At an event there are a few minutes between matches. The teams that recover are the ones that have seen the problem before. Today the mentor causes common problems one at a time. You find each one, fix it, and then run the robot again to prove it.</p>
       </section>
-      <section id="start-here" aria-labelledby="start-here-title">
-        <h2 id="start-here-title">Start here</h2>
-        <p>A known-good version is one you tested and can restore. A repair is complete only after the original test passes.</p>
-        <ol><li>Start with the saved working code, configuration, and test results for the event robot.</li><li>Choose a safe rehearsed fault from the detailed list. Never create damage, unplug a live motor, or force a jam.</li><li>Record the symptom and first useful message. Use the fault log to choose one check and one repair.</li><li>Restore the working setup and rerun the complete affected routine, including Stop.</li><li>Write a short troubleshooting card another student can follow and practice a backup operator.</li></ol>
-        <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
-        <p><strong>Build task:</strong> Use the repair block for demonstrated faults and spares. Retest any changed wiring, mechanism, or mount.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
-        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
-      </section>
-
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the Driver Station operator and independent Stop owner, plus the observer, reset lead, code driver, code navigator, and fault recorder. The Stop owner may press Stop without permission.</li>
-          <li>Use a <strong>Supported test</strong> for powered checks that do not require travel: secure the frame on stable support in the game arena, with every wheel clear of the support, floor, people, wires, and loose objects.</li>
-          <li>Use a <strong>Travel test</strong> only when the affected flow requires travel: begin at a marked start in the game arena, follow a marked route to a marked stop, and keep everyone outside the exclusion area.</li>
-          <li>Secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact. Before every powered attempt, state the prediction, setup, command, Stop conditions, explicit zero or measured safe hold, and evidence to record.</li>
-          <li>Press Stop, verify no motion, switch off the Hub, and disconnect the battery before contact, inspection, adjustment, configuration-related physical checks, reset, or loading.</li>
-          <li>Students may consume only an actual fault or a mentor-prepared, documented, previously proven harmless case. Students never create, seed, improvise, or conceal a failure.</li>
-        </ul>
-        <aside class="safety-callout"><strong>Do not create damage for practice.</strong> Never short or reverse power, use a damaged or swollen battery, alter a live connector, loosen a robot fastener, defeat retention, jam or restrain a mechanism, force a hard stop, cause a stall, create heat, or interfere with communication. Press Stop for unexpected motion, direction, speed, continued output, failed guard, implausible telemetry, loss of control, field entry, looseness, battery or wire movement, binding, vibration, sound, heat, smoke, odor, or inability to command zero. Then verify no motion, call <q>stopped</q>, switch off, disconnect, preserve evidence, and escalate.</aside>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d02">Team choice M14-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
-      </section>
-
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today's plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Audit the handoff.</strong> Retrieve qualified identities, rollback records, open faults, approved cases, roles, and safety boundaries.</div></li>
-          <li><time>0:15-0:35<br>20 min</time><div><strong>Build the baseline.</strong> Define risk, identify complete affected flows, and run official Self-Inspect before local drills.</div></li>
-          <li><time>0:35-1:35<br>60 min</time><div><strong>Rotate through three workstreams.</strong> Audit identities, prepare safe cases, and design evidence and fault records. Swap pair roles at each rotation.</div></li>
-          <li><time>1:35-1:45<br>10 min</time><div><strong>Break.</strong> Leave the robot stopped, switched off, disconnected, and secured; preserve every record.</div></li>
-          <li><time>1:45-2:10<br>25 min</time><div><strong>Repeat complete baseline routines.</strong> Run the eligible TeleOp, Autonomous, and launcher flow before introducing an approved case.</div></li>
-          <li><time>2:10-2:40<br>30 min</time><div><strong>Recover and retest.</strong> Diagnose the highest-risk supported failure, make one repair, restore known-good identity, and rerun the complete affected flow.</div></li>
-          <li><time>2:40-2:50<br>10 min</time><div><strong>Write the event guide.</strong> Keep only completed steps, measured recovery time, residual risk, and escalation limits.</div></li>
-          <li><time>2:50-3:00<br>10 min</time><div><strong>Explain and hand off.</strong> Each student traces one record and identifies Meeting 15 blockers.</div></li>
-        </ol>
-      </section>
-      <details class="lesson-details" id="lesson-details">
-        <summary>Detailed steps, code, and worksheets</summary>
-
-      <section id="scope" aria-labelledby="scope-title">
-        <h2 id="scope-title">What your team will prove</h2>
-        <div class="outcome-banner">Starting from the exact qualified TeleOp, Autonomous protected by active/bounded/safe conditions, and accepted launcher/PIDF records, the team will repeat complete routines, safely diagnose approved failure cases, restore a known-good identity (the exact accepted system state), and rerun every affected flow (the complete operational sequence the failure or repair could change). The event guide will contain only steps that students completed and timed.</div>
-        <p>Meeting 14 does not add a feature. It tests whether students can recover startup, held-control, interrupted-run, configuration, and harmless mechanism problems without guessing, compounding changes, or losing a working rollback.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d02">Team choice M14-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
-      </section>
-
-      <section id="words" aria-labelledby="words-title">
-        <h2 id="words-title">Words you need today</h2>
-        <dl class="words-list">
-          <dt>Reliability routine</dt><dd>An unchanged, complete sequence whose actual results are recorded on repeated attempts.</dd>
-          <dt>Failure case</dt><dd>An actual symptom or a mentor-prepared harmless condition used to practice diagnosis and recovery.</dd>
-          <dt>Fault record</dt><dd>The time-ordered link among a symptom, hypothesis, evidence, confirmed cause, one repair, retest, and prevention step.</dd>
-          <dt>Likelihood</dt><dd>The team's evidence-based judgment of how often a failure could occur in the current event setup.</dd>
-          <dt>Consequence</dt><dd>The harm to safety, control, inspection, or event performance if the failure occurs.</dd>
-          <dt>Evidence strength</dt><dd>How directly repeated observations, logs, telemetry, inspection, or measurements support the suspected cause.</dd>
-          <dt>Affected flow</dt><dd>The complete operational sequence that could have changed because of the fault or repair, not only the step that failed.</dd>
-          <dt>Recovery time</dt><dd>Elapsed time from recognizing the symptom until the restored affected flow passes.</dd>
-          <dt>Residual risk</dt><dd>A known chance or consequence that remains after recovery and must be accepted, reduced, or kept blocked.</dd>
-          <dt>Rollback details</dt><dd>The exact earlier code, configuration, controller mode, coefficients, hardware state, and evidence needed to reverse a change.</dd>
-          <dt>Known-good restoration</dt><dd>Returning every affected identity to its recorded accepted state and proving it with the complete affected-flow retest.</dd>
-          <dt>Guard</dt><dd>A condition that permits an action to continue only while the action remains active, bounded, and safe.</dd>
-        </dl>
-      </section>
-
-      <section id="authority" aria-labelledby="authority-title">
-        <h2 id="authority-title">Keep official facts separate from local drills</h2>
-        <div class="station-grid">
-          <article class="station-card">
-            <h3>Official troubleshooting and self-inspection facts</h3>
-            <p>Follow current FTC Docs for viewing Robot Controller logs and running Driver Station Self-Inspect. Record the current app/device context, exact displayed result, timestamp, and source access date. Current Competition Manual sections control personal safety and game legality. These sources explain official procedures and requirements; they do not prove that a BIOBUZZ recovery works.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m14-f01">Source M14-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m14-f04">Source M14-F04</a></p>
-          </article>
-          <article class="station-card">
-            <h3>BIOBUZZ reliability drills</h3>
-            <p>The failure set, likelihood/consequence ranking, one-change repair rule, affected-flow retest, recovery-time target, rollback rehearsal, and event-guide wording are local team practices. They pass only through today's M14 physical and operational evidence, never because an official page or earlier successful run exists.</p>
-            <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d03">Team choice M14-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
-          </article>
-        </div>
-        <p>For physical service facts, use only current documentation for the exact installed part and assembly. A same-brand example or similar-looking component is not enough.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m14-f02">Source M14-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m14-f03">Source M14-F03</a></p>
-      </section>
-
-      <section id="baseline" aria-labelledby="baseline-title">
-        <h2 id="baseline-title">Freeze three known-good identities</h2>
-        <p>Do not call an identity known-good unless its named upstream evidence passed. If an upstream record is pending, failed, missing, or mismatched, mark that flow blocked and use its records only for unpowered analysis.</p>
-        <div class="station-grid">
-          <article class="station-card">
-            <h3>Qualified TeleOp</h3>
-            <p>Record the exact robot, active configuration, OpMode, control-map revision, required scope, routine revision, code/known-good version, and the three adjacent passing attempts. Preserve every later fault against this identity.</p>
-            <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m08-d03">Team choice M08-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m08-m01">Measure it M08-M01</a></p>
-          </article>
-          <article class="station-card">
-            <h3>Guarded Autonomous</h3>
-            <p>Record the exact candidate and fallback identities, configuration, marked start, route, active/target/timeout/abort guards, explicit-zero and cleanup proof, accepted route rows, and blocked actions. Never substitute a build or code trace for route evidence.</p>
-            <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-          </article>
-          <article class="station-card">
-            <h3>Launcher and PIDF</h3>
-            <p>Record exact launcher/controller/mode identity, target and ready condition, accepted coefficients read back from that mode, acceptance trials, named zero outputs, and the exact pre-change controller read-back P/I/D/F tuple with its controller mode, code identity, and active configuration retained as rollback. Never substitute a vendor value for that read-back tuple. In particular, a REV path without reliable original read-back remains observation-only. A final configuration may contain separately supported F and P changes; do not describe it as one comparison with the pre-change read-back tuple.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m13-f01">Source M13-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
-          </article>
-        </div>
-      </section>
-
-      <section id="practice" aria-labelledby="practice-title">
-        <h2 id="practice-title">Prepare recovery with your partner</h2>
-        <p><strong>Three pairs:</strong> rotate every 20 minutes through all three workstreams. <strong>Two pairs:</strong> combine Identity and Records while the other pair prepares Cases and Risk; switch after 30 minutes. At every rotation, swap code driver/code navigator and physical inspector/recorder. No powered failure practice occurs during these workstreams.</p>
-        <div class="station-grid">
-          <article class="station-card">
-            <h3>1. Identity and rollback audit</h3>
-            <ol>
-              <li>Copy the TeleOp, Autonomous candidate/fallback, and launcher/PIDF fields from the upstream evidence named above.</li>
-              <li>Independently locate each exact code/known-good version without changing the current working copy.</li>
-              <li>List configuration, mode, coefficients, hardware posture, field setup, and test records that source identity alone cannot restore.</li>
-              <li>Block any rollback with a missing artifact, unknown configuration, unread coefficient/mode, or unproved physical state.</li>
-            </ol>
-            <p class="success-check">Success looks like: another pair can distinguish source retrieval from complete physical and operational restoration.</p>
-          </article>
-          <article class="station-card">
-            <h3>2. Cases and risk ranking</h3>
-            <ol>
-              <li>For each authorized case, state exact symptom, baseline, harmless setup proof, expected evidence, Stop conditions, restore action, and complete affected flow.</li>
-              <li>Rank consequence from safety/control blocker to performance inconvenience; rank likelihood only from actual history, inspection, or repeated observation.</li>
-              <li>Record evidence strength separately so a frightening guess does not become a confirmed cause.</li>
-              <li>Choose the highest-risk case that is both safe to rehearse and supported by evidence. Unsafe or weakly defined cases stay blocked.</li>
-            </ol>
-            <p class="success-check">Success looks like: priority is traceable to consequence, likelihood, and evidence rather than whoever speaks first.</p>
-          </article>
-          <article class="station-card">
-            <h3>3. Fault and retest design</h3>
-            <ol>
-              <li>Prepare one fault record per case with timestamps, identities, symptom, first evidence, hypothesis, cause, and owner.</li>
-              <li>Permit one cause-related repair before the identical symptom check. A second change requires a new record and prediction.</li>
-              <li>Name every affected initialization, action, release, guard, cleanup, Stop, reset, and recovery step that must be rerun.</li>
-              <li>Start the recovery clock at symptom recognition and stop it only when the complete affected flow passes or is declared blocked.</li>
-            </ol>
-            <p class="success-check">Success looks like: a quick local fix cannot pass while an affected startup, guard, shutdown, or rollback check remains untested.</p>
-          </article>
-        </div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d03">Team choice M14-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
-      </section>
-
-      <section id="cases" aria-labelledby="cases-title">
-        <h2 id="cases-title">Use only these safe failure-case boundaries</h2>
-        <table class="record-table">
-          <caption>Authorized categories; every actual case still needs a signed mentor preparation record</caption>
-          <thead><tr><th scope="col">Failure category</th><th scope="col">Harmless practice boundary</th><th scope="col">First evidence</th><th scope="col">Complete affected flow</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Category">Startup mistake</td><td data-label="Boundary">Use a checklist omission, neutral-control mistake, or mentor-prepared zero-output practice identity. Do not permit unintended motion.</td><td data-label="First evidence">Selected identity, active configuration, control positions, INIT message, safe-output telemetry, and timestamp.</td><td data-label="Affected flow">Power/status, select, neutral, INIT, safe defaults, Start when eligible, required bounded action, release, Stop, shutdown.</td></tr>
-            <tr><td data-label="Category">Held control</td><td data-label="Boundary">Use a Supported test and an already-qualified held input. Do not hold a command that can collide, stall, overtravel, or launch an artifact.</td><td data-label="First evidence">Input, decision/state, command, physical response, release behavior, and Stop response.</td><td data-label="Affected flow">INIT at neutral, held request, simultaneous allowed work, release to zero/safe hold, reverse/recovery if required, Stop.</td></tr>
-            <tr><td data-label="Category">Interrupted run</td><td data-label="Boundary">Announce and press Driver Station Stop during an already-qualified bounded TeleOp action or guarded Autonomous segment. Never interrupt by pulling power or communication.</td><td data-label="First evidence">Action/state, active/target/timeout guard values, exit reason, commanded outputs, motion, and logs.</td><td data-label="Affected flow">Complete TeleOp qualification subset or complete selected Autonomous route, including every guard, explicit zero, cleanup, Stop, reset, and selection of fallback when required.</td></tr>
-            <tr><td data-label="Category">Configuration problem</td><td data-label="Boundary">Use only a disposable named practice configuration or harmless missing-name case that cannot map a command to an unintended actuator. Protect the sole known-good configuration.</td><td data-label="First evidence">Exact Driver Station message, active configuration name, expected name/type/port, first team-code file/line, and log.</td><td data-label="Affected flow">Restore and independently verify known-good configuration, INIT at zero, then rerun the complete affected TeleOp, Autonomous, or launcher flow.</td></tr>
-            <tr><td data-label="Category">Mechanism problem</td><td data-label="Boundary">Mentor prepares only a documented harmless no-motion fixture, disabled-output condition, captured prior symptom, or previously proven benign state. Never jam, restrain, loosen, miswire, stall, heat, or force the mechanism.</td><td data-label="First evidence">Inspection, exact part/state, telemetry/log, command, safe-output result, and prior harmless-case record.</td><td data-label="Affected flow">Inspect powered off, restore exact mechanism state, then rerun startup, bounded request, guard/readiness, action, recovery, named zero outputs, and Stop.</td></tr>
-          </tbody>
-        </table>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d02">Team choice M14-D02</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
-      </section>
-
-      <section id="test" aria-labelledby="test-title">
-        <h2 id="test-title">Run one evidence-first recovery cycle</h2>
+      <section id="start-here">
+        <h2>Start here</h2>
         <ol>
-          <li><strong>Run official checks first:</strong> run current Driver Station Self-Inspect and preserve its exact displayed result. Retrieve logs through the current FTC procedure when needed. Record source access date and app/device context. <strong>Success:</strong> official results remain distinct from the later local drill. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m14-f01">Source M14-F01</a></li>
-          <li><strong>Freeze and repeat the baseline:</strong> verify every required identity and run the complete eligible TeleOp routine, complete selected Autonomous route, and launcher action/rollback readback needed by today's selected case. <strong>Success:</strong> the pre-case record proves the exact starting state; a failed baseline blocks the prepared case.</li>
-          <li><strong>Authorize one case:</strong> the mentor signs its prior harmless proof, setup, expected symptom, abort conditions, restore action, and affected flow. The team records likelihood, consequence, evidence strength, and priority before seeing today's outcome. <strong>Success:</strong> students receive the condition without preparing or creating it.</li>
-          <li><strong>Prepare the powered setup:</strong> use Supported test unless travel is essential to the affected flow. With the Hub off and battery disconnected, secure and inspect the complete setup. Then connect the accepted battery with the Hub off, switch on, confirm status and identity, select the exact test, press INIT, and verify explicit zero or measured safe hold. <strong>Success:</strong> all identities, roles, boundaries, predictions, commands, and Stop conditions match the card.</li>
-          <li><strong>Observe and preserve:</strong> call <q>robot live</q>, receive <q>clear</q>, expose only the approved symptom, start the recovery clock, and capture the first message, log, telemetry, physical observation, and operator input. <strong>Success:</strong> no restart, edit, adjustment, or second action erases the first evidence.</li>
-          <li><strong>Stop before diagnosis:</strong> press Stop, verify zero/safe hold and no motion, call <q>stopped</q>, switch off, disconnect, and preserve the setup. <strong>Success:</strong> nobody touches or changes the robot while it is live.</li>
-          <li><strong>Test one hypothesis:</strong> classify the likely layer, write one cause that the evidence can support or reject, and perform the smallest safe check. Confirm the cause before repair. <strong>Success:</strong> the fault record connects observation to evidence rather than to a guess.</li>
-          <li><strong>Repair one cause:</strong> change one code, configuration, connection, physical state, or operator step through its approved procedure. Record the exact before/after identity. <strong>Success:</strong> no hidden cleanup or second repair is bundled into the result.</li>
-          <li><strong>Restore known-good identity:</strong> independently verify the required code/known-good version, active configuration, controls, hardware posture, Autonomous candidate/fallback, launcher controller mode, accepted PIDF readback, and exact pre-change controller read-back P/I/D/F tuple with its code/configuration identity where affected. <strong>Success:</strong> every relevant field matches the baseline record before motion.</li>
-          <li><strong>Repeat the original symptom check:</strong> recreate the same bounded setup and input. <strong>Success:</strong> the original symptom is absent for the predicted reason; otherwise preserve the failure and return to one new hypothesis.</li>
-          <li><strong>Rerun the complete affected flow:</strong> repeat all affected startup, INIT/default, action, simultaneous-input, release, guard, explicit-zero/safe-hold, cleanup, Stop, reset, and rollback-selection steps. For launcher work include readiness, controlled action, recovery, named output zeros, controller mode and coefficient readback. <strong>Success:</strong> every required row passes on one restored identity.</li>
-          <li><strong>Close or block:</strong> stop the recovery clock only after the complete retest. Record recovery time, actual result, residual risk, prevention, student, checker, and whether the event guide may include the steps. <strong>Success:</strong> unresolved or untested risk remains visibly blocked.</li>
-        </ol>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d02">Team choice M14-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d03">Team choice M14-D03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m13-d01">Team choice M13-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m13-m01">Measure it M13-M01</a></p>
-      </section>
-
-      <section id="record" aria-labelledby="record-title">
-        <h2 id="record-title">Record reliability, recovery, and residual risk</h2>
-        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m02">Measure it M14-M02</a> <strong>Status: pending delivery evidence.</strong> Complete rows only from today's exact setup and trials. A prepared card, source page, earlier robot, code inspection, or restart is not a physical recovery result.</p>
-        <table class="record-table">
-          <caption>Baseline identity and repeated complete routines</caption>
-          <thead><tr><th scope="col">Flow</th><th scope="col">Exact known-good and rollback details</th><th scope="col">Complete baseline attempts</th><th scope="col">Eligibility or blocker</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Flow">Qualified TeleOp</td><td data-label="Identity">Robot/config/OpMode/map/routine/code/M8 attempts: __________________</td><td data-label="Attempts">Trials/results/Stop proof: __________________</td><td data-label="Eligibility">Eligible / Blocked because: ______</td></tr>
-            <tr><td data-label="Flow">Guarded Autonomous</td><td data-label="Identity">Candidate/fallback/config/start/route/guard rows: __________________</td><td data-label="Attempts">Routes/results/cleanup proof: __________________</td><td data-label="Eligibility">Eligible / Blocked because: ______</td></tr>
-            <tr><td data-label="Flow">Launcher/PIDF</td><td data-label="Identity">Controller/mode/target/accepted tuple/exact pre-change controller read-back P/I/D/F tuple/code/configuration/tests: __________________</td><td data-label="Attempts">Readback/action/recovery/zero proof: __________________</td><td data-label="Eligibility">Eligible / Observation only / Blocked: ______</td></tr>
-          </tbody>
-        </table>
-
-        <table class="record-table">
-          <caption>Failure ranking before repair</caption>
-          <thead><tr><th scope="col">Case and exact symptom</th><th scope="col">Likelihood evidence</th><th scope="col">Consequence</th><th scope="col">Evidence strength</th><th scope="col">Priority and approval</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Case/symptom">Category/record/symptom: __________________</td><td data-label="Likelihood">History/trial/inspection and judgment: __________________</td><td data-label="Consequence">Safety/control/inspection/event effect: __________________</td><td data-label="Evidence strength">Direct/repeated/captured/uncertain because: __________________</td><td data-label="Priority">Rank/reason/mentor approval: __________________</td></tr>
-            <tr><td data-label="Case/symptom">Category/record/symptom: __________________</td><td data-label="Likelihood">History/trial/inspection and judgment: __________________</td><td data-label="Consequence">Safety/control/inspection/event effect: __________________</td><td data-label="Evidence strength">Direct/repeated/captured/uncertain because: __________________</td><td data-label="Priority">Rank/reason/mentor approval: __________________</td></tr>
-          </tbody>
-        </table>
-
-        <table class="record-table">
-          <caption>One-change recovery and complete affected-flow retest</caption>
-          <thead><tr><th scope="col">Symptom, hypothesis, and evidence</th><th scope="col">Confirmed cause and one repair</th><th scope="col">Known-good restoration</th><th scope="col">Complete affected-flow result</th><th scope="col">Time, risk, and disposition</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Diagnosis">Fault/time/identity/symptom/hypothesis/first evidence: __________________</td><td data-label="Cause/repair">Confirmed cause/check/one before-after change: __________________</td><td data-label="Restoration">Code/config/hardware/mode/PIDF/rollback verification: __________________</td><td data-label="Retest">Original check + complete flow rows and actual results: __________________</td><td data-label="Disposition">Recovery time: ____<br>Residual risk: ____<br>Pass / Block / Escalate<br>Student/checker: ____</td></tr>
-            <tr><td data-label="Diagnosis">Fault/time/identity/symptom/hypothesis/first evidence: __________________</td><td data-label="Cause/repair">Confirmed cause/check/one before-after change: __________________</td><td data-label="Restoration">Code/config/hardware/mode/PIDF/rollback verification: __________________</td><td data-label="Retest">Original check + complete flow rows and actual results: __________________</td><td data-label="Disposition">Recovery time: ____<br>Residual risk: ____<br>Pass / Block / Escalate<br>Student/checker: ____</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Concise event troubleshooting guide</h3>
-        <p class="record-prompt">Add a row only after the complete recovery record passes. Use the official source only for its official procedure; use the local row only for the exact tested identity and case.</p>
-        <table class="record-table">
-          <caption>Tested guide steps for Meeting 15</caption>
-          <thead><tr><th scope="col">What students see</th><th scope="col">What evidence they preserve first</th><th scope="col">One tested action</th><th scope="col">Complete proof and expected recovery time</th><th scope="col">Stop, residual risk, or escalation</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow rows: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
-            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow rows: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
-            <tr><td data-label="Symptom">________________</td><td data-label="First evidence">________________</td><td data-label="Tested action">________________</td><td data-label="Proof/time">Flow rows: ______<br>Time: ______</td><td data-label="Risk/escalation">________________</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="fallback" aria-labelledby="fallback-title">
-        <h2 id="fallback-title">If powered testing or an upstream flow is unavailable</h2>
-        <div class="fallback-box">
-          <ol>
-            <li>Record the missing robot, mechanism, configuration, identity, upstream evidence, source access, or arena setup. Do not call the flow reliable or recovered.</li>
-            <li>Run Self-Inspect only when the current Driver Station is available and record its actual result. Use captured official screenshots only as labeled practice, not today's Self-Inspect evidence.</li>
-            <li>Audit exact TeleOp, Autonomous, launcher/PIDF, and rollback identities; trace guards, zero/hold, cleanup, and Stop paths; and practice fault-record decisions with captured evidence.</li>
-            <li>Use powered-off inspection or a harmless mentor-prepared training fixture. Do not convert a paper diagnosis, build, restored file, or code trace into a physical recovery claim.</li>
-            <li>Leave guide rows blank unless a prior complete recovery record for the same exact identity remains valid. Hand off every blocked physical baseline, failure case, affected-flow retest, recovery time, and residual-risk decision with an owner and date.</li>
+            <li><strong>Check</strong> the robot works before anything is broken. <a href="#baseline">Baseline run.</a></li>
+            <li><strong>Drill:</strong> one planted problem at a time. <a href="#drills">Fault drills.</a></li>
+            <li><strong>Write</strong> the troubleshooting guide. <a href="#guide">Guide steps.</a></li>
+            <li><strong>Save.</strong> <a href="#handoff">Save your work.</a></li>
           </ol>
-          <p class="success-check">Success looks like: useful preparation, exact blockers, and no reliability claim beyond the available evidence.</p>
-        </div>
       </section>
-
-      <section id="evidence" aria-labelledby="evidence-title">
-        <h2 id="evidence-title">Show what you learned</h2>
-        <p><strong>Keep:</strong> official Self-Inspect result and source context; TeleOp, Autonomous, launcher/PIDF, and rollback identities; repeated baseline rows; approved harmless-case records; risk ranking; fault records; one-change repairs; original symptom repeats; complete affected-flow retests; recovery times; residual risks; tested guide; and Meeting 15 blockers.</p>
-        <h3>Each student explains</h3>
-        <p>Without partner help, select one fault record and state the exact identity, symptom, first evidence, likelihood, consequence, evidence strength, hypothesis, confirmed cause, one repair, known-good restoration fields, complete affected flow, recovery time, and residual risk. Then distinguish the official procedure used from the local drill evidence that proved or blocked recovery.</p>
-        <h3>Record individual evidence</h3>
-        <ul>
-          <li>Record safe operation only when the student performs assigned callouts, Stop/shutdown, evidence preservation, and no-contact boundary correctly.</li>
-          <li>Record diagnosis only when the student preserves first evidence, tests one hypothesis, and does not bundle repairs.</li>
-          <li>Record recovery only when the student independently verifies known-good identity and completes the affected-flow retest.</li>
-          <li>Record risk reasoning only when likelihood, consequence, evidence strength, recovery time, and residual risk are each justified separately.</li>
-        </ul>
+      <section id="safety">
+        <h2>Before power</h2>
+        <ul class="checklist">
+            <li>Cables are unplugged and plugged in only with the robot switched off.</li>
+            <li>A drill that could make the robot move unexpectedly is done on blocks.</li>
+            <li>One student drives. A different student keeps a hand near Stop on the Driver Station and may press it at any time without asking.</li>
+            <li>Press Stop and wait for everything to stop moving before you touch, load, measure or pick up the robot.</li>
+            <li>Clear a jam only with the robot switched off.</li>
+          </ul>
+        <aside class="safety-callout"><strong>Stop first:</strong> if the robot goes the wrong way, something is loose, a ball jams, or the numbers on the screen look wrong, press Stop. Then work out why.</aside>
       </section>
-
-      <section id="handoff" aria-labelledby="handoff-title">
-        <h2 id="handoff-title">Prepare for Meeting 15</h2>
-        <p>Meeting 15 may simulate an event only with exact eligible identities, complete recovery evidence, and visible blockers. A fast local fix without an affected-flow retest is not ready for simulation.</p>
-        <div class="handoff">
+      <section id="agenda">
+        <h2>Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00–0:10<br>10 min</time><div><strong>Start.</strong> Goal, <a href="#safety">safety</a>, pairs.</div></li>
+          <li><time>0:10–0:35<br>25 min</time><div><strong>Baseline.</strong> <a href="#baseline">One TeleOp run and one autonomous run</a> that work.</div></li>
+          <li><time>0:35–1:25<br>50 min</time><div><strong>Fault drills, round one.</strong> <a href="#drills">Each pair takes a turn.</a></div></li>
+          <li><time>1:25–1:35<br>10 min</time><div><strong>Break.</strong> Press Stop first.</div></li>
+          <li><time>1:35–2:15<br>40 min</time><div><strong>Fault drills, round two, and real repairs.</strong> Fix anything that is really loose or worn, and re-test it.</div></li>
+          <li><time>2:15–2:45<br>30 min</time><div><strong>Write the guide.</strong> <a href="#guide">One page.</a> Finish with a full run.</div></li>
+          <li><time>2:45–3:00<br>15 min</time><div><strong>Save.</strong> <a href="#handoff">Save your work.</a></div></li>
+        </ol>
+        <p>If a step runs long, stop it at its end time and write down where you got to.</p>
+      </section>
+      <details class="lesson-details" id="lesson-details" open>
+        <summary>Steps and worksheets</summary>
+        <section id="baseline">
+          <h2>Check it works first</h2>
+          <ol>
+            <li>Run the TeleOp routine from Meeting 8 once.</li>
+            <li>Run the team’s autonomous once.</li>
+            <li>If either one fails, that is the first fault to find. Do not plant new ones on top of it.</li>
+          </ol>
+          <p>Run <strong>Self-Inspect</strong> on the Driver Station (menu, Self-Inspect). Every line should be green. Inspectors at an event look at this screen.</p>
+        </section>
+        <section id="drills">
+          <h2>Fault drills</h2>
+          <p>One pair leaves the room. The mentor sets up one problem. The pair comes back and uses the five steps from Meeting 7: observe, guess, check, change one thing, conclude. A third student times them.</p>
+          <table class="course-map">
+<thead><tr><th scope="col">Problem</th><th scope="col">How it is set up</th><th scope="col">What you might see</th></tr></thead><tbody>
+            <tr><td data-label="Problem">Battery</td><td data-label="How it is set up">The mentor fits a nearly flat battery.</td><td data-label="What you might see">Slow launcher, “spin-up timeout”, sluggish driving.</td></tr>
+            <tr><td data-label="Problem">Wrong configuration</td><td data-label="How it is set up">The mentor selects a different configuration on the Driver Station.</td><td data-label="What you might see">An error naming a missing device when INIT is pressed.</td></tr>
+            <tr><td data-label="Problem">Unplugged camera</td><td data-label="How it is set up">The webcam’s USB cable is pulled out.</td><td data-label="What you might see">Camera error at INIT, or “Tag seen” stays false.</td></tr>
+            <tr><td data-label="Problem">Unplugged motor or encoder cable</td><td data-label="How it is set up">One drive cable is pulled out with the robot off.</td><td data-label="What you might see">The robot curves, or a drive stops with a timeout.</td></tr>
+            <tr><td data-label="Problem">Gamepad not connected</td><td data-label="How it is set up">The gamepad was never assigned with Start + A.</td><td data-label="What you might see">Nothing responds, but the program is running.</td></tr>
+            <tr><td data-label="Problem">Wrong robot choice</td><td data-label="How it is set up"><code>ROBOT</code> in <code>StarterRobot.java</code> names a different robot.</td><td data-label="What you might see">An error naming a device that this robot does not have.</td></tr>
+            <tr><td data-label="Problem">Lost connection</td><td data-label="How it is set up">The Driver Station is taken out of Wi-Fi range and brought back.</td><td data-label="What you might see">The Driver Station shows disconnected; the robot stops.</td></tr>
+          </tbody></table>
+          <p><strong>A fix is not finished until the thing that failed has been run again and worked.</strong> If the autonomous failed, run the autonomous. If shooting failed, shoot.</p>
           <table class="record-table">
-            <caption>Reliability handoff to match simulation</caption>
-            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Evidence or blocker/date</th></tr></thead>
-            <tbody>
-              <tr><td data-label="Question">What exact qualified TeleOp identity and M8 evidence remain eligible?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
-              <tr><td data-label="Question">What exact Autonomous candidate and fallback, guards, route rows, and cleanup proof remain eligible?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
-              <tr><td data-label="Question">What launcher controller/mode, target, accepted PIDF readback, exact pre-change controller read-back P/I/D/F tuple with code/configuration identity, trial rows, and named-zero proof apply?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
-              <tr><td data-label="Question">What did current Self-Inspect report, and what official source context was recorded?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
-              <tr><td data-label="Question">Which startup, held-control, interrupted-run, configuration, and harmless mechanism cases passed complete recovery?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
-              <tr><td data-label="Question">What highest-ranked residual risks, recovery times, untested steps, and escalation limits remain?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
-              <tr><td data-label="Question">Where is the concise tested event guide, and which students can independently use it?</td><td data-label="Answer">________________</td><td data-label="Evidence/blocker">________________</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+<caption>Fault drill worksheet</caption>
+<thead><tr><th scope="col">Problem</th><th scope="col">What we saw first</th><th scope="col">First thing we checked</th><th scope="col">What fixed it</th><th scope="col">Minutes</th><th scope="col">Ran again and worked?</th></tr></thead><tbody>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+            <tr><td data-label="Problem">________</td><td data-label="What we saw first">________</td><td data-label="First thing we checked">________</td><td data-label="What fixed it">________</td><td data-label="Minutes">________</td><td data-label="Ran again and worked?">________</td></tr>
+          </tbody></table>
+        </section>
+        <section id="guide">
+          <h2>Write the troubleshooting guide</h2>
+          <p>One page, big writing, for the pit table. Include only fixes you did today. Order it by what you see, because that is what you know in the moment.</p>
+          <table class="record-table">
+<caption>Our troubleshooting guide</caption>
+<thead><tr><th scope="col">If we see…</th><th scope="col">Check this first</th><th scope="col">Then try</th></tr></thead><tbody>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+            <tr><td data-label="If we see…">________</td><td data-label="Check this first">________</td><td data-label="Then try">________</td></tr>
+          </tbody></table>
+          <p>End the meeting with one more full TeleOp run and one autonomous run on the code you are keeping.</p>
+        </section>
+        <section id="handoff">
+          <h2>Save your work</h2>
+          <ul class="checklist">
+            <li>The troubleshooting guide lists only fixes the team actually did today.</li>
+            <li>Every fault you practiced has a line saying what fixed it and how long it took.</li>
+            <li>Real problems that are still open are in the <a href="../reference/fault-log.html">fault log</a>.</li>
+            <li>The working code is committed with a message you will recognize, for example “working before match practice”.</li>
+          </ul>
+          <p>Meeting 15 runs full practice matches.</p>
+        </section>
       </details>
     </div>
-
-    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
-    <section id="prep" aria-labelledby="prep-title">
-      <h2 id="prep-title">Mentor preparation</h2>
-      <aside class="mentor-note">
-        <ul class="checklist">
-          <li>Audit Meeting 8 qualification, Meetings 9-12 Autonomous guards/candidate/fallback, Meeting 13 launcher/PIDF accepted and rollback identities, exact configuration, hardware posture, and all open fault records.</li>
-          <li>Prepare at most one harmless case per category. For each, record the exact baseline, prior proof of harmlessness, zero/safe-hold state, expected symptom, evidence, affected flow, restore action, abort conditions, and setup-removal check.</li>
-          <li>Students consume cases only. Prepare and remove each condition yourself while the robot is stopped, Hub off, battery disconnected, and students away from the setup. Do not disclose the cause before evidence collection.</li>
-          <li>Exclude all power faults, damaged parts, live connector changes, loose robot fasteners, radio interference, unexpected actuator mapping, collision, restraint, jam, forced hard stop, stall, heat, or unproved mechanism state.</li>
-          <li>Prepare stable support in the game arena, marked Travel test boundaries where needed, accepted batteries, exact identities, logs, current Driver Station Self-Inspect, current FTC Docs, exact-part service documents, fault forms, and independent timing.</li>
-          <li>Reject any guide step without a completed recovery row and complete affected-flow retest. Do not lower a criterion after seeing a result.</li>
-        </ul>
-      </aside>
-      <aside class="mentor-note"><strong>Enablement gate:</strong> exact eligible baseline, harmless-case record, powered setup, Driver Station operator, independent Stop owner, prediction, explicit zero or measured safe hold, abort list, first-evidence plan, one-change boundary, original symptom retest, complete affected-flow retest, known-good restoration fields, recovery clock, and residual-risk decision must all be ready before the case begins.</aside>
-      <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d02">Team choice M14-D02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d03">Team choice M14-D03</a></p>
-    </section>
-
-    <section id="resources" aria-labelledby="resources-title">
-      <h2 id="resources-title">Resources</h2>
+    <section id="prep">
+      <h2>Mentor preparation</h2>
+      <ol>
+            <li>Prepare the drills before students arrive and decide the order. Do one at a time and undo each before the next.</li>
+            <li>Keep a flat battery aside for the battery drill and label it.</li>
+            <li>Never plant a fault that could make the robot move unexpectedly or damage it. No shorted wires, no loosened wheels, no reversed motors on the floor.</li>
+            <li>Print the <a href="../reference/robot-test-card.html">robot test card</a> and the worksheets with the page’s print button.</li>
+          </ol>
+      <h3>Sources</h3>
       <ul>
-        <li><span class="resource-label follow">Follow</span> Current FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/self_inspect/new-self-inspect.html#driver-station-self-inspect">Driver Station Self-Inspect</a>, <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/using_log_files/using-log-files.html#viewing-the-first-tech-challenge-robot-controller-log-file">Viewing the Robot Controller Log</a>, and <a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/troubleshooting_common_issues/troubleshooting-common-issues.html">Troubleshooting Common Issues</a> for current official procedures.</li>
-        <li><span class="resource-label follow">Follow</span> The current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">2026-2027 BIOBUZZ Competition Manual</a>, especially <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538735">section 11 Game Rules</a> and <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538736">11.1 Personal Safety</a>, for event safety and legality. Recheck the current revision and updates at delivery; they do not prove a local recovery. <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m14-f04">Source M14-F04</a></li>
-        <li><span class="resource-label follow">Follow</span> Current manufacturer documentation for the exact installed component and assembly when inspection or service facts are needed.</li>
-        <li><span class="resource-label start-from">Start from</span> The exact Meeting 8 qualification record, eligible Autonomous candidate/fallback and guard evidence, Meeting 13 accepted launcher/PIDF record, exact pre-change controller read-back P/I/D/F tuple with its controller mode and code/configuration identity, active configuration, and open fault records. Never substitute vendor coefficients when that read-back identity is missing.</li>
-        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/sdk-and-troubleshooting.html">troubleshooting ladder</a>, <a href="../reference/fault-log.html">fault log</a>, <a href="../reference/robot-test-card.html">robot test card</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
-      </ul>
+            <li><a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/troubleshooting_common_issues/troubleshooting-common-issues.html">FTC Docs: troubleshooting common issues</a>.</li>
+            <li><a href="https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/self_inspect/new-self-inspect.html">FTC Docs: Self-Inspect</a>.</li>
+            <li><a href="https://ftc-docs.firstinspires.org/en/latest/control_system_troubleshooting/using_log_files/using-log-files.html">FTC Docs: using log files</a>.</li>
+            <li><a href="../reference/sdk-and-troubleshooting.html">Our SDK and troubleshooting page</a>.</li>
+          </ul>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m14-f01">Source M14-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m14-d01">Team choice M14-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m14-m01">Measure it M14-M01</a></p>
     </section>
-    </details>
   </main>
-
-  <footer class="site-footer">
-    <p><a href="0013-tune-launcher-velocity-with-pidf.html">Previous: Meeting 13: Tune Launcher Velocity With PIDF</a> | <a href="index.html">Course index</a> | <a href="0015-match-simulation-and-event-readiness.html">Next: Meeting 15: Match Simulation and Event Readiness</a></p>
-  </footer>
+  <footer class="site-footer"><p><a href="0013-tune-launcher-velocity-with-pidf.html">Previous: Meeting 13: Tune Launcher Velocity With PIDF</a> | <a href="index.html">Course index</a> | <a href="0015-match-simulation-and-event-readiness.html">Next: Meeting 15: Match Simulation and Event Readiness</a></p><p>BIOBUZZ programming mentorship · Trace, measure, change one thing, repeat.</p></footer>
 </body>
 </html>

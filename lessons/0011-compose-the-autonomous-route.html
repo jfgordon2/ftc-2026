@@ -3,328 +3,178 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Student-first BIOBUZZ Meeting 11 lesson on designing and testing a driving-only autonomous route while preserving the Meeting 10 fallback.">
+  <meta name="description" content="BIOBUZZ Meeting 11: Choose what our autonomous should do in a match, then build the route and prove it three times.">
   <title>Meeting 11: Compose the Autonomous Route | BIOBUZZ</title>
   <link rel="stylesheet" href="../assets/lesson.css">
   <script src="../assets/lesson.js" defer></script>
 </head>
 <body>
   <header class="site-header">
-    <p>BIOBUZZ / Week 6, Meeting 11 / 2026-2027 season / FTC SDK v12.0</p>
+    <p>BIOBUZZ / Week 6, Meeting 11 / FTC SDK v12.0</p>
     <h1>Compose the Autonomous Route</h1>
-    <p class="lede">Join tested drive actions into a small BIOBUZZ autonomous route.</p>
+    <p class="lede">Choose what our autonomous should do in a match, then build the route and prove it three times.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
-      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
-      <li><strong>New idea</strong><br>Students own the route decision</li>
-      <li><strong>Team work</strong><br>Rules, route, code, field, and evidence</li>
+      <li><strong>Robot</strong><br>The robot you will compete with</li>
+      <li><strong>New idea</strong><br>Pick the route by points and by time</li>
+      <li><strong>Team work</strong><br>Planner, coder, measurer, Stop person; swap often</li>
     </ul>
   </header>
-
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0010-from-motor-rotations-to-distance.html">Previous: Meeting 10: From Motor Rotations to Distance</a>
-    <a href="#start-here">Start here</a>
-    <a href="#outcome">Today's result</a>
-    <a href="#words">Words you need</a>
-    <a href="#safety">Safety</a>
-    <a href="#constraints">Game constraints</a>
-    <a href="#design">Design the route</a>
-    <a href="#test">Segment then route</a>
-    <a href="#handoff">Meeting 12 handoff</a>
-    <a href="#prep">Mentor preparation</a>
+    <a href="#start-here">Start here</a><a href="#safety">Safety</a><a href="#agenda">Today’s plan</a>
+    <a href="#decide">Decide</a><a href="#plan">Plan</a><a href="#run">Type and run</a>
+    <a href="#handoff">Save your work</a><a href="#prep">Mentor preparation</a>
     <a href="0012-add-and-tune-autonomous-game-actions.html">Next: Meeting 12: Add and Tune Autonomous Game Actions</a>
   </nav>
-
   <main>
     <div class="student-path">
-      <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">Today’s goal</h2>
-        <div class="outcome-banner">Join tested drive actions into a small BIOBUZZ autonomous route.</div>
+      <section id="outcome">
+        <h2>Today’s goal</h2>
+        <div class="outcome-banner">Leave with one autonomous route, chosen by the team, that ends in the right place three times in a row without shooting.</div>
+        <p>Meeting 5 built a practice path against a wall. Today the route is for the real field. First decide what is worth doing in 30 seconds, then measure the route, type it in as a list of steps, and run it empty.</p>
       </section>
-      <section id="start-here" aria-labelledby="start-here-title">
-        <h2 id="start-here-title">Start here</h2>
-        <p>A segment is one movement. Its endpoint must match where the next movement expects to start.</p>
-        <ol><li>Read the current starting and autonomous rules. Consider a simple LEAVE objective before a longer route.</li><li>Draw a start, turns, endpoint, and clearances. Choose only distances and turns the selected robot has already demonstrated.</li><li>Write the method calls in route order. After each call, stop the route unless its result is REACHED.</li><li>Test each segment, then the complete route. Confirm a simulated timeout prevents the next segment from starting.</li><li>Repeat with the same start and code. Save the working route and the simpler tested fallback.</li></ol>
-        <p><strong>Robot for today:</strong> Choose REV practice, goBILDA practice, or the ready BIOBUZZ build. Keep separate records for each. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
-        <p><strong>Build task:</strong> Mark the launch test area and inspect robot clearance along the route. Keep intake or launcher build work separate from a fixed route-test set.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
-        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
-      </section>
-
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the Driver Station operator and an independent Stop owner, plus the field/reset lead, observer/measurer, programmer, and recorder. Never combine Driver Station operation and Stop ownership during a Travel test. The Stop owner may press Stop without permission.</li>
-          <li>Press Stop, switch off the Hub, and disconnect the battery before robot or field contact.</li>
-          <li>Locate the exact Meeting 10 fallback-candidate commit, file/class, Driver Station display name, configuration, route sequence, and M10-M01 physical evidence before editing. Missing, pending, failed, or mismatched evidence blocks fallback selection and M11 powered route work.</li>
-          <li>Create a separately named candidate. Never edit, rename, overwrite, retag, or repurpose the fallback.</li>
-          <li>Keep mechanisms in their documented safe travel posture. This meeting adds no mechanism action.</li>
-          <li>Work only in the game arena. With the Hub off and battery disconnected, mark the start, route, stop, and exclusion area; walk every proposed segment; inspect wheel, frame, bumper, battery, wire, and field-element clearance; and secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact before every powered Travel test. Keep everyone outside the exclusion area whenever the robot is live.</li>
-        </ul>
-        <aside class="safety-callout">Unexpected direction, speed, route, target behavior, continued motion, timeout, field entry, interference, communication loss, loss of control, looseness, battery movement, wire contact, binding, unsafe vibration, implausible telemetry, inability to command zero, sound, heat, or odor means press Stop. The independent Stop owner may press Stop without permission. Verify safe output and no motion, say <q>stopped</q>, switch off, and disconnect before entry or contact.</aside>
-      </section>
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today’s plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Check route prerequisites.</strong> Review <a href="#constraints">current game constraints</a> and the completed Meeting 10 action records. Confirm the fallback identity.</div></li>
-          <li><time>0:15-0:35<br>20 min</time><div><strong>Choose a small objective.</strong> Use <a href="#constraints">Students choose the objective</a> to compare driving-only options and choose the smallest useful route.</div></li>
-          <li><time>0:35-1:20<br>45 min</time><div><strong>Compose and inspect.</strong> Use <a href="#design">named, measured actions</a>, <a href="#route-results">failure-result checks</a>, and <a href="#practice">the frozen setup record</a>. Draw the route, build the calls, and check the start of each segment.</div></li>
-          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
-          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Mark the launch test area and inspect robot clearance along the route. Keep intake or launcher build work separate from a fixed route-test set.</div></li>
-          <li><time>2:05-2:45<br>40 min</time><div><strong>Test segments before the route.</strong> Follow <a href="#test">segment and complete-route testing</a>. Check timeout handling before travel and preserve every valid result.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Save route or fallback.</strong> Complete the <a href="#handoff">Meeting 12 handoff</a> with the supported route, exact fallback, measurements, and unresolved work.</div></li>
-        </ol>
-        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
-      </section>
-
-      <details class="lesson-details" id="lesson-details">
-        <summary>Detailed steps, code, and worksheets</summary>
-      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
-
-
-      <section id="scope" aria-labelledby="scope-title">
-        <h2 id="scope-title">What your team will produce</h2>
-        <div class="outcome-banner">A student-composed, driving-only Autonomous candidate that traces to current game and starting constraints, calls only Meeting 10 drive and turn methods with completed physical evidence, and has evidence for every segment before any complete-route Travel test. The exact Meeting 10 sequence remains unchanged and identified as the fallback candidate; it becomes selectable only when completed M10-M01 records support it.</div>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a></p>
-      </section>
-
-      <section id="words" aria-labelledby="words-title">
-        <h2 id="words-title">Words you need today</h2>
-        <dl class="words-list">
-          <dt>Constraint</dt><dd>A current rule, start condition, field boundary, period limit, or robot limitation that the route must obey.</dd>
-          <dt>Objective</dt><dd>The driving-only result the team chooses before writing the route.</dd>
-          <dt>Segment</dt><dd>One named drive or turn action with a recorded start, stop condition, expected result, and safe cleanup.</dd>
-          <dt>Frozen setup</dt><dd>The exact robot, code, configuration, field references, start pose, battery acceptance, surface, mechanism posture, and reset method held unchanged for comparable trials.</dd>
-          <dt>Error</dt><dd>The measured difference between the intended and actual endpoint or heading, with named references and units.</dd>
-          <dt>Acceptance criteria</dt><dd>The pass conditions the team approves before seeing complete-route results.</dd>
-          <dt>Travel test</dt><dd>A powered route test in the game arena from a marked start along a marked route to a marked stop while everyone remains outside the exclusion area.</dd>
-          <dt>Fallback</dt><dd>The exact lower-risk Meeting 10 sequence and code identity preserved unchanged. It is selectable only after completed M10-M01 physical records support its configuration, actions, stop behavior, and repeatability.</dd>
-        </dl>
-      </section>
-
-      <section id="constraints" aria-labelledby="constraints-title">
-        <h2 id="constraints-title">Start from current game constraints, not a borrowed route</h2>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m11-f01">Source M11-F01</a> Use the current English <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">FIRST 2026-2027 BIOBUZZ Competition Manual</a>, current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/tu-01">FIRST Team Update 01</a>, and the official <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/q-a-system">FIRST Team Q&amp;A system</a>. Read <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538713">section 8 Game Overview</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538729">section 10.3 Setup</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538730">section 10.4 MATCH Periods</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538738">section 11.3 Pre-MATCH</a>, and <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html#_Toc240538739">section 11.4 In-MATCH</a>. Record later-update and applicable Q&amp;A status; these FIRST sources define constraints, while this lesson does not declare any proposed route legal.</p>
-        <div class="handoff">
-          <p><strong>Manual revision/access date:</strong> ______ <strong>Latest Team Update checked:</strong> ______ <strong>Q&amp;A status/questions checked:</strong> ______</p>
-          <p><strong>Exact starting location, orientation, sizing, and setup constraints with section/rule references:</strong><br><br></p>
-          <p><strong>AUTO period and applicable movement/interaction constraints with section/rule references:</strong><br><br></p>
-          <p><strong>Field areas/elements and clearance limits that affect driving:</strong><br><br></p>
-        </div>
-        <h3>Students choose the objective</h3>
+      <section id="start-here">
+        <h2>Start here</h2>
         <ol>
-          <li>List at least two objectives that can be attempted using <strong>driving only</strong>. Do not include launch, intake, servo, sensor-triggered, or other mechanism actions.</li>
-          <li>For each objective, cite the current source sections, identify its required start and endpoint, and list route, collision, timing, and evidence risks.</li>
-          <li>Reject any objective that needs an unmeasured action, unresolved rule interpretation, unsafe clearance, or unavailable field setup.</li>
-          <li>Choose the smallest useful objective the measured methods can support. Record why it is preferred and who approved it.</li>
-          <li>Before complete-route tests, define pass/fail, endpoint and heading tolerances, route/time limit, required valid-trial count, and the acceptance rule. These are team decisions, not FIRST rules.</li>
-        </ol>
-        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m11-d01">Team choice M11-D01</a> <strong>Selected driving-only objective:</strong> ______ <strong>Why:</strong> ______ <strong>Student approval:</strong> ______ <strong>Mentor safety/rules check:</strong> ______</p>
-      </section>
-
-      <section id="design" aria-labelledby="design-title">
-        <h2 id="design-title">Compose named, measured actions</h2>
-        <p><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m11-f02">Source M11-F02</a> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java"><code>RobotAutoDriveByEncoder_Linear</code></a> demonstrates repeated parameterized encoder-action calls. Use that high-level structure only. Team method behavior and every distance, angle, output, tolerance, timeout, conversion, and direction must come from completed Meeting 10 evidence, not sample constants.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a></p>
-        <ol>
-          <li><strong>Audit the inputs:</strong> name the exact Meeting 10 drive and turn method revision, conversion record, configuration, physical Travel test rows, supported range, known error, and escape conditions. Missing, pending, failed, or mismatched M10-M01 evidence blocks that action and all M11 powered route tests.</li>
-          <li><strong>Make one segment card per action:</strong> record a student-chosen name, physical intent, method call and measured parameters, start fixture, expected endpoint/heading, active guard, feedback/target condition, timeout or escape, human abort, explicit zero, and motor-mode cleanup.</li>
-          <li><strong>Order only eligible cards:</strong> write the route as readable calls in execution order. A student who did not write it must be able to narrate the physical route from the calls alone.</li>
-          <li><strong>Stop on a failed action:</strong> check every returned <code>MoveResult</code>. Continue only for <code>REACHED</code>; otherwise end the route and keep all outputs stopped.</li>
-          <li><strong>Check transitions:</strong> the expected end of one segment must match the next segment's expected start. Mark clearance at each transition.</li>
-          <li><strong>Build and inspect:</strong> verify the candidate has a distinct file/class/display name and that the diff changes no Meeting 10 fallback file, identity, configuration record, or evidence.</li>
-        </ol>
-        <div class="handoff">
-          <p><strong>Candidate commit/file/class/display name/configuration:</strong><br><br></p>
-          <p><strong>Readable route calls in order:</strong><br><br></p>
-          <p><strong>For each segment, where are its Meeting 10 method revision and physical rows?</strong><br><br></p>
-          <p><strong>Every segment start / continue guard / feedback or target / timeout or escape / abort / explicit zero / cleanup:</strong><br><br></p>
-        </div>
-      </section>
-
-      <section id="route-results" aria-labelledby="route-results-title">
-        <h2 id="route-results-title">A failed movement ends the route</h2>
-        <p>Inside your prepared <code>runOpMode()</code>, after Start, use this pattern with your measured route values. <code>return</code> ends the method. Each movement method has already stopped its motors before returning a result.</p>
-        <pre><code>MoveResult first = driveDistance(firstDistance, testedPower, firstTimeout);
-if (first != MoveResult.REACHED) return;
-
-MoveResult turn = turnLeftDegrees(turnAngle, testedPower, turnTimeout);
-if (turn != MoveResult.REACHED) return;
-
-MoveResult last = driveDistance(lastDistance, testedPower, lastTimeout);
-if (last != MoveResult.REACHED) return;</code></pre>
-        <p><strong>Check before travel:</strong> in a simulated or supported test, make the first action time out. Confirm the second action never starts. Repeat for a blocked setup and Stop. Do not stall a motor to cause a timeout.</p>
-      </section>
-
-      <section id="practice" aria-labelledby="practice-title">
-        <h2 id="practice-title">Freeze the setup before powered work</h2>
-        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m11-d01">Team choice M11-D01</a> The team approves one route, fixture, and acceptance policy before results. <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a> <strong>Status: pending delivery evidence.</strong> Blank fields are blockers, not permission to invent a value.</p>
-        <table class="record-table">
-          <caption>Frozen setup and predeclared acceptance record</caption>
-          <tbody>
-            <tr><th scope="row">Robot, candidate revision, exact configuration</th><td>________________</td></tr>
-            <tr><th scope="row">Game arena, field revision, and references</th><td>________________</td></tr>
-            <tr><th scope="row">Marked start, marked route, marked stop, and exclusion area</th><td>________________</td></tr>
-            <tr><th scope="row">Robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact secured</th><td>________________</td></tr>
-            <tr><th scope="row">Full-route start: frame point, heading reference, and placement method</th><td>________________</td></tr>
-            <tr><th scope="row">Segment fixtures and reset method</th><td>________________</td></tr>
-            <tr><th scope="row">Battery acceptance and mechanism-safe posture</th><td>________________</td></tr>
-            <tr><th scope="row">Endpoint/heading/time measurement methods and units</th><td>________________</td></tr>
-            <tr><th scope="row">Pass/fail, tolerances, valid-trial count, and acceptance rule</th><td>________________</td></tr>
-            <tr><th scope="row">Invalid-trial reasons and all abort conditions</th><td>________________</td></tr>
-            <tr><th scope="row">Date, students, checker, and approval</th><td>________________</td></tr>
-          </tbody>
-        </table>
-        <p>Photograph or diagram every fixture. Perform three unpowered reset checks. If the marks, placement method, robot state, configuration, or measurement method cannot be repeated, repair the setup before motion.</p>
-      </section>
-
-      <section id="test" aria-labelledby="test-title">
-        <h2 id="test-title">Travel test one segment at a time, then the route</h2>
-        <p>Every powered segment and complete-route run is a <strong>Travel test</strong>. Use only the game arena with a marked start, marked route, marked stop, and marked exclusion area. Before power, secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact. Before INIT, position the Driver Station operator and independent Stop owner with immediate Stop access, confirm the Stop owner may press Stop without permission, and move everyone outside the exclusion area. No M10-M01 evidence or incomplete securement means no Travel test.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a></p>
-        <h3>Use this complete Travel test cycle for every segment and route trial</h3>
-        <ol>
-          <li>With Hub off and battery disconnected, restore the recorded fixture in the game arena; verify the marked start, marked route, marked stop, exclusion area, field, and mechanism-safe posture; then secure the robot, battery, Hub, wires, attached pieces, mechanisms, and test artifact. Do not connect power until every item is secured.</li>
-          <li>Connect the accepted battery, switch on, verify Hub and Driver Station status, deploy when required, and select the exact candidate identity.</li>
-          <li>Position the Driver Station operator and independent Stop owner with immediate Stop access. Confirm the Stop owner may press Stop without permission. Move everyone outside the exclusion area before INIT.</li>
-          <li>Press INIT. Verify configuration identity, safe outputs, no motion, telemetry, measurement tools, marked Travel test boundaries, roles, and all stop conditions.</li>
-          <li>The Driver Station operator says <q>robot live</q>; the observer verifies everyone remains outside the exclusion area and confirms the marked route clear; then the operator presses Start.</li>
-          <li>Observe active, feedback/target, timeout/escape, and abort conditions. Unexpected direction, speed, route, target behavior, continued motion, timeout, field entry, interference, communication loss, loss of control, looseness, battery movement, wire contact, binding, unsafe vibration, implausible telemetry, inability to command zero, sound, heat, or odor means immediate Stop.</li>
-          <li>Require explicit zero and documented mode cleanup on completion or abort. Press Stop, verify no motion and safe output, and say <q>stopped</q>.</li>
-          <li>Switch off, verify Hub off, disconnect, then measure and record start identity, endpoint/heading, error with units, elapsed time, result, exit reason, stop proof, student, and checker.</li>
-        </ol>
-
-        <h3>Gate every segment Travel test before integration</h3>
-        <ol>
-          <li>Test Segment 1 alone from its recorded fixture. Repeat to the predeclared segment criterion without changing code or setup.</li>
-          <li>Only after Segment 1 passes, test Segment 2 alone from its own recorded fixture. Continue in route order.</li>
-          <li>If a segment fails, keep the row. Change no more than one declared variable, predict the effect from row evidence, build, inspect the diff, repeat readiness, and retest that segment. Do not test later segments or the full route until it passes.</li>
-          <li>A safety correction ends the current comparison. Record it, re-freeze the setup and candidate, and begin that segment's evidence again.</li>
-          <li>Integrate only when every segment has qualifying rows and every transition has passed the unpowered clearance check.</li>
-        </ol>
-        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a></p>
-        <table class="record-table">
-          <caption>Segment-first Travel test record: duplicate rows until every route segment meets its predeclared criterion</caption>
-          <thead><tr><th scope="col">Segment / trial</th><th scope="col">Fixture and version</th><th scope="col">Expected result</th><th scope="col">Actual result</th><th scope="col">Error with units</th><th scope="col">Time with units</th><th scope="col">Stop/result/repeatability</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Segment / trial">______ / ______</td><td data-label="Fixture and version">________________</td><td data-label="Expected result">________________</td><td data-label="Actual result">________________</td><td data-label="Error">________________</td><td data-label="Time">________________</td><td data-label="Stop/result/repeatability">________________</td></tr>
-            <tr><td data-label="Segment / trial">______ / ______</td><td data-label="Fixture and version">________________</td><td data-label="Expected result">________________</td><td data-label="Actual result">________________</td><td data-label="Error">________________</td><td data-label="Time">________________</td><td data-label="Stop/result/repeatability">________________</td></tr>
-            <tr><td data-label="Segment / trial">______ / ______</td><td data-label="Fixture and version">________________</td><td data-label="Expected result">________________</td><td data-label="Actual result">________________</td><td data-label="Error">________________</td><td data-label="Time">________________</td><td data-label="Stop/result/repeatability">________________</td></tr>
-            <tr><td data-label="Segment / trial">______ / ______</td><td data-label="Fixture and version">________________</td><td data-label="Expected result">________________</td><td data-label="Actual result">________________</td><td data-label="Error">________________</td><td data-label="Time">________________</td><td data-label="Stop/result/repeatability">________________</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Run unchanged complete-route Travel tests</h3>
-        <p>Re-freeze the candidate and full-route marked start after all segment Travel tests qualify. Run exactly the predeclared number of valid complete-route Travel tests. Do not tune between rows, discard a valid failure, move the start, or change the denominator after seeing results.</p>
-        <table class="record-table">
-          <caption>Complete-route Travel test evidence: add rows if the predeclared valid-trial count requires them</caption>
-          <thead><tr><th scope="col">Route trial</th><th scope="col">Start and version</th><th scope="col">Segment outcomes</th><th scope="col">Final error with units</th><th scope="col">Total time with units</th><th scope="col">Pass/fail and stop proof</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Route trial">1</td><td data-label="Start and version">________________</td><td data-label="Segment outcomes">________________</td><td data-label="Final error">________________</td><td data-label="Total time">________________</td><td data-label="Result and stop">________________</td></tr>
-            <tr><td data-label="Route trial">2</td><td data-label="Start and version">________________</td><td data-label="Segment outcomes">________________</td><td data-label="Final error">________________</td><td data-label="Total time">________________</td><td data-label="Result and stop">________________</td></tr>
-            <tr><td data-label="Route trial">3</td><td data-label="Start and version">________________</td><td data-label="Segment outcomes">________________</td><td data-label="Final error">________________</td><td data-label="Total time">________________</td><td data-label="Result and stop">________________</td></tr>
-          </tbody>
-        </table>
-        <div class="handoff">
-          <p><strong>Predeclared acceptance rule:</strong> ______ <strong>Valid results:</strong> ______ <strong>Accepted:</strong> [ ] Yes [ ] No [ ] Incomplete</p>
-          <p><strong>Repeated error/time pattern and supporting rows:</strong><br><br></p>
-          <p><strong>One next variable, old value, evidence-derived candidate value, and prediction:</strong><br><br></p>
-          <p><strong>Or why no change is justified:</strong><br><br></p>
-        </div>
-        <p>Do not call a changed route accepted from an extra trial. A changed variable creates a new candidate that must repeat the affected segment gate and a fresh complete-route set under the same predeclared process.</p>
-      </section>
-
-      <section id="fallback" aria-labelledby="fallback-title">
-        <h2 id="fallback-title">Keep the Meeting 10 fallback exact and recoverable</h2>
-        <p><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m10-d01">Team choice M10-D01</a> Meeting 10 defines the guided 36-inch-forward, 12-inch-backward, 90-degree-left sequence and its team-set tolerances and escape conditions. Preserve that exact sequence and code identity as the fallback candidate; those values do not become values for the student-designed route.</p>
-        <p><a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m10-m01">Measure it M10-M01</a> <strong>Status: pending delivery evidence.</strong> Do not call the Meeting 10 candidate tested, proven, available, or selectable until completed, checked M10-M01 physical records establish its exact configuration, each segment's Travel test, complete sequence, error, Stop/cleanup, and repeatability. Missing, pending, failed, or mismatched evidence blocks it as a fallback.</p>
-        <div class="handoff">
-          <p><strong>Fallback commit/tag:</strong> ______ <strong>File/class:</strong> ______ <strong>Driver Station display name:</strong> ______</p>
-          <p><strong>Configuration and Meeting 10 evidence rows:</strong> ______</p>
-          <p><strong>Recovery, build/deploy, select, and verification steps:</strong><br><br></p>
-          <p><strong>M10-M01 evidence complete and checked:</strong> [ ] Yes [ ] No - fallback blocked <strong>Date/checker:</strong> ______</p>
-          <p><strong>If eligible, independent student recovered and selected it:</strong> ______ <strong>Date/checker:</strong> ______</p>
-          <p><strong>Candidate diff leaves every fallback artifact unchanged:</strong> [ ] Yes [ ] No - candidate blocked</p>
-        </div>
-        <p>If the student route is blocked, incomplete, unsafe, or does not meet its predeclared acceptance criteria, select the exact Meeting 10 fallback only if the M10-M01 gate above passes. If it does not, record that no autonomous fallback is eligible and keep both candidates disabled. Do not recreate a fallback from memory or weaken criteria to promote either candidate.</p>
-      </section>
-
-      <section id="unavailable" aria-labelledby="unavailable-title">
-        <h2 id="unavailable-title">If powered testing is unavailable</h2>
-        <div class="fallback-box">
-          <ol>
-            <li>Keep the route candidate disabled and preserve the exact Meeting 10 fallback candidate without claiming physical eligibility.</li>
-            <li>Complete the current-source constraint record and student objective decision, clearly marking unresolved rules questions.</li>
-            <li>Compose named calls only from Meeting 10 evidence and trace every start, guard, stop, explicit zero, and cleanup path.</li>
-            <li>Use a robot outline or inert chassis to create and repeat the start/segment fixtures and perform transition-clearance checks.</li>
-            <li>Label all outcomes <strong>unpowered planning - not M11-M01 robot evidence</strong>. Record the blocked gate, owner, required physical test, and date.</li>
+            <li><strong>Decide</strong> what the autonomous is for. <a href="#decide">Choices and points.</a></li>
+            <li><strong>Plan</strong> the route on paper and on the floor. <a href="#plan">Planning steps.</a></li>
+            <li><strong>Type and run</strong> it empty. <a href="#run">Run steps.</a></li>
+            <li><strong>Save.</strong> <a href="#handoff">Save your work.</a></li>
           </ol>
-        </div>
+        <p><strong>One robot runs at a time.</strong> Students who are not at the robot read the code for the next step, fill in predictions, or work on the build. Swap jobs after every test.</p>
       </section>
-
-      <section id="evidence" aria-labelledby="evidence-title">
-        <h2 id="evidence-title">Show what you learned</h2>
-        <p><strong>Keep:</strong> current FIRST Manual/Team Update/Q&amp;A record; cited start and route constraints; compared objectives and approved driving-only decision; M10-M01 status and exact Meeting 10 action evidence or blocker; candidate identity and diff; named segment cards; frozen setup; unpowered reset/clearance checks; every Travel test row; qualifying segment rows; every complete-route row; predeclared acceptance decision; one-variable or no-change diagnosis; and eligible fallback recovery proof or fallback blocker.</p>
-        <h3>Each student explains</h3>
-        <p>Cite the FIRST constraints behind the objective, narrate the route from named calls, and state every segment's start, continue, stop, safe-output, and cleanup conditions. Use rows to show why segment-first Travel test evidence allowed integration, interpret error, time, result, and repeatability, explain the next one-variable decision, and either independently recover the M10-M01-qualified Meeting 10 fallback or explain why it remains blocked.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m11-f01">Source M11-F01</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m11-f02">Source M11-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a></p>
+      <section id="safety">
+        <h2>Before power</h2>
+        <ul class="checklist">
+            <li>Take the balls out. Mark the route; nobody stands on it while the robot moves by itself.</li>
+            <li>One student drives. A different student keeps a hand near Stop on the Driver Station and may press it at any time without asking.</li>
+            <li>Press Stop and wait for everything to stop moving before you touch, load, measure or pick up the robot.</li>
+            <li>Clear a jam only with the robot switched off.</li>
+          </ul>
+        <aside class="safety-callout"><strong>Stop first:</strong> if the robot goes the wrong way, something is loose, a ball jams, or the numbers on the screen look wrong, press Stop. Then work out why.</aside>
       </section>
-
-      <section id="handoff" aria-labelledby="handoff-title">
-        <h2 id="handoff-title">Prepare for Meeting 12</h2>
-        <p>Meeting 12 may add one guarded non-drive action only after this driving route and fallback are exact, recoverable, and supported by honest evidence.</p>
-        <div class="handoff">
+      <section id="agenda">
+        <h2>Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00–0:10<br>10 min</time><div><strong>Start.</strong> Goal, <a href="#safety">safety</a>, first jobs.</div></li>
+          <li><time>0:10–0:40<br>30 min</time><div><strong>Decide.</strong> <a href="#decide">Compare the choices</a> and vote.</div></li>
+          <li><time>0:40–1:20<br>40 min</time><div><strong>Plan and tape.</strong> <a href="#plan">Draw it, tape it, measure each leg.</a></div></li>
+          <li><time>1:20–1:30<br>10 min</time><div><strong>Break.</strong> Press Stop first.</div></li>
+          <li><time>1:30–2:05<br>35 min</time><div><strong>Build.</strong> Check the robot clears everything along the route and that the camera mount is tight. Keep launcher work off the robot during route tests.</div></li>
+          <li><time>2:05–2:45<br>40 min</time><div><strong>Type and run.</strong> <a href="#run">Empty runs</a> until three in a row end in the right place.</div></li>
+          <li><time>2:45–3:00<br>15 min</time><div><strong>Save.</strong> <a href="#handoff">Save your work.</a></div></li>
+        </ol>
+        <p>If a step runs long, stop it at its end time and write down where you got to.</p>
+      </section>
+      <details class="lesson-details" id="lesson-details" open>
+        <summary>Steps and worksheets</summary>
+        <section id="words">
+          <h2>Words you need</h2>
+          <p><strong>Leg:</strong> one straight drive or one turn. <strong>Route:</strong> the list of steps for one starting place and one target. <strong>Step:</strong> one line of the list. <strong>Dry run:</strong> the whole route with aiming but no shooting.</p>
+        </section>
+        <section id="decide">
+          <h2>Decide what the autonomous is for</h2>
+          <table class="course-map">
+<thead><tr><th scope="col">Choice</th><th scope="col">What the robot does</th><th scope="col">Points if it works</th><th scope="col">What it needs</th></tr></thead><tbody>
+            <tr><td data-label="Choice">Leave</td><td data-label="What the robot does">Drive off the wall and stop (Meeting 9 program).</td><td data-label="Points if it works">3</td><td data-label="What it needs">Almost nothing. This is the backup.</td></tr>
+            <tr><td data-label="Choice">Park</td><td data-label="What the robot does">Drive from the wall into our LOADING ZONE.</td><td data-label="Points if it works">5, plus 3 if it also ends clear of the wall</td><td data-label="What it needs">An accurate route.</td></tr>
+            <tr><td data-label="Choice">Shoot, then leave</td><td data-label="What the robot does">Face the tags, shoot the four preloads, move off the wall.</td><td data-label="Points if it works">3, plus 20 if the hive tips</td><td data-label="What it needs">Camera, speed table for this robot, and Meeting 12.</td></tr>
+            <tr><td data-label="Choice">Shoot, then park</td><td data-label="What the robot does">All of it.</td><td data-label="Points if it works">Up to 28</td><td data-label="What it needs">Everything, and enough time.</td></tr>
+          </tbody></table>
+          <p>Rules that shape the route (manual rule G304): the robot starts on our side of the field, touching the field wall, not in the LOADING ZONE, not touching a FLOWER, inside the 18-inch starting size, with exactly four POLLEN. LEAVE and PARK are judged when AUTO ends.</p>
+          <p><strong>Time is the catch.</strong> Our program stops itself at 28 seconds. Budget up to 4 seconds for each drive or turn, because each one must finish within 4 seconds, and about 12 seconds for an aim-and-shoot. A route of one drive, a shot, a turn and a drive fits. Add up your own route before you tape it.</p>
+          <p class="record-prompt">Our choice: ________ &nbsp; Why: ________ &nbsp; Our backup: ________</p>
+        </section>
+        <section id="plan">
+          <h2>Plan the route</h2>
+          <ol>
+            <li>Open the field drawings in the manual (Figures 9-2, 9-3 and 11-1). Mark where the robot starts, where it shoots from, and where it ends.</li>
+            <li>Break the route into legs. A leg is one straight drive or one turn. Fewer legs is better.</li>
+            <li>Use your Meeting 10 speed: a drive must finish in 4 seconds, so no single drive can be longer than about 3 seconds’ worth of travel. Split longer drives into two legs, or ask the mentor about raising the drive power.</li>
+            <li>Tape the route on the floor at full size. Our hive’s centre line is about 59 inches from our alliance wall, and the front of the upward cell is about 52 inches from the wall the robot starts on (our estimates from the manual’s drawings). The LOADING ZONE is 23 by 11 inches.</li>
+            <li>Measure every leg with a tape measure and write it in the plan.</li>
+          </ol>
           <table class="record-table">
-            <caption>Questions Meeting 12 needs answered</caption>
-            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Proof or blocker/date</th></tr></thead>
-            <tbody>
-              <tr><td data-label="Question">What current sources and exact constraints support the objective and start?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">What exact candidate/configuration and named driving-only route were tested?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">Which rows qualify every segment, including error, time, result, and repeatability?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">What complete-route rows and predeclared rule support accepted, not accepted, or incomplete?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">What one variable is next, or why is no change justified?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">What exact Meeting 10 commit/tag, OpMode, configuration, sequence, M10-M01 status/evidence, and recovery steps identify the fallback candidate?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">Which evidenced route or M10-M01-qualified fallback remains selected, or are both blocked?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-              <tr><td data-label="Question">What single non-drive objective is proposed next, and what rule/source/hardware evidence is still needed?</td><td data-label="Verified answer">________________</td><td data-label="Proof or blocker">________________</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+<caption>Route plan</caption>
+<thead><tr><th scope="col">Step</th><th scope="col">Drive, turn, or aim and shoot</th><th scope="col">Inches or degrees</th><th scope="col">Seconds to allow</th></tr></thead><tbody>
+            <tr><td data-label="Step">1</td><td data-label="Drive, turn, or aim and shoot">________</td><td data-label="Inches or degrees">________</td><td data-label="Seconds to allow">________</td></tr>
+            <tr><td data-label="Step">2</td><td data-label="Drive, turn, or aim and shoot">________</td><td data-label="Inches or degrees">________</td><td data-label="Seconds to allow">________</td></tr>
+            <tr><td data-label="Step">3</td><td data-label="Drive, turn, or aim and shoot">________</td><td data-label="Inches or degrees">________</td><td data-label="Seconds to allow">________</td></tr>
+            <tr><td data-label="Step">4</td><td data-label="Drive, turn, or aim and shoot">________</td><td data-label="Inches or degrees">________</td><td data-label="Seconds to allow">________</td></tr>
+            <tr><td data-label="Step">5</td><td data-label="Drive, turn, or aim and shoot">________</td><td data-label="Inches or degrees">________</td><td data-label="Seconds to allow">________</td></tr>
+            <tr><td data-label="Step">6</td><td data-label="Drive, turn, or aim and shoot">________</td><td data-label="Inches or degrees">________</td><td data-label="Seconds to allow">________</td></tr>
+          </tbody></table>
+        </section>
+        <section id="run">
+          <h2>Type it in and run it empty</h2>
+          <p>Routes live in <code>Routes.java</code>. A route is one list of steps, and the robot does them from top to bottom. The numbers here are examples:</p>
+          <pre><code>public static final Step[] RED_AUDIENCE_A = {
+        drive(8),
+        aimAndShoot(),
+        turn(-90),
+        drive(30),
+        turn(90),
+        drive(30),
+};</code></pre>
+          <table class="course-map">
+<thead><tr><th scope="col">Step</th><th scope="col">What the robot does</th></tr></thead><tbody>
+            <tr><td data-label="Step"><code>drive(inches)</code></td><td data-label="What the robot does">Drives that far. A negative number drives backward.</td></tr>
+            <tr><td data-label="Step"><code>turn(degrees)</code></td><td data-label="What the robot does">Turns that much. Positive is right, negative is left.</td></tr>
+            <tr><td data-label="Step"><code>aimAndShoot()</code></td><td data-label="What the robot does">Turns to face the tags, shoots if shooting is switched on, then turns back to the way it was facing. Leave this line out for a route that only parks.</td></tr>
+          </tbody></table>
+          <p>There are eight lists: red or blue, audience-side or far-side cell, start A or B. Edit the one you chose in INIT. If you are not sure which cell will be facing up in a match, build and prove a route for each.</p>
+          <p>This program is the Meeting 9 program with a list. Open both files side by side: the fields, the checks in <code>start()</code>, and the MOVE, DONE and FAULT states are the same.</p>
+          <ol>
+            <li>Test each new leg by itself first with <strong>Tune Drive</strong> if it is 24 inches or 90 degrees, or with <strong>Autonomous One Action</strong> for other distances.</li>
+            <li>Program: <strong>Autonomous Route</strong>. INIT, choose alliance and cell with the D-pad, press A for Start A, and check <code>Shooting</code> says <code>DRY RUN</code>. Check the route on the screen matches your list.</li>
+            <li>Start. Watch which step the screen shows. When it stops, press Stop.</li>
+            <li>Measure how far the robot ended from where it should be, and write the seconds.</li>
+            <li>Change one number. Run again. Three runs in a row that end in the right place means the route is proven.</li>
+            <li>At the stop before <code>aimAndShoot()</code>, read the camera range on the screen and write it down. Meeting 12 needs a speed table that covers it.</li>
+          </ol>
+          <table class="record-table">
+<caption>Route runs</caption>
+<thead><tr><th scope="col">Run</th><th scope="col">What we changed</th><th scope="col">Ended where it should? (inches off)</th><th scope="col">Seconds</th><th scope="col">Stopped early? Why</th></tr></thead><tbody>
+            <tr><td data-label="Run">1</td><td data-label="What we changed">________</td><td data-label="Ended where it should? (inches off)">________</td><td data-label="Seconds">________</td><td data-label="Stopped early? Why">________</td></tr>
+            <tr><td data-label="Run">2</td><td data-label="What we changed">________</td><td data-label="Ended where it should? (inches off)">________</td><td data-label="Seconds">________</td><td data-label="Stopped early? Why">________</td></tr>
+            <tr><td data-label="Run">3</td><td data-label="What we changed">________</td><td data-label="Ended where it should? (inches off)">________</td><td data-label="Seconds">________</td><td data-label="Stopped early? Why">________</td></tr>
+            <tr><td data-label="Run">4</td><td data-label="What we changed">________</td><td data-label="Ended where it should? (inches off)">________</td><td data-label="Seconds">________</td><td data-label="Stopped early? Why">________</td></tr>
+            <tr><td data-label="Run">5</td><td data-label="What we changed">________</td><td data-label="Ended where it should? (inches off)">________</td><td data-label="Seconds">________</td><td data-label="Stopped early? Why">________</td></tr>
+            <tr><td data-label="Run">6</td><td data-label="What we changed">________</td><td data-label="Ended where it should? (inches off)">________</td><td data-label="Seconds">________</td><td data-label="Stopped early? Why">________</td></tr>
+          </tbody></table>
+          <p>If the note on the screen says “Shot skipped: tags not lined up in time”, the camera could not see or centre the tags within 3 seconds; the route still carries on. If it says “Out of time at 28 seconds”, the route is too long: remove a step or shorten a drive.</p>
+        </section>
+        <section id="handoff">
+          <h2>Save your work</h2>
+          <ul class="checklist">
+            <li>The chosen route is in <code>Routes.java</code> and ran three times in a row to the right place.</li>
+            <li>The Meeting 9 one-action autonomous is still in the Driver Station list and still works.</li>
+            <li>The code builds. Commit it with a short message, for example “Meeting 11 auto route”.</li>
+          </ul>
+          <p>Meeting 12 adds shooting to this route.</p>
+        </section>
       </details>
     </div>
-
-    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
-    <section id="prep" aria-labelledby="prep-title">
-      <h2 id="prep-title">Mentor preparation</h2>
-      <aside class="mentor-note">
-        <ul class="checklist">
-          <li>At delivery, open the current English FIRST Competition Manual, latest FIRST Team Update, and official FIRST Team Q&amp;A system; record revision/access dates and prepare the exact applicable section/rule/question links.</li>
-          <li>Audit Meeting 10's measured drive/turn methods, supported ranges, physical rows, frozen fixtures, known limits, and exact guided-sequence fallback identity.</li>
-          <li>Prepare current field references and measurement tools, but do not choose the objective, route, parameters, tolerances, trial count, or acceptance rule for students.</li>
-          <li>Supply no new power, time, distance, angle, encoder, geometry, tolerance, mechanism, or conversion value. Missing evidence blocks the action.</li>
-          <li>Require segment evidence before integration and preserve every valid failure. Do not use full-route repetition to diagnose an unqualified segment.</li>
-        </ul>
-      </aside>
-      <aside class="mentor-note"><strong>Integration gate:</strong> current-source constraint record, approved driving-only objective, completed M10-M01 physical action evidence, named segment cards, every stop/safe-output/cleanup path, frozen game-arena Travel test setup, marked start/route/stop and exclusion area, secured robot/battery/Hub/wires/attached pieces/mechanisms/test artifact, candidate build/diff, independent Driver Station and Stop roles with Stop authority without permission, and eligible fallback evidence or an explicit fallback blocker must all pass before powered testing.</aside>
-    </section>
-
-    <section id="resources" aria-labelledby="resources-title">
-      <h2 id="resources-title">Resources</h2>
+    <section id="prep">
+      <h2>Mentor preparation</h2>
+      <ol>
+            <li>The autonomous programs stay still until <code>MOUNTING_CONFIRMED</code> (in <code>Heading.java</code>) and <code>MOTION_ENABLED</code> (in <code>StarterRobot.java</code>) are <code>true</code>. Do the Hub-direction and drive-direction checks from the <a href="../reference/meeting5-shooter-auto-guide.html">Meeting 5 setup guide</a> on the robot in use first.</li>
+            <li>Decide where the route will be taped: a real field if you can get to one, otherwise open floor at least 8 by 8 feet. Bring painter’s tape and two tape measures.</li>
+            <li>Print the tags for the cell the team will shoot at. Manual Figure 10-2 shows RED AUDIENCE and BLUE SCORING facing up at the start of a match (SCORING is the side away from the audience). Print the other cell’s tags too if the team wants a route for either.</li>
+            <li>The 59-inch and 52-inch figures in the lesson are estimates from the manual’s drawings. Replace them with real measurements the first time the team is on a field.</li>
+            <li>If drives are too slow to fit the time, <code>DRIVE_POWER</code> in <code>Drive.java</code> can be raised a little at a time. Re-run the Meeting 10 straight drive after any change.</li>
+          </ol>
+      <h3>Sources</h3>
       <ul>
-        <li><span class="resource-label follow">Follow</span> Current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">FIRST 2026-2027 BIOBUZZ Competition Manual</a>, <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/tu-01">FIRST Team Update 01</a>, and official <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/q-a-system">FIRST Team Q&amp;A system</a> for the exact objective, starting setup, AUTO period, and applicable Pre-/In-MATCH constraints.</li>
-        <li><span class="resource-label start-from">Start from</span> The team's exact Meeting 10 drive and turn methods only after their M10-M01 physical evidence passes, and preserve the separately identified fallback candidate. No external route or sample constant replaces team evidence.</li>
-        <li><span class="resource-label start-from">Structure only</span> Pinned SDK v12.0 <a href="https://github.com/FIRST-Tech-Challenge/FtcRobotController/blob/v12.0/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java"><code>RobotAutoDriveByEncoder_Linear</code></a> for repeated parameterized call structure.</li>
-        <li><span class="resource-label follow">Follow</span> Pinned SDK 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotor.html"><code>DcMotor</code></a> Javadoc for the chosen API behavior.</li>
-        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
-      </ul>
+            <li><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU03.htm">BIOBUZZ Competition Manual, Team Update 03</a>: Figures 9-2, 9-3, 9-10, 10-2 and 11-1; sections 9.3 and 10.5.4; Table 10-2; rule G304.</li>
+            <li><a href="https://ftc-resources.firstinspires.org/ftc/game">Current game materials</a>: check for a newer Team Update before the meeting.</li>
+            <li><a href="https://github.com/jfgordon2/FtcRobotController">Team robot code</a>: <code>Routes.java</code> and <code>AutoFollowRoute.java</code>.</li>
+          </ul>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m11-f01">Source M11-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m11-d01">Team choice M11-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m11-m01">Measure it M11-M01</a></p>
     </section>
-    </details>
   </main>
-
-  <footer class="site-footer">
-    <p><a href="0010-from-motor-rotations-to-distance.html">Previous: Meeting 10: From Motor Rotations to Distance</a> | <a href="index.html">Course index</a> | <a href="0012-add-and-tune-autonomous-game-actions.html">Next: Meeting 12: Add and Tune Autonomous Game Actions</a></p>
-  </footer>
+  <footer class="site-footer"><p><a href="0010-from-motor-rotations-to-distance.html">Previous: Meeting 10: From Motor Rotations to Distance</a> | <a href="index.html">Course index</a> | <a href="0012-add-and-tune-autonomous-game-actions.html">Next: Meeting 12: Add and Tune Autonomous Game Actions</a></p><p>BIOBUZZ programming mentorship · Trace, measure, change one thing, repeat.</p></footer>
 </body>
 </html>

@@ -13,8 +13,8 @@ and recover the competition robot's basic code.
 - Every student independently demonstrates at least one complete workflow:
   prepare, change or diagnose, build, deploy, test safely, and explain the
   evidence.
-- Every competition-critical programming and robot-operation role has a named
-  backup who has practiced the role.
+- Every competition-critical programming and robot-operation role has a backup
+  who has practiced the role.
 
 ## Working Constraints
 
@@ -51,3 +51,11 @@ Meeting 4 compares the ordered standard 2026–2027 goBILDA StarterBot with game
 objectives and reviews aiming/relative-position code drafts. This is
 an unpowered planning extension. Later supervised commissioning follows the
 calibration guide; field localization and general PID instruction remain deferred.
+
+Meeting 5 runs on one of last season's practice robots because the BIOBUZZ kit has
+not arrived. Students build a tape practice field (a wall rectangle at the real hive
+opening height, a start line, and a parking box), find the launcher speed that hits
+from three distances, measure one drive and one turn, and run one autonomous path
+that lines up on an AprilTag. The 35-minute build slot is spent building the tape
+field. Speeds, camera ranges and route numbers are measured again on the BIOBUZZ
+robot and a real field. General localization and launcher PIDF edits remain deferred.

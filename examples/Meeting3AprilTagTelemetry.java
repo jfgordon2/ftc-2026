@@ -8,7 +8,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
-@TeleOp(name = "M3 AprilTag Telemetry", group = "BIOBUZZ")
+@TeleOp(name = "M3 AprilTag Telemetry", group = "Lessons")
 public class Meeting3AprilTagTelemetry extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

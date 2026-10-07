@@ -3,492 +3,171 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Student-first BIOBUZZ Meeting 12 lesson for adding one guarded launcher action to Autonomous and tuning one measured variable at a time.">
+  <meta name="description" content="BIOBUZZ Meeting 12: Add shooting to the autonomous route and tune it one change at a time.">
   <title>Meeting 12: Add and Tune Autonomous Game Actions | BIOBUZZ</title>
   <link rel="stylesheet" href="../assets/lesson.css">
   <script src="../assets/lesson.js" defer></script>
-  <style>
-    .evidence-sheet { border: 2px solid var(--line); margin-block: 1.25rem; padding: 1rem; }
-    .evidence-sheet legend { font-weight: 800; padding-inline: 0.4rem; }
-    .evidence-grid { display: grid; gap: 0.8rem 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .evidence-grid .wide { grid-column: 1 / -1; }
-    .evidence-field { background: var(--paper); border: 1px solid var(--ink); border-radius: 0.2rem; color: var(--ink); display: block; font: inherit; margin-top: 0.25rem; min-height: 2.4rem; padding: 0.4rem; resize: vertical; width: 100%; }
-    textarea.evidence-field { min-height: 4rem; }
-    @media (max-width: 720px) { .evidence-grid { grid-template-columns: 1fr; } .evidence-grid .wide { grid-column: auto; } }
-    @media print { .evidence-sheet { break-inside: avoid; } .evidence-field { background: #fff; border-color: #000; min-height: 0.32in; } textarea.evidence-field { min-height: 0.55in; } }
-  </style>
 </head>
 <body>
   <header class="site-header">
-    <p>BIOBUZZ / Week 6, Meeting 12 / 2026-2027 season / FTC SDK v12.0</p>
+    <p>BIOBUZZ / Week 6, Meeting 12 / FTC SDK v12.0</p>
     <h1>Add and Tune Autonomous Game Actions</h1>
-    <p class="lede">Add one launcher-and-feed action to autonomous, with a speed check and time limit.</p>
+    <p class="lede">Add shooting to the autonomous route and tune it one change at a time.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
-      <li><strong>Team</strong><br>4-6 students, 2-3 pairs</li>
-      <li><strong>New idea</strong><br>Measured readiness before feed</li>
-      <li><strong>Team work</strong><br>Calculate, integrate, test, and preserve fallback</li>
+      <li><strong>Robot</strong><br>The robot you will compete with, with its real balls</li>
+      <li><strong>New idea</strong><br>The robot checks before it shoots</li>
+      <li><strong>Team work</strong><br>Loader, counter, Stop person, recorder; swap often</li>
     </ul>
   </header>
-
   <nav class="site-nav" aria-label="Lesson navigation">
     <a href="index.html">Course index</a>
     <a href="0011-compose-the-autonomous-route.html">Previous: Meeting 11: Compose the Autonomous Route</a>
-    <a href="#start-here">Start here</a>
-    <a href="#outcome">Today's result</a>
-    <a href="#words">Words you need</a>
-    <a href="#safety">Safety</a>
-    <a href="#calculate">Calculate and measure</a>
-    <a href="#paths">Vendor paths</a>
-    <a href="#method">Guarded method</a>
-    <a href="#experiment">One-variable sets</a>
-    <a href="#handoff">Meeting 13 handoff</a>
-    <a href="#prep">Mentor preparation</a>
+    <a href="#start-here">Start here</a><a href="#safety">Safety</a><a href="#agenda">Today’s plan</a>
+    <a href="#table">Speed table</a><a href="#shoot">Shoot in autonomous</a><a href="#tune">Tune</a>
+    <a href="#handoff">Save your work</a><a href="#prep">Mentor preparation</a>
     <a href="0013-tune-launcher-velocity-with-pidf.html">Next: Meeting 13: Tune Launcher Velocity With PIDF</a>
   </nav>
-
   <main>
     <div class="student-path">
-      <section id="outcome" aria-labelledby="outcome-title">
-        <h2 id="outcome-title">Today’s goal</h2>
-        <div class="outcome-banner">Add one launcher-and-feed action to autonomous, with a speed check and time limit.</div>
+      <section id="outcome">
+        <h2>Today’s goal</h2>
+        <div class="outcome-banner">Leave with an autonomous that shoots its preloads and still finishes its route, or with the dry-run route kept as the version to use.</div>
+        <p>The route from Meeting 11 already stops at a shooting spot. Today the robot shoots there. It only feeds when the tag is in view, it is aimed, the range is in our speed table, and the wheel is at speed. Your job is to make those checks pass every time and to find the feed time that empties the robot.</p>
       </section>
-      <section id="start-here" aria-labelledby="start-here-title">
-        <h2 id="start-here-title">Start here</h2>
-        <p>Target speed is requested speed; measured speed comes from the encoder. The feeder waits until the speed stays ready.</p>
-        <ol><li>Use the actual launcher’s configuration and measured settings. Preserve the tested driving-only routine.</li><li>With power disconnected, measure launcher gap and game-piece size. Review the prepared method that starts the launcher, waits for steady speed, feeds once, and stops.</li><li>Check speed readings, timeouts, Stop, and every zero-output command without a game piece in a supported test.</li><li>In the marked launch area, compare either target speed or physical gap. Keep all other conditions fixed and record every attempt.</li><li>Keep the better tested setting or restore the baseline. A completed feed command is not proof that the game piece scored.</li></ol>
-        <p><strong>Robot for today:</strong> Use the exact launcher being studied; final event checks use the BIOBUZZ robot. See the <a href="../reference/practice-and-build.html">practice and build plan</a>.</p>
-        <p><strong>Build task:</strong> Check launcher gap, mounting, feeder alignment, and service access. Finish build work before starting a fixed-condition experiment.</p>
-        <p><strong>Keep a short result:</strong> robot + code version; what we changed; expected result; observed result. Use the detailed worksheet when the test calls for measurements.</p>
-        <p>Read the safety checklist before power. Open the detailed steps for code, test cases, and worksheets; the mentor helps choose the section needed next.</p>
-      </section>
-
-
-      <section id="safety" aria-labelledby="safety-title">
-        <h2 id="safety-title">Before you touch the robot</h2>
-        <ul class="checklist">
-          <li>Name the Driver Station operator and a separate Stop owner with immediate Stop access and authority to press Stop without permission. Also name the launcher observer, reset lead, measurement lead, programmer, navigator, and recorder.</li>
-          <li>Use only the vendor path matching the exact installed assembly and reviewed source revision. Same-brand or similar-looking parts do not establish a match.</li>
-          <li>Press Stop, verify no motion, switch off the Hub, disconnect the battery, and safely release or support stored energy before contact, measurement, loading, adjustment, or reset.</li>
-          <li>Secure the robot, battery, Hub, wires, attached pieces, mechanisms, test artifact, supports, and any approved containment or backstop before power.</li>
-          <li>Record the selected Meeting 11 route candidate, eligible Meeting 10 fallback, exact configuration, launcher code identity, tested outputs, timeout, ready condition, and every explicit zero before enabling the candidate.</li>
-          <li>Use only current legal game artifacts and current rules for a strategy claim. Vendor code does not prove that a launch is legal or useful.</li>
-        </ul>
-        <aside class="safety-callout">Unexpected direction, speed, feed, repeated feed, artifact path, continued motion, missed timeout, false ready state, implausible telemetry, field entry, loss of communication or control, looseness, battery or wire movement, binding, unsafe vibration, unusual sound, heat, odor, damaged artifact, failed zero, or any person entering the exclusion area means immediate Driver Station Stop. Verify safe output and no motion, say <q>stopped</q>, switch off the Hub, disconnect the battery, preserve the evidence, and only then inspect or reset.</aside>
-
-        <h3>Supported test contract</h3>
-        <p>A <strong>Supported test</strong> occurs only in the game arena with the robot frame secured on stable support and every travel-contact component clear of the support, floor, people, wires, and loose objects. Use no artifact during output-sign, velocity-readback, ready-condition, abort, timeout, and named-zero checks. With everything secured and the exclusion area clear, connect the accepted battery, switch on the Hub, verify Hub and Driver Station status, deploy if required, select the exact reviewed candidate, position the Driver Station operator and Stop owner, and move everyone outside the exclusion area. Press INIT; verify exact configuration/code identity, zero for every touched output, no motion, telemetry, roles, and stop conditions. Call <q>robot live</q> and <q>clear</q> before Start. On completion or abort require every named zero, press Stop, verify safe output and no motion, say <q>stopped</q>, switch off, disconnect, and only then approach, inspect, or reset.</p>
-
-        <h3>Travel test contract</h3>
-        <p>A <strong>Travel test</strong> is required for any integrated route or artifact launch. It occurs only in the game arena with a marked start, intended robot route, intended artifact path, stop boundary, and exclusion area. Secure every item named above; connect the accepted battery, switch on the Hub, verify Hub and Driver Station status, deploy if required, select the exact reviewed candidate, position the Driver Station operator and Stop owner, and move everyone outside the exclusion area. Press INIT; verify exact configuration/code identity, every named zero, no motion, telemetry, containment/backstop, roles, stop conditions, and the clear route. Call <q>robot live</q> and <q>clear</q> before Start. On completion or abort, require every named zero, press Stop, verify safe output and no motion, say <q>stopped</q>, switch off, disconnect, and only then enter, measure, load, or reset.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f06">Source M12-F06</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-      </section>
-      <section id="agenda" aria-labelledby="agenda-title">
-        <h2 id="agenda-title">Today’s plan</h2>
-        <ol class="timed-agenda">
-          <li><time>0:00-0:15<br>15 min</time><div><strong>Check launcher readiness.</strong> Review <a href="#safety">both test contracts</a> and the exact launcher, selected route, and fallback records.</div></li>
-          <li><time>0:15-0:35<br>20 min</time><div><strong>Measure and calculate.</strong> Use <a href="#calculate">the launcher calculation record</a> to identify units and measure gap and game-piece size before changing code.</div></li>
-          <li><time>0:35-1:20<br>45 min</time><div><strong>Prepare the guarded action.</strong> Trace <a href="#paths">the applicable source</a> and <a href="#method">the guarded method</a>. Build the prepared adaptation and select one experiment from <a href="#experiment">the experiment procedure</a>.</div></li>
-          <li><time>1:20-1:30<br>10 min</time><div><strong>Break.</strong> Follow the <a href="#safety">shutdown steps</a> before contact.</div></li>
-          <li><time>1:30-2:05<br>35 min</time><div><strong>Build the robot.</strong> Check launcher gap, mounting, feeder alignment, and service access. Finish build work before starting a fixed-condition experiment.</div></li>
-          <li><time>2:05-2:45<br>40 min</time><div><strong>Test gates, then one variable.</strong> Follow <a href="#experiment">the two test gates and comparison sets</a>. Prove readiness/timeout/zero without a game piece before any controlled launch.</div></li>
-          <li><time>2:45-3:00<br>15 min</time><div><strong>Save launcher results.</strong> Complete the <a href="#handoff">Meeting 13 handoff</a> with settings, observations, failed or incomplete trials, and the tested fallback.</div></li>
-        </ol>
-        <p>Build activities use the team’s separate instructions. The blocks above total 180 minutes. Follow the linked activity for each block; carry unfinished tests forward rather than skipping prerequisites or counting incomplete work as passed.</p>
-      </section>
-
-      <details class="lesson-details" id="lesson-details">
-        <summary>Detailed steps, code, and worksheets</summary>
-      <aside class="robot-context"><strong>Choose the program by robot and season.</strong> For a last-season practice robot, use its reviewed saved program. For a modified or custom BIOBUZZ robot, use the team-adapted program with the actual parts and configuration. The new-season vendor examples apply only to their named assemblies. Test each new mapping or mechanism before enabling it; old test results do not transfer. See the <a href="../reference/practice-and-build.html#transfer">transfer checklist</a>.</aside>
-
-
-      <section id="scope" aria-labelledby="scope-title">
-        <h2 id="scope-title">What your team will produce</h2>
-        <div class="outcome-banner">One guarded launcher-and-feed method for the exact matching assembly, added to a separate Autonomous candidate. The method checks that the OpMode is active, stops at a timeout, requires multiple distinct interval-spaced samples and a minimum elapsed duration for a sustained measured ready condition, supports immediate abort, reports a distinct result, and explicitly commands every touched output to zero on every exit.</div>
-        <p>Keep the selected Meeting 11 driving-only route and its eligible Meeting 10 fallback exact and recoverable. A launcher candidate is not allowed to replace either artifact, and it remains disabled when matching identity, upstream route evidence, or required physical evidence is absent.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-      </section>
-
-      <section id="words" aria-labelledby="words-title">
-        <h2 id="words-title">Words you need before using them</h2>
-        <dl class="words-list">
-          <dt>Encoder velocity</dt><dd>The rotation rate reported by <code>getVelocity()</code>. With the pinned ticks-per-second overload, its unit is encoder ticks per second, not automatically RPM.</dd>
-          <dt>RPM</dt><dd>Revolutions per minute. Convert encoder velocity to RPM only after identifying documented encoder ticks per motor revolution and the complete motor-to-flywheel ratio. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f07">Source M12-F07</a></span></dd>
-          <dt>Surface speed</dt><dd>The distance traveled by the flywheel rim per unit time. It is flywheel circumference multiplied by flywheel revolutions per unit time. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f07">Source M12-F07</a></span></dd>
-          <dt>Artifact</dt><dd>The current game object used in the launch test. Record its exact type and measured size; do not assume every artifact is identical.</dd>
-          <dt>Launcher gap</dt><dd>The measured physical space between the flywheel contact surface and its opposing guide at the named contact location.</dd>
-          <dt>Compression</dt><dd>How much smaller the launcher gap is than the artifact's measured uncompressed size at the same reference. Compression percentage is that difference divided by artifact size, multiplied by 100. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f07">Source M12-F07</a></span></dd>
-          <dt>Spin-up time</dt><dd>Elapsed time from the launcher request until the ready condition first remains satisfied for the team's predeclared confirmation rule.</dd>
-          <dt>Recovery time</dt><dd>Elapsed time after an artifact passes until measured velocity again satisfies that same ready condition.</dd>
-          <dt>Transit or feed timing</dt><dd>Elapsed time from the feed request through the artifact's observed passage and the feed output's return to zero.</dd>
-          <dt>Ready condition</dt><dd>The branch-specific measured-velocity test that must pass before feed begins. A target request alone is not proof of readiness.</dd>
-          <dt>Abort</dt><dd>An immediate end to the attempt. Driver Station Stop is the required human abort; any separately implemented team abort signal must also route to the same explicit shutdown.</dd>
-          <dt>One-variable set</dt><dd>A baseline and comparison trials in which exactly one experimental variable changes while code identity, setup, artifact, battery criterion, feed behavior, and every other declared condition stay fixed.</dd>
-        </dl>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f03">Source M12-F03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-      </section>
-
-      <form class="m12-evidence-form" aria-label="Meeting 12 launcher action and measurement evidence">
-      <section id="calculate" aria-labelledby="calculate-title">
-        <h2 id="calculate-title">Calculate and measure before changing code</h2>
-        <fieldset class="evidence-sheet">
-          <legend>Shared M12-M01 identity and roles for every record below</legend>
-          <div class="evidence-grid">
-            <label>Date<input class="evidence-field" type="date" name="m12-date"></label>
-            <label>Student<input class="evidence-field" type="text" name="m12-student"></label>
-            <label>Checker<input class="evidence-field" type="text" name="m12-checker"></label>
-            <label>Driver Station operator<input class="evidence-field" type="text" name="m12-ds-operator"></label>
-            <label>Stop owner<input class="evidence-field" type="text" name="m12-stop-owner"></label>
-            <label>Trial or set details<input class="evidence-field" type="text" name="m12-trials"></label>
-            <label class="wide">Exact active configuration, code/OpMode identity, and matching vendor branch<textarea class="evidence-field" name="m12-configuration" rows="2"></textarea></label>
-            <label class="wide">Exact installed launcher/controller/mode, source revision, artifact identity, and physical match evidence<textarea class="evidence-field" name="m12-assembly-source-artifact" rows="2"></textarea></label>
-            <label class="wide">Selected Meeting 11 route, eligible Meeting 10 fallback, battery criterion, arena setup, and fixture identity<textarea class="evidence-field" name="m12-route-fallback-setup" rows="2"></textarea></label>
-          </div>
-        </fieldset>
-        <p>Use one unit system per calculation. Formula structure does not supply installed values: exact encoder and gearing values need matching documents, and all dimensions and times need current measurements.</p>
+      <section id="start-here">
+        <h2>Start here</h2>
         <ol>
-          <li><strong>Convert encoder velocity to motor RPM:</strong> <code>motor RPM = encoder ticks per second * 60 / documented encoder ticks per motor revolution</code>. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f07">Source M12-F07</a></span> Record the exact motor/encoder document and API overload. <strong>Powered blocker:</strong> unknown ticks per revolution. <span class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></span></li>
-          <li><strong>Convert motor RPM to flywheel RPM:</strong> <code>flywheel RPM = motor RPM * flywheel revolutions per motor revolution</code>. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f07">Source M12-F07</a></span> Trace every installed gear, belt, or chain stage and its direction. <strong>Powered blocker:</strong> an unverified assembled ratio. <span class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></span></li>
-          <li><strong>Calculate flywheel surface speed:</strong> measure loaded flywheel diameter, calculate <code>circumference = pi * diameter</code>, then use <code>surface speed = circumference * flywheel RPM / 60</code> for distance per second. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f07">Source M12-F07</a></span> <strong>Powered blocker:</strong> missing diameter, ratio, unit, or measurement method. <span class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></span></li>
-          <li><strong>Measure physical launcher gap:</strong> with power disconnected and stored energy safe, name the contact reference and measure the gap at least three times without an artifact. Record the stated representative value and method.</li>
-          <li><strong>Measure the artifact:</strong> measure its uncompressed size at the matching contact orientation. Calculate <code>compression = artifact size - launcher gap</code> and <code>compression percentage = compression / artifact size * 100</code>. <span class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f07">Source M12-F07</a></span> A negative or unexplained result is a powered blocker. <span class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></span></li>
-          <li><strong>Measure timing:</strong> from telemetry and observation, record spin-up time, post-launch recovery time, and artifact transit or feed timing for every valid row. Never substitute the vendor timeout for one of these observed times.</li>
-        </ol>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f03">Source M12-F03</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-        <table class="record-table">
-          <caption>Launcher calculation and measurement record</caption>
-          <thead><tr><th scope="col">Quantity</th><th scope="col">Value and unit</th><th scope="col">Formula or method</th><th scope="col">Source/trial</th><th scope="col">Student/checker</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Quantity">Encoder ticks per second and documented ticks per motor revolution</td><td data-label="Value"><textarea class="evidence-field" name="encoder-values" rows="2" aria-label="Encoder ticks per second and documented ticks per motor revolution values and units"></textarea></td><td data-label="Method"><textarea class="evidence-field" name="encoder-method" rows="2" aria-label="Encoder measurement and conversion method"></textarea></td><td data-label="Source"><textarea class="evidence-field" name="encoder-source" rows="2" aria-label="Exact encoder source and trials"></textarea></td><td data-label="People"><textarea class="evidence-field" name="encoder-people" rows="2" aria-label="Encoder measurement student and checker"></textarea></td></tr>
-            <tr><td data-label="Quantity">Every installed ratio stage, motor RPM, and flywheel RPM</td><td data-label="Value"><textarea class="evidence-field" name="rpm-values" rows="2" aria-label="Installed ratio, motor RPM, and flywheel RPM values and units"></textarea></td><td data-label="Method"><textarea class="evidence-field" name="rpm-method" rows="2" aria-label="Ratio and RPM method"></textarea></td><td data-label="Source"><textarea class="evidence-field" name="rpm-source" rows="2" aria-label="Ratio and RPM source and trials"></textarea></td><td data-label="People"><textarea class="evidence-field" name="rpm-people" rows="2" aria-label="RPM student and checker"></textarea></td></tr>
-            <tr><td data-label="Quantity">Measured flywheel diameter, circumference, and surface speed</td><td data-label="Value"><textarea class="evidence-field" name="surface-values" rows="2" aria-label="Flywheel diameter circumference and surface speed values and units"></textarea></td><td data-label="Method"><textarea class="evidence-field" name="surface-method" rows="2" aria-label="Flywheel measurement and surface speed method"></textarea></td><td data-label="Source"><textarea class="evidence-field" name="surface-source" rows="2" aria-label="Flywheel source and trials"></textarea></td><td data-label="People"><textarea class="evidence-field" name="surface-people" rows="2" aria-label="Flywheel measurement student and checker"></textarea></td></tr>
-            <tr><td data-label="Quantity">Launcher gap, artifact size, compression, and compression percentage</td><td data-label="Value"><textarea class="evidence-field" name="compression-values" rows="2" aria-label="Launcher gap artifact size compression and compression percentage values and units"></textarea></td><td data-label="Method"><textarea class="evidence-field" name="compression-method" rows="2" aria-label="Gap artifact and compression measurement method"></textarea></td><td data-label="Source"><textarea class="evidence-field" name="compression-source" rows="2" aria-label="Gap artifact and compression source and trials"></textarea></td><td data-label="People"><textarea class="evidence-field" name="compression-people" rows="2" aria-label="Compression measurement student and checker"></textarea></td></tr>
-            <tr><td data-label="Quantity">Spin-up, recovery, and transit/feed timing</td><td data-label="Value"><textarea class="evidence-field" name="timing-values" rows="2" aria-label="Spin-up recovery and transit or feed timing values and units"></textarea></td><td data-label="Method"><textarea class="evidence-field" name="timing-method" rows="2" aria-label="Timing measurement method"></textarea></td><td data-label="Source"><textarea class="evidence-field" name="timing-source" rows="2" aria-label="Timing source and trials"></textarea></td><td data-label="People"><textarea class="evidence-field" name="timing-people" rows="2" aria-label="Timing measurement student and checker"></textarea></td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="paths" aria-labelledby="paths-title">
-        <h2 id="paths-title">Use only the matching vendor path</h2>
-        <div class="vendor-paths">
-          <article class="vendor-path">
-            <h3>REV path: matching REV Autonomous only</h3>
-            <p>The reviewed REV Autonomous example uses target velocity <code>1160</code>, an accepted range of <code>targetVelocity +/- 50</code>, a launch-loop maximum of <code>15</code> seconds, feeder and intake commands of <code>1</code>, and stop command <code>0</code>. These are documented facts only for the exact matching REV 2026-2027 Starter Bot assembly and reviewed example; they are not goBILDA or universal values.</p>
-            <p>The team-owned adaptation must name and execute all three shutdown commands on completion, inactive state, timeout, false readiness, observer Stop/abort, and early exit: <code>flywheel.setVelocity(0.0)</code>, <code>feederContinuousRotationServo.setPower(0.0)</code>, and <code>intake.setPower(0.0)</code>. The reviewed example does not supply this complete named shutdown.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f01">Source M12-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></p>
-          </article>
-          <article class="vendor-path">
-            <h3>goBILDA path: TeleOp concepts only</h3>
-            <p>The verified goBILDA archive has <strong>no Autonomous</strong> file. Its one TeleOp can supply only bounded concepts for an exact matching goBILDA 2026-2027 StarterBot: target velocity <code>1250</code>, minimum ready velocity <code>1200</code>, PIDF <code>(40, 0, 0, 12.5)</code>, windmill feed command <code>1</code>, and intake-assist command <code>0.5</code>. Do not represent the TeleOp as an Autonomous source or transfer its values to REV.</p>
-            <p>The team-owned adaptation must explicitly command zero to every output it touches on every exit: <code>launcher.setVelocity(0.0)</code>, <code>windmill.setPower(0.0)</code>, <code>intake.setPower(0.0)</code>, and <code>cornerIntakeLeft.setPower(0.0)</code> plus <code>cornerIntakeRight.setPower(0.0)</code> when those corner-intake servos are included. Omit an output only when the exact reviewed action does not touch it.</p>
-            <p>The tuple <code>(40, 0, 0, 12.5)</code> remains the matching source baseline; Meeting 12 does not tune PIDF. Meeting 13 may compare coefficients only under its separate evidence and rollback contract.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f02">Source M12-F02</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f04">Source M12-F04</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f05">Source M12-F05</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></p>
-          </article>
-        </div>
-      </section>
-
-      <section id="method" aria-labelledby="method-title">
-        <h2 id="method-title">Build one guarded action method</h2>
-        <p>Copy no complete vendor method blindly. In a separately named candidate, adapt the matching path to the team's exact configured devices. The following is a teaching shape, not buildable robot code until every symbolic helper, output name, tested value, and source record is implemented for the matching branch.</p>
-        <pre><code>enum LaunchResult { SUCCESS, NOT_READY, TIMEOUT, ABORTED, INACTIVE }
-
-LaunchResult feedOneArtifactGuarded(double testedFeedSeconds,
-                                    double testedTimeoutSeconds) {
-    feedTimer.reset();
-    if (abortRequested()) return LaunchResult.ABORTED;
-    if (!opModeIsActive()) return LaunchResult.INACTIVE;
-    if (timer.seconds() &gt;= testedTimeoutSeconds) return LaunchResult.TIMEOUT;
-    commandMatchingFeedOutputs();
-    while (feedTimer.seconds() &lt; testedFeedSeconds) {
-        if (abortRequested()) return LaunchResult.ABORTED;
-        if (!opModeIsActive()) return LaunchResult.INACTIVE;
-        if (timer.seconds() &gt;= testedTimeoutSeconds) return LaunchResult.TIMEOUT;
-
-        telemetry.addData("Feed elapsed/bound", "%f / %f",
-                feedTimer.seconds(), testedFeedSeconds);
-        telemetry.addData("Action elapsed/deadline", "%f / %f",
-                timer.seconds(), testedTimeoutSeconds);
-        telemetry.addData("Feed abort requested", abortRequested());
-        telemetry.update();
-        idle();
-    }
-
-    if (abortRequested()) return LaunchResult.ABORTED;
-    if (!opModeIsActive()) return LaunchResult.INACTIVE;
-    if (timer.seconds() &gt;= testedTimeoutSeconds) return LaunchResult.TIMEOUT;
-    return LaunchResult.SUCCESS;
-}
-
-LaunchResult runGuardedLaunch(double targetVelocity,
-                              double readyMinimum,
-                              double readyMaximum,
-                              double testedReadyDeadlineSeconds,
-                              double testedMinimumSampleIntervalSeconds,
-                              double testedReadyDurationSeconds,
-                              int testedReadySamples,
-                              double testedFeedSeconds,
-                              double testedTimeoutSeconds) {
-    LaunchResult result = LaunchResult.NOT_READY;
-    int consecutiveReadySamples = 0;
-    double readyStartSeconds = -1.0;
-    double lastSampleSeconds = -testedMinimumSampleIntervalSeconds;
-    timer.reset();
-
-    zeroEveryTouchedOutput();
-    try {
-        if (abortRequested()) {
-            result = LaunchResult.ABORTED;
-            return result;
-        }
-        if (!opModeIsActive()) {
-            result = LaunchResult.INACTIVE;
-            return result;
-        }
-
-        launcher.setVelocity(targetVelocity);
-        while (timer.seconds() &lt; testedReadyDeadlineSeconds) {
-            if (abortRequested()) {
-                result = LaunchResult.ABORTED;
-                return result;
-            }
-            if (!opModeIsActive()) {
-                result = LaunchResult.INACTIVE;
-                return result;
-            }
-            if (timer.seconds() &gt;= testedTimeoutSeconds) {
-                result = LaunchResult.TIMEOUT;
-                return result;
-            }
-
-            double nowSeconds = timer.seconds();
-            if (nowSeconds - lastSampleSeconds
-                    &lt; testedMinimumSampleIntervalSeconds) {
-                // Yield once, then recheck every guard before considering a sample.
-                idle();
-                continue;
-            }
-            lastSampleSeconds = nowSeconds;
-
-            double measuredVelocity = launcher.getVelocity();
-            boolean readyNow = measuredVelocity &gt;= readyMinimum
-                    &amp;&amp; measuredVelocity &lt;= readyMaximum;
-            if (readyNow) {
-                if (consecutiveReadySamples == 0) {
-                    readyStartSeconds = nowSeconds;
-                }
-                consecutiveReadySamples++;
-            } else {
-                consecutiveReadySamples = 0;
-                readyStartSeconds = -1.0;
-            }
-            double readyElapsedSeconds = readyStartSeconds &gt;= 0.0
-                    ? nowSeconds - readyStartSeconds : 0.0;
-
-            telemetry.addData("Target/measured", "%f / %f",
-                    targetVelocity, measuredVelocity);
-            telemetry.addData("Ready now", readyNow);
-            telemetry.addData("Ready samples/required", "%d / %d",
-                    consecutiveReadySamples, testedReadySamples);
-            telemetry.addData("Minimum sample interval", "%f",
-                    testedMinimumSampleIntervalSeconds);
-            telemetry.addData("Ready elapsed/required", "%f / %f",
-                    readyElapsedSeconds, testedReadyDurationSeconds);
-            telemetry.addData("Ready deadline/action timeout", "%f / %f",
-                    testedReadyDeadlineSeconds, testedTimeoutSeconds);
-            telemetry.addData("Abort requested", abortRequested());
-            telemetry.update();
-
-            if (consecutiveReadySamples &gt;= testedReadySamples
-                    &amp;&amp; readyElapsedSeconds &gt;= testedReadyDurationSeconds) {
-                result = feedOneArtifactGuarded(
-                        testedFeedSeconds, testedTimeoutSeconds);
-                return result;
-            }
-            idle();
-        }
-
-        result = timer.seconds() &gt;= testedTimeoutSeconds
-                ? LaunchResult.TIMEOUT : LaunchResult.NOT_READY;
-        return result;
-    } finally {
-        // This expands to exactly one matching branch body shown below.
-        zeroEveryTouchedOutput();
-        telemetry.addData("Launch result", result);
-        telemetry.addData("Every touched output zero", zeroReadbackSummary());
-        telemetry.update();
-    }
-}
-
-// REV matching body only:
-void zeroEveryTouchedRevOutput() {
-    flywheel.setVelocity(0.0);
-    feederContinuousRotationServo.setPower(0.0);
-    intake.setPower(0.0);
-}
-
-// goBILDA matching body only; include corner intakes only when touched:
-void zeroEveryTouchedGoBILDAOutput() {
-    launcher.setVelocity(0.0);
-    windmill.setPower(0.0);
-    intake.setPower(0.0);
-    cornerIntakeLeft.setPower(0.0);
-    cornerIntakeRight.setPower(0.0);
-}</code></pre>
-        <ol>
-          <li><strong>Active check:</strong> <code>opModeIsActive()</code> must be true before and during action work; Driver Station Stop makes continued action ineligible.</li>
-          <li><strong>Timeout:</strong> use only the matching, reviewed bound. REV's example maximum is <code>15</code> seconds. The goBILDA TeleOp supplies no Autonomous timeout, so the team must measure, approve, and record a bounded value before enabling that adaptation.</li>
-          <li><strong>Ready condition:</strong> use the exact matching branch's baseline or bounded candidate. Require at least two consecutive qualifying velocity samples separated by the team's documented positive minimum sample interval, and require the ready range to remain satisfied for a documented positive minimum elapsed confirmation duration. The team must predeclare and test the interval, duration, sample count, and ready deadline. Reset both the count and confirmation start after any nonqualifying sample. Never feed merely because a tight loop counted repeated reads, the target was requested, or one sample crossed the threshold.</li>
-          <li><strong>Abort:</strong> the Stop owner presses Driver Station Stop for any stop condition. If a team-owned explicit abort signal is implemented, test it and route it through the same <code>finally</code> shutdown. <code>ABORTED</code> applies when that explicit request is observed; <code>INACTIVE</code> applies when the OpMode is no longer active before an explicit request is observed.</li>
-          <li><strong>Feed guard:</strong> check <code>abortRequested()</code>, <code>opModeIsActive()</code>, and the same tested action deadline immediately before commanding feed, continuously while feed is commanded, and immediately after the loop before reporting success. Do not command feed if any pre-command guard fails. The feed timing bound never overrides the action timeout.</li>
-          <li><strong>Distinct result:</strong> record <code>NOT_READY</code> when the separate ready deadline ends without enough consecutive samples, <code>TIMEOUT</code> when the overall tested timeout ends, <code>ABORTED</code> for an observed explicit abort, <code>INACTIVE</code> when the OpMode becomes inactive, and <code>SUCCESS</code> only after guarded feed completes.</li>
-          <li><strong>Telemetry:</strong> report target, measured velocity, current and required consecutive ready samples, minimum sample interval, current and required ready duration, ready deadline, action timeout, abort state, feed timing, distinct result, and named zero evidence.</li>
-          <li><strong>Shutdown:</strong> <code>zeroEveryTouchedOutput()</code> expands to exactly one displayed matching-vendor zero body and runs before action and in <code>finally</code> on success, inactive state, timeout, abort, not-ready exit, and early return.</li>
-        </ol>
-        <p><strong>Powered blocker:</strong> before enabling this method, require <code>testedReadySamples &gt;= 2</code>, <code>testedMinimumSampleIntervalSeconds &gt; 0</code>, <code>testedReadyDurationSeconds &gt; 0</code>, <code>0 &lt; testedReadyDurationSeconds &lt; testedReadyDeadlineSeconds &lt; testedTimeoutSeconds</code>, and a positive tested feed bound that leaves time before the overall timeout. Missing or untested bounds block power. Use <code>idle()</code> to yield between interval-spaced samples; do not use a long blocking sleep that delays active, abort, or deadline checks. <span class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></span></p>
-        <p>For the REV range, pass <code>readyMinimum = targetVelocity - 50</code> and <code>readyMaximum = targetVelocity + 50</code>. For the matching goBILDA minimum-threshold behavior, implement a clearly reviewed one-sided ready helper rather than inventing a universal upper bound; the displayed two-bound shape must not create one.</p>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m09-f03">Source M09-F03</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m10-f07">Source M10-F07</a> <a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f03">Source M12-F03</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-      </section>
-
-      <section id="experiment" aria-labelledby="experiment-title">
-        <h2 id="experiment-title">Run one-variable experiment sets</h2>
-        <p>Choose exactly one experiment type for this meeting: <strong>target speed</strong> or <strong>physical launcher gap and its resulting artifact compression</strong>. Do not change both. Keep assembly, code except the declared variable and its derived threshold, artifact selection, battery criterion, starting fixture, drive route, feed command, feed timing, PIDF, measurement method, roles, acceptance criteria, and all other conditions fixed within the set.</p>
-
-        <h3>Bounded target-speed options</h3>
-        <div class="vendor-paths">
-          <article class="vendor-path">
-            <h3>REV target set</h3>
-            <p>Baseline: <code>1160</code> with ready range <code>1110</code> through <code>1210</code>. Compare the baseline with exactly one target option: <code>1110</code> with ready range <code>1060</code> through <code>1160</code>, or <code>1210</code> with ready range <code>1160</code> through <code>1260</code>. Those bounds preserve the documented <code>target +/- 50</code> relationship. Do not treat a candidate option as a vendor recommendation.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f01">Source M12-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></p>
-          </article>
-          <article class="vendor-path">
-            <h3>goBILDA target set</h3>
-            <p>Baseline: target <code>1250</code>, minimum ready threshold <code>1200</code>. Compare it with exactly one paired option: target <code>1200</code> with threshold <code>1150</code>, or target <code>1300</code> with threshold <code>1250</code>. Updating the threshold to <code>target - 50</code> preserves the same readiness relationship and is not a second experimental variable. Keep PIDF <code>(40, 0, 0, 12.5)</code> unchanged.</p>
-            <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f02">Source M12-F02</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a></p>
-          </article>
-        </div>
-
-        <h3>Physical-gap/compression set</h3>
-        <p>If the team selects this experiment, target speed, readiness rule, PIDF, feed behavior, route, and every electrical/software variable stay at the matching evidenced baseline. The team chooses one mechanically safe candidate gap only after exact-part documentation, powered-off interference inspection, artifact measurements, mentor approval, and predeclared bounds. Record the resulting compression and compression percentage. The lesson supplies no universal gap or compression target.</p>
-        <p class="claim-labels"><a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-
-        <h3>Test in two gates</h3>
-        <ol>
-          <li><strong>Freeze the set:</strong> record exact robot, vendor branch, code/configuration, selected route, fallback, experiment type, baseline, one candidate, derived threshold if any, constant variables, trial count, measurement methods, acceptance criteria, invalid-trial reasons, roles, and stop conditions before results.</li>
-          <li><strong>Pass the Supported test:</strong> with no artifact, verify sign, target/measured telemetry, ready/not-ready behavior, active exit, timeout, Stop/abort, feed inhibited when not ready, and explicit zero for every touched output. Any failure blocks artifact loading and Travel tests.</li>
-          <li><strong>Prepare the Travel test:</strong> complete the full contract above, use the selected Meeting 11 route only if its evidence remains valid, and inspect the candidate diff for exactly the declared experimental change.</li>
-          <li><strong>Run the unchanged baseline set:</strong> preserve every valid result. Record target, threshold/range, velocity/RPM/surface speed, gap/compression, spin-up, recovery, transit/feed timing, route result, launch outcome, exit reason, Stop/abort, and every named zero.</li>
-          <li><strong>Run the one-variable candidate set:</strong> use the same trial count and frozen conditions. A safety correction ends the comparison; record it, refreeze, and begin a new identified set.</li>
-          <li><strong>Decide without cherry-picking:</strong> retain the baseline, select the candidate, or block both using the predeclared criteria. One successful launch does not establish repeatability.</li>
-        </ol>
-        <fieldset class="evidence-sheet">
-          <legend>Frozen experiment and complete M12-M01 action evidence</legend>
-          <div class="evidence-grid">
-            <label class="wide">Experiment type, matching baseline, one candidate, and the only changed variable<textarea class="evidence-field" name="experiment-variable" rows="2"></textarea></label>
-            <label class="wide">All fixed conditions, trial count, acceptance criteria, invalid-trial reasons, and measurement methods<textarea class="evidence-field" name="frozen-conditions" rows="3"></textarea></label>
-            <label>Required consecutive ready samples<input class="evidence-field" type="number" min="2" name="ready-samples"></label>
-            <label>Minimum sample interval with units<input class="evidence-field" type="text" name="minimum-sample-interval"></label>
-            <label>Minimum ready confirmation duration with units<input class="evidence-field" type="text" name="ready-confirmation-duration"></label>
-            <label>Ready deadline with units<input class="evidence-field" type="text" name="ready-deadline"></label>
-            <label>Overall tested timeout with units<input class="evidence-field" type="text" name="action-timeout"></label>
-            <label class="wide">Active, SUCCESS, NOT_READY, TIMEOUT, ABORTED, INACTIVE, telemetry, and feed-guard trials/results<textarea class="evidence-field" name="guard-results" rows="3"></textarea></label>
-            <label class="wide">Launch and route outcomes, Stop response, and every named explicit-zero result<textarea class="evidence-field" name="physical-results" rows="3"></textarea></label>
-            <label class="wide">Predeclared retain/select/block decision, rationale, approvers, and evidence rows<textarea class="evidence-field" name="experiment-decision" rows="3"></textarea></label>
-          </div>
-        </fieldset>
-        <table class="record-table">
-          <caption>Append-only one-variable comparison record</caption>
-          <thead><tr><th scope="col">Set/trial</th><th scope="col">Only changed variable</th><th scope="col">Velocity and calculated measures</th><th scope="col">Timing and outcome</th><th scope="col">Exit and named-zero proof</th><th scope="col">Result</th></tr></thead>
-          <tbody>
-            <tr><td data-label="Set/trial"><label>Baseline trial<input class="evidence-field" type="text" name="baseline-trial-1"></label></td><td data-label="Variable">None: matching baseline</td><td data-label="Measures"><textarea class="evidence-field" name="baseline-measures-1" rows="3" aria-label="Baseline trial 1 velocity RPM surface speed gap artifact and compression measures"></textarea></td><td data-label="Timing/outcome"><textarea class="evidence-field" name="baseline-timing-1" rows="3" aria-label="Baseline trial 1 spin-up recovery transit feed route and launch outcomes"></textarea></td><td data-label="Exit/zeros"><textarea class="evidence-field" name="baseline-exit-1" rows="3" aria-label="Baseline trial 1 distinct result Stop and named zero proof"></textarea></td><td data-label="Result"><textarea class="evidence-field" name="baseline-result-1" rows="3" aria-label="Baseline trial 1 validity and result"></textarea></td></tr>
-            <tr><td data-label="Set/trial"><label>Baseline trial<input class="evidence-field" type="text" name="baseline-trial-2"></label></td><td data-label="Variable">None: matching baseline</td><td data-label="Measures"><textarea class="evidence-field" name="baseline-measures-2" rows="3" aria-label="Baseline trial 2 velocity RPM surface speed gap artifact and compression measures"></textarea></td><td data-label="Timing/outcome"><textarea class="evidence-field" name="baseline-timing-2" rows="3" aria-label="Baseline trial 2 spin-up recovery transit feed route and launch outcomes"></textarea></td><td data-label="Exit/zeros"><textarea class="evidence-field" name="baseline-exit-2" rows="3" aria-label="Baseline trial 2 distinct result Stop and named zero proof"></textarea></td><td data-label="Result"><textarea class="evidence-field" name="baseline-result-2" rows="3" aria-label="Baseline trial 2 validity and result"></textarea></td></tr>
-            <tr><td data-label="Set/trial"><label>Candidate trial<input class="evidence-field" type="text" name="candidate-trial-1"></label></td><td data-label="Variable"><textarea class="evidence-field" name="candidate-variable-1" rows="3" aria-label="Candidate trial 1 only changed variable"></textarea></td><td data-label="Measures"><textarea class="evidence-field" name="candidate-measures-1" rows="3" aria-label="Candidate trial 1 velocity RPM surface speed gap artifact and compression measures"></textarea></td><td data-label="Timing/outcome"><textarea class="evidence-field" name="candidate-timing-1" rows="3" aria-label="Candidate trial 1 spin-up recovery transit feed route and launch outcomes"></textarea></td><td data-label="Exit/zeros"><textarea class="evidence-field" name="candidate-exit-1" rows="3" aria-label="Candidate trial 1 distinct result Stop and named zero proof"></textarea></td><td data-label="Result"><textarea class="evidence-field" name="candidate-result-1" rows="3" aria-label="Candidate trial 1 validity and result"></textarea></td></tr>
-            <tr><td data-label="Set/trial"><label>Candidate trial<input class="evidence-field" type="text" name="candidate-trial-2"></label></td><td data-label="Variable"><textarea class="evidence-field" name="candidate-variable-2" rows="3" aria-label="Candidate trial 2 only changed variable"></textarea></td><td data-label="Measures"><textarea class="evidence-field" name="candidate-measures-2" rows="3" aria-label="Candidate trial 2 velocity RPM surface speed gap artifact and compression measures"></textarea></td><td data-label="Timing/outcome"><textarea class="evidence-field" name="candidate-timing-2" rows="3" aria-label="Candidate trial 2 spin-up recovery transit feed route and launch outcomes"></textarea></td><td data-label="Exit/zeros"><textarea class="evidence-field" name="candidate-exit-2" rows="3" aria-label="Candidate trial 2 distinct result Stop and named zero proof"></textarea></td><td data-label="Result"><textarea class="evidence-field" name="candidate-result-2" rows="3" aria-label="Candidate trial 2 validity and result"></textarea></td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="fallback" aria-labelledby="fallback-title">
-        <h2 id="fallback-title">If hardware, identity, evidence, or powered access is absent</h2>
-        <div class="fallback-box">
-          <p>Do not claim a launcher measurement, safe output, ready threshold, passing action, accepted target, accepted gap, or integrated Autonomous result.</p>
-          <ol>
-            <li>Keep the launcher candidate disabled. Preserve the exact selected Meeting 11 driving route and the separately eligible Meeting 10 fallback without modification.</li>
-            <li>If assembly identity is unknown, keep outputs disabled until the parts are identified. For a known custom or last-season assembly, prepare a team-adapted action using its exact motor/controller documents, measured settings, and every required guard and shutdown below. Keep the two new-season vendor values as reading references; do not copy them into a different assembly.</li>
-            <li>Complete the calculations symbolically. Captured or vendor example values must be labeled <strong>source example - not current BIOBUZZ measurement</strong>.</li>
-            <li>Trace the matching guarded method with cards for active, timeout, ready/not ready, feed, Stop/abort, telemetry, and every named zero. Use a disabled telemetry-only copy if code access exists.</li>
-            <li>If the Meeting 2 Blocks competition fallback is active, build the equivalent one-action sequence only when Blocks can express the same matching-source values, measured readiness, active/timeout/abort gates, telemetry, and named zeros. Otherwise retain the driving-only fallback and mark launcher integration blocked.</li>
-            <li>Record every missing document, identity, route prerequisite, measurement, mechanism repair, software capability, physical test, owner, and date. Continue only after the owning evidence is complete.</li>
+            <li><strong>Measure</strong> the speed table on this robot. <a href="#table">Table steps.</a></li>
+            <li><strong>Shoot in autonomous.</strong> <a href="#shoot">Shooting steps.</a></li>
+            <li><strong>Tune</strong> the feed time. <a href="#tune">Tuning steps.</a></li>
+            <li><strong>Save.</strong> <a href="#handoff">Save your work.</a></li>
           </ol>
-        </div>
+        <p><strong>One robot runs at a time.</strong> Students who are not at the robot read the code for the next step, fill in predictions, or work on the build. Swap jobs after every test.</p>
       </section>
-
-      <section id="evidence" aria-labelledby="evidence-title">
-        <h2 id="evidence-title">Show what you learned</h2>
-        <p><strong>Keep:</strong> exact assembly/source identity; current rule check; Meeting 11 route and Meeting 10 fallback identities; calculation inputs, formulas, units, and sources; gap/artifact/compression measurements; branch trace; reviewed code diff; Supported and Travel test cards; frozen one-variable set; every valid result; explicit-zero evidence; decision; and blockers.</p>
-        <h3>Each student explains</h3>
-        <p>Trace the request through active, timeout, measured ready condition, feed, telemetry, abort, and explicit shutdown. Calculate encoder velocity to RPM, flywheel surface speed, compression, and compression percentage from named inputs. Identify every F source, D choice, and pending or completed M record. Explain why the other vendor path is reading-only, why goBILDA's archive has no Autonomous, and why a target-speed set cannot also change physical gap.</p>
-        <p>Pair programmers must each complete one turn as driver and one as navigator. Record the swap time and have each student independently point to every output that reaches zero.</p>
+      <section id="safety">
+        <h2>Before power</h2>
+        <ul class="checklist">
+            <li>Everyone stands behind the robot’s starting position for the whole run. Nobody is between the robot and the target.</li>
+            <li>Count balls in and balls out. A ball left in the robot can fire the next time the launcher spins.</li>
+            <li>One student drives. A different student keeps a hand near Stop on the Driver Station and may press it at any time without asking.</li>
+            <li>Press Stop and wait for everything to stop moving before you touch, load, measure or pick up the robot.</li>
+            <li>Clear a jam only with the robot switched off.</li>
+          </ul>
+        <aside class="safety-callout"><strong>Stop first:</strong> if the robot goes the wrong way, something is loose, a ball jams, or the numbers on the screen look wrong, press Stop. Then work out why.</aside>
       </section>
-
-      <section id="handoff" aria-labelledby="handoff-title">
-        <h2 id="handoff-title">Prepare for Meeting 13</h2>
-        <p>Meeting 13 may tune launcher PIDF only from an exact, guarded Meeting 12 action with honest measurement and rollback evidence. A source value or one good launch is not qualification.</p>
-        <div class="handoff">
+      <section id="agenda">
+        <h2>Today’s plan</h2>
+        <ol class="timed-agenda">
+          <li><time>0:00–0:10<br>10 min</time><div><strong>Start.</strong> Goal, <a href="#safety">safety</a>, first jobs.</div></li>
+          <li><time>0:10–0:55<br>45 min</time><div><strong>Speed table.</strong> <a href="#table">Run the Meeting 5 shooting worksheet</a> on this robot with its real balls.</div></li>
+          <li><time>0:55–1:20<br>25 min</time><div><strong>First autonomous shots.</strong> <a href="#shoot">Switch shooting on</a> and run.</div></li>
+          <li><time>1:20–1:30<br>10 min</time><div><strong>Break.</strong> Press Stop first.</div></li>
+          <li><time>1:30–2:05<br>35 min</time><div><strong>Build.</strong> Check the launcher and feeder are tight and that balls feed without jamming. Finish before tuning starts; a mechanical change means measuring again.</div></li>
+          <li><time>2:05–2:45<br>40 min</time><div><strong>Tune the feed time.</strong> <a href="#tune">One change, three runs.</a></div></li>
+          <li><time>2:45–3:00<br>15 min</time><div><strong>Save.</strong> <a href="#handoff">Save your work.</a></div></li>
+        </ol>
+        <p>If a step runs long, stop it at its end time and write down where you got to.</p>
+      </section>
+      <details class="lesson-details" id="lesson-details" open>
+        <summary>Steps and worksheets</summary>
+        <section id="words">
+          <h2>Words you need</h2>
+          <p><strong>Preload:</strong> a ball the robot starts the match holding. <strong>At speed:</strong> the launcher wheel is within 50 ticks per second of the speed asked for. <strong>Feed time:</strong> how long the feeder runs for one burst. It is a time, not a count of balls.</p>
+        </section>
+        <section id="table">
+          <h2>Measure the speed table on this robot</h2>
+          <p>The Meeting 5 table was for the practice robot. A different launcher, different balls or a moved camera needs its own table.</p>
+          <ol>
+            <li>Start on a fresh battery. Read the <code>Battery</code> line on the Driver Station during INIT and write the voltage down. Press Stop and INIT again now and then to re-check. If it says SWAP or CHARGE, change the battery and shoot one finished row again.</li>
+            <li>Use <strong>Tune Shooter</strong> and the <a href="0005-build-and-structure-our-teleop.html#practice">Meeting 5 shooting steps</a>: five shots, count, change the speed one step.</li>
+            <li>Find a speed that hits at least four of five at the spot where your route stops, then at one spot a little closer and one a little farther.</li>
+            <li>Type the three rows into <code>ShooterCalibration.java</code>. The camera range at your shooting spot must be between the first row and the last.</li>
+          </ol>
           <table class="record-table">
-            <caption>Questions Meeting 13 needs answered</caption>
-            <thead><tr><th scope="col">Question</th><th scope="col">Verified answer</th><th scope="col">Proof or blocker/date</th></tr></thead>
-            <tbody>
-              <tr><td data-label="Question">Which exact vendor assembly, launcher motor/controller/mode, source revision, code, and configuration match?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-identity" rows="2" aria-label="Meeting 13 handoff exact assembly source code and configuration"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-identity-proof" rows="2" aria-label="Meeting 13 identity Proof or blocker and date"></textarea></td></tr>
-              <tr><td data-label="Question">What selected Meeting 11 route and eligible Meeting 10 fallback remain recoverable?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-route" rows="2" aria-label="Meeting 13 handoff route and fallback"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-route-proof" rows="2" aria-label="Meeting 13 route and fallback Proof or blocker and date"></textarea></td></tr>
-              <tr><td data-label="Question">What documented encoder/gearing inputs and measured diameter produced RPM and surface speed?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-rpm" rows="2" aria-label="Meeting 13 handoff encoder gearing RPM and surface speed"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-rpm-proof" rows="2" aria-label="Meeting 13 RPM Proof or blocker and date"></textarea></td></tr>
-              <tr><td data-label="Question">What gap, artifact size, compression, and compression percentage were measured?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-compression" rows="2" aria-label="Meeting 13 handoff gap artifact and compression"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-compression-proof" rows="2" aria-label="Meeting 13 compression Proof or blocker and date"></textarea></td></tr>
-              <tr><td data-label="Question">What spin-up, recovery, and transit/feed times did each retained row show?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-timing" rows="2" aria-label="Meeting 13 handoff spin-up recovery and transit timing"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-timing-proof" rows="2" aria-label="Meeting 13 timing Proof or blocker and date"></textarea></td></tr>
-              <tr><td data-label="Question">Which active, SUCCESS, NOT_READY, TIMEOUT, ABORTED, INACTIVE, telemetry, feed-guard, Stop, and every-named-zero evidence passed?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-guards" rows="2" aria-label="Meeting 13 handoff guarded action and shutdown evidence"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-guards-proof" rows="2" aria-label="Meeting 13 guard Proof or blocker and date"></textarea></td></tr>
-              <tr><td data-label="Question">Which one variable was compared, what remained fixed, and what predeclared rule selected, retained, or blocked the candidate?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-experiment" rows="2" aria-label="Meeting 13 handoff one-variable experiment and decision"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-experiment-proof" rows="2" aria-label="Meeting 13 experiment Proof or blocker and date"></textarea></td></tr>
-              <tr><td data-label="Question">What matching-source PIDF tuple or exact read-back baseline remains unchanged and recoverable?</td><td data-label="Answer"><textarea class="evidence-field" name="handoff-pidf" rows="2" aria-label="Meeting 13 handoff PIDF baseline"></textarea></td><td data-label="Proof/blocker"><textarea class="evidence-field" name="handoff-pidf-proof" rows="2" aria-label="Meeting 13 PIDF Proof or blocker and date"></textarea></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f04">Source M12-F04</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
-      </section>
-      </form>
+<caption>Speed table for this robot</caption>
+<thead><tr><th scope="col">Camera range (in)</th><th scope="col">Speed (ticks/s)</th><th scope="col">Hits out of 5</th><th scope="col">Keep this row?</th></tr></thead><tbody>
+            <tr><td data-label="Camera range (in)">________</td><td data-label="Speed (ticks/s)">________</td><td data-label="Hits out of 5">________</td><td data-label="Keep this row?">________</td></tr>
+            <tr><td data-label="Camera range (in)">________</td><td data-label="Speed (ticks/s)">________</td><td data-label="Hits out of 5">________</td><td data-label="Keep this row?">________</td></tr>
+            <tr><td data-label="Camera range (in)">________</td><td data-label="Speed (ticks/s)">________</td><td data-label="Hits out of 5">________</td><td data-label="Keep this row?">________</td></tr>
+            <tr><td data-label="Camera range (in)">________</td><td data-label="Speed (ticks/s)">________</td><td data-label="Hits out of 5">________</td><td data-label="Keep this row?">________</td></tr>
+            <tr><td data-label="Camera range (in)">________</td><td data-label="Speed (ticks/s)">________</td><td data-label="Hits out of 5">________</td><td data-label="Keep this row?">________</td></tr>
+            <tr><td data-label="Camera range (in)">________</td><td data-label="Speed (ticks/s)">________</td><td data-label="Hits out of 5">________</td><td data-label="Keep this row?">________</td></tr>
+          </tbody></table>
+        </section>
+        <section id="shoot">
+          <h2>Switch shooting on</h2>
+          <p>The mentor sets <code>FEED_ENABLED = true</code> in <code>StarterRobot.java</code>. Your route must have an <code>aimAndShoot()</code> line where the robot should shoot.</p>
+          <ol>
+            <li>Load the robot with its preloads. Count them.</li>
+            <li>Program: <strong>Autonomous Route</strong>. INIT, choose alliance, cell and Start A. Press X so <code>Shooting</code> says <code>ON</code>.</li>
+            <li>Check the INIT screen: “Speed table problem” must be blank. Place the robot at the shooting spot once and check “Speed table covers this range” says true.</li>
+            <li>Start. Watch the state on the screen: MOVE for each drive or turn, then AIM, SHOOT, and MOVE again as it turns back and carries on.</li>
+            <li>Press Stop when it finishes. Count the balls that left and the balls that hit.</li>
+          </ol>
+          <table class="course-map">
+<thead><tr><th scope="col">The screen says</th><th scope="col">What it means</th></tr></thead><tbody>
+            <tr><td data-label="The screen says">Shot skipped: speed table has no rows around … inches</td><td data-label="What it means">The drive before the shot stopped outside your table. Change that drive or measure another row.</td></tr>
+            <tr><td data-label="The screen says">Shot skipped: tags not lined up in time</td><td data-label="What it means">The camera could not see or centre the tags within 3 seconds. Check the camera tilt and the cell you chose.</td></tr>
+            <tr><td data-label="The screen says">Shot skipped: FEED_ENABLED is false</td><td data-label="What it means">The mentor’s switch is still off.</td></tr>
+            <tr><td data-label="The screen says">Shot stopped: Launcher spin-up timeout</td><td data-label="What it means">The wheel did not reach the speed in 4 seconds. Check the battery and the speed you asked for.</td></tr>
+            <tr><td data-label="The screen says">Out of time at 28 seconds</td><td data-label="What it means">The route is too long. Remove a step or shorten a drive.</td></tr>
+          </tbody></table>
+        </section>
+        <section id="tune">
+          <h2>Tune the feed time</h2>
+          <p>The feeder is allowed to run for <code>FEED_SECONDS</code> in <code>ShotTimer.java</code>. It pauses whenever a ball slows the wheel and carries on when the wheel is back at speed, but the clock keeps running. Too short and balls are left in the robot. Too long and the robot wastes time it needs for the rest of the route.</p>
+          <ol>
+            <li>Run three times with the number as it is. Write balls out and hits each time.</li>
+            <li>Change <code>FEED_SECONDS</code> by 0.2. Change nothing else.</li>
+            <li>Run three more times. Keep the new number only if all the preloads leave on every run.</li>
+            <li>Check the whole run still finishes before 28 seconds and ends where the route should end.</li>
+          </ol>
+          <table class="record-table">
+<caption>Autonomous shooting runs</caption>
+<thead><tr><th scope="col">Run</th><th scope="col">Feed seconds</th><th scope="col">Balls out / loaded</th><th scope="col">Hits</th><th scope="col">Ended where it should?</th><th scope="col">Total seconds</th><th scope="col">Notes</th></tr></thead><tbody>
+            <tr><td data-label="Run">1</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">2</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">3</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">4</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">5</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">6</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">7</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">8</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+            <tr><td data-label="Run">9</td><td data-label="Feed seconds">________</td><td data-label="Balls out / loaded">________</td><td data-label="Hits">________</td><td data-label="Ended where it should?">________</td><td data-label="Total seconds">________</td><td data-label="Notes">________</td></tr>
+          </tbody></table>
+          <p>A hit on a wall target is practice. On a real hive, also write whether the hive tipped; that is the 20 points.</p>
+          <p>If shooting is not reliable by the end, that is a result too. Keep the dry run, or a route with no <code>aimAndShoot()</code> line, as the match plan and come back to shooting later.</p>
+        </section>
+        <section id="handoff">
+          <h2>Save your work</h2>
+          <ul class="checklist">
+            <li>The speed table for this robot is in <code>ShooterCalibration.java</code>.</li>
+            <li>The worksheet shows balls out, hits and time for each run, including the bad ones.</li>
+            <li>The team has written down which autonomous it would use in a match today: shoot and park, park only, or leave.</li>
+            <li>The code builds. Commit it with a short message, for example “Meeting 12 auto shooting”.</li>
+          </ul>
+          <p>Meeting 13 looks at how the launcher holds its speed while balls go through it.</p>
+        </section>
       </details>
     </div>
-
-    <details class="lesson-details mentor-details"><summary>Mentor preparation and sources</summary>
-    <section id="prep" aria-labelledby="prep-title">
-      <h2 id="prep-title">Mentor preparation</h2>
-      <aside class="mentor-note">
-        <ul class="checklist">
-          <li>Recheck the exact matching REV page or verified goBILDA ZIP at delivery. Record source revision/access date, artifact checksum where applicable, and exact installed assembly match.</li>
-          <li>Recheck the current Competition Manual, latest Team Update, and Q&amp;A for Autonomous timing, artifact use, and the proposed action. Do not infer legality from vendor code.</li>
-          <li>Audit Meeting 11 route evidence, Meeting 10 fallback eligibility, exact configuration, mechanism safety evidence, current code identity, and all M12 blockers before enabling launcher code.</li>
-          <li>Obtain exact motor, encoder, gearing, flywheel, servo, and mechanism documents. Prepare appropriate measuring tools, stable supports, approved containment/backstop, arena marks, and current legal artifacts without supplying a team measurement.</li>
-          <li>Review one branch only for execution. Ensure every output touched by that branch is named in initialization and <code>finally</code> shutdown, including optional corner-intake servos when the goBILDA adaptation touches them.</li>
-          <li>Approve the Supported test before any artifact is loaded and the complete Travel test before integrated motion or launch. Enforce driver/navigator swap and independent individual explanation.</li>
-        </ul>
-      </aside>
-      <aside class="mentor-note"><strong>Enablement gate:</strong> exact assembly/source match; current rules check; eligible route/fallback; exact parts and configuration; documented encoder/gearing inputs; powered-off geometry and interference inspection; measured artifact; reviewed guarded method; branch-specific source values; approved experiment type, criteria, and constant-variable list; complete Supported test setup; Driver Station operator and independent Stop owner; every stop condition; and named explicit zeros must all pass. A blank, mismatch, pending prerequisite, unsupported Blocks capability, or unknown value keeps the candidate disabled.</aside>
-    </section>
-
-    <section id="resources" aria-labelledby="resources-title">
-      <h2 id="resources-title">Resources</h2>
+    <section id="prep">
+      <h2>Mentor preparation</h2>
+      <ol>
+            <li>Shooting in autonomous needs four things: dry run switched off in INIT, <code>FEED_ENABLED = true</code> in <code>StarterRobot.java</code>, a speed table that covers the camera range at the shooting spot, and the tags printed for the chosen cell.</li>
+            <li>Use the balls the robot is built for. The BIOBUZZ robot starts a match with four POLLEN.</li>
+            <li>Set up the target: a real hive if you have access, otherwise the Meeting 5 tape wall.</li>
+            <li>Leave the launcher’s P and F numbers alone today.</li>
+          </ol>
+      <h3>Sources</h3>
       <ul>
-        <li><span class="resource-label follow">Follow</span> Current <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/cm-html">FIRST 2026-2027 BIOBUZZ Competition Manual</a>, latest <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/tu-01">Team Update</a>, and official <a href="https://ftc-resources.firstinspires.org/ftc/archive/2027/game/q-a-system">Q&amp;A system</a> for current Autonomous timing and action legality.</li>
-        <li><span class="resource-label start-from">REV matching path only</span> <a href="https://docs.revrobotics.com/ftc-kickoff-concepts/home/programming-teleop-and-auto/programming-auto">REV 2026-2027 Starter Bot Autonomous walkthrough</a>. Its values and mechanism assumptions remain REV-scoped.</li>
-        <li><span class="resource-label start-from">goBILDA concepts only</span> Verified <a href="https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip">goBILDA example ZIP</a>. It contains one TeleOp and no Autonomous file.</li>
-        <li><span class="resource-label follow">Follow</span> Pinned RobotCore 12.0.0 <a href="https://javadoc.io/doc/org.firstinspires.ftc/RobotCore/12.0.0/com/qualcomm/robotcore/hardware/DcMotorEx.html"><code>DcMotorEx</code></a> Javadoc for velocity and coefficient APIs; API validity does not establish effective launcher values.</li>
-        <li><span class="resource-label follow">Follow</span> FTC Docs <a href="https://ftc-docs.firstinspires.org/en/latest/programming_resources/shared/pidf_coefficients/pidf-coefficients.html">Changing PIDF Coefficients</a> for access workflow. Meeting 12 records the baseline and does not tune it.</li>
-        <li><span class="resource-label optional">Optional explanation</span> Game Manual 0 <a href="https://gm0.org/en/latest/docs/software/adv-control-system/sdk-motors.html">SDK Motors</a> for controller-unit cautions, not coefficient authority.</li>
-        <li><span class="resource-label follow">Follow</span> Exact manufacturer documents for every installed motor, encoder, transmission, wheel, servo, and launcher component.</li>
-        <li><span class="resource-label follow">Follow</span> The shared <a href="../reference/robot-test-card.html">robot test card</a>, <a href="../reference/fault-log.html">fault log</a>, and <a href="../reference/skill-tracker.html">skill tracker</a>.</li>
-      </ul>
+            <li><a href="https://ftc-resources.firstinspires.org/ftc/game/cm-html/BIOBUZZ%20Competition%20Manual%20-%20TU03.htm">BIOBUZZ Competition Manual, Team Update 03</a>: section 10.5.1 (what counts as a HIVE TIP), Table 10-2, rules G304 and G417.</li>
+            <li><a href="../reference/meeting5-shooter-auto-guide.html">Meeting 5 setup guide</a>: tape wall measurements and what to recheck on a real hive.</li>
+            <li><a href="https://github.com/jfgordon2/FtcRobotController">Team robot code</a>: <code>ShooterCalibration.java</code>, <code>ShotTimer.java</code> and <code>AutoFollowRoute.java</code>.</li>
+          </ul>
+      <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m12-f01">Source M12-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m12-d01">Team choice M12-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m12-m01">Measure it M12-M01</a></p>
     </section>
-    </details>
   </main>
-
-  <footer class="site-footer">
-    <p><a href="0011-compose-the-autonomous-route.html">Previous: Meeting 11: Compose the Autonomous Route</a> | <a href="index.html">Course index</a> | <a href="0013-tune-launcher-velocity-with-pidf.html">Next: Meeting 13: Tune Launcher Velocity With PIDF</a></p>
-  </footer>
+  <footer class="site-footer"><p><a href="0011-compose-the-autonomous-route.html">Previous: Meeting 11: Compose the Autonomous Route</a> | <a href="index.html">Course index</a> | <a href="0013-tune-launcher-velocity-with-pidf.html">Next: Meeting 13: Tune Launcher Velocity With PIDF</a></p><p>BIOBUZZ programming mentorship · Trace, measure, change one thing, repeat.</p></footer>
 </body>
 </html>

@@ -113,7 +113,7 @@ It is not a strong direct source for Meetings 1-2 or 14-16.
 
 ### Inspected artifact
 
-The [ZIP](https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip), downloaded and verified on 2026-09-17 as `3200-2627-0003_example-code.zip` with SHA-256 `aadbb82cfeaef37b6fbf814589956c5305efc0734ce5ef7df23dbfa996882ca3`, contained exactly one 12,500-byte file: `BioBuzzStarterbotTeleop.java`. It is an MIT-licensed Java iterative TeleOp for the goBILDA 2026-2027 StarterBot. There is no Autonomous program, Blocks file, project/Gradle metadata, configuration file, or version manifest in the archive.
+The [ZIP](https://www.gobilda.com/content/downloads/3200-2627-0003_example-code.zip), downloaded and verified on 2026-09-17 as `3200-2627-0003_example-code.zip`, contained exactly one 12,500-byte file: `BioBuzzStarterbotTeleop.java`. It is an MIT-licensed Java iterative TeleOp for the goBILDA 2026-2027 StarterBot. There is no Autonomous program, Blocks file, project/Gradle metadata, configuration file, or version manifest in the archive.
 
 The source teaches or demonstrates:
 
@@ -194,5 +194,5 @@ The comparison was intentionally limited to [RESOURCES.md](../../RESOURCES.md), 
 2. Use a StarterBot example only after identifying which physical StarterBot is present. "REV 2026-2027 Starter Bot" and "goBILDA 2026-2027 StarterBot" are different robots with incompatible names, mechanisms, constants, and control choices.
 3. Assign a narrow trace before adaptation: hardware/configuration input, Java decision, commanded output, physical assumption, stop behavior, and value that requires measurement.
 4. Copy examples into `TeamCode`; never replace or edit SDK sample sources. Review imports/API calls against the pinned SDK and retain the team's safety, diff, test-card, and evidence gates.
-5. Record vendor page access date, exact robot revision, code-file identity/checksum, installed part numbers, configuration, and every changed constant. Revalidate after any vendor-page, SDK, firmware, wiring, gearing, wheel, or mechanism change.
+5. Record vendor page access date, exact robot revision, installed part numbers, configuration, and every changed constant. Revalidate after any vendor-page, SDK, firmware, wiring, gearing, wheel, or mechanism change.
 6. Treat all game terminology, timing, field position, capacity, strategy, and legality statements as season-sensitive. Resolve them against the current Competition Manual and live FIRST resources, not a vendor walkthrough.

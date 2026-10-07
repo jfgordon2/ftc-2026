@@ -97,8 +97,8 @@ states what authority it has and what must be checked before use.
 - **Authority:** Official documentation for GitHub concepts and hosted
   collaboration workflows.
 - **Use and caveat:** Follow it for commits, branches, pull requests, and review.
-  BIOBUZZ's rule to commit only tested robot behavior and its tag names are team
-  workflow decisions, not GitHub requirements.
+  BIOBUZZ's rule to commit only tested robot behavior is a team
+  workflow decision, not a GitHub requirement.
 
 ### REV DUO Documentation
 
@@ -184,7 +184,7 @@ states what authority it has and what must be checked before use.
   subsystem-method, telemetry, encoder-velocity, and nonblocking velocity-gate
   sections. It is a TeleOp integration example, not an autonomous source.
 - **Currency and authority:** Season-scoped and distributed at a mutable,
-  unversioned URL. Record a local filename and checksum for fixed handouts. Its
+  unversioned URL. Keep a local copy of fixed handouts. Its
   powers, PIDF values, velocity thresholds, directions, and game behavior are
   robot-specific, not universal authority. Current FIRST rules own legality,
   pinned SDK sources own API behavior, exact-part documentation owns product

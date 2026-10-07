@@ -1,7 +1,7 @@
 # Logitech F310 default StarterBot controller map
 
 Prepared September 30, 2026. Applies to gamepad 1 in the standard 6WD vendor
-TeleOp and the team `StarterBotTeleOp` baseline. The aim-assist draft has a
+TeleOp and the team `TeleOpBasic` baseline. The aim-assist draft has a
 separate A/RB behavior documented in the lesson.
 
 Photos: Logitech, [F310 product page](https://www.logitechg.com/en-us/shop/p/f310-gamepad).

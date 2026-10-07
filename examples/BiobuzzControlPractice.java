@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /** Decision practice only: no hardware lookup or actuator commands. */
-@TeleOp(name = "BIOBUZZ Control Practice", group = "Training")
+@TeleOp(name = "BIOBUZZ Control Practice", group = "Lessons")
 public class BiobuzzControlPractice extends LinearOpMode {
     @Override
     public void runOpMode() {
