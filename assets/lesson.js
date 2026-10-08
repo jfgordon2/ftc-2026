@@ -128,6 +128,21 @@
 
   const tools = document.createElement("div");
   tools.className = "print-tools no-print";
+
+  // A lesson with its own printable packet points the print tools at that PDF instead of
+  // printing this page. Set it with <body data-print-pack="../path/to/packet.pdf">.
+  const printPack = document.body.dataset.printPack;
+  if (printPack) {
+    tools.setAttribute("aria-label", "Mentor print tools");
+    tools.innerHTML = `
+      <p><strong>Mentor print tools:</strong> this meeting has its own print packet with the worksheets and the AprilTag sheets. Print it at Actual Size / 100%, single-sided.</p>
+      <a class="print-pack-link" href="" target="_blank" rel="noopener">Open the print packet (PDF)</a>
+    `;
+    tools.querySelector("a").setAttribute("href", printPack);
+    (document.querySelector("#prep") || document.querySelector("main"))?.prepend(tools);
+    return;
+  }
+
   const teamWorksheets = document.body.dataset.worksheetMode === "team";
   tools.setAttribute("aria-label", teamWorksheets ? "Team print tools" : "Mentor print tools");
   tools.innerHTML = teamWorksheets ? `

@@ -587,7 +587,8 @@ tbody tr:nth-child(even) {
   margin: 0;
 }
 
-.print-tools button {
+.print-tools button,
+.print-tools .print-pack-link {
   background: var(--paper);
   border: 1px solid var(--blue-dark);
   border-radius: var(--radius);
@@ -596,10 +597,13 @@ tbody tr:nth-child(even) {
   font: inherit;
   font-weight: 750;
   padding: 0.55rem 0.8rem;
+  text-decoration: none;
 }
 
 .print-tools button:hover,
-.print-tools button:focus-visible {
+.print-tools button:focus-visible,
+.print-tools .print-pack-link:hover,
+.print-tools .print-pack-link:focus-visible {
   background: var(--blue-dark);
   color: #fff;
 }
