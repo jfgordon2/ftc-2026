@@ -7,7 +7,7 @@
 - Field mounting: https://ftc-resources.firstinspires.org/ftc/field/eventfieldguide
 
 FIRST's artwork remains FIRST's artwork. The Meeting 5 plan and worksheet pages are
-team teaching material. `scripts/build_meeting5_print_pack.py` puts four handout
+team teaching material. `scripts/build_meeting5_print_pack.py` puts five handout
 pages in front of the eight original sheets to make
 `output/pdf/meeting5-shooter-auto-print-pack.pdf`. If FIRST publishes new target
 sheets, download them again, replace the local copy, and rebuild the packet.
@@ -16,12 +16,12 @@ sheets, download them again, replace the local copy, and rebuild the packet.
 
 | Original pages (right, left) | Packet pages (right, left) | Name to choose in INIT | IDs left to right |
 |---|---|---|---|
-| 1, 2 | 5, 6 | BLUE AUDIENCE | 38, 39, 40, 41 |
-| 3, 4 | 7, 8 | BLUE SCORING | 42, 43, 44, 45 |
-| 5, 6 | 9, 10 | RED AUDIENCE | 34, 35, 36, 37 |
-| 7, 8 | 11, 12 | RED SCORING | 30, 31, 32, 33 |
+| 1, 2 | 6, 7 | BLUE AUDIENCE | 38, 39, 40, 41 |
+| 3, 4 | 8, 9 | BLUE SCORING | 42, 43, 44, 45 |
+| 5, 6 | 10, 11 | RED AUDIENCE | 34, 35, 36, 37 |
+| 7, 8 | 12, 13 | RED SCORING | 30, 31, 32, 33 |
 
-SCORING is FIRST's name for the tags on the side of the hive away from the audience.
+SCORING is FIRST's name for the tags on the side of the hive opposite the audience.
 Our Driver Station screens use the same names.
 
 Meeting 5 uses RED AUDIENCE: it is the red CELL that faces up when a match starts.
@@ -37,7 +37,7 @@ across the join, and 13.00 inches from the first to the last.
 Do not redraw, screenshot, or rescale the target pages. The original PDF has hidden
 layers holding the other clusters, so the builder copies the whole original
 document and inserts the handout in front, which keeps the right tags visible.
-After rebuilding, look at all twelve pages before printing.
+After rebuilding, look at all thirteen pages before printing.
 
 ## Wall layout used in Meeting 5
 

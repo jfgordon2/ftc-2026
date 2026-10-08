@@ -77,14 +77,14 @@
         </section>
         <section id="math">
           <h2>Calculate ticks per inch</h2>
-          <p>Both goBILDA StarterBots use drive motors that count <strong>537.7 ticks for one turn of the wheel</strong> and wheels <strong>96 mm</strong> across. The REV practice robot counts <strong>420 ticks</strong> per wheel turn, and REV’s code treats its wheel as <strong>3 inches</strong> (76.2 mm) across. Check the numbers for your robot before you trust them.</p>
+          <p>Both goBILDA StarterBots use drive motors that count <strong>537.7 ticks for one turn of the wheel</strong> and wheels <strong>96 mm</strong> across. The REV practice robot counts <strong>420 ticks</strong> per wheel turn, and REV’s code treats its wheel as <strong>3 inches</strong> (76.2 mm) across. Where 537.7 and 420 come from: the encoder sits on the motor and counts 28 ticks per motor turn, and the gearbox turns the motor 19.2 times (goBILDA) or 15 times (REV) for each turn of the wheel. 28 × 19.2 is about 537.7; 28 × 15 = 420. Check the numbers for your robot before you trust them.</p>
           <ol>
             <li>Distance for one wheel turn = wheel diameter × 3.1416. In millimetres: ________</li>
             <li>Change to inches: divide by 25.4. ________ inches per wheel turn</li>
             <li>Ticks per inch = ticks per wheel turn ÷ inches per wheel turn. ________</li>
             <li>How many ticks should a 24-inch drive be? ________</li>
           </ol>
-          <p>Compare your answer with the starting value for your robot at <code>TICKS_PER_INCH</code> near the top of <code>Drive.java</code>. They should agree to within 0.1.</p>
+          <p>Compare your answer with the starting value on your robot’s <code>TICKS_PER_INCH_…</code> line near the top of <code>robot/Drive.java</code> (for the BIOBUZZ robot, <code>TICKS_PER_INCH_BIOBUZZ_GOBILDA</code>). The comment under those lines shows the same calculation. They should agree to within 0.1.</p>
           <p>The calculation assumes the wheel never slips and is exactly 96 mm. Real wheels squash and slip a little. That is why we measure.</p>
         </section>
         <section id="measure">
@@ -95,7 +95,7 @@
             <li>When it stops, write the left and right ticks and the seconds from the screen. Press Stop. Measure the real distance.</li>
             <li>Do it three times forward, carrying the robot back to the mark each time. Then once backward with D-pad DOWN.</li>
             <li>For each run: measured ticks per inch = average of left and right ticks ÷ measured inches.</li>
-            <li>Average your forward runs. If the average differs from the code by more than 0.5, type your number into <code>TICKS_PER_INCH</code>, build, and run once more to check.</li>
+            <li>Average your forward runs. If the average differs from the code by more than 0.5, replace the number on your robot’s <code>TICKS_PER_INCH_…</code> line with yours, build, and run once more to check.</li>
             <li>Work out the robot’s speed: inches ÷ seconds. You need this in Meeting 11.</li>
           </ol>
           <p class="record-prompt">Ticks per inch in the code before: ________ &nbsp; Our average: ________ &nbsp; Speed: ________ inches per second</p>

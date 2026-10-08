@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BIOBUZZ Meeting 5: tune the launcher speed against a taped wall target, then build and test one autonomous path that uses the drive base and an AprilTag.">
+  <meta name="description" content="BIOBUZZ Meeting 5: check the robot's drive, turn and launcher numbers, tune the launcher speed against a taped wall target, then build and test one autonomous path that uses the drive base and an AprilTag.">
   <title>Meeting 5: Tune the Shooter and Build an Auto Path | BIOBUZZ</title>
   <link rel="stylesheet" href="../assets/lesson.css">
   <script src="../assets/lesson.js" defer></script>
@@ -12,7 +12,7 @@
   <header class="site-header">
     <p>BIOBUZZ / Week 3, Meeting 5 / FTC SDK v12.0</p>
     <h1>Tune the Shooter and Build an Auto Path</h1>
-    <p class="lede">Find the launcher speed that hits the target. Then make the robot drive, line up on an AprilTag, and park by itself.</p>
+    <p class="lede">First check that the robot drives and turns the amounts it is told. Then find the launcher speed that hits the target, and make the robot drive, aim at an AprilTag, and park by itself.</p>
     <ul class="meeting-meta">
       <li><strong>Duration</strong><br>180 minutes</li>
       <li><strong>Robot</strong><br>A practice robot from last season (goBILDA or REV)</li>
@@ -24,7 +24,7 @@
     <a href="index.html">Course index</a>
     <a href="0004-decide-what-our-robot-should-do.html">Previous: Meeting 4: Decide What Our Robot Should Do</a>
     <a href="#start-here">Start here</a><a href="#safety">Safety</a><a href="#agenda">Today’s plan</a>
-    <a href="#range">Build the practice field</a><a href="#practice">Tune the shooter</a><a href="#drive">Measure a drive and a turn</a><a href="#test">Build the auto path</a>
+    <a href="#drive">Check the robot’s numbers</a><a href="#range">Build the practice field</a><a href="#practice">Tune the shooter</a><a href="#test">Build the auto path</a>
     <a href="#handoff">Save your work</a><a href="#carry-over">What carries over</a><a href="#prep">Mentor preparation</a>
     <a href="0006-build-the-mechanism-controls.html">Next: Meeting 6: Build the Mechanism Controls</a>
   </nav>
@@ -32,16 +32,16 @@
     <div class="student-path">
       <section id="outcome">
         <h2>Today’s goal</h2>
-        <div class="outcome-banner">Leave with a launcher speed table we measured ourselves and one autonomous path that ends inside a taped parking box.</div>
-        <p>We do not have a field or the new robot yet, so we build a practice field from tape: a rectangle on the wall for the hive opening and lines on the floor for the start and the parking zone. We use one of last season’s practice robots. The numbers we find today belong to that robot. The steps, the worksheets, the tape layout and the code are what we reuse on the BIOBUZZ robot.</p>
+        <div class="outcome-banner">Leave with checked drive and turn numbers, a launcher speed table we measured ourselves, and one autonomous path that ends inside a taped parking box.</div>
+        <p>We do not have a field or the new robot yet, so we build a practice field from tape: a rectangle on the wall for the hive opening and lines on the floor for the start and the parking zone. We use one of last season’s practice robots. We check the robot’s own numbers first, because everything after depends on them: if the robot thinks 24 inches is 22, every shooting mark and every route will be off too. The numbers we find today belong to that robot. The steps, the worksheets, the tape layout and the code are what we reuse on the BIOBUZZ robot.</p>
       </section>
       <section id="start-here">
         <h2>Start here</h2>
         <ol>
-          <li><strong>Build the practice field.</strong> Tape the wall target and the floor lines. <a href="#range">Use the measurements below.</a></li>
+          <li><strong>Check the robot’s numbers.</strong> Is the Hub direction set right? Does it drive 24 inches when asked, turn 90 degrees, and spin the launcher up to speed? <a href="#drive">Robot checks.</a></li>
+          <li><strong>Build the practice field.</strong> The rest of the team tapes the wall target and the floor lines at the same time. <a href="#range">Measurements.</a></li>
           <li><strong>Tune the shooter.</strong> Shoot five balls, count hits, change the speed one step, repeat. <a href="#practice">Shooter steps.</a></li>
-          <li><strong>Measure a drive and a turn.</strong> Ask for 24 inches and 90 degrees, then check with a tape measure. <a href="#drive">Drive steps.</a></li>
-          <li><strong>Build the auto path.</strong> Type three numbers into one route, run it, measure where the robot ends. <a href="#test">Auto steps.</a></li>
+          <li><strong>Build the auto path.</strong> Type a few numbers into one route, run it, measure where the robot ends. <a href="#test">Auto steps.</a></li>
           <li><strong>Save.</strong> Put the numbers that worked into the code and save it. <a href="#handoff">Save your work.</a></li>
         </ol>
         <p><strong>One robot runs at a time.</strong> While one pair works at the robot, the other students tape the route, graph the shooting results, or read the code for the next step. Swap jobs after every five shots or every test run.</p>
@@ -60,20 +60,82 @@
         <h2>Today’s plan</h2>
         <ol class="timed-agenda">
           <li><time>0:00–0:10<br>10 min</time><div><strong>Start.</strong> Read the goal and the <a href="#safety">safety rules</a>. Pick the first driver, Stop person, recorder and measurer.</div></li>
-          <li><time>0:10–0:45<br>35 min</time><div><strong>Build the practice field.</strong> This is today’s build block. Tape the wall target, hang the AprilTags, tape the floor lines, and check that the camera sees the tags. <a href="#range">Measurements.</a></div></li>
-          <li><time>0:45–1:30<br>45 min</time><div><strong>Tune the shooter.</strong> Fill in the <a href="#practice">shooting worksheet</a> at three distances.</div></li>
-          <li><time>1:30–1:40<br>10 min</time><div><strong>Break.</strong> Press Stop first.</div></li>
-          <li><time>1:40–2:05<br>25 min</time><div><strong>Measure a drive and a turn.</strong> <a href="#drive">Check 24 inches and 90 degrees</a> with a tape measure.</div></li>
-          <li><time>2:05–2:45<br>40 min</time><div><strong>Build the auto path.</strong> <a href="#test">Edit one route</a> and run it until the robot ends in the parking box three times in a row.</div></li>
+          <li><time>0:10–0:50<br>40 min</time><div><strong>Check the robot’s numbers</strong> (one pair at the robot): <a href="#drive">battery, Hub direction, distance, turns and launcher speed</a>. <strong>At the same time, build the practice field</strong> (everyone else; today’s build block): <a href="#range">tape the wall target, hang the AprilTags, tape the floor lines</a>.</div></li>
+          <li><time>0:50–1:35<br>45 min</time><div><strong>Tune the shooter.</strong> Check the camera sees the tags, then fill in the <a href="#practice">shooting worksheet</a> at three distances.</div></li>
+          <li><time>1:35–1:45<br>10 min</time><div><strong>Break.</strong> Press Stop first.</div></li>
+          <li><time>1:45–2:45<br>60 min</time><div><strong>Build the auto path.</strong> <a href="#test">Edit one route</a> and run it until the robot ends in the parking box three times in a row.</div></li>
           <li><time>2:45–3:00<br>15 min</time><div><strong>Save and clean up.</strong> <a href="#handoff">Put the numbers in the code</a>, save, and take a photo of the tape layout.</div></li>
         </ol>
-        <p>If a step runs long, stop it at its end time and write down where you got to. A finished shooter table and a measured drive are a good day even if the auto path is not done.</p>
+        <p>If a step runs long, stop it at its end time and write down where you got to. Checked robot numbers and a finished shooter table are a good day even if the auto path is not done. Do not skip the robot checks to get to shooting sooner.</p>
       </section>
       <details class="lesson-details" id="lesson-details" open>
         <summary>Steps and worksheets</summary>
         <section id="words">
           <h2>Words you need</h2>
-          <p><strong>Ticks per second:</strong> how fast the launcher wheel spins, counted by its encoder. Our code and goBILDA’s code both ask for launcher speed this way. <strong>Camera range:</strong> the distance the camera reports to the AprilTags, in inches. <strong>Interpolate:</strong> pick a value between two measured points. <strong>Route:</strong> the list of steps for one autonomous path: drives, turns, and aim-and-shoot. <strong>IMU:</strong> the sensor in the Control Hub that tells which way the robot faces.</p>
+          <p><strong>Ticks per inch:</strong> how many encoder counts a drive wheel makes while the robot rolls one inch. The code uses it to turn “drive 24 inches” into a number of ticks. <strong>Ticks per second:</strong> how fast the launcher wheel spins, counted by its encoder. Our code and goBILDA’s code both ask for launcher speed this way. <strong>Camera range:</strong> the distance the camera reports to the AprilTags, in inches. <strong>Interpolate:</strong> pick a value between two measured points. <strong>Route:</strong> the list of steps for one autonomous path: drives, turns, and aim-and-shoot. <strong>IMU:</strong> the sensor in the Control Hub that tells which way the robot faces.</p>
+        </section>
+        <section id="drive">
+          <h2>Check the robot’s numbers</h2>
+          <p>The code starts with numbers copied from the robot maker’s example code: how many encoder ticks make an inch, and how fast the launcher should spin. They are close, not exact, and every robot is a little different. Check them first. Everything else today, the shooting marks and the route, assumes the robot drives the distance it is told.</p>
+          <p>One pair works at the robot. Everyone else builds the <a href="#range">practice field</a> at the same time. Take the balls out. No camera is needed yet.</p>
+          <h3>1. Battery</h3>
+          <ol>
+            <li>Run any program and press INIT only. Read the <code>Battery</code> line and write the voltage at the top of the worksheet.</li>
+            <li>If it says SWAP or CHARGE, change the battery now. A tired battery makes the robot drive and shoot differently, so every number after this would be off.</li>
+          </ol>
+          <h3>2. Which way the Hub faces</h3>
+          <p>The Control Hub has a heading sensor (the IMU) inside it. The code has to be told how the Hub is mounted, or it measures turning around the wrong axis, and the robot cannot drive straight or turn by itself. Programs that drive by themselves stay still until this check is done.</p>
+          <p>Program: <strong>Tune Drive</strong>. Press INIT only; never Start for this check. In INIT the motors are off, so you can move the robot with your hands. “Turn the robot by hand” means: leave it on the floor and twist it round with your hands, like turning a box on a table.</p>
+          <ol>
+            <li>Look at the Control Hub on the robot. Which way does the REV logo face: up, down, forward, back, left or right? Which way do the USB ports point? “Forward” means toward the front of the robot: the way it moves when the left stick is pushed forward.</li>
+            <li>Open <code>Heading.java</code>. Compare your answers with <code>LOGO</code> and <code>USB</code> near the top. The INIT screen also shows them on the <code>Hub logo / USB / confirmed</code> line. If they do not match the robot, change them and build again.</li>
+            <li>Turn test: watch the <code>Heading sensor (IMU)</code> number on the screen. Turn the robot by hand about a quarter turn to the right (clockwise, seen from above). The number should go <strong>up by about 90</strong>. Turn it back: it should come back down.</li>
+            <li>Tilt test: lift the front of the robot about 4 inches and put it down. Then lift one side about 4 inches and put it down. Each time the heading should change by only a few degrees.</li>
+            <li>If the number goes down when you turn right, barely moves when you turn, or jumps when you tilt, the logo or USB setting is wrong. Look at the Hub again, fix the setting, build, and repeat both tests.</li>
+            <li>When both tests pass, show the mentor. The mentor sets <code>MOUNTING_CONFIRMED = true</code> and builds. The robot can now drive by itself.</li>
+          </ol>
+          <p class="record-prompt">Logo faces: ________ &nbsp; USB faces: ________ &nbsp; Quarter turn right, heading went from ______ to ______ &nbsp; Tilts changed it by ______ and ______</p>
+          <h3>3. Distance: ticks per inch</h3>
+          <p>Program: <strong>Tune Drive</strong>.</p>
+          <ol>
+            <li>Put a pencil mark or a piece of tape on the side of the robot, and line it up with a tape mark on the floor. Leave at least 4 feet of clear floor ahead.</li>
+            <li>Press INIT, then D-pad UP to choose 24 inches forward. Press Start. Everyone stays clear.</li>
+            <li>When it stops, write the left and right tick numbers and the seconds from the screen. Press Stop. Measure how far the mark on the robot really moved, to the nearest quarter inch.</li>
+            <li>Do it again from the same mark. Then once more with D-pad DOWN for 24 inches backward.</li>
+            <li>For each run, work out <strong>ticks per inch = average of left and right ticks ÷ real inches</strong>. Average the three answers.</li>
+            <li>The code starts with 45.28 for a goBILDA robot and 44.56 for the REV robot. If your average differs by more than 1, change it: open <code>robot/Drive.java</code> and find the three <code>TICKS_PER_INCH_…</code> lines near the top, one per robot. Change only the line for your robot. For last season’s goBILDA robot, that is:
+              <pre><code>public static final double TICKS_PER_INCH_PRACTICE_GOBILDA = 45.28;   // replace 45.28 with your number</code></pre>
+              Build, and run 24 inches forward once more. It should now land within half an inch.</li>
+          </ol>
+          <p>Worked example: the robot drives, the screen says 1088 and 1092 ticks, and the tape shows 23.5 inches. Average ticks = 1090. 1090 ÷ 23.5 = 46.4 ticks per inch. That is more than 1 away from 45.28, so we replace 45.28 with 46.4 on our robot’s line.</p>
+          <p>If the left and right ticks differ by more than about 20, or the robot curves, look for a dragging wheel or a loose hub before you change any numbers.</p>
+          <h3>4. Turns</h3>
+          <ol>
+            <li>Tape a square corner on the floor. Line one side of the robot up with one side of the corner.</li>
+            <li>Press D-pad RIGHT for a 90-degree right turn and Start. Is the robot now lined up with the other side of the corner? Write how many degrees off it looks.</li>
+            <li>Do the same with D-pad LEFT.</li>
+          </ol>
+          <p>Turns use the Hub’s heading sensor, not the wheel ticks, so changing ticks per inch does not change them. If the robot turns the wrong way or keeps spinning, go back to step 2. More than about 3 degrees off, or a robot that wobbles back and forth at the end, is a note for the mentor; there is no number for you to change today.</p>
+          <table class="record-table"><caption>Distance and turn worksheet</caption><thead><tr><th scope="col">Asked for</th><th scope="col">Left ticks</th><th scope="col">Right ticks</th><th scope="col">Measured</th><th scope="col">Seconds</th><th scope="col">Ticks per inch</th></tr></thead><tbody>
+            <tr><td data-label="Asked for">24 in forward</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured">________</td><td data-label="Seconds">________</td><td data-label="Ticks per inch">________</td></tr>
+            <tr><td data-label="Asked for">24 in forward</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured">________</td><td data-label="Seconds">________</td><td data-label="Ticks per inch">________</td></tr>
+            <tr><td data-label="Asked for">24 in backward</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured">________</td><td data-label="Seconds">________</td><td data-label="Ticks per inch">________</td></tr>
+            <tr><td data-label="Asked for">With your new number: 24 in forward</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured">________</td><td data-label="Seconds">________</td><td data-label="Ticks per inch">________</td></tr>
+            <tr><td data-label="Asked for">90° right</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured">________</td><td data-label="Seconds">________</td><td data-label="Ticks per inch">not used</td></tr>
+            <tr><td data-label="Asked for">90° left</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured">________</td><td data-label="Seconds">________</td><td data-label="Ticks per inch">not used</td></tr>
+          </tbody></table>
+          <h3>5. Launcher speed</h3>
+          <p>Program: <strong>Tune Shooter</strong>. Still no balls.</p>
+          <ol>
+            <li>Press INIT, then Start. Hold the right bumper. The screen shows the speed asked for and the speed measured, in ticks per second.</li>
+            <li>Count how many seconds until it says <code>At speed: true</code>. Two seconds or less is normal. Write the measured speed once it settles.</li>
+            <li>Let go. Press D-pad UP eight times (200 more) and try again. This tells you the launcher has room to spare above its normal speed.</li>
+          </ol>
+          <p>If the measured speed never reaches the speed asked for, check the battery first. If it still cannot, tell the mentor: the normal speed in <code>StarterRobot.java</code> may be too high for this launcher.</p>
+          <table class="record-table"><caption>Launcher check</caption><thead><tr><th scope="col">Speed asked for</th><th scope="col">Speed measured</th><th scope="col">At speed: true? Seconds to get there</th></tr></thead><tbody>
+            <tr><td data-label="Speed asked for">normal speed (shown on screen)</td><td data-label="Speed measured">________</td><td data-label="At speed: true? Seconds to get there">________</td></tr>
+            <tr><td data-label="Speed asked for">normal speed + 200</td><td data-label="Speed measured">________</td><td data-label="At speed: true? Seconds to get there">________</td></tr>
+          </tbody></table>
         </section>
         <section id="range">
           <h2>Build the practice field</h2>
@@ -136,7 +198,9 @@
             <tr><td data-label="Control">Tap Y</td><td data-label="What it does">One short shot. The feeder runs for a moment once the wheel is at speed.</td></tr>
           </tbody></table>
           <ol>
-            <li>Before the first shot, read the <code>Battery</code> line on the Driver Station during INIT and write the voltage on the worksheet. If it says SWAP or CHARGE, change the battery. Press Stop and INIT again now and then to re-check; after a swap, shoot one finished row again.</li>
+            <li>Check the camera first. Put the robot on the 34-inch mark and press INIT. Read the camera range three times, moving the robot away and back onto the mark in between. The three readings should be within about 1 inch of each other. If they jump around, tighten the camera mount and check the lighting.</li>
+            <li>Check one tap. Load one ball, hold the right bumper, and tap Y once when the screen says <code>At speed: true</code>. One ball should leave. If none or two leave, ask the mentor to change <code>FEED_PULSE_SECONDS</code> in <code>ShooterCalibration.java</code>.</li>
+            <li>Every half hour, press Stop and INIT to read the <code>Battery</code> line again. If it says SWAP, change the battery and shoot one finished row again.</li>
             <li>Put the front bumper on the 34-inch mark, on the center line, facing the rectangle. Hold A until the robot stops turning, then let go.</li>
             <li>Load the balls. Hold the right bumper. When the screen says <code>At speed: true</code>, tap Y once for each ball. Shoot <strong>five</strong> balls at this speed.</li>
             <li>The recorder writes one row: the mark, the camera range and speed from the screen, how many of the five went through the rectangle, and where the misses went.</li>
@@ -170,24 +234,7 @@ public static final double[] SPEED_TICKS_PER_SECOND = {1100, 1175, 1250};</code>
           <p>Between two rows the code interpolates. With the made-up rows above, a range of 42 inches is halfway between 38 and 46, so the speed is halfway between 1100 and 1175: about 1138. Outside the rows the robot refuses to shoot. It never guesses.</p>
           <p><strong>No camera?</strong> Set <code>USE_CAMERA = false</code>, aim by hand, and fill in the mark column only. The auto path below needs the camera.</p>
         </section>
-        <section id="drive">
-          <h2>Measure a drive and a turn</h2>
-          <p>Program: <strong>Tune Drive</strong>. Take the balls out. No camera is needed.</p>
-          <ol>
-            <li>Put the robot on a tape mark with room ahead. Press INIT. Turn the robot a little to the right by hand: the heading number should go up. Put it back on the mark.</li>
-            <li>Press D-pad UP to choose 24 inches forward. Press Start. Everyone stays clear.</li>
-            <li>When it stops, write the left and right tick numbers from the screen. Press Stop. Measure how far the mark on the robot really moved.</li>
-            <li>Work out ticks per inch: average ticks ÷ real inches. The code starts with about 45 (45.3 for a goBILDA robot, 44.6 for the REV robot). If yours differs by more than 1, type your number into <code>TICKS_PER_INCH</code> in <code>Drive.java</code> and test again.</li>
-            <li>INIT again and press D-pad RIGHT for a 90-degree right turn. Check the result against a square corner taped on the floor.</li>
-          </ol>
-          <p>If the robot curves, check for a dragging wheel before you change any numbers. If it stops and the screen says FAULT, read the reason on the screen.</p>
-          <table class="record-table"><caption>Drive and turn worksheet</caption><thead><tr><th scope="col">Asked for</th><th scope="col">Left ticks</th><th scope="col">Right ticks</th><th scope="col">Measured inches or degrees</th><th scope="col">Ticks per inch</th><th scope="col">Next change</th></tr></thead><tbody>
-            <tr><td data-label="Asked for">24 in forward</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured inches or degrees">________</td><td data-label="Ticks per inch">________</td><td data-label="Next change">________</td></tr>
-            <tr><td data-label="Asked for">24 in forward</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured inches or degrees">________</td><td data-label="Ticks per inch">________</td><td data-label="Next change">________</td></tr>
-            <tr><td data-label="Asked for">90° right</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured inches or degrees">________</td><td data-label="Ticks per inch">not used</td><td data-label="Next change">________</td></tr>
-            <tr><td data-label="Asked for">90° left</td><td data-label="Left ticks">________</td><td data-label="Right ticks">________</td><td data-label="Measured inches or degrees">________</td><td data-label="Ticks per inch">not used</td><td data-label="Next change">________</td></tr>
-          </tbody></table>
-        </section>
+        
         <section id="test">
           <h2>Build the auto path</h2>
           <p>Program: <strong>Autonomous Route</strong>. A route is a list of steps in <code>Routes.java</code>. The robot does them from top to bottom. There are three kinds of step:</p>
@@ -243,13 +290,14 @@ public static final double[] SPEED_TICKS_PER_SECOND = {1100, 1175, 1250};</code>
         <section id="handoff">
           <h2>Save your work</h2>
           <ul class="checklist">
+            <li>Your ticks per inch is typed into your robot’s <code>TICKS_PER_INCH_…</code> line in <code>robot/Drive.java</code> if it changed.</li>
             <li>The circled shooting rows are typed into <code>ShooterCalibration.java</code>.</li>
-            <li>Your ticks per inch and your route numbers are in the code, and the code builds.</li>
-            <li>Commit with a short message, for example “Meeting 5 shooter table and route”.</li>
+            <li>Your route numbers are in the code, and the code builds.</li>
+            <li>Commit with a short message, for example “Meeting 5 ticks per inch, shooter table and route”.</li>
             <li>Take one photo of the wall and one of the floor with the distances showing, so we can rebuild the practice field in ten minutes.</li>
             <li>Keep the worksheets in the team binder.</li>
           </ul>
-          <p>Before you leave, each student explains one thing to a partner: why we change only one number at a time, how the table picks a speed between two rows, or what makes the auto stop early.</p>
+          <p>Before you leave, each student explains one thing to a partner: why we check ticks per inch before anything else, why we change only one number at a time, how the table picks a speed between two rows, or what makes the auto stop early.</p>
         </section>
         <section id="carry-over">
           <h2>What carries over to the BIOBUZZ robot</h2>
@@ -270,9 +318,9 @@ public static final double[] SPEED_TICKS_PER_SECOND = {1100, 1175, 1250};</code>
         <li><strong>Print</strong> the <a href="../output/pdf/meeting5-shooter-auto-print-pack.pdf">Meeting 5 packet</a> at Actual Size / 100%: the worksheets and the two RED AUDIENCE tag sheets.</li>
         <li><strong>Bring</strong> painter’s tape, a tape measure, a square corner or large protractor, cardboard for the wall, last season’s balls, and charged batteries.</li>
         <li><strong>Robot choice:</strong> set <code>ROBOT</code> in <code>StarterRobot.java</code> to the robot on the table. <code>PRACTICE_GOBILDA</code> needs <code>left_drive</code>, <code>right_drive</code>, <code>launcher</code>, <code>left_feeder</code>, <code>right_feeder</code> in the Driver Station configuration. <code>PRACTICE_REV</code> needs <code>leftDrive</code>, <code>rightDrive</code>, <code>flywheel</code>, <code>coreHex</code>, <code>servo</code>. Both also need <code>imu</code> and <code>Webcam 1</code>.</li>
-        <li><strong>Hub direction:</strong> look at which way the Control Hub’s logo and USB ports face on the robot. Set <code>LOGO</code> and <code>USB</code> in <code>Heading.java</code> to match, then set <code>MOUNTING_CONFIRMED = true</code>.</li>
+        <li><strong>Hub direction:</strong> students check this themselves at the start of the robot checks. Look at the Hub beforehand so you know the right <code>LOGO</code> and <code>USB</code> answer, and leave <code>MOUNTING_CONFIRMED = false</code>. Set it to <code>true</code> and build only after students show you both the turn test and the tilt test passing.</li>
         <li><strong>Drive direction:</strong> with the wheels off the floor, run <strong>Tune Shooter</strong> and push the left stick forward. Both sides should roll forward, slowly. Then set <code>MOTION_ENABLED = true</code> in <code>StarterRobot.java</code>.</li>
-        <li><strong>Launcher check:</strong> with no balls, run <strong>Tune Shooter</strong>, hold the right bumper, and confirm the measured speed climbs to the requested speed. Decide whether the 1800 ticks-per-second cap in <code>ShooterCalibration.java</code> suits your space. The REV robot’s normal speed is 1300, so it starts closer to the cap.</li>
+        <li><strong>Launcher check:</strong> students repeat this in the robot checks; do it once beforehand so you know the launcher works. With no balls, run <strong>Tune Shooter</strong>, hold the right bumper, and confirm the measured speed climbs to the requested speed. Decide whether the 1800 ticks-per-second cap in <code>ShooterCalibration.java</code> suits your space. The REV robot’s normal speed is 1300, so it starts closer to the cap.</li>
       </ol>
       <p>Leave the launcher’s PIDF numbers alone today. Meeting 13 covers them. Check the <a href="https://ftc-resources.firstinspires.org/ftc/game">current FIRST manual and team updates</a> before each meeting; this lesson was checked against Team Update 03.</p>
       <p class="claim-labels"><a class="claim-label source" href="../docs/research/curriculum-documentation-grounding.html#m05-f01">Source M05-F01</a> <a class="claim-label team-choice" href="../docs/research/curriculum-documentation-grounding.html#m05-d01">Team choice M05-D01</a> <a class="claim-label measure-it" href="../docs/research/curriculum-documentation-grounding.html#m05-m01">Measure it M05-M01</a></p>

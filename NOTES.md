@@ -146,7 +146,7 @@ and the BIOBUZZ kit still in the mail.
 - **Practice field:** a tape rectangle 20 inches wide with its bottom edge 53.5 inches
   up (manual Figure 9-10), a start line 52 inches out (our estimate from the manual
   drawings), shooting marks at 18, 26 and 34 inches, and a 23 by 11 inch parking box.
-- **Print packet:** `scripts/build_meeting5_print_pack.py` builds four handout pages
+- **Print packet:** `scripts/build_meeting5_print_pack.py` builds five handout pages (plan, robot checks, practice field, shooting, auto path)
   plus FIRST's eight tag sheets. Rebuild it if the worksheets change.
 - **Record keeping:** across the course, worksheets no longer ask for commit hashes,
   tags, checksums, access dates or the names of students in each role, and the
@@ -193,4 +193,4 @@ share the same shape (MOVE / DONE / FAULT) so students can read one from the oth
 Robot code names were then made consistent. Code is in three folders (`programs`,
 `robot`, `settings`). Driver Station names are TeleOp, TeleOp with Aiming, Autonomous
 One Action, Autonomous Route, Tune Drive, Tune Shooter and Tune Launcher PIDF. Screens and
-routes use FIRST's tag names, AUDIENCE and SCORING (the side away from the audience). Lessons 4 to 16 use the new names.
+routes use FIRST's tag names, AUDIENCE and SCORING (the side of the field opposite the audience). Lessons 4 to 16 use the new names.
